@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>C++ in one page</title>
+  <style>
+    html,body {height:100%; margin:0;}
+    #editor   {height:70vh;}
+    #run      {padding:0.6em 1.2em; margin:0.5em 0;}
+    pre       {background:#111;color:#0f0;padding:1em;height:25vh;overflow:auto;}
+  </style>
+  <!-- Monaco loader straight from a CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.48.0/min/vs/loader.min.js"></script>
+</head>
+<body>
+  <div id="editor"></div>
+  <button id="run">Compile & Run</button>
+  <pre id="out">$ ./a.out will appear here …</pre>
+
+  <!-- Your actual app -->
+  <script type="module" src="app.js"></script>
+</body>
+</html>
