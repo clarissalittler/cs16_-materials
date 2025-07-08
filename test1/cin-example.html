@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>C++ Playground with cin Support</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #1e1e1e;
+            color: #d4d4d4;
+        }
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            height: calc(100vh - 40px);
+        }
+        .panel {
+            display: flex;
+            flex-direction: column;
+        }
+        .panel-header {
+            padding: 10px;
+            background: #2d2d30;
+            border-bottom: 1px solid #3e3e42;
+            font-weight: 500;
+        }
+        #editor-container, #stdin-container {
+            flex: 1;
+            position: relative;
+            background: #1e1e1e;
+            border: 1px solid #3e3e42;
+        }
+        #stdin-textarea {
+            width: 100%;
+            height: 150px;
+            background: #1e1e1e;
+            color: #d4d4d4;
+            border: 1px solid #3e3e42;
+            padding: 10px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 14px;
+            resize: none;
+        }
+        #output {
+            flex: 1;
+            background: #1e1e1e;
+            border: 1px solid #3e3e42;
+            padding: 10px;
+            overflow: auto;
+            white-space: pre-wrap;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 14px;
+        }
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        button {
+            padding: 8px 16px;
+            background: #007acc;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        button:hover {
+            background: #005a9e;
+        }
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        .status {
+            padding: 5px 10px;
+            font-size: 12px;
+            color: #888;
+        }
+        .example-info {
+            background: #2d2d30;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .example-info code {
+            background: #1e1e1e;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="example-info">
+        <strong>C++ Playground with cin Support</strong> - Enter your input data in the "Program Input" textarea before running your code. 
+        Each line in the input will be available to <code>cin</code> in your program.
+    </div>
+    
+    <div class="controls">
+        <button id="run">Run</button>
+        <button id="clear">Clear Output</button>
+        <span class="status" id="status"></span>
+    </div>
+
+    <div class="container">
+        <div class="panel">
+            <div class="panel-header">C++ Code</div>
+            <div id="editor-container"></div>
+        </div>
+        
+        <div class="panel">
+            <div class="panel-header">Program Input (stdin)</div>
+            <textarea id="stdin-textarea" placeholder="Enter input for your program here...
+Each line will be read by cin in order.
+
+Example:
+42
+Hello World
+3.14"></textarea>
+            
+            <div class="panel-header" style="margin-top: 20px;">Output</div>
+            <pre id="output"></pre>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.48.0/min/vs/loader.min.js"></script>
+    <script>
+        // Load the shared API script
+        const scriptPromise = new Promise((resolve) => {
+            const script = document.createElement('script');
+            script.src = 'assets/shared.js';
+            script.onload = resolve;
+            document.head.appendChild(script);
+        }); 
+
+        // Global variables
+        let editor;
+        let api;
+
+        // Wait for Monaco loader to be ready
+        const monacoLoaded = new Promise((resolve) => {
+            const checkRequire = () => {
+                if (typeof window.require !== 'undefined') {
+                    resolve();
+                } else {
+                    setTimeout(checkRequire, 50);
+                }
+            };
+            checkRequire();
+        });
+
+        // Initialize Monaco editor
+        monacoLoaded.then(() => {
+            window.require.config({ 
+                paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.48.0/min/vs' }
+            });
+            
+            window.require(['vs/editor/editor.main'], () => {
+                editor = monaco.editor.create(document.getElementById('editor-container'), {
+                    value: `#include <iostream>
+#include <string>
+
+int main() {
+    std::cout << "Enter your name: ";
+    std::string name;
+    std::cin >> name;
+    
+    std::cout << "Enter your age: ";
+    int age;
+    std::cin >> age;
+    
+    std::cout << "Enter your favorite number: ";
+    double number;
+    std::cin >> number;
+    
+    std::cout << "\\nHello, " << name << "!" << std::endl;
+    std::cout << "You are " << age << " years old." << std::endl;
+    std::cout << "Your favorite number is " << number << std::endl;
+    
+    return 0;
+}`,
+                    language: 'cpp',
+                    theme: 'vs-dark',
+                    automaticLayout: true,
+                    minimap: { enabled: false },
+                    fontSize: 14,
+                    scrollBeyondLastLine: false,
+                    wordWrap: 'on'
+                });
+            });
+        });
+
+        // Initialize API
+        const apiPromise = scriptPromise.then(async () => {
+            // Initialize API with options
+            api = new API({
+                async readBuffer(filename) {
+                    const response = await fetch(`assets/${filename}`);
+                    return response.arrayBuffer();
+                },
+                async compileStreaming(filename) {
+                    const response = await fetch(`assets/${filename}`);
+                    return WebAssembly.compile(await response.arrayBuffer());
+                },
+                hostWrite(s) {
+                    document.getElementById('output').textContent += s;
+                }
+            });
+            
+            await api.ready;
+            return api;
+        });
+
+        // Set up UI elements
+        window.addEventListener('DOMContentLoaded', () => {
+            const output = document.getElementById('output');
+            const status = document.getElementById('status');
+            const stdinTextarea = document.getElementById('stdin-textarea');
+            
+            // Set example input
+            stdinTextarea.value = 'Alice\n25\n3.14159';
+
+            document.getElementById('run').onclick = async () => {
+                if (!editor) {
+                    output.textContent = 'Editor not ready yet...';
+                    return;
+                }
+                
+                output.textContent = '';
+                status.textContent = 'Compiling...';
+                document.getElementById('run').disabled = true;
+                
+                try {
+                    // Wait for API to be ready
+                    await apiPromise;
+                    
+                    const code = editor.getValue();
+                    const stdin = stdinTextarea.value;
+                    
+                    // Set the stdin content before running
+                    api.memfs.setStdinStr(stdin);
+                    
+                    // Compile and run the code
+                    const app = await api.compileLinkRun(code);
+                    
+                    if (app && app.returnCode !== 0) {
+                        output.textContent += `\n\nProcess exited with code ${app.returnCode}`;
+                    }
+                    
+                    status.textContent = 'Finished';
+                } catch (e) {
+                    output.textContent = `Error: ${e.message}\n${e.stack}`;
+                    status.textContent = 'Error';
+                } finally {
+                    document.getElementById('run').disabled = false;
+                }
+            };
+
+            document.getElementById('clear').onclick = () => {
+                output.textContent = '';
+                status.textContent = '';
+            };
+        });
+    </script>
+</body>
+</html>
