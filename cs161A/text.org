@@ -1,0 +1,54 @@
+* Meta-commentary
+** What is this text?
+This is a free and open source text on learning the C++ language that can be freely shared with attribution under a CC-BY license. It comes in both a basic and interactive form. If you want to borrow from it, please do! 
+
+[instructions for the interactive version should go here]
+* Introduction
+** Why C++?
+C++ is a fascinating old-ish language. It blends a combination of "high-level" and "low-level" features. Now those might sound like rather judgy descriptors, like "high-level" is better than "low-level", but they're just different ways of looking at programming that---for our purposes---serve as a segue into talking about what programming is.
+** What is programming? A high-level perspective
+Programming is the practice of telling a computer to do things. How the computer does things doesn't entirely matter, what you care about is describing the /logic/, the precise sequence of what steps should happen, of the program to the computer.
+
+You describe this logic in a special kind of language that's suitable for explaining ideas to the computer. These /programming languages/[fn:1] are very different than human languages, focused on precision at the expense of ease and flexibility. Have you ever tried to explain to someone complicated instructions entirely through text without being able to point or gesture or demonstrate it yourself? It's not easy! Often our instructions are /ambiguous/, they're unclear or can be read in different---equally plausible---ways.
+
+Programming isn't hard because programming languages are bad. Programming is hard because writing good instructions is hard and programming languages are designed to never let you write unclear instructions.
+
+A good programming language is, then, a thing that lets you express instructions precisely but is still relatively easy to think-in and read.
+** What is programming? A low-level perspective
+Computers are, fundamentally, just super-calculators acting on numbers. Everything you see and deal with on a computer is, under the hood, just a number. The pixels you see lit up on your screen are just encoded as a series of numbers. Your internet traffic is a series of numbers. That emotional-support video essay you have on in the background for the 20th time[fn:2] is just a series of numbers.
+
+These numbers aren't even represented the normal way you would think of numbers, instead each number is just a sequence of 1s and 0s that the computer's /processor/, well, /processes/.
+
+The computer's processor takes these sequences of 1s and 0s and does simple things like adding, subtracting, and multiplying them together.
+
+It's kind of amazing that something so simple can, at a large enough scale, do all the things we do with computers, right?
+
+Now, thinking of how to turn "streaming a video" into "a bunch of arithmetic operations" is /really hard/. You have to be an electrical engineer or computer scientist to figure out how to do that and it will /still/ take you a really long, error prone, time.
+
+Programming languages are ways of turning concepts that make more sense to us, like "if *this* then *that*", into simple number-crunching that the processor understands. The problem, though, is that turning concepts that are easy for us into arithmetic is hard to do efficiently. If you do it badly, the resulting programming is /slow/, takes a ton of memory, and might just be completely unusable.
+
+A good programming language is, then, a thing that lets you have control over how the logic of the program you want gets turned into number-crunching at the end: you control the resources the program uses and the way it runs.
+** Why C++, redux
+C++ is a programming language that tries to meet the tension of making it easy to focus on the logic while still having control over the low-level execution of the program as instructions to the processor.
+
+That isn't to say it's perfect: no programming language is. Every single language is a series of design decisions that reflect the ideas, style, and goals of the authors of the language.
+
+Which is something I cannot emphasize enough! Programming languages are made by people and there's no "best" language, there is---at most---a best language for a particular project given the people and technical goals involved.
+
+** Why learn programming in the age of LLMs
+This is a /weird/ topic to have to bring up in an introduction to computer science text, but I think it's necessary. There's a lot of talk these days about how programming will be obsolete, "English is the new programming language", &c.
+
+These arguments are a little silly. Not because large language models are bad at coding---they're not---or because they're going to hit a ceiling soon---they /might/ not---but rather because there will always need to be people who understand
+
+ + what the code is doing
+ + how the code does it
+
+so that there are people who can guide the AI, override the AI, or decide that the task is outside the capabilities of the AI and get their hands dirty.
+
+In other words, we will always need programmers. In fact, a personal prediction of the author is that the average programmer will have to be better than ever: a master of the /high/ and /low/ levels of programming. In a world where non-programmers can "vibe code" simple proofs of concept, there may well be even more need for competent programmers to take those simple programs and turn them into robust products.
+
+By analogy, this is like how home CAD software and 3D printers didn't kill manufacturing but rather let people quickly prototype ideas that they then pay engineers to turn into production lines. 
+* Footnotes
+[fn:2] Is that too specific? Is the author of this portion telling on themselves?
+
+[fn:1] bet you never saw that coming! 
