@@ -47,8 +47,833 @@ so that there are people who can guide the AI, override the AI, or decide that t
 
 In other words, we will always need programmers. In fact, a personal prediction of the author is that the average programmer will have to be better than ever: a master of the /high/ and /low/ levels of programming. In a world where non-programmers can "vibe code" simple proofs of concept, there may well be even more need for competent programmers to take those simple programs and turn them into robust products.
 
-By analogy, this is like how home CAD software and 3D printers didn't kill manufacturing but rather let people quickly prototype ideas that they then pay engineers to turn into production lines. 
+By analogy, this is like how home CAD software and 3D printers didn't kill manufacturing but rather let people quickly prototype ideas that they then pay engineers to turn into production lines.
+* Your First Programs
+** Hello World
+So the origins of making a program that says "Hello, World" as your first program started with Kernigan and Ritchie in their introduction to the C programming language. The basic idea was that if you can get a simple program to compile[fn:7] that prints something out to the screen then you're already over the worst hurdles of learning a programming language.
+
+This might seem like an odd perspective, right, because you've just barely begun learning the language but it makes a lot of sense from the perspective of a pre-internet 1970s programmer who doesn't have any obvious references for how to get started with running this stupid compiler thing or even what a program is supposed to look like.
+
+So that being said, here's "Hello World" in C++
+#+begin_src cpp :tangle hello.cpp
+  #include <iostream>
+  using namespace std;
+
+  int main(){
+    cout << "Hello, World" << endl;
+
+    return 0;
+  }
+#+end_src
+Let's break down the first few lines:
+
+#+begin_src cpp
+  #include <iostream>
+  using namespace std;
+#+end_src
+
+These first two lines are, unfortunately, will seem like the worst kind of magic for a bit. But, basically, what's happening is that the ability to even print things out in C++ is not a part of the "core" language but a library that is always included as part of the C++ compiler, a "standard library" if you will (a-ha! that must be what "std" is short for here). To understand why things that seem so critical are not "in the language" by default it helps to know that C++ (like C before it) is a language that's used for coding things like operating systems or programming little tiny computers called microcontrollers that have a millionth of the memory on your phone. When programming under these conditions you really need to be able to control what goes into the compiled code, because maybe you want to keep your final program as tiny as possible and you don't want allll the code that goes into the seemingly unremarkable ability to print to a screen to get included. Because that's part of what the compiler does: it takes all the supporting code that's needed and includes it (oh, hey, that word again). It's kind of like if you're writing a paper and you want to make sure that someone can understand everything you're saying and all the references you're citing without access to a library or internet. Then instead of just having citations you also need to include all the other things you cite along with the paper as appendices so that someone can read it without having to track anything else down. That's what the compiler is doing.
+
+So the first line here is /including/ the code for printing and the second line is saying "oh, hey, we're going to be using the standard library so don't make us do anything annoying in order to name the functions from the standard library". If you /don't/ have this line you have to take every standard library function and put =std::= in front of it. It's annoying! We don't like doing this!
+
+Okay, with that digression aside now we get into heart of the program
+#+begin_src cpp
+  int main(){
+    cout << "Hello, World" << endl;
+  
+    return 0;
+  }
+#+end_src
+The first line here is declaring a function, a chunk of code that has a name. In this case the name is "main". Every C++ program *must* have a function called "main" so the compiler knows, when building the stand-alone program, where to even start executing the code. Now, in principle there are different ways this could be handled, but most programming languages follow this convention of having a function called "main". When I call it a convention it's a lot like how every *human* language has a convention about how it has to be read. The language I'm writing these notes in, English, has the convention that you start at the top of the text and read from left to right.
+
+#+begin_src cpp
+  int main() {
+#+end_src
+Let's dig into this function declaration
+ + =int= means that when the function /ends/ it has to give back an integer, a whole number
+ + =main= is the name of the function
+ + =()= is where you would put the name of data you have to give the function for it to run, its arguments, but =main= doesn't *have any* so instead you denote that =main= "needs nothing" by just putting =()=.
+ + Finally, we have an open curly-brace which is the way you tell the compiler "okay I've finished declaring the function now here's the code that runs inside the function". This is matched by a closed curly-brace at the end that denotes "okay I'm done writing the function".
+
+Okay we're almost done! There's just two more lines. The first
+#+begin_src cpp
+  cout << "Hello, World" << endl;
+#+end_src
+as you can probably guess is what actually prints the line "Hello, World". Think of =cout= as the /target/ you're sending text to to be printed out. You send things to it with the =<<= symbol. The text you're sending is in quotation marks. In C++, like most programming languages, you denote text-as-data with double-quotes.[fn:2] The other thing we need to explain here is the =endl=, which is just the way of saying "end this line and start a new one".
+
+So to understand the final line of the function, =return 0;=, remember how we said that when the function ends it has to give back a whole number? Well this is the line that says that when the function ends that it's going to hand back the number 0. This is an old convention that dates back to the C programming language, where if everything goes well a function should return 0.
+** Why semicolons?
+Okay, so C++ is an old language. It also borrows the syntax of /even older/ languages, so that it would be kinda-sorta backwards compatible. Part of being "an old language" means that it has weird bits that come from a time we were both a lot worse at making compilers and computers were also much much much [&c.] much slower. So the semicolons are a way to note, for the compiler, "hi this is end of a line of code". This is not an essential feature of all programming languages and, indeed, more modern languages have much more elegant ways of denoting the end of one line and the start of another.
+
+But once a language, like C++, exists and starts being wildly used you can't do things like "change fundamental features of the syntax"
+
+So, yes, *most* lines need semi-colons at the end. The lines that don't need a semicolon are
+ + lines that end with ={= or =}= (with one annoying exception we'll get to)
+ + lines that start with #
+ + comments, which we haven't discussed yet
+** TODO How to run examples [0/3]
+*** TODO In-browser
+*** TODO In onlinegdb
+*** TODO Locally in the terminal
+** TODO More early steps [7/8]
+*** DONE Echoing text and string types
+So we've already done a non-trivial amount of work because we've learned to compile a file, run it, and have it print something out the screen.
+
+Now here's our first program that we're going to use to explain
+ + variables
+ + our first data type, string
+ + how to read data in from the command line
+
+Go ahead and first compile and run this code. You should get a command prompt that lets you type something, hit enter, and then get what you typed printed back onto the screen. 
+ 
+ #+begin_src cpp 
+   #include <iostream>
+   using namespace std;
+
+   int main(){
+     string stuff;
+     cout << "Enter a thing: " << endl;
+     cin >> stuff;
+
+     cout << "You said: " << stuff << endl;
+
+     return 0;
+   }
+ #+end_src
+
+Now that you've tried it and seen that it works, let's explain it!
+ 
+ Okay, so these first lines are what we've already seen before:
+ #+begin_example
+   #include <iostream>
+   using namespace std;
+ #+end_example
+We'll reiterate that these lines let us
+ + load in the code needed for us to do things like read and write information from the terminal
+ + *not* have to preface all this code with =std::= because that gets really annoying to type!
+
+ From there we have
+ #+begin_src cpp
+   int main(){
+   ...
+   }
+ #+end_src
+which, again, is a way of declaring a named chunk of code. A very specific named chunk of code: =main=, the function that is needed as the "entry point" of final program. We'll make our own functions soon enough, but for now know that this is a function and represents the pattern of how they're made.
+
+The next line =string stuff;= needs some explanation. In C++, like a lot of other programming languages, in order to store information you need to make a container and give it a name. In this case we're naming a container =stuff=. Now, what's up with the text =string= that comes before that?
+
+Well, much like the =int= we saw before =main= this is a *type*[fn:3], it's a signifier for the /form/ of data we're talking about. =int= is the type that corresponds to whole numbers. =string= is the type that corresponds to text-as-data, like what we saw in our /Hello, World/ program where the text "Hello, World" was inside the program in quotes like ="Hello, World"=.
+
+So our container =stuff= /can/ contain strings but it's currently empty. We're going to put something in it, though, by using =cin=! =cin= is the opposite of =cout= and, rather than printing something out to the screen, lets you read text *into* the program by typing and hitting enter.
+
+Now that we have something /in/ our container, we can grab the contents of the container using the container name which, in this case, is simply =stuff=.
+
+So when we want to print out the contents of =stuff= we say =cout << "You said: " << stuff << endl;"=.
+
+We also end with =return 0;= because we're very good programmers and *never* forget to put this in our files.[fn:6]
+*** DONE What's in an empty variable?
+Now, when we declare a variable we're making a container, but is there anything *in* the container at that point? Well let's see![fn:5]
+
+#+begin_src cpp :tangle noStringInit.cpp
+  #include <iostream>
+  using namespace std;
+
+  int main(){
+    string stuff;
+    cout << "And our string holds..." << stuff << endl;
+    return 0;
+  }
+#+end_src
+
+If I run this on my computer, I get an output of "And our string holds..." and nothing else. In this case, =stuff= contains the empty string "" that corresponds to no text at all. That seems like a pretty reasonable thing for an empty container to hold!
+
+What about if we instead make an empty int?
+
+#+begin_src cpp :tangle noIntInit.cpp
+  #include <iostream>
+  using namespace std;
+
+  int main(){
+    int stuff;
+    cout << "And our int holds..." << stuff << endl;
+    return 0;
+  }
+#+end_src
+
+Well I ran this once and got "And our int holds...779647075". Oh dear /dot dot dot/ that seems like a very *not* great thing to have as a default value!
+
+Okay, and now we get into the punchline. The reason why I'm specifying "on my computer" and "when I run this" is that the answers could actually change between computers and compilers! You really, really, really should *never* use an empty variable because you can guarantee exactly nothing about what it will do. 
+
+*** DONE Arithmetic and such in C++
+Arithmetic in C++, like most programming languages, is meant to look a lot like the arithmetic operations you're used to. You can test out some basic operations with the following code. Note that this example shows us that you can use =cin= with types other than =string=.
+
+#+begin_src cpp :tangle arith1.cpp
+  #include <iostream>
+  using namespace std;
+
+  int main(){
+    int num1;
+    int num2;
+    int num3 = 5; // look, we're giving a variable a value at the same time as we make it
+
+    cout << "Enter a number:  ";
+    cin >> num1;
+
+    cout << "Enter another number: ";
+    cin >> num2;
+
+    cout << "Adding numbers: " << num1 + num2 << endl;
+    cout << "Subtracting numbers: " << num1 - num2 << endl;
+    cout << "Multiplying numbers: " << num1 * num2 << endl;
+    cout << "Dividing numbers .....?: " << num1 / num2 << endl;
+
+    return 0;
+  }
+#+end_src
+So this probably *mostly* went the way you expected but when you ran this code were you surprised by anything related to division? If you weren't, try entering 5 for =num1= and 3 for =num2=. You'll see that =5/3= is computed as 1.
+
+Why on earth is that true? Well, because =num1= and =num2= are *whole numbers* and 3 goes into 5 only once.
+
+Okay, but what if we want to deal with fractional numbers? That's when we introduce /floats/ and /doubles/. These are both kinds of "floating point numbers". The term floating point sounds weird but the point (haha) is that these are numbers that allow for decimal points in them and don't have a fixed number of digits to the left or right of the decimal.
+
+Okay, so why are there two different types? Well, one is smaller than the other. No, this doesn't strictly mean it's for smaller numbers. It's also for "less precise" of numbers.[fn:8] If you need more accurate representations of non-whole numbers, you should use a =double=. Most of the time, folks recommend just defaulting to =double= instead of =float=. You might see me sometimes still use =float= for things where we know the numbers are small and precision doesn't matter.
+
+So let's try this program again with =double= s instead of =int=.
+#+begin_src cpp :tangle arith2.cpp
+  #include <iostream>
+  using namespace std;
+
+  int main(){
+    double num1;
+    double num2;
+
+    cout << "Enter a number:  ";
+    cin >> num1;
+
+    cout << "Enter another number: ";
+    cin >> num2;
+
+    cout << "Adding numbers: " << num1 + num2 << endl;
+    cout << "Subtracting numbers: " << num1 - num2 << endl;
+    cout << "Multiplying numbers: " << num1 * num2 << endl;
+    cout << "Dividing numbers: " << num1 / num2 << endl;
+
+    return 0;
+  }
+#+end_src
+There, that's probably more what you would have expected from division.
+
+Note that =cin= keeps working no matter what type of container we're trying to fill with it! There's definitely no possibility that is going to go wrong later in a really annoying way! Foreshadowing!
+*** TODO Booleans and personality tests
+Okay, if all we could do with code was straight-line programs that just do a sequence of calculations then we'd basically just have the equivalent of a calculator but arguably more annoying.
+
+Our first real important ability is the ability to make /choices/. "Do I do /this/ or /that/?" Let's look at an example.
+
+#+begin_src cpp :tangle firstIf.cpp
+  #include <iostream>
+  using namespace std;
+
+  int main(){
+
+    double num1;
+    double num2;
+
+    cout << "Enter a number: ";
+    cin >> num1;
+    cout << "Enter another number: ";
+    cin >> num2;
+
+    cout << "If the first number - the second number is greater than 10, it will print 'beep', otherwise 'boop'" << endl;
+
+    if(num1 - num2 > 10){
+      cout << "beep" << endl;
+    }
+    else{
+      cout << "boop" << endl;
+    }
+
+    return 0;
+  }
+
+#+end_src
+
+Let's break down the new part here:
+  =if(num1 - num2 > 10){= this lets us ask the question "is num1 minus num2 greater than 10"? /If/ the answer to this question is "yes", then all the code between this curly-brace and the next curly brace happens. If the answer is "no", then the code between the curly-brace after =else= and the closing curly-brace after that is run.
+
+ A way you could read this in English is provided in the text that prints out "If the first number - the second number is greater than 10, it will print 'beep', otherwise 'boop'".
+
+ We refer to this as an "if-statement".
+
+ An if-statement doesn't have to have the =else= part, though.
+
+ Consider this program that makes sure an integer entered is positive
+ #+begin_src cpp :tangle positeev.cpp
+   #include <iostream>
+   using namespace std;
+
+   int main(){
+     int num;
+     cout << "Enter a positive number (if it's not positive we'll *make* it positive): ";
+     cin >> num;
+
+     if(num < 0){
+       num = -num;
+     }
+
+     cout << "Your number: " << num << endl;
+     return 0;
+   }
+ #+end_src
+
+ Okay, so let's talk a bit more about what kinds of "questions" you can ask. "Question" is also a kind of data and has a type. That type is called =bool=, sometimes called a "boolean", named after the mathematician "George Boole" who was extremely influential in the development of formal logic.
+
+ The type =bool= has two elements: =true= and =false=. You can use these inside your if-statements, like the following program:
+
+ #+begin_src cpp :tangle truth1.cpp
+   #include <iostream>
+   using namespace std;
+
+   int main(){
+     bool isItQuestionMark = true;
+
+     if(isItQuestionMark){
+       cout << "It's true" << endl;
+     }
+     else {
+       cout << "It's not" << endl;
+     }
+     return 0;
+   }
+ #+end_src
+
+There are all sorts of questions you can ask, such as
+ + ~a == b~ are two things equal to each other
+ + ~a != b~ are two things not equal
+ + ~a > b~ is a greater-than b
+ + ~a < b~ is a less-than b
+
+You can also take the inverse of a question but putting =!= in front of it. So we can have
+
+#+begin_src cpp :tangle notTruth.cpp
+  #include <iostream>
+  using namespace std;
+
+  int main(){
+
+    if(!true){
+      cout << "This shouldn't get printed" << endl;
+    }
+    else{
+      cout << "But this should!" << endl;
+    }
+    return 0;
+  }
+#+end_src
+
+You also don't have to ask just one question at a time. You can combine questions with =&&=, pronounced "and", and =||=, pronounced "or".
+
+If I have questions a and b then =a && b= only returns =true= if *both* =a= and =b= are true. Similarly, =a || b= returns true if =a= is true, if =b= is true, or if both of them are true.
+
+**** The dirty truth about booleans in C++
+ Beware, absolute nastiness awaits you in this section. You'll learn about horrendous, semantics breaking, decisions in the history of programming language design.
+
+ So, you see dear reader, it turns out that 
+ 
+ #+begin_src cpp :tangle truth2.cpp
+   #include <iostream>
+   using namespace std;
+
+   int main(){
+     if(true == 1){
+       cout << "true is the same as 1" << endl;
+     }
+
+     if(false == 0){
+       cout << "false is the same as 0" << endl;
+     }
+
+     int num = 1;
+     if(true == num){
+       cout << "true is 1 even if we insist that the 1 is an int" << endl;
+     }
+   }
+ #+end_src
+
+Compile this code and run it to confirm the horrible truth, but you'll see that booleans are really just numbers. Which is honestly a terrible decision because it means there's all sorts of wrong things that can happen.
+
+#+begin_src cpp :tangle truth3.cpp
+  #include <iostream>
+  using namespace std;
+
+  int main(){
+    int num;
+    cout << "Enter a number, promise I won't misuse it" << endl;
+    cin >> num;
+    if(num){ // whoops I meant to compare this to something but I got distracted by a dog
+      cout << "This means that num is greater than 3" << endl;
+      cout << "See? " << num << endl;
+    }
+    else{
+      cout << "num is too small" << endl;
+    }
+    return false; // what is happening here
+  }
+#+end_src
+
+Look at this wretched code! =return false=? =if(num)=? This is terrible! And the compiler did /nothing/ to stop it!
+
+Woe be upon us!
+**** An authentication quiz
+Okay, let's do something silly as an example of putting some of these concepts together. A little program that runs a very special security quiz that asks you a few questions, use some variables, and then print out the results. This will determine, in a foolproof way, if the person answering the questions is definitely me.
+
+#+begin_src cpp :tangle securityQuiz.cpp
+  #include <iostream>
+  #include <iomanip>
+  using namespace std;
+
+  int main(){
+    string q1 = "Have you ever touched a computer before? type 1 or 0\n";
+    bool a1;
+    string q2 = "Do you prefer whiteboards to blackboards ? type 1 or 0\n";
+    bool a2;
+    string q3 = "False? type 1 or 0\n";
+    bool a3;
+    string q4 = "Is a proof a program? type 1 or 0\n";
+    bool a4;
+
+    cout << q1;
+    cin >> a1;
+    cout << q2;
+    cin >> a2;
+    cout << q3;
+    cin >> a3;
+    cout << q4;
+    cin >> a4;
+
+    if((a1 && !a2 && a3) || a4){
+      cout << "Oh, hi me, it's definitely you I'm talking to because no one could crack that code" << endl;
+    }
+    else{
+      cout << "You're not left_adjoint!" << endl;
+    }
+    return 0;
+  }
+#+end_src
+Can you figure out what to enter to hack the system?
+
+*** DONE Data formatting [2/2]
+Now we get to a useful, but perhaps slightly tedious, set of skills to learn: how to properly format your output.
+
+Note that all of the following examples mean you also need to include the library =<iomanip>= as well by adding the line =#include <iomanip>= into your code.
+
+**** DONE Making a table
+So if we wanted to make a table in C++ we might want to do something like use some '|' as dividers like this. For this and the rest of the examples in this table I'm going to assume that we're making a table that shows information about pets: their name, species, and how old they are. If we try this in the naive way we'll try something like this:
+#+begin_src cpp
+  #include <iostream>
+  using namespace std;
+
+  int main(){
+    cout << "|" << "Pet name"
+         << "|" << "Pet species"
+         << "|" << "Pet age"
+         << "|" << endl;
+
+    cout << "|" << "Liese"
+         << "|" << "Cat"
+         << "|" << "24"
+         << "|" << endl;
+
+    cout << "|" << "Dora"
+         << "|" << "Dachshund"
+         << "|" << "15"
+         << "|" << endl;
+
+    return 0;
+  }
+#+end_src
+
+Now if you try running this code you'll discover that it looks, well, *terrible*. Everything is badly misaligned. Okay, so what we need is the ability to control the spacing: to set a /width/ to the a field and let the text comfortably inside that space. Thankfully, C++ already has a function to do that: =setw=, which stands for "set width". The =setw= function takes one argument, an =int=, and sets aside that much space for the next piece of text you pass to =cout=.
+
+We can test it out by modifying our program like this:
+#+begin_src cpp :tangle columns1.cpp
+  #include <iostream>
+  #include <iomanip>
+  using namespace std;
+
+  int main(){
+    cout << "|" << setw(15) << "Pet name"
+         << "|" << setw(15) << "Pet species"
+         << "|" << setw(15) << "Pet age"
+         << "|" << endl;
+
+    cout << "|" << setw(15) << "Liese"
+         << "|" << setw(15) << "Cat"
+         << "|" << setw(15) << "24"
+         << "|" << endl;
+
+    cout << "|" << setw(15) << "Dora"
+         << "|" << setw(15) << "Dachshund"
+         << "|" << setw(15) << "15"
+         << "|" << endl;
+
+    return 0;
+  }
+#+end_src
+
+Exercise:
+#+begin_quote
+So what we've left implicit so far is that a call to =setw= will modify the /next/ thing. Try out, for yourself, what happens if you put it in front of the "|" instead.
+#+end_quote
+
+This is /alright/ but personally I think the way the data and columns are aligned like this makes it feel hard to skim. I think it looks better to have the column names aligned the /opposite/ way to the data. So C++ has an easy way of doing this: =cout << left= will make data left-aligned and =cout << right= will make the data right-aligned. Once you set an alignment it stays that way until you change it again. So we need to do something like this
+#+begin_src cpp :tangle columns2.cpp
+  #include <iostream>
+  #include <iomanip>
+  using namespace std;
+
+  int main(){
+    cout << left;
+    cout << "|" << setw(15) << "Pet name"
+         << "|" << setw(15) << "Pet species"
+         << "|" << setw(15) << "Pet age"
+         << "|" << endl;
+    cout << right;
+
+    cout << "|" << setw(15) << "Liese"
+         << "|" << setw(15) << "Cat"
+         << "|" << setw(15) << "24"
+         << "|" << endl;
+
+    cout << "|" << setw(15) << "Dora"
+         << "|" << setw(15) << "Dachshund"
+         << "|" << setw(15) << "15"
+         << "|" << endl;
+
+    return 0;
+  }
+#+end_src
+That's slightly easier to read, but we still have room to fuss around with this program. Rather than playing with the alignment of the column names let's try adding a visible divider. To do that we can play with =setfill=, another function that lets us replace the spaces in the padding created by =setw= with any character we want.
+
+#+begin_src cpp :tangle columns3.cpp
+  #include <iostream>
+  #include <iomanip>
+  using namespace std;
+
+  int main(){
+
+    cout << "|" << setw(15) << "Pet name"
+         << "|" << setw(15) << "Pet species"
+         << "|" << setw(15) << "Pet age"
+         << "|" << endl;
+
+    cout << setfill('-');
+    cout << "|" << setw(15) << ""
+         << "|" << setw(15) << ""
+         << "|" << setw(15) << ""
+         << "|" << endl;
+    cout << setfill(' ');
+  
+  
+    cout << "|" << setw(15) << "Liese"
+         << "|" << setw(15) << "Cat"
+         << "|" << setw(15) << "24"
+         << "|" << endl;
+
+    cout << "|" << setw(15) << "Dora"
+         << "|" << setw(15) << "Dachshund"
+         << "|" << setw(15) << "15"
+         << "|" << endl;
+  
+    return 0;
+  }
+
+#+end_src
+
+**** DONE Formatting decimal points
+Okay the other formatting topic that we need to deal with is how to deal with decimal points. Let's look at a simple program with doubles and you can immediately see the formatting problem:
+
+#+begin_src cpp :tangle badmoney.cpp
+  #include <iostream>
+  using namespace std;
+
+  int main(){
+
+    double cost = 100;
+
+    cout << "Calculating tax (33%) on your bill: $" << cost / 3 << endl;
+
+    return 0;
+  }
+#+end_src
+
+it prints out that the tax is $33.3333. Well that's not how we write cents! We actually only want to include two decimal points. We can do that with =cout << setprecision(2)= so our code becomes
+#+begin_src cpp :tangle money1.cpp
+  #include <iostream>
+  #include <iomanip>
+  using namespace std;
+
+  int main(){
+  
+    double cost = 100;
+
+    cout << setprecision(2);
+  
+    cout << "Calculating tax (33%) on your bill: $" << cost / 3 << endl;
+  
+    return 0;
+  }
+
+#+end_src
+Wait, shoot, no that's still not right. Okay so the problem here is that =setprecision(2)= is going to keep "two digits" so if your number ends up being 0.3333 it will print as 0.33. If it's 33.3333 it will print as 33. That's not /really/ what we want.
+
+So we need to /also/ do =cout << fixed;= in order to make sure it /always/ prints exactly two things to the right of the decimal, all the time.
+
+#+begin_src cpp :tangle money2.cpp
+  #include <iostream>
+  #include <iomanip>
+  using namespace std;
+
+  int main(){
+
+    double cost = 100;
+
+    cout << setprecision(2);
+    cout << fixed;
+
+    cout << "Calculating tax (33%) on your bill: $" << cost / 3 << endl;
+
+    return 0;
+  }
+
+#+end_src
+
+*** DONE Your first while loop: a number guessing game
+In this section we'll be covering how to do your first kind of loop in C++, the =while= loop. Conceptually, a =while= loop lets you do something over and over again until the question "should I keep going" returns false.
+
+So, let's take the smallest silliest example we can to show the syntax: a program that keeps running and asking you to enter a number until you enter =0=.
+#+begin_src cpp :tangle firstWhile.cpp
+  #include <iostream>
+  using namespace std;
+
+  int main(){
+    // so if we're going to read in a number it needs
+    // a place to be stored, which means that we need to create a variable.
+    // we want to be in control of what is stored in the variable before our first run of the
+    // loop, so we set it to -1 to start.
+    int guessed = -1; 
+
+    // how do we ask the question "keep going until the variable guessed is 0"? Well, you need
+    // to mentally invert this and say "while the variable is NOT 0, run the loop"
+    while(guessed != 0){ // like every other part of c++ where you have a chunk of code that runs, you put it inside {}
+      // now we ask for our number
+      cout << "What's the magic number?" << endl;
+      cin >> guessed;
+    }
+
+    cout << "You're right! It was 0!" << endl;
+    return 0;
+  }
+#+end_src
+*** DONE A randomized guessing game
+So a guessing game where the number is the same every time isn't very interesting. What we really want is the ability to have the program choose a new number "randomly"[fn:9] and then ask you to guess. Of course, it'd be a pretty unfair game if it didn't at least give you a hint so this program will also tell you whether to guess higher or lower.
+
+So first, here's a really simple example of how to generate random numbers in C++. Note that we also have to include a thing thing at the top of the file: =#include <cstdlib>=, because that's where the functions we need for random numbers live. 
+
+#+begin_src cpp :tangle badrand.cpp
+  #include <iostream>
+  #include <cstdlib>
+  using namespace std;
+
+  int main(){
+    int num = rand();
+
+    cout << "Our number is: " << num << endl;
+    return 0;
+  }
+#+end_src
+
+Now, if I run this I get
+#+begin_example
+Our number is: 1804289383
+#+end_example
+Okay, that's a really huge number and not really what we want but we'll deal with that in a second. It's definitely not a number I expected so that's good! Let me try running it again and---
+#+begin_example
+Our number is: 1804289383
+#+end_example
+Oh, huh, that's weird. Let's try again and
+#+begin_example
+Our number is: 1804289383
+#+end_example
+
+So what's going on here? Yes it's a "random" number but it's the same "random" number every time. It might be illuminating to try the following:
+
+#+begin_src cpp :tangle badrand2.cpp
+  #include <iostream>
+  #include <cstdlib>
+  using namespace std;
+
+  int main(){
+    cout << "Let's try to print out a bunch of random numbers" << endl;
+    cout << rand() << endl;
+    cout << rand() << endl;
+    cout << rand() << endl;
+    cout << rand() << endl;
+    cout << rand() << endl;
+    return 0;
+  }
+#+end_src
+
+And now I get an output of
+#+begin_example
+Let's try to print out a bunch of random numbers
+1804289383
+846930886
+1681692777
+1714636915
+1957747793
+#+end_example
+So each time we use =rand()= it is giving a different number but each time we run the program it's the same sequence of random numbers. This is where we need to explain seeds.
+
+Seeds are what makes pseudo-random[fn:9] number generation so different than actual randomness. Computers can't /really/ do true randomness, but they can fake it well by performing a series of calculations where the output looks random unless you know the very first input that starts the calculations. This very first input is the "seed" for the random number generator.
+
+For a given seed, =rand= will always produce the same sequence of outputs. The trick, then, is that we need to choose a different seed every time we run the program. The traditional choice is to use another function called =time=. If you write =time(0)= what you'll get back is the number of seconds since midnight January 1st 1970. Since this is a number that will be different every time you run the program, it will be a good choice of different seeds for every time we run our code.[fn:10]
+
+Let's test this out quick
+#+begin_src cpp :tangle betterrand.cpp
+  #include <iostream>
+  #include <cstdlib>
+  using namespace std;
+
+  int main(){
+    srand(time(0));
+  
+    cout << "Let's try to print out a bunch of random numbers" << endl;
+    cout << rand() << endl;
+    cout << rand() << endl;
+    cout << rand() << endl;
+    cout << rand() << endl;
+    cout << rand() << endl;
+    return 0;
+  }
+
+#+end_src
+
+Now we're finally ready to write our number guessing game
+#+begin_src cpp :tangle guessy.cpp
+  #include <iostream>
+  #include <cstdlib>
+
+  using namespace std;
+
+  int main(){
+    // we make a variable for our guess
+    int guess = -1;
+    // we set the seed for our secret number
+    srand(time(0));
+    // we set our secret number, we use the % function to scale rand() to 0-99 and then add 1 to make
+    // the range 1-100
+    int secret = rand() % 100 + 1;
+
+    while(guess != secret){
+      cout << "What do you think the number is?" << endl;
+      cin >> guess;
+      if(guess > secret){
+        cout << "lower!" << endl;
+      }
+      else if(guess < secret){
+        cout << "higher!" << endl;
+      }
+    }
+
+    cout << "You guessed it!" << endl;
+    return 0;
+  }
+#+end_src
+
+Try to read this code through and understand the logic of what it's doing! The only thing we haven't explained to this point is the =%= operator, which is the "modulus" operator. Basically, =a % b= returns the remainder---in the "you're learning division as a kid" sense of remainder---of dividing =a= by =b=. Now, in terms of why we *care* about this operator it gives us a quick way to take a big range of numbers and map it to something smaller. For example, if we do =a % 20= our outputs, no matter what =a= is, will be between 0 and 19. Similarly if we say =a % 100= this will give us an output that's between 0 and 99.
+*** DONE Averaging numbers and while-loops
+Here's another idiom that will help us get practice with while-loops: how do you average an *arbitrary* number of numbers?
+
+So this is a fun exercise because it means we need to keep track of how many things have been entered and then divide by that at the end. So I'm going to just assume we're adding up =double= s here because it makes everything fundamentally similar. How does one quit out of this loop? Well there's two ways we could do this. One is to have a special number that means "we're done". Something like "-1". That's the approach we're going to do first. After that, we'll see how to  
+
+Our steps are
+ 1. Ask for a number, if that number is =-1= then stop asking and go to the end
+ 2. If it's *not* =-1= then you need to increment a variable that counts how many numbers you've read in and also add the number that was read in to the total
+ 3. When you get to the end of the program go ahead and divide the total by the number of things added together to get the average
+
+We're going to do the simplest version like this:
+#+begin_src cpp :tangle whileAverage.cpp
+  #include <iostream>
+  using namespace std;
+
+  int main(){
+    int numItems = 0;
+    double sum = 0;
+    double numEntered = 0;
+
+    cout << "Enter a number greater or equal to 0: ";
+    cin >> numEntered;
+    while(numEntered >= 0){
+      numItems = numItems + 1;
+      sum = sum + numEntered;
+      cout << "Enter a number greater or equal to 0: ";
+      cin >> numEntered;
+    }
+
+    cout << "The average of the numbers you entered is: " << sum / numItems << endl;
+  }
+#+end_src
+
+Okay, so there's still a problem with our code: do you see it? If you don't I'll give you a hint: what happens if you don't enter *any* valid numbers at all?
+
+That's right! You're dividing by zero! So instead we want to, at the end, replace our final =cout= with an if-statement that checks to make sure you didn't enter nothing at all:
+
+#+begin_src cpp :tangle whileAverag2.cpp
+  #include <iostream>
+  using namespace std;
+
+  int main(){
+    int numItems = 0;
+    double sum = 0;
+    double numEntered = 0;
+  
+    cout << "Enter a number greater or equal to 0: ";
+    cin >> numEntered;
+    while(numEntered >= 0){
+      numItems = numItems + 1;
+      sum = sum + numEntered;
+      cout << "Enter a number greater or equal to 0: ";
+      cin >> numEntered;
+    }
+  
+    if(numItems >0){
+      cout << "The average of the numbers you entered is: " << sum / numItems << endl;
+    }
+    else{
+      cout << "Did you change your mind?" << endl;
+    }
+  }
+#+end_src
+
+Now you can see that we've safeguarded against dividing by zero!
+
 * Footnotes
+[fn:8] Okay, what on earth does "less precise" mean in this context? Okay, let's talk about sizes of infinity. No, really, I promise that this isn't a tangent. So the whole numbers, the integers, are infinite. You can start counting in either direction---positive or negative---and you'll never reach the end. This is the smallest infinity though. The numbers that have decimals, which are the "real numbers", are much bigger than the whole numbers. There are more real numbers between 0 and 1 than the entirety of the integers. The reason for this is, in a sense, is because a real number can have an infinite number of digits to the right of the decimal point. The problem for us, as computer scientists, is that there's no way to represent "an infinite number of digits" in a way that can fit in a finite amount of memory. So, instead, we have to compromise and instead of representing *all* possible real numbers we represent *some* of them. How well we can represent a number is the "precision". The higher the precision, the more fine-grained of distinctions we can make between representing two real numbers.
+
+
+[fn:6] I literally forget constantly and have to go back and fix my examples. If you've had me for in-person lecture you have definitely seen this happen. 
+
+[fn:7] A compiler is a thing that takes source code and turns it into a stand alone program. The act of turning the code into the stand alone program is called "compiling". If you dealt with Python or JavaScript or even something like Scratch before you were probably interacting with "interpreters", which are programs that take the code and run it. Now, some people talk about "compiled" or "interpreted" languages. This is wrong. A language per se isn't compiled or interpreted. A language is a language and can be run---albeit slowly---with a pencil and paper and no compiler or interpreter in sight. 
+
+[fn:5]Okay, so I do actually encourage you to---whenever possible---try to answer questions you have about how code works by trying to make a program that tests out the idea. This will get easier as you learn more about coding, but it's just a good habit to get into and you'd be surprised by how many people never learn to think this way: coding is not a passive enterprise but an active art practice. Learn by trying things! 
+
+[fn:4]Oh look a footnote in a footnote: I say "typed" and "untyped" rather than "static" and "dynamic". This is more technically correct and I will not be taking questions at this time.
+
+[fn:3] Oh boy, are types actually a huge topic. Way bigger than you'd think. Okay, so in C++ types are very weak. They prevent fairly limited kinds of errors. They won't let you treat an int as a string or visa versa. But! As we'll see in a bit they let you still do some pretty weird things like conflate 0,1, =true=, and =false=. The types in C++ also don't prevent errors like blasting past the end of a list of items and grabbing random chunks of the computer's memory. You can break C++ code in so many ways it honestly makes you wonder what the point of types at all, are, if this is what people tell you typed languages are like[fn:4]. A-ha! But, in reality, types in programming languages can be terrifyingly powerful. Rust uses types to guarantee memory safety. Haskell uses types to ensure that the compiler can do absolutely wild optimizations, including writing programs that involve generating "infinite data". Languages like Agda and Coq use types to bridge the gap between how mathematicians work and how programmers work, making the act of writing theorems and proofs a kind of programming! It's a great topic. Feel free to ask me about it. 
+
+
 [fn:2] Is that too specific? Is the author of this portion telling on themselves?
 
 [fn:1] bet you never saw that coming! 
+
+
