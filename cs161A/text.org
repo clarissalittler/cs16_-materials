@@ -1,6 +1,28 @@
 * Meta-meta, delete eventually
  Video series that this is loosely based on has the progression of:
- 
+ + basic I/O, variables, string type
+ + int/float/double types and arithmetic
+ + if-statements and booleans
+ + table formatting
+ + first functions, abstracting table formatting to make it better and less cluttered
+ + first while loops
+ + if-statements again with && and ||, &c.
+ + guessing game
+ + arrays and for-loops
+ + error handling with cin
+   + how to make a better pets database
+ + substr, find, and iterating through strings
+ + switch/case
+ + arrays again, pointer-and-a-promise
+ + revisiting petDB one more time with structs
+ + char arrays
+
+ Projects I give
+ + Write tiny programs
+ + Personality quiz
+ + Rock paper scissors
+ + Store-front
+ + Refactoring
 * Meta-commentary
 ** What is this text?
 This is a free and open source text on learning the C++ language that can be freely shared with attribution under a CC-BY license. It comes in both a basic and interactive form. If you want to borrow from it, please do! 
@@ -176,11 +198,19 @@ Well, much like the =int= we saw before =main= this is a *type*[fn:3], it's a si
 
 So our container =stuff= /can/ contain strings but it's currently empty. We're going to put something in it, though, by using =cin=! =cin= is the opposite of =cout= and, rather than printing something out to the screen, lets you read text *into* the program by typing and hitting enter.
 
-Now that we have something /in/ our container, we can grab the contents of the container using the container name which, in this case, is simply =stuff=.
+After the =cin= has run,  we have something /in/ our container and then we can grab the contents of the container using the container name which, in this case, is simply =stuff=.
 
 So when we want to print out the contents of =stuff= we say =cout << "You said: " << stuff << endl;"=.
 
 We also end with =return 0;= because we're very good programmers and *never* forget to put this in our files.[fn:6]
+*** Explore: What's in a name?
+ Try changing the name of "stuff" in the program above. Be careful that when you /rename/ the variable that you rename it consistently and change every use of the name "stuff" in the program. Come back and read on after you're done.
+
+ Did anything change? The answer is almost certainly "no!". C++ doesn't /care/ what containers are named as long as you label them correctly. You could have, confusingly, named your text-holding variable to =thisIsANumberNotAString= and the program would still work just fine. There's nothing in the C++ compiler that actually "knows" what the name you gave a variable means.
+
+ That doesn't mean naming variables "hinder" or "boopsboops" is a good idea. There's an old saying that you need to write your code so it's understandable by a total stranger, because that stranger is likely to be *you* in a few months.
+
+ So be kind to your future self and user variable names that make sense!
 *** DONE What's in an empty variable?
 Now, when we declare a variable we're making a container, but is there anything *in* the container at that point? Well let's see![fn:5]
 
@@ -212,8 +242,25 @@ What about if we instead make an empty int?
 
 Well I ran this once and got "And our int holds...779647075". Oh dear /dot dot dot/ that seems like a very *not* great thing to have as a default value!
 
-Okay, and now we get into the punchline. The reason why I'm specifying "on my computer" and "when I run this" is that the answers could actually change between computers and compilers! You really, really, really should *never* use an empty variable because you can guarantee exactly nothing about what it will do. 
+Okay, and now we get into the punchline. The reason why I'm specifying "on my computer" and "when I run this" is that the answers could actually change between computers and compilers! You really, really, really should *never* use an empty variable because you can guarantee exactly nothing about what it will do.
+*** TODO Advanced: What /is/ a container?
+At this point you might be wondering "what /are/ these containers, these /variables/, anyway?". What does it really mean for the compiler to make space for data? To answer that we need to get into some more details about how data is stored in a computer.
+**** TODO All we ever were, just zeros and ones
+Computers, the modern digital computer we've all settled on, operates fundamentally on Os and 1s. Why? Because in the end you can think of the fundamental atom of the computer, the transistor, as an electrical on-off switch. If it's "on" it lets current flow, if it's "off" it does not. The brilliance of digital computers is in cleverly encoding /everything/ we do into patterns of these ons and offs. First, to explain /that/ we need to review how we write numbers in the normal way.
 
+When we write a number like 42367 this is shorthand for =40000 + 2000 + 300 + 60 + 7=. You may have learned to describe this as the "ones place", "the tens place", "the hundreds place", &c. We can write this even more compactly as
+
+=4*10^4 + 2*10^3 + 3*10^2 + 6*10^1 + 7*10^0=
+
+using the fact that /anything/ to the zeroth power is just one.
+
+This is called the "base ten" representation of numbers because it's a sequence of powers of ten. We can do bases in other numbers though and you might see where we're going with this: computers work with "base two" numbers, also called /binary/.
+
+A binary number like 10010 is thus a way of writing =1*2^4 + 0*2^3 +0*2^2 + 1*2^1 + 0*2^0=, which is actually the number =16 + 0 + 0 + 2 + 0= or =18=.
+
+We're not going to go deep into how different kinds of data are represented /as/ numbers, but we'll simply say that *everything* on a computer is fundamentally understood as a binary number.
+
+**** TODO Memory and storage
 *** DONE Arithmetic and such in C++
 Arithmetic in C++, like most programming languages, is meant to look a lot like the arithmetic operations you're used to. You can test out some basic operations with the following code. Note that this example shows us that you can use =cin= with types other than =string=.
 
@@ -675,6 +722,7 @@ So we need to /also/ do =cout << fixed;= in order to make sure it /always/ print
 
 #+end_src
 
+**** TODO Abstracting formatting with functions
 *** DONE Your first while loop: a number guessing game
 In this section we'll be covering how to do your first kind of loop in C++, the =while= loop. Conceptually, a =while= loop lets you do something over and over again until the question "should I keep going" returns false.
 
@@ -702,7 +750,7 @@ So, let's take the smallest silliest example we can to show the syntax: a progra
     return 0;
   }
 #+end_src
-*** DONE A randomized guessing game
+*** TODO A randomized guessing game
 So a guessing game where the number is the same every time isn't very interesting. What we really want is the ability to have the program choose a new number "randomly"[fn:9] and then ask you to guess. Of course, it'd be a pretty unfair game if it didn't at least give you a hint so this program will also tell you whether to guess higher or lower.
 
 So first, here's a really simple example of how to generate random numbers in C++. Note that we also have to include a thing thing at the top of the file: =#include <cstdlib>=, because that's where the functions we need for random numbers live. 
@@ -819,6 +867,7 @@ Now we're finally ready to write our number guessing game
 #+end_src
 
 Try to read this code through and understand the logic of what it's doing! The only thing we haven't explained to this point is the =%= operator, which is the "modulus" operator. Basically, =a % b= returns the remainder---in the "you're learning division as a kid" sense of remainder---of dividing =a= by =b=. Now, in terms of why we *care* about this operator it gives us a quick way to take a big range of numbers and map it to something smaller. For example, if we do =a % 20= our outputs, no matter what =a= is, will be between 0 and 19. Similarly if we say =a % 100= this will give us an output that's between 0 and 99.
+**** TODO Adding a limited number of guesses
 *** DONE Averaging numbers and while-loops
 Here's another idiom that will help us get practice with while-loops: how do you average an *arbitrary* number of numbers?
 
@@ -1691,7 +1740,49 @@ You *cannot* do this in C++. Instead, you have to write this program with a pass
     return 0;
   }
 #+end_src
-* TODO Extended example: 
+** TODO Arrays, again, and Pointers
+So we've covered the concept of arrays once already, to show you the basics of how they're used in C++. Now we're circling back around to cover the topic /again/. Remember how we could print all the items in an array? We did it like this:
+
+#+begin_src cpp :tangle codesnips/arrayPrintRedux.cpp
+  #include <iostream>
+  using namespace std;
+
+  int main(){
+    int arr[10] = {10,11,12,13,14,15,16,17,18,19};
+    for(int i =0; i<10;i++){
+      cout << "The " << i << "th element is: " << arr[i] << endl;
+    }
+    return 0;
+  }
+#+end_src
+
+Now what will happen if we print just the array like this?
+
+#+begin_src cpp :tangle codesnips/arrayPrintMyster.cpp
+  #include <iostream>
+  using namespace std;
+
+  int main(){
+    int arr[10] = {10,11,12,13,14,15,16,17,18,19};
+    cout << "The array is " << arr << endl;
+    return 0;
+  }
+#+end_src
+
+What do you think it will do? Will it print all the elements of the array? Will it print nothing? This is a slightly unfair question because unless you already /know/ about pointers you would have no way of knowing that it will produce something that looks like this:
+#+begin_example
+The array is 0x7ffc2ee1fa50
+#+end_example
+
+What's /that/, exactly? A number, and yes this is a number despite the letters mixed in there, that starts with =0x= is a hexadecimal number. Remember how we talked about binary being a sum of powers of two and our normal base ten is a sum of powers of ten? Hexadecimal is powers of *16*, where the "digits" used in a hex number range from 0-f rather than 0-9. Hex is a little weird to read but it's really convenient for talking about computers because each hex digit is the same as 4 bits of information.
+
+Have you ever seen hex-codes for colors? They're usually a series of 6-hex digits because an rgb color is 24 bits,  /or 3 bytes/, i.e. 6 groups of 4 bits each.
+
+However, when you see a big hex number in programming it's usually a memory /address/. An address is what it sounds like, it tells you where the information is stored in the computer's memory, completely analogous to a street address. 
+
+
+** TODO Char Arrays
+** TODO 
 * TODO Extended example: Let's play shop
 In this example we'll be writing a small program that prints out a menu, let's you select items and quantities to purchase, and prints out your total at the end.
 
