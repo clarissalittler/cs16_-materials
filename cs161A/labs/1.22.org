@@ -1,0 +1,5 @@
+Write a program that outputs the user's input.
+
+For example:
+Enter text here: kitty cat
+You said: kitty cat

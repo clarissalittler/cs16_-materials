@@ -1,0 +1,14 @@
+Commute cost estimator
+
+Commuting every day adds up! Write a program that does the following:
+
+Ask the user how many miles they drive to school/work and their car’s miles per gallon. 
+Also ask for the current gas price per gallon.
+Then, calculate the cost of their commute (both ways).
+Finally, output a message with that value.
+
+For example:
+Enter the number of miles you drive to school/work: 7.0
+Enter your car's miles-per-gallon: 21
+Enter the current price per gallon of gas: 4.00
+The cost of your commute (both ways) is: $2.66
