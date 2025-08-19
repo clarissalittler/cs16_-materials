@@ -6,8 +6,10 @@
 * 1.5 Programming (general).
 * 1.6 Programming basics
 * 1.7 Console input
+  * 1.7.1 Get age from user
 * 1.8 Comments and whitespace
 * 1.9 Errors and warnings
+  * 1.9.1 Incorrect variable name.
 * 1.10 Computers and programs (general).
 * 1.11 Integrated development environment
 * 1.12 Computer tour
@@ -15,35 +17,32 @@
 * 1.14 Problem solving
 * 1.15 Why programming
 * 1.16 Why whitespace matters
-* 1.17 C++ example: Salary Calculation
-* 1.18 Assignment Sample
-* 1.19 C++ example: Married-couple names
-* 1.20 zyLab training: Basics
-* 1.21 zyLab training: Interleaved input/output
-* 1.22 LAB: Warm up: Hello world
-* 1.23 LAB: Warm up: Basic output with variables
-* 1.24 LAB: Formatted output: Hello World!
-* 1.25 LAB: Formatted output: No parking sign
-* 1.26 LAB: Input and formatted output: House real estate summary.
-* 1.27 LAB: Input and formatted output: Right-facing arrow
+* 1.17 Example: Calculate an average
+* 1.18 Example: TBD (input, calculation with hard numbers, output)
+* 1.19 Assignment Sample
+* 1.20 Tutorial - how to use this code editor
+* 1.21 LAB: Hello world
+* 1.22 LAB: Echo
+* 1.23 LAB: Whitespace experiment
+* 1.25 LAB: Commute cost estimator
 
 # 2. CS 161A: Variables, Assignments, & Expressions
 * 2.1 Variables and assignments (general).
 * 2.2 Variables (int).
 * 2.3 Identifiers
+  * 2.3.1 Which of the following are valid identifiers?
 * 2.4 Arithmetic expressions (general).
 * 2.5 Arithmetic expressions (int).
 * 2.6 Example: Health data
 * 2.7 Floating-point numbers (double).
 * 2.8 Scientific notation for floating-point literals
 * 2.9 Constant variables
-* 2.10 C++ example: Salary calculation with variables
-* 2.11 C++ example: Married-couple names with variables
+  * 2.9.1 How do you know when it should be a constant?
+* 2.10 C++ example: TBD (Remake 1.18, but use variables instead of magic numbers)
+* 2.11 C++ example: TBD (Strings using variables a bunch)
 * 2.12 Assignment Sample
-* 2.13 LAB: Caffeine levels
-* 2.14 LAB: Divide input integers
-* 2.15 LAB: Expression for calories burned during workout
-* 2.16 LAB*: Program: Painting a wall
+* 2.13 LAB: TBD (using division)
+* 2.14 LAB: Pizza crust calculator
 
 # 3. CS 161A: Data Types & Math Functions
 * 3.1 Using math functions
@@ -52,6 +51,7 @@
 * 3.4 Binary.
 * 3.5 Characters
 * 3.6 Strings
+  * 3.6.1 Program that asks the user for their first and last name separately, then print them together in last, first format.
 * 3.7 Input stream and cin functions
 * 3.8 Input Failure
 * 3.9 Integer overflow
@@ -59,14 +59,13 @@
 * 3.11 Output formatting
 * 3.12 Random numbers
 * 3.13 Debugging
+  * 3.13.1 Find the 3 errors in this program
 * 3.14 Auto (since C++11)
 * 3.15 Style guidelines
 * 3.16 Assignment Sample
-* 3.17 LAB: Phone number breakdown
-* 3.18 LAB: Input: Mad Lib
-* 3.19 LAB: Simple statistics
-* 3.20 LAB: Using math functions
-* 3.21 LAB: Convert to dollars
+* 3.17 LAB: Mad Lib
+* 3.18 LAB: Pizza slices 
+* 3.19 LAB: Splitting the bill
 
 # 4. CS 161A: Conditionals Part I
 * 4.1 If-else branches (general).
@@ -82,14 +81,16 @@
 * 4.11 Order of evaluation
 * 4.12 Assignment Sample
 * 4.13 C++ example: Salary calculation with branches
-* 4.14 LAB: Remove gray from RGB
-* 4.15 LAB: Smallest number
+* 4.14 LAB: Lowest price
+* 4.15 LAB: Numeric --> Letter grade converter
+* 4.16 LAB: Leap Year
 
 # 5. CS 161A: Conditionals Part II
 * 5.1 Switch statements
 * 5.2 Pseudocode and flowcharts - switch/case
 * 5.3 Boolean data type
 * 5.4 String comparisons
+  * 5.4.1 Username/password login 
 * 5.5 String access operations
 * 5.6 Character operations
 * 5.7 Finding, inserting, and replacing text in a string
@@ -98,8 +99,8 @@
 * 5.10 Floating-point comparison
 * 5.11 Short circuit evaluation
 * 5.12 Assignment Sample
-* 5.13 LAB: Interstate highway numbers
-* 5.14 LAB: Leap year
+* 5.13 LAB: User input --> boolean variable
+* 5.14 LAB: Find and replace tool
 
 # 6. CS 161A: Loops Part I
 * 6.1 Loops (general).
