@@ -33,13 +33,13 @@
   * 2.3.1 Which of the following are valid identifiers?
 * 2.4 Arithmetic expressions (general).
 * 2.5 Arithmetic expressions (int).
-* 2.6 Example: Health data
+* 2.6 Example: TBD (incremental dev, basic maths)
 * 2.7 Floating-point numbers (double).
 * 2.8 Scientific notation for floating-point literals
 * 2.9 Constant variables
   * 2.9.1 How do you know when it should be a constant?
-* 2.10 C++ example: TBD (Remake 1.18, but use variables instead of magic numbers)
-* 2.11 C++ example: TBD (Strings using variables a bunch)
+* 2.10 Example: TBD (Remake 1.18, but use variables instead of magic numbers)
+* 2.11 Example: TBD (Strings using variables a bunch)
 * 2.12 Assignment Sample
 * 2.13 LAB: TBD (using division)
 * 2.14 LAB: Pizza crust calculator
@@ -77,10 +77,10 @@
 * 4.7 Detecting multiple features with branches
 * 4.8 Pseudocode and flowcharts - if and if/else
 * 4.9 Common branching errors
-* 4.10 Example: Toll calculation
+* 4.10 Example: TBD (different multipliers for different conditions)
 * 4.11 Order of evaluation
 * 4.12 Assignment Sample
-* 4.13 C++ example: Salary calculation with branches
+* 4.13 Example: TBD (use branches to do different calculations)
 * 4.14 LAB: Lowest price
 * 4.15 LAB: Numeric --> Letter grade converter
 * 4.16 LAB: Leap Year
@@ -94,7 +94,7 @@
 * 5.5 String access operations
 * 5.6 Character operations
 * 5.7 Finding, inserting, and replacing text in a string
-* 5.8 C++ example: Search for name using branches
+* 5.8 Example: TBD (using find())
 * 5.9 Conditional expressions
 * 5.10 Floating-point comparison
 * 5.11 Short circuit evaluation
@@ -113,12 +113,11 @@
 * 6.8 Range-based for loop
 * 6.9 More for loop examples
 * 6.10 Assignment Sample
-* 6.11 C++ example: Salary calculation with loops
-* 6.12 C++ example: Domain name validation with loops
-* 6.13 LAB: Warm up: Drawing a right triangle
-* 6.14 LAB: Varied amount of input data
-* 6.15 LAB: Convert to reverse binary.
-* 6.16 LAB: Output range with increment of 5
+* 6.11 Example: TBD (math with loops)
+* 6.12 Example: TBD (string analysis)
+* 6.13 LAB: Password validator
+* 6.14 LAB: Coffee expenses tracker
+* 6.15 LAB: TBD (loops to do some math)
 
 # 7. CS 161A: Loops Part II
 * 7.1 Loops and strings
@@ -127,12 +126,9 @@
 * 7.4 Break and continue
 * 7.5 Variable name scope
 * 7.6 Assignment Sample
-* 7.7 LAB: Countdown until matching digits
-* 7.8 LAB: Count characters
-* 7.9 LAB: Checker for integer string
-* 7.10 LAB: Remove all non-alphabetic characters
-* 7.11 LAB: Count input length without spaces, periods, exclamation points, or commas
-* 7.12 LAB: Print string in reverse
+* 7.7 LAB: Shapes
+* 7.8 LAB: TBD (string analysis/modification)
+* 7.12 LAB: Reverse string
 
 # 8. CS 161A: Functions pass by value
 * 8.1 User-defined function basics
@@ -148,9 +144,9 @@
 * 8.11 Functions: Common errors
 * 8.12 Assignment Sample
 * 8.13 Pseudocode and flowcharts - functions
-* 8.14 LAB: Max and min numbers
-* 8.15 LAB: Step counter
-* 8.16 LAB: Track laps to miles
+* 8.14 LAB: TBD (basic converter function)
+* 8.15 LAB: Validated integer function
+* 8.16 LAB: Writing and testing a power function
 
 # 9. CS 161A: Functions pass by reference
 * 9.1 Data Validation
@@ -164,5 +160,5 @@
 * 9.9 Preprocessor and include
 * 9.10 Hand trace reference variables
 * 9.11 LAB: Swapping variables
-* 9.12 LAB: Flip a coin
-* 9.13 LAB: Paint a room
+* 9.12 LAB: Add metadata to a chat
+* 9.13 LAB: Trim whitespace
