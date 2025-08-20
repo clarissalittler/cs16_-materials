@@ -77,6 +77,10 @@ In other words, we will always need programmers. In fact, a personal prediction 
 
 By analogy, this is like how home CAD software and 3D printers didn't kill manufacturing but rather let people quickly prototype ideas that they then pay engineers to turn into production lines.
 * Your First Programs
+** TODO How to run examples [0/3]
+*** TODO In-browser
+*** TODO In onlinegdb
+*** TODO Locally in the terminal
 ** DONE Hello World
 So the origins of making a program that says "Hello, World" as your first program started with Kernigan and Ritchie in their introduction to the C programming language. The basic idea was that if you can get a simple program to compile[fn:7] that prints something out to the screen then you're already over the worst hurdles of learning a programming language.
 
@@ -151,10 +155,6 @@ So, yes, *most* lines need semi-colons at the end. The lines that don't need a s
  + lines that end with ={= or =}= (with one annoying exception we'll get to)
  + lines that start with #
  + comments, which we haven't discussed yet
-** TODO How to run examples [0/3]
-*** TODO In-browser
-*** TODO In onlinegdb
-*** TODO Locally in the terminal
 ** TODO More early steps [7/8]
 *** DONE Echoing text and string types
 So we've already done a non-trivial amount of work because we've learned to compile a file, run it, and have it print something out the screen.
@@ -211,10 +211,6 @@ After the =cin= has run,  we have something /in/ our container and then we can g
 So when we want to print out the contents of =stuff= we say =cout << "You said: " << stuff << endl;"=.
 
 We also end with =return 0;= because we're very good programmers and *never* forget to put this in our files.[fn:6]
-*** Exercises
-1. *Basic*: Ask for first and last name separately, then print them together in the format "Last, First".
-2. *Intermediate*: Ask for three words and print them in reverse order (if user enters "cat dog bird", print "bird dog cat").
-3. *Challenge*: Create a Mad Libs program that asks for a noun, verb, adjective, and adverb, then inserts them into a story template like: "The [adjective] [noun] decided to [verb] [adverb]."
 *** Explore: What's in a name?
  Try changing the name of "stuff" in the program above. Be careful that when you /rename/ the variable that you rename it consistently and change every use of the name "stuff" in the program. Come back and read on after you're done.
 
@@ -223,6 +219,10 @@ We also end with =return 0;= because we're very good programmers and *never* for
  That doesn't mean naming variables "hinder" or "boopsboops" is a good idea. There's an old saying that you need to write your code so it's understandable by a total stranger, because that stranger is likely to be *you* in a few months.
 
  So be kind to your future self and user variable names that make sense!
+*** Exercises
+1. *Basic*: Ask for first and last name separately, then print them together in the format "Last, First".
+2. *Intermediate*: Ask for three words and print them in reverse order (if user enters "cat dog bird", print "bird dog cat").
+3. *Challenge*: Create a Mad Libs program that asks for a noun, verb, adjective, and adverb, then inserts them into a story template like: "The [adjective] [noun] decided to [verb] [adverb]."
 *** DONE What's in an empty variable?
 Now, when we declare a variable we're making a container, but is there anything *in* the container at that point? Well let's see![fn:5]
 
@@ -255,7 +255,7 @@ What about if we instead make an empty int?
 Well I ran this once and got "And our int holds...779647075". Oh dear /dot dot dot/ that seems like a very *not* great thing to have as a default value!
 
 Okay, and now we get into the punchline. The reason why I'm specifying "on my computer" and "when I run this" is that the answers could actually change between computers and compilers! You really, really, really should *never* use an empty variable because you can guarantee exactly nothing about what it will do.
-*** TODO Advanced: What /is/ a container?
+*** TODO Advanced: What /is/ a container? [0/2]
 At this point you might be wondering "what /are/ these containers, these /variables/, anyway?". What does it really mean for the compiler to make space for data? To answer that we need to get into some more details about how data is stored in a computer.
 **** TODO All we ever were, just zeros and ones
 Computers, the modern digital computer we've all settled on, operates fundamentally on Os and 1s. Why? Because in the end you can think of the fundamental atom of the computer, the transistor, as an electrical on-off switch. If it's "on" it lets current flow, if it's "off" it does not. The brilliance of digital computers is in cleverly encoding /everything/ we do into patterns of these ons and offs. First, to explain /that/ we need to review how we write numbers in the normal way.
@@ -273,6 +273,21 @@ A binary number like 10010 is thus a way of writing =1*2^4 + 0*2^3 +0*2^2 + 1*2^
 We're not going to go deep into how different kinds of data are represented /as/ numbers, but we'll simply say that *everything* on a computer is fundamentally understood as a binary number.
 
 **** TODO Memory and storage
+You might have heard people refer to "memory" when it comes to computers: but what is it? How does it differ from something like the storage space on your laptop or phone?
+
+When someone says "memory" generally what they actually mean is Random Access Memory (RAM, in the sequel), which maybe should be called "Arbitrary Access Memory" because it's not /random/ like a dice roll it's that you can access any part of the memory at any time.
+
+Think of it like a giant wall of cubbyholes like at a gym, each square is labeled so it can be found quickly and when you need something from it you just walk to the right one and grab what you want. You don't have to, say, walk down a hallway starting at the beginning every time you want to grab something.
+
+That image is a little misleading, though, because it's less like a set of fixed cubbyholes and more like a huge wall with a bunch of movable dividers that can---on the fly---be reconfigured to fit different sizes of things. Tiny ones for a pair of running shoes. A huge one for a giant dufflebag.
+
+Continuing this metaphor we can explain what happens when you make a variable:
+ + the computer then finds space in the giant storage wall to put a divider,
+ + notes down the label on that storage space
+ + comes back and puts the value of that label into the variable name you declared
+
+We can help explain, too, what these type signifiers are like =int= and =string=: they're there to make it easy for the computer to know what the size of the data is, "where to put the divider" if we keep going with the metaphor.[fn:15]
+
 *** DONE Arithmetic and such in C++
 Arithmetic in C++, like most programming languages, is meant to look a lot like the arithmetic operations you're used to. You can test out some basic operations with the following code. Note that this example shows us that you can use =cin= with types other than =string=.
 
@@ -333,6 +348,8 @@ So let's try this program again with =double= s instead of =int=.
 There, that's probably more what you would have expected from division.
 
 Note that =cin= keeps working no matter what type of container we're trying to fill with it! There's definitely no possibility that is going to go wrong later in a really annoying way! Foreshadowing!
+**** TODO On casting numbers
+ Let's imagine that you start out with integers but you do need to divide them later, you can actually "type cast" one into the other. 
 *** Exercises
 1. *Basic*: Calculate the area and perimeter of a rectangle from user input (length and width).
 2. *Intermediate*: Create a tip calculator that asks for bill amount and tip percentage, then shows the tip amount and total.
@@ -2778,6 +2795,8 @@ These solutions demonstrate various programming concepts and best practices:
 Remember: The best solution is one that works correctly, is readable, and can be maintained. As you gain experience, you'll develop your own coding style and preferences.
 
 * Footnotes
+
+[fn:15] Okay type systems, in general, can actually do so much more than this but in C/C++ this is one of the primary reasons. If you take a systems programming class, you'll learn more about /why/ C/C++ work this way. 
 [fn:8] Okay, what on earth does "less precise" mean in this context? Okay, let's talk about sizes of infinity. No, really, I promise that this isn't a tangent. So the whole numbers, the integers, are infinite. You can start counting in either direction---positive or negative---and you'll never reach the end. This is the smallest infinity though. The numbers that have decimals, which are the "real numbers", are much bigger than the whole numbers. There are more real numbers between 0 and 1 than the entirety of the integers. The reason for this is, in a sense, is because a real number can have an infinite number of digits to the right of the decimal point. The problem for us, as computer scientists, is that there's no way to represent "an infinite number of digits" in a way that can fit in a finite amount of memory. So, instead, we have to compromise and instead of representing *all* possible real numbers we represent *some* of them. How well we can represent a number is the "precision". The higher the precision, the more fine-grained of distinctions we can make between representing two real numbers.
 
 
