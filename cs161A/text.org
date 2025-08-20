@@ -132,6 +132,14 @@ Okay we're almost done! There's just two more lines. The first
 as you can probably guess is what actually prints the line "Hello, World". Think of =cout= as the /target/ you're sending text to to be printed out. You send things to it with the =<<= symbol. The text you're sending is in quotation marks. In C++, like most programming languages, you denote text-as-data with double-quotes.[fn:2] The other thing we need to explain here is the =endl=, which is just the way of saying "end this line and start a new one".
 
 So to understand the final line of the function, =return 0;=, remember how we said that when the function ends it has to give back a whole number? Well this is the line that says that when the function ends that it's going to hand back the number 0. This is an old convention that dates back to the days of /unix/, where if everything goes well a program should return 0.
+*** Exercises
+1. *Basic*: Modify Hello World to print your name and favorite programming joke on separate lines.
+2. *Intermediate*: Create a program that prints a simple ASCII art box with "Hello" inside it. For example:
+   #+begin_example
+   *********
+   * Hello *
+   *********
+   #+end_example
 ** DONE Why semicolons?
 Already, you've probably noticed all the semicolons (the ";" symbols) in this code and this might be one of the first times in your life you've really needed to use them! It's reasonable to be asking "why, though?" now.
 
@@ -203,6 +211,10 @@ After the =cin= has run,  we have something /in/ our container and then we can g
 So when we want to print out the contents of =stuff= we say =cout << "You said: " << stuff << endl;"=.
 
 We also end with =return 0;= because we're very good programmers and *never* forget to put this in our files.[fn:6]
+*** Exercises
+1. *Basic*: Ask for first and last name separately, then print them together in the format "Last, First".
+2. *Intermediate*: Ask for three words and print them in reverse order (if user enters "cat dog bird", print "bird dog cat").
+3. *Challenge*: Create a Mad Libs program that asks for a noun, verb, adjective, and adverb, then inserts them into a story template like: "The [adjective] [noun] decided to [verb] [adverb]."
 *** Explore: What's in a name?
  Try changing the name of "stuff" in the program above. Be careful that when you /rename/ the variable that you rename it consistently and change every use of the name "stuff" in the program. Come back and read on after you're done.
 
@@ -321,6 +333,10 @@ So let's try this program again with =double= s instead of =int=.
 There, that's probably more what you would have expected from division.
 
 Note that =cin= keeps working no matter what type of container we're trying to fill with it! There's definitely no possibility that is going to go wrong later in a really annoying way! Foreshadowing!
+*** Exercises
+1. *Basic*: Calculate the area and perimeter of a rectangle from user input (length and width).
+2. *Intermediate*: Create a tip calculator that asks for bill amount and tip percentage, then shows the tip amount and total.
+3. *Challenge*: Implement a compound interest calculator that asks for principal, annual rate, time in years, and number of times compounded per year. Use the formula: A = P(1 + r/n)^(nt)
 *** TODO Booleans and personality tests
 Okay, if all we could do with code was straight-line programs that just do a sequence of calculations then we'd basically just have the equivalent of a calculator but arguably more annoying.
 
@@ -518,6 +534,10 @@ Okay, let's do something silly as an example of putting some of these concepts t
   }
 #+end_src
 Can you figure out what to enter to hack the system?
+*** Exercises  
+1. *Basic*: Check if a number is positive, negative, or zero and print an appropriate message.
+2. *Intermediate*: Create a simple grade calculator that takes a numeric score and outputs a letter grade (90+=A, 80+=B, 70+=C, 60+=D, <60=F).
+3. *Challenge*: Build an eligibility checker that asks for age and tells the user what they can legally do (vote at 18, drink at 21, rent a car at 25, run for president at 35).
 *** TODO Letting the compiler figure out the type
  There's a fun trick you can do in C++: not even bother writing the type and, instead, just letting the compiler figure out---in the process of compiling---what the type is supposed to be for you! We can do that with the `auto` keyword.
 
@@ -721,6 +741,10 @@ So we need to /also/ do =cout << fixed;= in order to make sure it /always/ print
   }
 
 #+end_src
+*** Exercises
+1. *Basic*: Create a receipt with 3 items showing item name, price, and quantity in aligned columns.
+2. *Intermediate*: Display a multiplication table (1-10) with proper alignment and borders.
+3. *Challenge*: Create a formatted invoice that includes items, quantities, unit prices, line totals, subtotal, tax (8.5%), and grand total - all properly aligned and formatted.
 
 **** TODO Abstracting formatting with functions
 *** DONE Your first while loop: a number guessing game
@@ -750,6 +774,10 @@ So, let's take the smallest silliest example we can to show the syntax: a progra
     return 0;
   }
 #+end_src
+*** Exercises
+1. *Basic*: Write a countdown program that asks for a starting number and counts down to 0.
+2. *Intermediate*: Create a password checker that keeps asking until the user enters "quit" or the correct password (you choose it).
+3. *Challenge*: Implement a simple calculator that keeps performing operations until the user enters 0 for both numbers.
 *** TODO A randomized guessing game
 So a guessing game where the number is the same every time isn't very interesting. What we really want is the ability to have the program choose a new number "randomly"[fn:9] and then ask you to guess. Of course, it'd be a pretty unfair game if it didn't at least give you a hint so this program will also tell you whether to guess higher or lower.
 
@@ -867,6 +895,10 @@ Now we're finally ready to write our number guessing game
 #+end_src
 
 Try to read this code through and understand the logic of what it's doing! The only thing we haven't explained to this point is the =%= operator, which is the "modulus" operator. Basically, =a % b= returns the remainder---in the "you're learning division as a kid" sense of remainder---of dividing =a= by =b=. Now, in terms of why we *care* about this operator it gives us a quick way to take a big range of numbers and map it to something smaller. For example, if we do =a % 20= our outputs, no matter what =a= is, will be between 0 and 19. Similarly if we say =a % 100= this will give us an output that's between 0 and 99.
+*** Exercises
+1. *Basic*: Simulate rolling two six-sided dice and display their individual values and sum.
+2. *Intermediate*: Create a "Rock, Paper, Scissors" game where the computer randomly chooses and you play one round.
+3. *Challenge*: Simulate flipping a coin 1000 times and report the percentage of heads vs tails. Bonus: Allow the user to specify the number of flips.
 **** TODO Adding a limited number of guesses
 *** DONE Averaging numbers and while-loops
 Here's another idiom that will help us get practice with while-loops: how do you average an *arbitrary* number of numbers?
@@ -933,6 +965,10 @@ That's right! You're dividing by zero! So instead we want to, at the end, replac
 #+end_src
 
 Now you can see that we've safeguarded against dividing by zero!
+*** Exercises
+1. *Basic*: Calculate the average of exactly 5 test scores entered by the user.
+2. *Intermediate*: Find the minimum, maximum, and average of numbers entered (stop on -1).
+3. *Challenge*: Calculate a weighted average where the user enters value-weight pairs. Stop when weight is 0. Example: test1=85, weight=0.3; test2=90, weight=0.7; weighted average = 88.5.
 
 ** TODO For-loops (and the shape of loops to come)[fn:8] [1/2]
 So far we've seen some examples of using =while= loops and now it's time to see the other kind of loop: the =for=-loop. Unlike =while=, which is "indefinite" iteration because it could theoretically go on forever, the =for=-loop is "definite" iteration because it should (unless there's a bug) only run for a pre-determined number of times.
@@ -1025,6 +1061,17 @@ Note that what we've done is create a new variable, =sum=, in order to hold the 
 #+begin_quote
 Exercise: Change this so that it sums the /squares/ of 0 - 9.
 #+end_quote
+*** Exercises
+1. *Basic*: Print the first 20 Fibonacci numbers using a for-loop.
+2. *Intermediate*: Draw a triangle pattern with asterisks. Ask the user for height. Example for height=5:
+   #+begin_example
+   *
+   **
+   ***
+   ****
+   *****
+   #+end_example
+3. *Challenge*: Print all prime numbers between 1 and 100. Hint: For each number, check if it's divisible by any number from 2 to its square root.
 *** TODO (Advanced) Arrays: the reasons for =for=
 Here's a more advanced topic that you'll be needing not just for this class but for the rest of your classes where you're doing C++: arrays.
 
@@ -1105,6 +1152,10 @@ Exercise: Take this program and add another column for the age of the pet
 
 That means you'll need to add a new array of ints to hold the age, ask for the age with cin, and also print that out appropriately.
 #+end_quote
+*** Exercises
+1. *Basic*: Create an array of 7 daily temperatures and find the warmest and coldest days.
+2. *Intermediate*: Reverse the contents of an array in-place (without creating a new array).
+3. *Challenge*: Implement a simple grade book that stores 5 students with 3 test scores each. Calculate and display each student's average.
 **** TODO What happens if you access outside the bounds of an array?
 There's one last topic we need to address: what happens if you access outside the bounds of the array? Now in many programming languages this will end in an *error*. For example, if you run the following Python program it will crash which is *a good thing*.
 
@@ -1160,6 +1211,10 @@ So what we mean here is something like you asking for "yes" or "no" from the use
     cout << "You chose: " << opt << endl;
   }
 #+end_src
+*** Exercises
+1. *Basic*: Create a menu system that only accepts options 1-5, rejecting anything else.
+2. *Intermediate*: Validate email format - must contain exactly one @ and at least one . after the @.
+3. *Challenge*: Create a date validator that checks valid month (1-12) and appropriate days for each month (including leap years for February).
 *** TODO The wrong kind of data (cin.fail() &c.) [0/2]
 Okay so from here we have some interesting issues that come down to exactly *what* =cin= and =>>= are doing together.
 **** TODO What ever happened to baby cin?
@@ -1326,6 +1381,10 @@ Okay, also we should talk about how to turn data into strings because this is go
     return 0;
   }
 #+end_src
+*** Exercises
+1. *Basic*: Count the number of vowels (a, e, i, o, u) in a string entered by the user.
+2. *Intermediate*: Check if a string is a palindrome (reads the same forwards and backwards).
+3. *Challenge*: Create a word censoring program that replaces specified "bad words" with asterisks of the same length.
 *** TODO =find= and =substr=
 Okay, so now let's talk about some convenience functions that help us take apart and manipulate strings. The first is the ability to /find/ an occurence of one string inside another:
 
@@ -1401,6 +1460,10 @@ Okay so here's a wholeLower function that turns an entire string to lower case u
     cout << sarcasmCase(str) << endl;
   }
 #+end_src
+*** Exercises
+1. *Basic*: Convert a string to alternating caps (LiKe ThIs) for every character.
+2. *Intermediate*: Count the frequency of each word in a sentence (case-insensitive).
+3. *Challenge*: Implement a Caesar cipher that shifts letters by a user-specified amount. Handle wrapping (z+1 = a) and preserve case.
 
 ** DONE Switches vs. ifs
 Switch statements are actually pretty simple and can, essentially, be thought of as "compiling" down to a more verbose if-elseif-else statement, except that rather than being able to ask *any* question you're just asking the question is /this/ equal to /this/.
@@ -1574,6 +1637,10 @@ No, instead, you need to do something more like
   }
 
 #+end_src
+*** Exercises
+1. *Basic*: Create a days-of-week printer using switch (1=Monday, 2=Tuesday, etc.).
+2. *Intermediate*: Build a simple calculator using switch for operations (+, -, *, /). Handle division by zero.
+3. *Challenge*: Create a text-based restaurant ordering system with switch for menu categories (appetizers, mains, desserts) and nested switches for items.
 ** TODO Writing your own functions
 *** TODO The basics of functions
 So we've seen a couple of ways to define our own functions so far in this course, but we haven't *formally* talked about it.
@@ -1640,6 +1707,10 @@ We haven't really seen examples of it so far but you can have a bunch of functio
     return 0;
   }
 #+end_src
+*** Exercises
+1. *Basic*: Write a function that returns the larger of two numbers.
+2. *Intermediate*: Create functions for calculating area of different shapes (circle, rectangle, triangle). Each should take appropriate parameters.
+3. *Challenge*: Implement a function that checks if a number is prime. Then use it to find all twin primes (primes that differ by 2) up to 100.
 *** TODO Passing by reference
 Now here's a weird little feature of C++. So let's look at how arguments to functions differ from normal variables with a simple example:
 
@@ -1740,6 +1811,10 @@ You *cannot* do this in C++. Instead, you have to write this program with a pass
     return 0;
   }
 #+end_src
+*** Exercises
+1. *Basic*: Write a swap function that exchanges the values of two variables using pass by reference.
+2. *Intermediate*: Create a function that returns both quotient and remainder of division (use reference parameters for one of them).
+3. *Challenge*: Build a function that finds minimum, maximum, and average of an array in a single pass. Use reference parameters for min and max.
 ** TODO Arrays, again, and Pointers
 So we've covered the concept of arrays once already, to show you the basics of how they're used in C++. Now we're circling back around to cover the topic /again/. Remember how we could print all the items in an array? We did it like this:
 
@@ -1782,7 +1857,6 @@ However, when you see a big hex number in programming it's usually a memory /add
 
 
 ** TODO Char Arrays
-** TODO 
 * TODO Extended example: Let's play shop
 In this example we'll be writing a small program that prints out a menu, let's you select items and quantities to purchase, and prints out your total at the end.
 
@@ -1790,6 +1864,919 @@ We'll do this program "the hard way" at first, which isn't very flexible, but we
 ** More on iteration and choices 
 * TODO Extended example: An Adventure Game
 In this example we're going to look at how to make an old-school text-adventure game in C++. 
+* Project Ideas
+** Mini-Projects (After Major Sections)
+These projects are designed to be completed after finishing specific sections of the course. Each should take 1-3 hours to complete.
+
+*** After Loops
+- *Multiplication Quiz Game*: Create a timed quiz that asks multiplication problems, keeps score, and gives feedback. Include difficulty levels.
+- *Password Strength Checker*: Check passwords for length, uppercase, lowercase, numbers, and special characters. Give a strength score.
+
+*** After Arrays  
+- *Class Attendance Tracker*: Track attendance for a class of students over multiple days. Calculate attendance percentages.
+- *Simple Statistics Calculator*: Input a dataset and calculate mean, median, mode, and standard deviation.
+
+*** After Functions
+- *Temperature Converter Suite*: Convert between Celsius, Fahrenheit, and Kelvin with a menu-driven interface.
+- *Geometry Calculator*: Calculate areas, perimeters, and volumes for various shapes using dedicated functions.
+
+*** After Strings
+- *Text-based Wordle Clone*: Implement the popular word guessing game with colored hints (use symbols for colors).
+- *Simple Text Editor Commands*: Implement find/replace, word count, and case conversion operations.
+
+*** After Data Validation
+- *Robust ATM Simulator*: Handle deposits, withdrawals, balance checks with proper validation and error handling.
+- *Date Calculator*: Calculate days between dates, add days to dates, handle leap years properly.
+
+** Larger Projects
+These are comprehensive projects that integrate multiple concepts. Each should take 5-10 hours to complete.
+
+*** Store Management System
+Create an inventory management system with the following features:
+- Add/remove products with prices and quantities
+- Search products by name or category
+- Generate sales reports
+- Track low inventory and suggest reorders
+- Apply discounts and calculate totals
+Skills practiced: Arrays, functions, data validation, formatting
+
+*** Grade Calculator System
+Build a complete gradebook application:
+- Support multiple students and multiple assignments
+- Weight different assignment categories (homework, tests, projects)
+- Drop lowest scores option
+- Calculate letter grades with +/- modifiers
+- Generate grade reports with statistics
+Skills practiced: 2D arrays, functions with references, data formatting
+
+*** Game Collection
+Implement 2-3 classic games in a single program:
+- *Tic-Tac-Toe*: Two-player game with win detection
+- *Hangman*: Word guessing with ASCII art
+- *Number Baseball*: Guess a 4-digit number with hints
+Include a main menu, score tracking, and play-again options
+Skills practiced: Arrays, string manipulation, game logic, input validation
+
+*** Data Analysis Tool
+Create a program that reads survey or experimental data:
+- Import data from user input or predefined datasets
+- Calculate statistical summaries (mean, median, mode, range)
+- Find correlations between variables
+- Generate formatted reports with findings
+- Handle missing or invalid data gracefully
+Skills practiced: File I/O concepts, arrays, mathematical functions, error handling
+
+*** Encryption Tool Suite
+Build a collection of encryption/decryption methods:
+- Caesar cipher with custom shifts
+- Substitution cipher with custom keys
+- Vigenère cipher
+- ROT13
+- Include encode/decode modes and file support
+Skills practiced: String manipulation, algorithms, modular programming
+
+** Project Guidelines
+For each project, students should:
+1. Plan the program structure before coding
+2. Break the problem into smaller functions
+3. Include input validation and error handling
+4. Provide clear user instructions
+5. Test with various inputs including edge cases
+6. Comment code appropriately
+7. Consider adding extra features for bonus points
+
+** Common Mistakes to Avoid
+- Not validating user input
+- Forgetting to initialize variables
+- Array index out of bounds
+- Integer division when float division is needed
+- Not handling the fail state of cin
+- Memory issues with C-style strings
+- Forgetting break statements in switch cases
+
+* Sample Solutions
+This chapter provides sample solutions for selected exercises from each section. Remember that there are often multiple correct ways to solve a problem in programming!
+
+** Hello World Solutions
+*** Basic: Name and Joke
+#+begin_src cpp
+#include <iostream>
+using namespace std;
+
+int main(){
+  cout << "My name is Alex" << endl;
+  cout << "Why do programmers prefer dark mode?" << endl;
+  cout << "Because light attracts bugs!" << endl;
+  return 0;
+}
+#+end_src
+
+*** Intermediate: ASCII Art Box
+#+begin_src cpp
+#include <iostream>
+using namespace std;
+
+int main(){
+  cout << "***********" << endl;
+  cout << "* Hello   *" << endl;
+  cout << "***********" << endl;
+  return 0;
+}
+#+end_src
+
+** String I/O Solutions
+*** Basic: Last, First Format
+#+begin_src cpp
+#include <iostream>
+using namespace std;
+
+int main(){
+  string firstName, lastName;
+  
+  cout << "Enter your first name: ";
+  cin >> firstName;
+  cout << "Enter your last name: ";
+  cin >> lastName;
+  
+  cout << lastName << ", " << firstName << endl;
+  return 0;
+}
+#+end_src
+
+*** Challenge: Mad Libs
+#+begin_src cpp
+#include <iostream>
+using namespace std;
+
+int main(){
+  string noun, verb, adjective, adverb;
+  
+  cout << "Enter a noun: ";
+  cin >> noun;
+  cout << "Enter a verb: ";
+  cin >> verb;
+  cout << "Enter an adjective: ";
+  cin >> adjective;
+  cout << "Enter an adverb: ";
+  cin >> adverb;
+  
+  cout << "The " << adjective << " " << noun 
+       << " decided to " << verb << " " << adverb << "." << endl;
+  cout << "Everyone was shocked when the " << noun 
+       << " began to " << verb << " so " << adverb << "!" << endl;
+  
+  return 0;
+}
+#+end_src
+
+** Arithmetic Solutions
+*** Intermediate: Tip Calculator
+#+begin_src cpp
+#include <iostream>
+#include <iomanip>
+using namespace std;
+
+int main(){
+  double billAmount, tipPercent;
+  
+  cout << "Enter the bill amount: $";
+  cin >> billAmount;
+  cout << "Enter tip percentage (e.g., 15 for 15%): ";
+  cin >> tipPercent;
+  
+  double tipAmount = billAmount * (tipPercent / 100);
+  double total = billAmount + tipAmount;
+  
+  cout << fixed << setprecision(2);
+  cout << "Bill: $" << billAmount << endl;
+  cout << "Tip:  $" << tipAmount << endl;
+  cout << "Total: $" << total << endl;
+  
+  return 0;
+}
+#+end_src
+
+*** Challenge: Compound Interest
+#+begin_src cpp
+#include <iostream>
+#include <iomanip>
+#include <cmath>
+using namespace std;
+
+int main(){
+  double principal, rate, time, n;
+  
+  cout << "Enter principal amount: $";
+  cin >> principal;
+  cout << "Enter annual interest rate (as percentage): ";
+  cin >> rate;
+  cout << "Enter time in years: ";
+  cin >> time;
+  cout << "Enter number of times compounded per year: ";
+  cin >> n;
+  
+  // Convert percentage to decimal
+  rate = rate / 100;
+  
+  // Formula: A = P(1 + r/n)^(nt)
+  double amount = principal * pow(1 + rate/n, n*time);
+  
+  cout << fixed << setprecision(2);
+  cout << "Final amount: $" << amount << endl;
+  cout << "Interest earned: $" << amount - principal << endl;
+  
+  return 0;
+}
+#+end_src
+
+** Boolean/If-Statement Solutions
+*** Intermediate: Grade Calculator
+#+begin_src cpp
+#include <iostream>
+using namespace std;
+
+int main(){
+  double score;
+  
+  cout << "Enter your numeric score (0-100): ";
+  cin >> score;
+  
+  if(score >= 90){
+    cout << "Grade: A" << endl;
+  }
+  else if(score >= 80){
+    cout << "Grade: B" << endl;
+  }
+  else if(score >= 70){
+    cout << "Grade: C" << endl;
+  }
+  else if(score >= 60){
+    cout << "Grade: D" << endl;
+  }
+  else{
+    cout << "Grade: F" << endl;
+  }
+  
+  return 0;
+}
+#+end_src
+
+*** Challenge: Eligibility Checker
+#+begin_src cpp
+#include <iostream>
+using namespace std;
+
+int main(){
+  int age;
+  
+  cout << "Enter your age: ";
+  cin >> age;
+  
+  cout << "\nBased on your age, you can legally:" << endl;
+  
+  if(age >= 16){
+    cout << "✓ Drive (in most states)" << endl;
+  }
+  if(age >= 18){
+    cout << "✓ Vote" << endl;
+    cout << "✓ Join the military" << endl;
+  }
+  if(age >= 21){
+    cout << "✓ Purchase alcohol" << endl;
+  }
+  if(age >= 25){
+    cout << "✓ Rent a car (without extra fees)" << endl;
+  }
+  if(age >= 35){
+    cout << "✓ Run for President" << endl;
+  }
+  
+  if(age < 16){
+    cout << "Sorry, you'll need to wait " << 16 - age 
+         << " years before you can drive!" << endl;
+  }
+  
+  return 0;
+}
+#+end_src
+
+** While Loop Solutions
+*** Intermediate: Password Checker
+#+begin_src cpp
+#include <iostream>
+using namespace std;
+
+int main(){
+  string password = "secret123";  // The correct password
+  string userInput;
+  int attempts = 0;
+  
+  while(userInput != password && userInput != "quit"){
+    cout << "Enter password (or 'quit' to exit): ";
+    cin >> userInput;
+    attempts++;
+    
+    if(userInput == password){
+      cout << "Access granted! It took you " << attempts << " attempts." << endl;
+    }
+    else if(userInput != "quit"){
+      cout << "Incorrect password. Try again." << endl;
+    }
+  }
+  
+  if(userInput == "quit"){
+    cout << "Goodbye!" << endl;
+  }
+  
+  return 0;
+}
+#+end_src
+
+** Random Number Solutions
+*** Intermediate: Rock, Paper, Scissors
+#+begin_src cpp
+#include <iostream>
+#include <cstdlib>
+using namespace std;
+
+int main(){
+  srand(time(0));
+  
+  string choices[3] = {"rock", "paper", "scissors"};
+  string userChoice;
+  
+  cout << "Enter your choice (rock/paper/scissors): ";
+  cin >> userChoice;
+  
+  int computerIndex = rand() % 3;
+  string computerChoice = choices[computerIndex];
+  
+  cout << "You chose: " << userChoice << endl;
+  cout << "Computer chose: " << computerChoice << endl;
+  
+  if(userChoice == computerChoice){
+    cout << "It's a tie!" << endl;
+  }
+  else if((userChoice == "rock" && computerChoice == "scissors") ||
+          (userChoice == "paper" && computerChoice == "rock") ||
+          (userChoice == "scissors" && computerChoice == "paper")){
+    cout << "You win!" << endl;
+  }
+  else{
+    cout << "Computer wins!" << endl;
+  }
+  
+  return 0;
+}
+#+end_src
+
+*** Challenge: Coin Flip Statistics
+#+begin_src cpp
+#include <iostream>
+#include <cstdlib>
+#include <iomanip>
+using namespace std;
+
+int main(){
+  srand(time(0));
+  
+  int flips;
+  cout << "How many times should I flip the coin? ";
+  cin >> flips;
+  
+  int heads = 0;
+  int tails = 0;
+  
+  for(int i = 0; i < flips; i++){
+    if(rand() % 2 == 0){
+      heads++;
+    }
+    else{
+      tails++;
+    }
+  }
+  
+  double headsPercent = (heads * 100.0) / flips;
+  double tailsPercent = (tails * 100.0) / flips;
+  
+  cout << fixed << setprecision(2);
+  cout << "\nResults after " << flips << " flips:" << endl;
+  cout << "Heads: " << heads << " (" << headsPercent << "%)" << endl;
+  cout << "Tails: " << tails << " (" << tailsPercent << "%)" << endl;
+  
+  return 0;
+}
+#+end_src
+
+** For-Loop Solutions
+*** Basic: Fibonacci Numbers
+#+begin_src cpp
+#include <iostream>
+using namespace std;
+
+int main(){
+  int prev1 = 0, prev2 = 1;
+  
+  cout << "First 20 Fibonacci numbers:" << endl;
+  cout << prev1 << " " << prev2 << " ";
+  
+  for(int i = 2; i < 20; i++){
+    int current = prev1 + prev2;
+    cout << current << " ";
+    prev1 = prev2;
+    prev2 = current;
+  }
+  cout << endl;
+  
+  return 0;
+}
+#+end_src
+
+*** Intermediate: Triangle Pattern
+#+begin_src cpp
+#include <iostream>
+using namespace std;
+
+int main(){
+  int height;
+  
+  cout << "Enter triangle height: ";
+  cin >> height;
+  
+  for(int i = 1; i <= height; i++){
+    for(int j = 0; j < i; j++){
+      cout << "*";
+    }
+    cout << endl;
+  }
+  
+  return 0;
+}
+#+end_src
+
+*** Challenge: Prime Numbers
+#+begin_src cpp
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+bool isPrime(int n){
+  if(n <= 1) return false;
+  if(n == 2) return true;
+  if(n % 2 == 0) return false;
+  
+  for(int i = 3; i <= sqrt(n); i += 2){
+    if(n % i == 0) return false;
+  }
+  return true;
+}
+
+int main(){
+  cout << "Prime numbers between 1 and 100:" << endl;
+  
+  for(int i = 2; i <= 100; i++){
+    if(isPrime(i)){
+      cout << i << " ";
+    }
+  }
+  cout << endl;
+  
+  return 0;
+}
+#+end_src
+
+** Array Solutions
+*** Basic: Temperature Analysis
+#+begin_src cpp
+#include <iostream>
+using namespace std;
+
+int main(){
+  double temps[7];
+  
+  cout << "Enter temperatures for 7 days:" << endl;
+  for(int i = 0; i < 7; i++){
+    cout << "Day " << i+1 << ": ";
+    cin >> temps[i];
+  }
+  
+  int warmestDay = 0;
+  int coldestDay = 0;
+  
+  for(int i = 1; i < 7; i++){
+    if(temps[i] > temps[warmestDay]){
+      warmestDay = i;
+    }
+    if(temps[i] < temps[coldestDay]){
+      coldestDay = i;
+    }
+  }
+  
+  cout << "Warmest day was Day " << warmestDay + 1 
+       << " with " << temps[warmestDay] << " degrees" << endl;
+  cout << "Coldest day was Day " << coldestDay + 1 
+       << " with " << temps[coldestDay] << " degrees" << endl;
+  
+  return 0;
+}
+#+end_src
+
+*** Intermediate: Array Reversal
+#+begin_src cpp
+#include <iostream>
+using namespace std;
+
+int main(){
+  int arr[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+  
+  cout << "Original array: ";
+  for(int i = 0; i < 10; i++){
+    cout << arr[i] << " ";
+  }
+  cout << endl;
+  
+  // Reverse in-place
+  for(int i = 0; i < 5; i++){
+    int temp = arr[i];
+    arr[i] = arr[9-i];
+    arr[9-i] = temp;
+  }
+  
+  cout << "Reversed array: ";
+  for(int i = 0; i < 10; i++){
+    cout << arr[i] << " ";
+  }
+  cout << endl;
+  
+  return 0;
+}
+#+end_src
+
+** String Operation Solutions
+*** Basic: Vowel Counter
+#+begin_src cpp
+#include <iostream>
+#include <string>
+using namespace std;
+
+int main(){
+  string text;
+  int vowelCount = 0;
+  
+  cout << "Enter some text: ";
+  getline(cin, text);  // Use getline to get entire line including spaces
+  
+  for(int i = 0; i < text.length(); i++){
+    char c = tolower(text[i]);
+    if(c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u'){
+      vowelCount++;
+    }
+  }
+  
+  cout << "Number of vowels: " << vowelCount << endl;
+  
+  return 0;
+}
+#+end_src
+
+*** Intermediate: Palindrome Checker
+#+begin_src cpp
+#include <iostream>
+#include <string>
+using namespace std;
+
+int main(){
+  string text;
+  cout << "Enter a word: ";
+  cin >> text;
+  
+  bool isPalindrome = true;
+  int len = text.length();
+  
+  for(int i = 0; i < len/2; i++){
+    if(tolower(text[i]) != tolower(text[len-1-i])){
+      isPalindrome = false;
+      break;
+    }
+  }
+  
+  if(isPalindrome){
+    cout << "\"" << text << "\" is a palindrome!" << endl;
+  }
+  else{
+    cout << "\"" << text << "\" is not a palindrome." << endl;
+  }
+  
+  return 0;
+}
+#+end_src
+
+** Switch Statement Solutions
+*** Intermediate: Calculator
+#+begin_src cpp
+#include <iostream>
+using namespace std;
+
+int main(){
+  double num1, num2;
+  char operation;
+  
+  cout << "Enter first number: ";
+  cin >> num1;
+  cout << "Enter operation (+, -, *, /): ";
+  cin >> operation;
+  cout << "Enter second number: ";
+  cin >> num2;
+  
+  switch(operation){
+    case '+':
+      cout << num1 << " + " << num2 << " = " << num1 + num2 << endl;
+      break;
+    case '-':
+      cout << num1 << " - " << num2 << " = " << num1 - num2 << endl;
+      break;
+    case '*':
+      cout << num1 << " * " << num2 << " = " << num1 * num2 << endl;
+      break;
+    case '/':
+      if(num2 != 0){
+        cout << num1 << " / " << num2 << " = " << num1 / num2 << endl;
+      }
+      else{
+        cout << "Error: Division by zero!" << endl;
+      }
+      break;
+    default:
+      cout << "Invalid operation!" << endl;
+  }
+  
+  return 0;
+}
+#+end_src
+
+** Function Solutions
+*** Basic: Larger of Two Numbers
+#+begin_src cpp
+#include <iostream>
+using namespace std;
+
+int larger(int a, int b){
+  if(a > b){
+    return a;
+  }
+  else{
+    return b;
+  }
+  // Could also write: return (a > b) ? a : b;
+}
+
+int main(){
+  int num1, num2;
+  
+  cout << "Enter two numbers: ";
+  cin >> num1 >> num2;
+  
+  cout << "The larger number is: " << larger(num1, num2) << endl;
+  
+  return 0;
+}
+#+end_src
+
+*** Intermediate: Area Calculators
+#+begin_src cpp
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+double circleArea(double radius){
+  return 3.14159 * radius * radius;
+}
+
+double rectangleArea(double length, double width){
+  return length * width;
+}
+
+double triangleArea(double base, double height){
+  return 0.5 * base * height;
+}
+
+int main(){
+  int choice;
+  
+  cout << "Area Calculator" << endl;
+  cout << "1. Circle" << endl;
+  cout << "2. Rectangle" << endl;
+  cout << "3. Triangle" << endl;
+  cout << "Choose shape (1-3): ";
+  cin >> choice;
+  
+  switch(choice){
+    case 1:{
+      double radius;
+      cout << "Enter radius: ";
+      cin >> radius;
+      cout << "Area: " << circleArea(radius) << endl;
+      break;
+    }
+    case 2:{
+      double length, width;
+      cout << "Enter length: ";
+      cin >> length;
+      cout << "Enter width: ";
+      cin >> width;
+      cout << "Area: " << rectangleArea(length, width) << endl;
+      break;
+    }
+    case 3:{
+      double base, height;
+      cout << "Enter base: ";
+      cin >> base;
+      cout << "Enter height: ";
+      cin >> height;
+      cout << "Area: " << triangleArea(base, height) << endl;
+      break;
+    }
+    default:
+      cout << "Invalid choice!" << endl;
+  }
+  
+  return 0;
+}
+#+end_src
+
+** Pass by Reference Solutions
+*** Basic: Swap Function
+#+begin_src cpp
+#include <iostream>
+using namespace std;
+
+void swap(int &a, int &b){
+  int temp = a;
+  a = b;
+  b = temp;
+}
+
+int main(){
+  int x = 5, y = 10;
+  
+  cout << "Before swap: x = " << x << ", y = " << y << endl;
+  swap(x, y);
+  cout << "After swap: x = " << x << ", y = " << y << endl;
+  
+  return 0;
+}
+#+end_src
+
+*** Intermediate: Division with Quotient and Remainder
+#+begin_src cpp
+#include <iostream>
+using namespace std;
+
+int divide(int dividend, int divisor, int &remainder){
+  remainder = dividend % divisor;
+  return dividend / divisor;
+}
+
+int main(){
+  int num1, num2;
+  int remainder;
+  
+  cout << "Enter dividend: ";
+  cin >> num1;
+  cout << "Enter divisor: ";
+  cin >> num2;
+  
+  if(num2 != 0){
+    int quotient = divide(num1, num2, remainder);
+    cout << num1 << " / " << num2 << " = " << quotient 
+         << " with remainder " << remainder << endl;
+  }
+  else{
+    cout << "Error: Cannot divide by zero!" << endl;
+  }
+  
+  return 0;
+}
+#+end_src
+
+*** Challenge: Array Statistics
+#+begin_src cpp
+#include <iostream>
+using namespace std;
+
+double analyzeArray(int arr[], int size, int &min, int &max){
+  min = arr[0];
+  max = arr[0];
+  double sum = arr[0];
+  
+  for(int i = 1; i < size; i++){
+    if(arr[i] < min) min = arr[i];
+    if(arr[i] > max) max = arr[i];
+    sum += arr[i];
+  }
+  
+  return sum / size;  // Return average
+}
+
+int main(){
+  int numbers[10];
+  int min, max;
+  
+  cout << "Enter 10 numbers:" << endl;
+  for(int i = 0; i < 10; i++){
+    cout << "Number " << i+1 << ": ";
+    cin >> numbers[i];
+  }
+  
+  double avg = analyzeArray(numbers, 10, min, max);
+  
+  cout << "\nStatistics:" << endl;
+  cout << "Minimum: " << min << endl;
+  cout << "Maximum: " << max << endl;
+  cout << "Average: " << avg << endl;
+  
+  return 0;
+}
+#+end_src
+
+** Data Validation Solutions
+*** Challenge: Date Validator
+#+begin_src cpp
+#include <iostream>
+using namespace std;
+
+bool isLeapYear(int year){
+  return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
+}
+
+bool isValidDate(int month, int day, int year){
+  if(year < 1 || year > 9999) return false;
+  if(month < 1 || month > 12) return false;
+  
+  int daysInMonth;
+  switch(month){
+    case 2:
+      daysInMonth = isLeapYear(year) ? 29 : 28;
+      break;
+    case 4: case 6: case 9: case 11:
+      daysInMonth = 30;
+      break;
+    default:
+      daysInMonth = 31;
+  }
+  
+  return day >= 1 && day <= daysInMonth;
+}
+
+int main(){
+  int month, day, year;
+  
+  cout << "Enter a date (MM DD YYYY): ";
+  cin >> month >> day >> year;
+  
+  while(cin.fail() || !isValidDate(month, day, year)){
+    if(cin.fail()){
+      cin.clear();
+      cin.ignore(256, '\n');
+      cout << "Invalid input! Please enter numbers only." << endl;
+    }
+    else{
+      cout << "Invalid date! ";
+      if(month < 1 || month > 12){
+        cout << "Month must be 1-12." << endl;
+      }
+      else if(month == 2 && day > 29){
+        cout << "February cannot have more than 29 days." << endl;
+      }
+      else if(month == 2 && day == 29 && !isLeapYear(year)){
+        cout << year << " is not a leap year." << endl;
+      }
+      else{
+        cout << "Day is invalid for this month." << endl;
+      }
+    }
+    cout << "Enter a date (MM DD YYYY): ";
+    cin >> month >> day >> year;
+  }
+  
+  cout << "Valid date: " << month << "/" << day << "/" << year << endl;
+  
+  return 0;
+}
+#+end_src
+
+** Notes on Solutions
+These solutions demonstrate various programming concepts and best practices:
+
+1. **Input validation**: Always check user input for validity
+2. **Edge cases**: Consider special cases like division by zero
+3. **Code organization**: Use functions to break down complex problems
+4. **Comments**: While not heavily commented here, production code should include explanations
+5. **Efficiency**: Some solutions prioritize clarity over optimization for learning purposes
+6. **Alternative approaches**: Many problems have multiple valid solutions
+
+Remember: The best solution is one that works correctly, is readable, and can be maintained. As you gain experience, you'll develop your own coding style and preferences.
+
 * Footnotes
 [fn:8] Okay, what on earth does "less precise" mean in this context? Okay, let's talk about sizes of infinity. No, really, I promise that this isn't a tangent. So the whole numbers, the integers, are infinite. You can start counting in either direction---positive or negative---and you'll never reach the end. This is the smallest infinity though. The numbers that have decimals, which are the "real numbers", are much bigger than the whole numbers. There are more real numbers between 0 and 1 than the entirety of the integers. The reason for this is, in a sense, is because a real number can have an infinite number of digits to the right of the decimal point. The problem for us, as computer scientists, is that there's no way to represent "an infinite number of digits" in a way that can fit in a finite amount of memory. So, instead, we have to compromise and instead of representing *all* possible real numbers we represent *some* of them. How well we can represent a number is the "precision". The higher the precision, the more fine-grained of distinctions we can make between representing two real numbers.
 
