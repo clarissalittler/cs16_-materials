@@ -1,0 +1,8 @@
+You’re splitting the bill for the pizza between you and your friends. 
+Write a program that takes 2 inputs: the total cost of bill, 
+and the number of friends. Calculate the cost that each friend should 
+pay, and display that number in standard money format. 
+
+Enter the bill total: 54.16
+Enter number of people: 5
+Each person should pay $10.83

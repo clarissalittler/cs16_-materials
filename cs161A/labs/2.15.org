@@ -1,0 +1,17 @@
+You are starting up a pizza business and want customers to be able
+to order a pizza of any arbitrary size. For every square inch of pizza,
+you will need 2.5 grams of dough, 1.2 grams of cheese and 1 gram of sauce.
+
+Write a C++ a program that takes as input the diameter of a pizza 
+in inches (double), then alculates the area of that pizza. Output the 
+area of the pizza, and the amount of dough, cheese and sauce needed 
+to create that pizza. Use 3.14159 as an approximation of pi.
+
+For example:
+
+Enter diameter of pizza in inches: 14.7
+The area of your pizza is 169.7 inches squared.
+You will need:
+424.25 grams of dough
+203.64 grams of cheese
+169.7 grams of sauce.

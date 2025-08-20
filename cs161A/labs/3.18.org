@@ -1,0 +1,10 @@
+You and your friends want to buy pizza and need to know how many slices each 
+person will get (split evenly), and how much leftovers there’ll be 
+afterwards.  Write a program that receives 2 inputs: the number of 
+people, and the number of pizzas to order. Calculate and display the 
+number of slices each person will get, and the number of slices 
+leftover. Assume a pizza has 8 slices. For example:
+
+Enter number of people to feed: 5 
+Enter number of pizzas to order: 2
+Each person will get 3 slices, and there will be 1 slice leftover.

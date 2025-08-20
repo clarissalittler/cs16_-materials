@@ -8,8 +8,9 @@
 * 1.7 Console input
   * 1.7.1 Get age from user
 * 1.8 Comments and whitespace
+  * 1.8.1 Experiment with adding/deleting whitespace
 * 1.9 Errors and warnings
-  * 1.9.1 Incorrect variable name.
+  * 1.9.1 Valid/invalid variable names
 * 1.10 Computers and programs (general).
 * 1.11 Integrated development environment
 * 1.12 Computer tour
@@ -23,8 +24,7 @@
 * 1.20 Tutorial - how to use this code editor
 * 1.21 LAB: Hello world
 * 1.22 LAB: Echo
-* 1.23 LAB: Whitespace experiment
-* 1.25 LAB: Commute cost estimator
+* 1.23 LAB: Commute cost estimator
 
 # 2. CS 161A: Variables, Assignments, & Expressions
 * 2.1 Variables and assignments (general).
@@ -41,8 +41,9 @@
 * 2.10 Example: TBD (Remake 1.18, but use variables instead of magic numbers)
 * 2.11 Example: TBD (Strings using variables a bunch)
 * 2.12 Assignment Sample
-* 2.13 LAB: TBD (using division)
-* 2.14 LAB: Pizza crust calculator
+* 2.13 LAB: Arithmetic Cardio (int)
+* 2.14 LAB: Arithmetic Cardio (double)
+* 2.15 LAB: Pizza crust calculator
 
 # 3. CS 161A: Data Types & Math Functions
 * 3.1 Using math functions
@@ -63,7 +64,7 @@
 * 3.14 Auto (since C++11)
 * 3.15 Style guidelines
 * 3.16 Assignment Sample
-* 3.17 LAB: Mad Lib
+* 3.17 LAB: Mad Libs
 * 3.18 LAB: Pizza slices 
 * 3.19 LAB: Splitting the bill
 
@@ -117,7 +118,6 @@
 * 6.12 Example: TBD (string analysis)
 * 6.13 LAB: Password validator
 * 6.14 LAB: Coffee expenses tracker
-* 6.15 LAB: TBD (loops to do some math)
 
 # 7. CS 161A: Loops Part II
 * 7.1 Loops and strings
@@ -127,7 +127,7 @@
 * 7.5 Variable name scope
 * 7.6 Assignment Sample
 * 7.7 LAB: Shapes
-* 7.8 LAB: TBD (string analysis/modification)
+* 7.8 LAB: Character counter
 * 7.12 LAB: Reverse string
 
 # 8. CS 161A: Functions pass by value
