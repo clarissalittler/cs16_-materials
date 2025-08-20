@@ -1,0 +1,9 @@
+You are shopping around for that product you really want, and want to 
+find the lowest price. Write a program that takes 3 prices as input, 
+then calculate and display the lowest price. For example:
+
+Enter first item's price: 72.75
+Enter second item's price: 59.99
+Enter third item's price: 65.00
+
+The second item is cheapest!

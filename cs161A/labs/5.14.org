@@ -1,0 +1,16 @@
+All modern word processors (MS Word, Google Docs, etc) have a find and 
+replace tool. Try it out before you begin. Write a program that takes 
+3 strings as input: 1) an original sentence of text, 2) a word to find 
+and replace, and 3) a new word to replace with. Modify the original 
+sentence, then display the new sentence after the word has been replaced. 
+If the word was not found, print that the word was not found. For example:
+
+I love dogs so much!
+dogs
+cats
+I love cats so much!
+
+Hamsters are very cute!
+Fish
+Rabbits
+Fish not found

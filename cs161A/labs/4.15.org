@@ -1,0 +1,12 @@
+Write a program that asks the user to enter a student’s numeric grade (0–100). 
+Using a series of if-else statements, convert the numeric grade to a 
+letter grade (A, B, C, D, F) based on the standard grading scale:
+A: 90–100
+B: 80–89
+C: 70–79
+D: 60–69
+F: below 60
+Then output a message indicating that letter grade. For example:
+
+Enter your numeric grade: 87
+A grade of 87 corresponds to a letter grade of B.

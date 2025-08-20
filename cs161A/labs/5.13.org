@@ -1,0 +1,36 @@
+This program prompts the user to enter yes or no, depending 
+on if it's raining or not. It then prompts for the temperature. 
+Complete the program in the area labeled todo.
+If the user enters yes,, set the variable isRaining to true, and 
+vice versa. If the user enters a temperature below 32, 
+set isReallyCold to true, and vice versa.
+
+
+string rainingResponse;
+bool isRaining;
+int tempResponse;
+bool isReallyCold;
+
+cout << “Is it raining right now? (yes/no) ”;
+cin >> rainingResponse;
+
+cout << “What’s the temperature right now? ”;
+cin >> tempResponse;
+
+
+// todo
+
+
+if (isRaining && isReallyCold) {
+   cout << “Wear a coat under a big rainjacket!” << endl;
+} 
+else if (isRaining && !isReallyCold) {
+   cout << “Wear a rainjacket!” << endl;
+} 
+else if (!isRaining && isReallyCold) {
+   cout << “Wear a coat!” << endl;
+} 
+else {
+   cout << “Wear a t-shirt!” << endl;
+}
+
