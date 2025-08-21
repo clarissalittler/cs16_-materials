@@ -1228,10 +1228,6 @@ So what we mean here is something like you asking for "yes" or "no" from the use
     cout << "You chose: " << opt << endl;
   }
 #+end_src
-*** Exercises
-1. *Basic*: Create a menu system that only accepts options 1-5, rejecting anything else.
-2. *Intermediate*: Validate email format - must contain exactly one @ and at least one . after the @.
-3. *Challenge*: Create a date validator that checks valid month (1-12) and appropriate days for each month (including leap years for February).
 *** TODO The wrong kind of data (cin.fail() &c.) [0/2]
 Okay so from here we have some interesting issues that come down to exactly *what* =cin= and =>>= are doing together.
 **** TODO What ever happened to baby cin?
@@ -1354,6 +1350,11 @@ So /why/ doesn't this work? You'll see that it leads to an infinite loop of prin
     return 0;
   }
 #+end_src
+*** Exercises
+1. *Basic*: Create a menu system that only accepts options 1-5, rejecting anything else.
+2. *Intermediate*: Validate email format - must contain exactly one @ and at least one . after the @.
+3. *Challenge*: Create a date validator that checks valid month (1-12) and appropriate days for each month (including leap years for February).
+
 * TODO More advanced programs [1/3]
 ** TODO Functions on strings
 *** DONE Simple operations on strings
@@ -1870,7 +1871,113 @@ What's /that/, exactly? A number, and yes this is a number despite the letters m
 
 Have you ever seen hex-codes for colors? They're usually a series of 6-hex digits because an rgb color is 24 bits,  /or 3 bytes/, i.e. 6 groups of 4 bits each.
 
-However, when you see a big hex number in programming it's usually a memory /address/. An address is what it sounds like, it tells you where the information is stored in the computer's memory, completely analogous to a street address. 
+However, when you see a big hex number in programming it's usually a memory /address/. An address is what it sounds like, it tells you where the information is stored in the computer's memory, completely analogous to a street address.
+
+Do you remember earlier in this text when we talked about the storage wall with the labeled dividers? Well these addresses are what those labels *really* are.
+
+And this means that when you use the name of the array by itself, without the =[]=, you're getting the address of where the array starts! An array isn't one big storage chunk, but a contiguous region of dividers on the wall-of-storage. So this address is the label on the /first/ cubbyhole that makes up the array.
+
+Now you might wonder if there's a way to get the label, the address, of any variable. There is! It's the "&" operator.
+
+So I can do a fun trick like the following
+#+begin_src cpp :tangle codesnips/firstPointer.cpp
+  #include <iostream>
+  using namespace std;
+
+  int main() {
+    int test = 0;
+
+    cout << &test << endl;
+    
+    return 0;
+  }
+#+end_src
+Which, if you run this code, you'll see something along the lines of
+#+begin_example
+0x7ffec7bdf804
+#+end_example
+
+which, as we now know, is an /address/.
+
+But how do we know that this is the /right/ address, and what do we do /with/ an address once we have it? We can answer both of those questions by introducing the dual to the =&= operator: the =*= operator. Yes, it's the same =*= you also use for multiplication but generally that's fine and doesn't cause problems.
+
+Here we're going to write a program that
+ 1. declares a variable and puts a number in it
+ 2. pulls the address out of the variable with =&=
+ 3. follows the address with =*= to get at the number stored in the variable
+ 4. prints it out
+#+begin_src cpp :tangle codesnips/refAndDeref.cpp
+  #include <iostream>
+  using namespace std;
+
+  int main(){
+    int test = 1234; // since 0 can sometimes be a default let's put a specific number here
+
+    cout << *(&test) << endl; // the * operator will "follow" the address and grab what's stored there
+    // should print 1234 and then end
+    
+    return 0;
+  }
+#+end_src
+
+If we can pull an address out, can we also store the /address/ as data? Yes! That involves introducing a new family of types called pointers! Generally, you take the type of the thing being /stored/ and then add the =*= at the end to make it the pointer version of the type. Let's get really concrete:
+#+begin_src cpp :tangle codesnips/pointerOne.cpp
+  #include <iostream>
+  using namespace std;
+
+  int main(){
+    int test = 1234;
+    int* pointy = &test;
+
+    double dubTest = 3.14;
+    double* dubPoint = &dubTest;
+
+    cout << "The address of test is: " << pointy << endl;
+    cout << "Following the address gives us: " << *pointy << endl;
+
+    cout << "The address of dubTest is: " << dubPoint << endl;
+    cout << "Following the address gives us: " << *dubPoint << endl;
+    
+    return 0;
+  }
+#+end_src
+
+Now we can get back to arrays! So I often tell people that in C/C++ an array is "a pointer and a promise", let's see why. First, we're going to try to follow the address of an array.
+#+begin_src cpp :tangle codesnips/pointerArray.cpp
+  #include <iostream>
+  using namespace std;
+
+  int main(){
+    int test[5] = {10,11,12,13,14};
+
+    cout << "And *test is...: " << *test << endl; 
+    
+    return 0;
+  }
+#+end_src
+Well look at that, it's 10! Because the address stored in =test= is the address of the first "cubby". How do we get to the rest of the storage in the array? This is where the fact that an array is /contiguous/ will save us: we can just go to the next address by /adding/ to it.
+
+This is called /pointer arithmetic/ and is actually what the =[]= syntax for arrays really was all along!
+
+Let's write a little program to test this out:
+#+begin_src cpp :tangle codesnips/pointerArray2.cpp
+  #include <iostream>
+  using namespace std;
+
+  int main(){
+
+    int test = {10,11,12,13,14};
+
+    //let's prove that the [] brackets were really just playing with pointers all along!
+    for(int i=0; i < 5; i++){
+      cout << "Accessing elements with []: "<< test[i] << endl;
+      cout << "Accessing elements with pointer arithmetic: "<< *(test+i) << endl;
+    }
+    
+    return 0;
+  }
+#+end_src
+
 
 
 ** TODO Char Arrays

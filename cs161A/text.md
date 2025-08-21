@@ -1,130 +1,130 @@
 
 # Table of Contents
 
-1.  [Meta-meta, delete eventually](#orga071083)
-2.  [Meta-commentary](#org280543e)
-    1.  [What is this text?](#orgb24f713)
-    2.  [Roadmap](#org845e4de)
-3.  [Introduction](#org53874d9)
-    1.  [Why C++?](#orge806072)
-    2.  [What is programming? A high-level perspective](#org33faba7)
-    3.  [What is programming? A low-level perspective](#org42a5552)
-    4.  [Why C++, redux](#org6301e8d)
-    5.  [Why learn programming in the age of LLMs](#org18e30f0)
-4.  [Your First Programs](#orgbe7df80)
-    1.  [How to run examples <code>[0/3]</code>](#orgcc2f283)
-        1.  [In-browser](#org0a2e86e)
-        2.  [In onlinegdb](#orgaa3c901)
-        3.  [Locally in the terminal](#org3e3ed9e)
-    2.  [Hello World](#orgf899764)
-        1.  [Exercises](#org10464fe)
-    3.  [Why semicolons?](#org246da73)
-    4.  [More early steps <code>[7/8]</code>](#orgd4a558e)
-        1.  [Echoing text and string types](#org9396506)
-        2.  [Explore: What's in a name?](#orgb1abcdd)
-        3.  [Exercises](#org048e250)
-        4.  [What's in an empty variable?](#org8751e9a)
-        5.  [Advanced: What *is* a container? <code>[0/2]</code>](#org94714e9)
-        6.  [Arithmetic and such in C++](#org940077a)
-        7.  [Exercises](#org6928ec6)
-        8.  [Booleans and personality tests](#org1e7b6ae)
-        9.  [Exercises](#org362bb01)
-        10. [Letting the compiler figure out the type](#orgfa9ceb5)
-        11. [Data formatting <code>[2/2]</code>](#org32779dd)
-        12. [Exercises](#org05105c3)
-        13. [Your first while loop: a number guessing game](#org746adba)
-        14. [Exercises](#orgefadc4a)
-        15. [A randomized guessing game](#org858efa2)
-        16. [Exercises](#org2d577ac)
-        17. [Averaging numbers and while-loops](#org3d8afce)
-        18. [Exercises](#orgd1bef78)
-    5.  [For-loops (and the shape of loops to come) <code>[1/2]</code>](#org942dbe9)
-        1.  [Summing a bunch of numbers](#org3b63304)
-        2.  [Exercises](#org10c8296)
-        3.  [(Advanced) Arrays: the reasons for `for`](#org3a81f41)
-        4.  [Exercises](#org2ac5c3b)
-    6.  [Data validation, the world's most annoying idiom <code>[1/2]</code>](#orga7503bb)
-        1.  [Right kind of data, but wrong option](#orgf1905a5)
-        2.  [Exercises](#orgecaab34)
-        3.  [The wrong kind of data (cin.fail() &c.) <code>[0/2]</code>](#orgb4c4a5e)
-5.  [More advanced programs <code>[1/3]</code>](#org34253fe)
-    1.  [Functions on strings](#org1adc909)
-        1.  [Simple operations on strings](#org963be1a)
-        2.  [Exercises](#org29d1c36)
-        3.  [`find` and `substr`](#org7a36346)
-        4.  [Iterating over strings with for-loops](#org3d11097)
-        5.  [Example: Sarcasm Case](#org0c41fed)
-        6.  [Exercises](#org0e746b9)
-    2.  [Switches vs. ifs](#org87bd079)
-        1.  [Exercises](#org4d80f85)
-    3.  [Writing your own functions](#org74c4bf7)
-        1.  [The basics of functions](#orgc33196d)
-        2.  [Exercises](#org33e1450)
-        3.  [Passing by reference](#org0f46619)
-        4.  [Exercises](#orgf5e1816)
-    4.  [Arrays, again, and Pointers](#org89ae458)
-    5.  [Char Arrays](#org6834953)
-6.  [Extended example: Let's play shop](#org0c36de5)
-    1.  [More on iteration and choices](#org907f476)
-7.  [Extended example: An Adventure Game](#org4f07db6)
-8.  [Project Ideas](#org10a05af)
-    1.  [Mini-Projects (After Major Sections)](#org7a20dab)
-        1.  [After Loops](#org32128d5)
-        2.  [After Arrays](#orgf6d1539)
-        3.  [After Functions](#orged0c752)
-        4.  [After Strings](#org377800c)
-        5.  [After Data Validation](#org6c16426)
-    2.  [Larger Projects](#org0d79d84)
-        1.  [Store Management System](#org2026d2d)
-        2.  [Grade Calculator System](#orge6f117f)
-        3.  [Game Collection](#org646953d)
-        4.  [Data Analysis Tool](#orgfe5a8bb)
-        5.  [Encryption Tool Suite](#org5e16146)
-    3.  [Project Guidelines](#orga2e25ba)
-    4.  [Common Mistakes to Avoid](#org408222f)
-9.  [Sample Solutions](#orga3c02a9)
-    1.  [Hello World Solutions](#orgdb47d0b)
-        1.  [Basic: Name and Joke](#orge243530)
-        2.  [Intermediate: ASCII Art Box](#orgc9a7a9c)
-    2.  [String I/O Solutions](#org36e0456)
-        1.  [Basic: Last, First Format](#org8c6f987)
-        2.  [Challenge: Mad Libs](#org1311713)
-    3.  [Arithmetic Solutions](#orgc2d7a73)
-        1.  [Intermediate: Tip Calculator](#orgcd50b80)
-        2.  [Challenge: Compound Interest](#org5d89248)
-    4.  [Boolean/If-Statement Solutions](#org562425e)
-        1.  [Intermediate: Grade Calculator](#org6a762d9)
-        2.  [Challenge: Eligibility Checker](#org1fedc1a)
-    5.  [While Loop Solutions](#org956134d)
-        1.  [Intermediate: Password Checker](#org9bdd10e)
-    6.  [Random Number Solutions](#orgea32576)
-        1.  [Intermediate: Rock, Paper, Scissors](#orgba32523)
-        2.  [Challenge: Coin Flip Statistics](#orgcc6e246)
-    7.  [For-Loop Solutions](#orge8a28cb)
-        1.  [Basic: Fibonacci Numbers](#org94e70fa)
-        2.  [Intermediate: Triangle Pattern](#org1b831c5)
-        3.  [Challenge: Prime Numbers](#orgd3f9f6b)
-    8.  [Array Solutions](#org94f2ff7)
-        1.  [Basic: Temperature Analysis](#org6ec1e54)
-        2.  [Intermediate: Array Reversal](#org9d13197)
-    9.  [String Operation Solutions](#org35fdee2)
-        1.  [Basic: Vowel Counter](#org44baffe)
-        2.  [Intermediate: Palindrome Checker](#orgdd64531)
-    10. [Switch Statement Solutions](#orge28242e)
-        1.  [Intermediate: Calculator](#org546961b)
-    11. [Function Solutions](#org75e98fc)
-        1.  [Basic: Larger of Two Numbers](#orgb815e0a)
-        2.  [Intermediate: Area Calculators](#org174ad75)
-    12. [Pass by Reference Solutions](#org40cc185)
-        1.  [Basic: Swap Function](#orge9cb51f)
-        2.  [Intermediate: Division with Quotient and Remainder](#org0664022)
-        3.  [Challenge: Array Statistics](#org807477c)
-    13. [Data Validation Solutions](#org841f6ed)
-        1.  [Challenge: Date Validator](#orgd6afafc)
-    14. [Notes on Solutions](#orgc0de822)
+1.  [Meta-meta, delete eventually](#orgde54684)
+2.  [Meta-commentary](#orgba31c03)
+    1.  [What is this text?](#org2380692)
+    2.  [Roadmap](#orgd28effe)
+3.  [Introduction](#orgc773457)
+    1.  [Why C++?](#orgcfbfdfa)
+    2.  [What is programming? A high-level perspective](#org6d651fe)
+    3.  [What is programming? A low-level perspective](#org3968b13)
+    4.  [Why C++, redux](#org99d81a3)
+    5.  [Why learn programming in the age of LLMs](#org4a20750)
+4.  [Your First Programs](#org8d0dab5)
+    1.  [How to run examples <code>[0/3]</code>](#org1e94da8)
+        1.  [In-browser](#org63be8d5)
+        2.  [In onlinegdb](#org8e7abd7)
+        3.  [Locally in the terminal](#org7ed8fbf)
+    2.  [Hello World](#org67e749f)
+        1.  [Exercises](#org773bd8f)
+    3.  [Why semicolons?](#orgf6b86b3)
+    4.  [More early steps <code>[7/8]</code>](#orge948811)
+        1.  [Echoing text and string types](#org437107b)
+        2.  [Explore: What's in a name?](#org346539e)
+        3.  [Exercises](#org5968112)
+        4.  [What's in an empty variable?](#org861a3d4)
+        5.  [Advanced: What *is* a container? <code>[0/2]</code>](#org9fd490e)
+        6.  [Arithmetic and such in C++](#org576cfcb)
+        7.  [Exercises](#orgcabfd40)
+        8.  [Booleans and personality tests](#orgad87168)
+        9.  [Exercises](#orgacc4a8f)
+        10. [Letting the compiler figure out the type](#orgb344e1b)
+        11. [Data formatting <code>[2/2]</code>](#orgbf09a13)
+        12. [Exercises](#orga6053b9)
+        13. [Your first while loop: a number guessing game](#org6ca5dff)
+        14. [Exercises](#orgfed9b29)
+        15. [A randomized guessing game](#org43cc71e)
+        16. [Exercises](#org4eab2af)
+        17. [Averaging numbers and while-loops](#org8a5906b)
+        18. [Exercises](#orga6e4b4c)
+    5.  [For-loops (and the shape of loops to come) <code>[1/2]</code>](#orga63a7ea)
+        1.  [Summing a bunch of numbers](#org108cf10)
+        2.  [Exercises](#orgf8a116a)
+        3.  [(Advanced) Arrays: the reasons for `for`](#org2a086d7)
+        4.  [Exercises](#org29dd8b5)
+    6.  [Data validation, the world's most annoying idiom <code>[1/2]</code>](#org091f899)
+        1.  [Right kind of data, but wrong option](#orgd597277)
+        2.  [The wrong kind of data (cin.fail() &c.) <code>[0/2]</code>](#orgfe27c4d)
+        3.  [Exercises](#org6beb4dc)
+5.  [More advanced programs <code>[1/3]</code>](#org40f85b7)
+    1.  [Functions on strings](#orgbc52fc2)
+        1.  [Simple operations on strings](#orge80fe25)
+        2.  [Exercises](#org41d1d13)
+        3.  [`find` and `substr`](#orgd6e6cf1)
+        4.  [Iterating over strings with for-loops](#orgb972a66)
+        5.  [Example: Sarcasm Case](#org6288c78)
+        6.  [Exercises](#org0a34e86)
+    2.  [Switches vs. ifs](#orgf062e8b)
+        1.  [Exercises](#org33cbcd2)
+    3.  [Writing your own functions](#org14a273d)
+        1.  [The basics of functions](#orgc36880a)
+        2.  [Exercises](#orgb2f711f)
+        3.  [Passing by reference](#org9672ec0)
+        4.  [Exercises](#org57aa2f8)
+    4.  [Arrays, again, and Pointers](#org8d0bb07)
+    5.  [Char Arrays](#org142c8dd)
+6.  [Extended example: Let's play shop](#org33ba1bf)
+    1.  [More on iteration and choices](#orgb8fe13b)
+7.  [Extended example: An Adventure Game](#org11902ec)
+8.  [Project Ideas](#orga48cc41)
+    1.  [Mini-Projects (After Major Sections)](#org410def7)
+        1.  [After Loops](#orga38edbc)
+        2.  [After Arrays](#orga218b1f)
+        3.  [After Functions](#org842ea72)
+        4.  [After Strings](#orgcf7e4ee)
+        5.  [After Data Validation](#orgab2995c)
+    2.  [Larger Projects](#org7d42fb1)
+        1.  [Store Management System](#org9d6e24d)
+        2.  [Grade Calculator System](#org2438d60)
+        3.  [Game Collection](#org035379a)
+        4.  [Data Analysis Tool](#org1b58f83)
+        5.  [Encryption Tool Suite](#orgbad01db)
+    3.  [Project Guidelines](#orga035f79)
+    4.  [Common Mistakes to Avoid](#orgdb82353)
+9.  [Sample Solutions](#org8e787b7)
+    1.  [Hello World Solutions](#org4643628)
+        1.  [Basic: Name and Joke](#org604ac74)
+        2.  [Intermediate: ASCII Art Box](#orgf0d7330)
+    2.  [String I/O Solutions](#orgba4fbea)
+        1.  [Basic: Last, First Format](#orgbfb19da)
+        2.  [Challenge: Mad Libs](#orgf8c2677)
+    3.  [Arithmetic Solutions](#org183cd2b)
+        1.  [Intermediate: Tip Calculator](#orgd31dbb3)
+        2.  [Challenge: Compound Interest](#orge824554)
+    4.  [Boolean/If-Statement Solutions](#orgfadb39f)
+        1.  [Intermediate: Grade Calculator](#org8afd589)
+        2.  [Challenge: Eligibility Checker](#org53f0964)
+    5.  [While Loop Solutions](#org956b7f0)
+        1.  [Intermediate: Password Checker](#orgd36337f)
+    6.  [Random Number Solutions](#org953c1a9)
+        1.  [Intermediate: Rock, Paper, Scissors](#org1ecd718)
+        2.  [Challenge: Coin Flip Statistics](#org194fee1)
+    7.  [For-Loop Solutions](#org160c07d)
+        1.  [Basic: Fibonacci Numbers](#org684a62a)
+        2.  [Intermediate: Triangle Pattern](#org46ce213)
+        3.  [Challenge: Prime Numbers](#orgf4cbae8)
+    8.  [Array Solutions](#org405ca72)
+        1.  [Basic: Temperature Analysis](#org7a525e6)
+        2.  [Intermediate: Array Reversal](#org8461a9a)
+    9.  [String Operation Solutions](#org456a26d)
+        1.  [Basic: Vowel Counter](#org3869ba3)
+        2.  [Intermediate: Palindrome Checker](#org4f80e27)
+    10. [Switch Statement Solutions](#org9b6ba16)
+        1.  [Intermediate: Calculator](#orgd208f4a)
+    11. [Function Solutions](#orgfd0d035)
+        1.  [Basic: Larger of Two Numbers](#orgf562ebb)
+        2.  [Intermediate: Area Calculators](#orgadeaee7)
+    12. [Pass by Reference Solutions](#orgb135e78)
+        1.  [Basic: Swap Function](#org52c50b9)
+        2.  [Intermediate: Division with Quotient and Remainder](#orgb3a7190)
+        3.  [Challenge: Array Statistics](#org194ab03)
+    13. [Data Validation Solutions](#org98bf528)
+        1.  [Challenge: Date Validator](#orge2fffa8)
+    14. [Notes on Solutions](#orgadb5ab0)
 
 
-<a id="orga071083"></a>
+<a id="orgde54684"></a>
 
 # Meta-meta, delete eventually
 
@@ -156,12 +156,12 @@ Projects I give
 -   Refactoring
 
 
-<a id="org280543e"></a>
+<a id="orgba31c03"></a>
 
 # Meta-commentary
 
 
-<a id="orgb24f713"></a>
+<a id="org2380692"></a>
 
 ## What is this text?
 
@@ -170,26 +170,26 @@ This is a free and open source text on learning the C++ language that can be fre
 [instructions for the interactive version should go here]
 
 
-<a id="org845e4de"></a>
+<a id="orgd28effe"></a>
 
 ## Roadmap
 
 Where we're headed:
 
 
-<a id="org53874d9"></a>
+<a id="orgc773457"></a>
 
 # Introduction
 
 
-<a id="orge806072"></a>
+<a id="orgcfbfdfa"></a>
 
 ## Why C++?
 
 C++ is a fascinating old-ish language. It blends a combination of "high-level" and "low-level" features. Now those might sound like rather judgy descriptors, like "high-level" is better than "low-level", but they're just different ways of looking at programming that&#x2014;for our purposes&#x2014;serve as a segue into talking about what programming is.
 
 
-<a id="org33faba7"></a>
+<a id="org6d651fe"></a>
 
 ## What is programming? A high-level perspective
 
@@ -202,7 +202,7 @@ Programming isn't hard because programming languages are bad. Programming is har
 A good programming language is, then, a thing that lets you express instructions precisely but is still relatively easy to think-in and read.
 
 
-<a id="org42a5552"></a>
+<a id="org3968b13"></a>
 
 ## What is programming? A low-level perspective
 
@@ -221,7 +221,7 @@ Programming languages are ways of turning concepts that make more sense to us, l
 A good programming language is, then, a thing that lets you have control over how the logic of the program you want gets turned into number-crunching at the end: you control the resources the program uses and the way it runs.
 
 
-<a id="org6301e8d"></a>
+<a id="org99d81a3"></a>
 
 ## Why C++, redux
 
@@ -232,7 +232,7 @@ That isn't to say it's perfect: no programming language is. Every single languag
 Which is something I cannot emphasize enough! Programming languages are made by people and there's no "best" language, there is&#x2014;at most&#x2014;a best language for a particular project given the people and technical goals involved.
 
 
-<a id="org18e30f0"></a>
+<a id="org4a20750"></a>
 
 ## Why learn programming in the age of LLMs
 
@@ -250,32 +250,32 @@ In other words, we will always need programmers. In fact, a personal prediction 
 By analogy, this is like how home CAD software and 3D printers didn't kill manufacturing but rather let people quickly prototype ideas that they then pay engineers to turn into production lines.
 
 
-<a id="orgbe7df80"></a>
+<a id="org8d0dab5"></a>
 
 # Your First Programs
 
 
-<a id="orgcc2f283"></a>
+<a id="org1e94da8"></a>
 
 ## TODO How to run examples <code>[0/3]</code>
 
 
-<a id="org0a2e86e"></a>
+<a id="org63be8d5"></a>
 
 ### TODO In-browser
 
 
-<a id="orgaa3c901"></a>
+<a id="org8e7abd7"></a>
 
 ### TODO In onlinegdb
 
 
-<a id="org3e3ed9e"></a>
+<a id="org7ed8fbf"></a>
 
 ### TODO Locally in the terminal
 
 
-<a id="orgf899764"></a>
+<a id="org67e749f"></a>
 
 ## DONE Hello World
 
@@ -333,7 +333,7 @@ as you can probably guess is what actually prints the line "Hello, World". Think
 So to understand the final line of the function, `return 0;`, remember how we said that when the function ends it has to give back a whole number? Well this is the line that says that when the function ends that it's going to hand back the number 0. This is an old convention that dates back to the days of *unix*, where if everything goes well a program should return 0.
 
 
-<a id="org10464fe"></a>
+<a id="org773bd8f"></a>
 
 ### Exercises
 
@@ -345,7 +345,7 @@ So to understand the final line of the function, `return 0;`, remember how we sa
         *********
 
 
-<a id="org246da73"></a>
+<a id="orgf6b86b3"></a>
 
 ## DONE Why semicolons?
 
@@ -362,12 +362,12 @@ So, yes, **most** lines need semi-colons at the end. The lines that don't need a
 -   comments, which we haven't discussed yet
 
 
-<a id="orgd4a558e"></a>
+<a id="orge948811"></a>
 
 ## TODO More early steps <code>[7/8]</code>
 
 
-<a id="org9396506"></a>
+<a id="org437107b"></a>
 
 ### DONE Echoing text and string types
 
@@ -427,7 +427,7 @@ So when we want to print out the contents of `stuff` we say `cout << "You said: 
 We also end with `return 0;` because we're very good programmers and **never** forget to put this in our files.<sup><a id="fnr.6" class="footref" href="#fn.6" role="doc-backlink">6</a></sup>
 
 
-<a id="orgb1abcdd"></a>
+<a id="org346539e"></a>
 
 ### Explore: What's in a name?
 
@@ -440,7 +440,7 @@ That doesn't mean naming variables "hinder" or "boopsboops" is a good idea. Ther
 So be kind to your future self and user variable names that make sense!
 
 
-<a id="org048e250"></a>
+<a id="org5968112"></a>
 
 ### Exercises
 
@@ -449,7 +449,7 @@ So be kind to your future self and user variable names that make sense!
 3.  **Challenge**: Create a Mad Libs program that asks for a noun, verb, adjective, and adverb, then inserts them into a story template like: "The [adjective] [noun] decided to [verb] [adverb]."
 
 
-<a id="org8751e9a"></a>
+<a id="org861a3d4"></a>
 
 ### DONE What's in an empty variable?
 
@@ -482,7 +482,7 @@ Well I ran this once and got "And our int holds&#x2026;779647075". Oh dear *dot 
 Okay, and now we get into the punchline. The reason why I'm specifying "on my computer" and "when I run this" is that the answers could actually change between computers and compilers! You really, really, really should **never** use an empty variable because you can guarantee exactly nothing about what it will do.
 
 
-<a id="org94714e9"></a>
+<a id="org9fd490e"></a>
 
 ### TODO Advanced: What *is* a container? <code>[0/2]</code>
 
@@ -523,7 +523,7 @@ At this point you might be wondering "what *are* these containers, these *variab
     We can help explain, too, what these type signifiers are like `int` and `string`: they're there to make it easy for the computer to know what the size of the data is, "where to put the divider" if we keep going with the metaphor.<sup><a id="fnr.8" class="footref" href="#fn.8" role="doc-backlink">8</a></sup>
 
 
-<a id="org940077a"></a>
+<a id="org576cfcb"></a>
 
 ### DONE Arithmetic and such in C++
 
@@ -591,7 +591,7 @@ Note that `cin` keeps working no matter what type of container we're trying to f
     Let's imagine that you start out with integers but you do need to divide them later, you can actually "type cast" one into the other. 
 
 
-<a id="org6928ec6"></a>
+<a id="orgcabfd40"></a>
 
 ### Exercises
 
@@ -600,7 +600,7 @@ Note that `cin` keeps working no matter what type of container we're trying to f
 3.  **Challenge**: Implement a compound interest calculator that asks for principal, annual rate, time in years, and number of times compounded per year. Use the formula: A = P(1 + r/n)<sup>(nt)</sup>
 
 
-<a id="org1e7b6ae"></a>
+<a id="orgad87168"></a>
 
 ### TODO Booleans and personality tests
 
@@ -793,7 +793,7 @@ If I have questions a and b then `a && b` only returns `true` if **both** `a` an
     Can you figure out what to enter to hack the system?
 
 
-<a id="org362bb01"></a>
+<a id="orgacc4a8f"></a>
 
 ### Exercises
 
@@ -802,7 +802,7 @@ If I have questions a and b then `a && b` only returns `true` if **both** `a` an
 3.  **Challenge**: Build an eligibility checker that asks for age and tells the user what they can legally do (vote at 18, drink at 21, rent a car at 25, run for president at 35).
 
 
-<a id="orgfa9ceb5"></a>
+<a id="orgb344e1b"></a>
 
 ### TODO Letting the compiler figure out the type
 
@@ -823,7 +823,7 @@ So we can actually do things like:
     }
 
 
-<a id="org32779dd"></a>
+<a id="orgbf09a13"></a>
 
 ### DONE Data formatting <code>[2/2]</code>
 
@@ -1003,7 +1003,7 @@ Note that all of the following examples mean you also need to include the librar
         }
 
 
-<a id="org05105c3"></a>
+<a id="orga6053b9"></a>
 
 ### Exercises
 
@@ -1014,7 +1014,7 @@ Note that all of the following examples mean you also need to include the librar
 1.  TODO Abstracting formatting with functions
 
 
-<a id="org746adba"></a>
+<a id="org6ca5dff"></a>
 
 ### DONE Your first while loop: a number guessing game
 
@@ -1045,7 +1045,7 @@ So, let's take the smallest silliest example we can to show the syntax: a progra
     }
 
 
-<a id="orgefadc4a"></a>
+<a id="orgfed9b29"></a>
 
 ### Exercises
 
@@ -1054,7 +1054,7 @@ So, let's take the smallest silliest example we can to show the syntax: a progra
 3.  **Challenge**: Implement a simple calculator that keeps performing operations until the user enters 0 for both numbers.
 
 
-<a id="org858efa2"></a>
+<a id="org43cc71e"></a>
 
 ### TODO A randomized guessing game
 
@@ -1168,7 +1168,7 @@ Now we're finally ready to write our number guessing game
 Try to read this code through and understand the logic of what it's doing! The only thing we haven't explained to this point is the `%` operator, which is the "modulus" operator. Basically, `a % b` returns the remainder&#x2014;in the "you're learning division as a kid" sense of remainder&#x2014;of dividing `a` by `b`. Now, in terms of why we **care** about this operator it gives us a quick way to take a big range of numbers and map it to something smaller. For example, if we do `a % 20` our outputs, no matter what `a` is, will be between 0 and 19. Similarly if we say `a % 100` this will give us an output that's between 0 and 99.
 
 
-<a id="org2d577ac"></a>
+<a id="org4eab2af"></a>
 
 ### Exercises
 
@@ -1179,7 +1179,7 @@ Try to read this code through and understand the logic of what it's doing! The o
 1.  TODO Adding a limited number of guesses
 
 
-<a id="org3d8afce"></a>
+<a id="org8a5906b"></a>
 
 ### DONE Averaging numbers and while-loops
 
@@ -1247,7 +1247,7 @@ That's right! You're dividing by zero! So instead we want to, at the end, replac
 Now you can see that we've safeguarded against dividing by zero!
 
 
-<a id="orgd1bef78"></a>
+<a id="orga6e4b4c"></a>
 
 ### Exercises
 
@@ -1256,7 +1256,7 @@ Now you can see that we've safeguarded against dividing by zero!
 3.  **Challenge**: Calculate a weighted average where the user enters value-weight pairs. Stop when weight is 0. Example: test1=85, weight=0.3; test2=90, weight=0.7; weighted average = 88.5.
 
 
-<a id="org942dbe9"></a>
+<a id="orga63a7ea"></a>
 
 ## TODO For-loops (and the shape of loops to come)<sup><a id="fnr.9.9" class="footref" href="#fn.9" role="doc-backlink">9</a></sup> <code>[1/2]</code>
 
@@ -1315,7 +1315,7 @@ You can count down like this:
 > Exercise: Try making a for-loop that prints out only even numbers. Again, you could do this by changing the `cout` statement but I want you to change the for-loop itself.
 
 
-<a id="org3b63304"></a>
+<a id="org108cf10"></a>
 
 ### DONE Summing a bunch of numbers
 
@@ -1343,7 +1343,7 @@ Note that what we've done is create a new variable, `sum`, in order to hold the 
 > Exercise: Change this so that it sums the *squares* of 0 - 9.
 
 
-<a id="org10c8296"></a>
+<a id="orgf8a116a"></a>
 
 ### Exercises
 
@@ -1358,7 +1358,7 @@ Note that what we've done is create a new variable, `sum`, in order to hold the 
 3.  **Challenge**: Print all prime numbers between 1 and 100. Hint: For each number, check if it's divisible by any number from 2 to its square root.
 
 
-<a id="org3a81f41"></a>
+<a id="org2a086d7"></a>
 
 ### TODO (Advanced) Arrays: the reasons for `for`
 
@@ -1440,7 +1440,7 @@ So line by line what this program does is:
 > That means you'll need to add a new array of ints to hold the age, ask for the age with cin, and also print that out appropriately.
 
 
-<a id="org2ac5c3b"></a>
+<a id="org29dd8b5"></a>
 
 ### Exercises
 
@@ -1472,7 +1472,7 @@ So line by line what this program does is:
     Well when I ran this I got `1663205712` printed out to the console. If you remember from way at the beginning of this tutorial when we went over what happens when you use an uninitialized variable, you might see a similarity! Except that, in some ways, this is worse!
 
 
-<a id="orga7503bb"></a>
+<a id="org091f899"></a>
 
 ## TODO Data validation, the world's most annoying idiom <code>[1/2]</code>
 
@@ -1484,7 +1484,7 @@ Here's two scenarios:
 -   The user enters an option that is the **wrong** kind of data, which means that `cin` is going to have a hiccup
 
 
-<a id="orgf1905a5"></a>
+<a id="orgd597277"></a>
 
 ### DONE Right kind of data, but wrong option
 
@@ -1510,16 +1510,7 @@ So what we mean here is something like you asking for "yes" or "no" from the use
     }
 
 
-<a id="orgecaab34"></a>
-
-### Exercises
-
-1.  **Basic**: Create a menu system that only accepts options 1-5, rejecting anything else.
-2.  **Intermediate**: Validate email format - must contain exactly one @ and at least one . after the @.
-3.  **Challenge**: Create a date validator that checks valid month (1-12) and appropriate days for each month (including leap years for February).
-
-
-<a id="orgb4c4a5e"></a>
+<a id="orgfe27c4d"></a>
 
 ### TODO The wrong kind of data (cin.fail() &c.) <code>[0/2]</code>
 
@@ -1640,17 +1631,26 @@ Okay so from here we have some interesting issues that come down to exactly **wh
         }
 
 
-<a id="org34253fe"></a>
+<a id="org6beb4dc"></a>
+
+### Exercises
+
+1.  **Basic**: Create a menu system that only accepts options 1-5, rejecting anything else.
+2.  **Intermediate**: Validate email format - must contain exactly one @ and at least one . after the @.
+3.  **Challenge**: Create a date validator that checks valid month (1-12) and appropriate days for each month (including leap years for February).
+
+
+<a id="org40f85b7"></a>
 
 # TODO More advanced programs <code>[1/3]</code>
 
 
-<a id="org1adc909"></a>
+<a id="orgbc52fc2"></a>
 
 ## TODO Functions on strings
 
 
-<a id="org963be1a"></a>
+<a id="orge80fe25"></a>
 
 ### DONE Simple operations on strings
 
@@ -1694,7 +1694,7 @@ Okay, also we should talk about how to turn data into strings because this is go
     }
 
 
-<a id="org29d1c36"></a>
+<a id="org41d1d13"></a>
 
 ### Exercises
 
@@ -1703,7 +1703,7 @@ Okay, also we should talk about how to turn data into strings because this is go
 3.  **Challenge**: Create a word censoring program that replaces specified "bad words" with asterisks of the same length.
 
 
-<a id="org7a36346"></a>
+<a id="orgd6e6cf1"></a>
 
 ### TODO `find` and `substr`
 
@@ -1724,7 +1724,7 @@ Okay, so now let's talk about some convenience functions that help us take apart
     }
 
 
-<a id="org3d11097"></a>
+<a id="orgb972a66"></a>
 
 ### TODO Iterating over strings with for-loops
 
@@ -1754,7 +1754,7 @@ Okay so here's a wholeLower function that turns an entire string to lower case u
     }
 
 
-<a id="org0c41fed"></a>
+<a id="org6288c78"></a>
 
 ### TODO Example: Sarcasm Case
 
@@ -1786,7 +1786,7 @@ Alright, here's a nice silly example for how we use for-loops with strings:
     }
 
 
-<a id="org0e746b9"></a>
+<a id="org0a34e86"></a>
 
 ### Exercises
 
@@ -1795,7 +1795,7 @@ Alright, here's a nice silly example for how we use for-loops with strings:
 3.  **Challenge**: Implement a Caesar cipher that shifts letters by a user-specified amount. Handle wrapping (z+1 = a) and preserve case.
 
 
-<a id="org87bd079"></a>
+<a id="orgf062e8b"></a>
 
 ## DONE Switches vs. ifs
 
@@ -1964,7 +1964,7 @@ No, instead, you need to do something more like
     }
 
 
-<a id="org4d80f85"></a>
+<a id="org33cbcd2"></a>
 
 ### Exercises
 
@@ -1973,12 +1973,12 @@ No, instead, you need to do something more like
 3.  **Challenge**: Create a text-based restaurant ordering system with switch for menu categories (appetizers, mains, desserts) and nested switches for items.
 
 
-<a id="org74c4bf7"></a>
+<a id="org14a273d"></a>
 
 ## TODO Writing your own functions
 
 
-<a id="orgc33196d"></a>
+<a id="orgc36880a"></a>
 
 ### TODO The basics of functions
 
@@ -2044,7 +2044,7 @@ We haven't really seen examples of it so far but you can have a bunch of functio
     }
 
 
-<a id="org33e1450"></a>
+<a id="orgb2f711f"></a>
 
 ### Exercises
 
@@ -2053,7 +2053,7 @@ We haven't really seen examples of it so far but you can have a bunch of functio
 3.  **Challenge**: Implement a function that checks if a number is prime. Then use it to find all twin primes (primes that differ by 2) up to 100.
 
 
-<a id="org0f46619"></a>
+<a id="org9672ec0"></a>
 
 ### TODO Passing by reference
 
@@ -2153,7 +2153,7 @@ You **cannot** do this in C++. Instead, you have to write this program with a pa
     }
 
 
-<a id="orgf5e1816"></a>
+<a id="org57aa2f8"></a>
 
 ### Exercises
 
@@ -2162,7 +2162,7 @@ You **cannot** do this in C++. Instead, you have to write this program with a pa
 3.  **Challenge**: Build a function that finds minimum, maximum, and average of an array in a single pass. Use reference parameters for min and max.
 
 
-<a id="org89ae458"></a>
+<a id="org8d0bb07"></a>
 
 ## TODO Arrays, again, and Pointers
 
@@ -2198,15 +2198,117 @@ What's *that*, exactly? A number, and yes this is a number despite the letters m
 
 Have you ever seen hex-codes for colors? They're usually a series of 6-hex digits because an rgb color is 24 bits,  *or 3 bytes*, i.e. 6 groups of 4 bits each.
 
-However, when you see a big hex number in programming it's usually a memory *address*. An address is what it sounds like, it tells you where the information is stored in the computer's memory, completely analogous to a street address. 
+However, when you see a big hex number in programming it's usually a memory *address*. An address is what it sounds like, it tells you where the information is stored in the computer's memory, completely analogous to a street address.
+
+Do you remember earlier in this text when we talked about the storage wall with the labeled dividers? Well these addresses are what those labels **really** are.
+
+And this means that when you use the name of the array by itself, without the `[]`, you're getting the address of where the array starts! An array isn't one big storage chunk, but a contiguous region of dividers on the wall-of-storage. So this address is the label on the *first* cubbyhole that makes up the array.
+
+Now you might wonder if there's a way to get the label, the address, of any variable. There is! It's the "&" operator.
+
+So I can do a fun trick like the following
+
+    #include <iostream>
+    using namespace std;
+    
+    int main() {
+      int test = 0;
+    
+      cout << &test << endl;
+    
+      return 0;
+    }
+
+Which, if you run this code, you'll see something along the lines of
+
+    0x7ffec7bdf804
+
+which, as we now know, is an *address*.
+
+But how do we know that this is the *right* address, and what do we do *with* an address once we have it? We can answer both of those questions by introducing the dual to the `&` operator: the `*` operator. Yes, it's the same `*` you also use for multiplication but generally that's fine and doesn't cause problems.
+
+Here we're going to write a program that
+
+1.  declares a variable and puts a number in it
+2.  pulls the address out of the variable with `&`
+3.  follows the address with `*` to get at the number stored in the variable
+4.  prints it out
+
+    #include <iostream>
+    using namespace std;
+    
+    int main(){
+      int test = 1234; // since 0 can sometimes be a default let's put a specific number here
+    
+      cout << *(&test) << endl; // the * operator will "follow" the address and grab what's stored there
+      // should print 1234 and then end
+    
+      return 0;
+    }
+
+If we can pull an address out, can we also store the *address* as data? Yes! That involves introducing a new family of types called pointers! Generally, you take the type of the thing being *stored* and then add the `*` at the end to make it the pointer version of the type. Let's get really concrete:
+
+    #include <iostream>
+    using namespace std;
+    
+    int main(){
+      int test = 1234;
+      int* pointy = &test;
+    
+      double dubTest = 3.14;
+      double* dubPoint = &dubTest;
+    
+      cout << "The address of test is: " << pointy << endl;
+      cout << "Following the address gives us: " << *pointy << endl;
+    
+      cout << "The address of dubTest is: " << dubPoint << endl;
+      cout << "Following the address gives us: " << *dubPoint << endl;
+    
+      return 0;
+    }
+
+Now we can get back to arrays! So I often tell people that in C/C++ an array is "a pointer and a promise", let's see why. First, we're going to try to follow the address of an array.
+
+    #include <iostream>
+    using namespace std;
+    
+    int main(){
+      int test[5] = {10,11,12,13,14};
+    
+      cout << "And *test is...: " << *test << endl; 
+    
+      return 0;
+    }
+
+Well look at that, it's 10! Because the address stored in `test` is the address of the first "cubby". How do we get to the rest of the storage in the array? This is where the fact that an array is *contiguous* will save us: we can just go to the next address by *adding* to it.
+
+This is called *pointer arithmetic* and is actually what the `[]` syntax for arrays really was all along!
+
+Let's write a little program to test this out:
+
+    #include <iostream>
+    using namespace std;
+    
+    int main(){
+    
+      int test = {10,11,12,13,14};
+    
+      //let's prove that the [] brackets were really just playing with pointers all along!
+      for(int i=0; i < 5; i++){
+        cout << "Accessing elements with []: "<< test[i] << endl;
+        cout << "Accessing elements with pointer arithmetic: "<< *(test+i) << endl;
+      }
+    
+      return 0;
+    }
 
 
-<a id="org6834953"></a>
+<a id="org142c8dd"></a>
 
 ## TODO Char Arrays
 
 
-<a id="org0c36de5"></a>
+<a id="org33ba1bf"></a>
 
 # TODO Extended example: Let's play shop
 
@@ -2215,31 +2317,31 @@ In this example we'll be writing a small program that prints out a menu, let's y
 We'll do this program "the hard way" at first, which isn't very flexible, but we'll end up showing some more features of C++ that will let us simplify and refactor this code.
 
 
-<a id="org907f476"></a>
+<a id="orgb8fe13b"></a>
 
 ## More on iteration and choices
 
 
-<a id="org4f07db6"></a>
+<a id="org11902ec"></a>
 
 # TODO Extended example: An Adventure Game
 
 In this example we're going to look at how to make an old-school text-adventure game in C++. 
 
 
-<a id="org10a05af"></a>
+<a id="orga48cc41"></a>
 
 # Project Ideas
 
 
-<a id="org7a20dab"></a>
+<a id="org410def7"></a>
 
 ## Mini-Projects (After Major Sections)
 
 These projects are designed to be completed after finishing specific sections of the course. Each should take 1-3 hours to complete.
 
 
-<a id="org32128d5"></a>
+<a id="orga38edbc"></a>
 
 ### After Loops
 
@@ -2247,7 +2349,7 @@ These projects are designed to be completed after finishing specific sections of
 -   **Password Strength Checker**: Check passwords for length, uppercase, lowercase, numbers, and special characters. Give a strength score.
 
 
-<a id="orgf6d1539"></a>
+<a id="orga218b1f"></a>
 
 ### After Arrays
 
@@ -2255,7 +2357,7 @@ These projects are designed to be completed after finishing specific sections of
 -   **Simple Statistics Calculator**: Input a dataset and calculate mean, median, mode, and standard deviation.
 
 
-<a id="orged0c752"></a>
+<a id="org842ea72"></a>
 
 ### After Functions
 
@@ -2263,7 +2365,7 @@ These projects are designed to be completed after finishing specific sections of
 -   **Geometry Calculator**: Calculate areas, perimeters, and volumes for various shapes using dedicated functions.
 
 
-<a id="org377800c"></a>
+<a id="orgcf7e4ee"></a>
 
 ### After Strings
 
@@ -2271,7 +2373,7 @@ These projects are designed to be completed after finishing specific sections of
 -   **Simple Text Editor Commands**: Implement find/replace, word count, and case conversion operations.
 
 
-<a id="org6c16426"></a>
+<a id="orgab2995c"></a>
 
 ### After Data Validation
 
@@ -2279,14 +2381,14 @@ These projects are designed to be completed after finishing specific sections of
 -   **Date Calculator**: Calculate days between dates, add days to dates, handle leap years properly.
 
 
-<a id="org0d79d84"></a>
+<a id="org7d42fb1"></a>
 
 ## Larger Projects
 
 These are comprehensive projects that integrate multiple concepts. Each should take 5-10 hours to complete.
 
 
-<a id="org2026d2d"></a>
+<a id="org9d6e24d"></a>
 
 ### Store Management System
 
@@ -2301,7 +2403,7 @@ Create an inventory management system with the following features:
 Skills practiced: Arrays, functions, data validation, formatting
 
 
-<a id="orge6f117f"></a>
+<a id="org2438d60"></a>
 
 ### Grade Calculator System
 
@@ -2316,7 +2418,7 @@ Build a complete gradebook application:
 Skills practiced: 2D arrays, functions with references, data formatting
 
 
-<a id="org646953d"></a>
+<a id="org035379a"></a>
 
 ### Game Collection
 
@@ -2330,7 +2432,7 @@ Include a main menu, score tracking, and play-again options
 Skills practiced: Arrays, string manipulation, game logic, input validation
 
 
-<a id="orgfe5a8bb"></a>
+<a id="org1b58f83"></a>
 
 ### Data Analysis Tool
 
@@ -2345,7 +2447,7 @@ Create a program that reads survey or experimental data:
 Skills practiced: File I/O concepts, arrays, mathematical functions, error handling
 
 
-<a id="org5e16146"></a>
+<a id="orgbad01db"></a>
 
 ### Encryption Tool Suite
 
@@ -2360,7 +2462,7 @@ Build a collection of encryption/decryption methods:
 Skills practiced: String manipulation, algorithms, modular programming
 
 
-<a id="orga2e25ba"></a>
+<a id="orga035f79"></a>
 
 ## Project Guidelines
 
@@ -2375,7 +2477,7 @@ For each project, students should:
 7.  Consider adding extra features for bonus points
 
 
-<a id="org408222f"></a>
+<a id="orgdb82353"></a>
 
 ## Common Mistakes to Avoid
 
@@ -2388,19 +2490,19 @@ For each project, students should:
 -   Forgetting break statements in switch cases
 
 
-<a id="orga3c02a9"></a>
+<a id="org8e787b7"></a>
 
 # Sample Solutions
 
 This chapter provides sample solutions for selected exercises from each section. Remember that there are often multiple correct ways to solve a problem in programming!
 
 
-<a id="orgdb47d0b"></a>
+<a id="org4643628"></a>
 
 ## Hello World Solutions
 
 
-<a id="orge243530"></a>
+<a id="org604ac74"></a>
 
 ### Basic: Name and Joke
 
@@ -2415,7 +2517,7 @@ This chapter provides sample solutions for selected exercises from each section.
     }
 
 
-<a id="orgc9a7a9c"></a>
+<a id="orgf0d7330"></a>
 
 ### Intermediate: ASCII Art Box
 
@@ -2430,12 +2532,12 @@ This chapter provides sample solutions for selected exercises from each section.
     }
 
 
-<a id="org36e0456"></a>
+<a id="orgba4fbea"></a>
 
 ## String I/O Solutions
 
 
-<a id="org8c6f987"></a>
+<a id="orgbfb19da"></a>
 
 ### Basic: Last, First Format
 
@@ -2455,7 +2557,7 @@ This chapter provides sample solutions for selected exercises from each section.
     }
 
 
-<a id="org1311713"></a>
+<a id="orgf8c2677"></a>
 
 ### Challenge: Mad Libs
 
@@ -2483,12 +2585,12 @@ This chapter provides sample solutions for selected exercises from each section.
     }
 
 
-<a id="orgc2d7a73"></a>
+<a id="org183cd2b"></a>
 
 ## Arithmetic Solutions
 
 
-<a id="orgcd50b80"></a>
+<a id="orgd31dbb3"></a>
 
 ### Intermediate: Tip Calculator
 
@@ -2516,7 +2618,7 @@ This chapter provides sample solutions for selected exercises from each section.
     }
 
 
-<a id="org5d89248"></a>
+<a id="orge824554"></a>
 
 ### Challenge: Compound Interest
 
@@ -2551,12 +2653,12 @@ This chapter provides sample solutions for selected exercises from each section.
     }
 
 
-<a id="org562425e"></a>
+<a id="orgfadb39f"></a>
 
 ## Boolean/If-Statement Solutions
 
 
-<a id="org6a762d9"></a>
+<a id="org8afd589"></a>
 
 ### Intermediate: Grade Calculator
 
@@ -2589,7 +2691,7 @@ This chapter provides sample solutions for selected exercises from each section.
     }
 
 
-<a id="org1fedc1a"></a>
+<a id="org53f0964"></a>
 
 ### Challenge: Eligibility Checker
 
@@ -2630,12 +2732,12 @@ This chapter provides sample solutions for selected exercises from each section.
     }
 
 
-<a id="org956134d"></a>
+<a id="org956b7f0"></a>
 
 ## While Loop Solutions
 
 
-<a id="org9bdd10e"></a>
+<a id="orgd36337f"></a>
 
 ### Intermediate: Password Checker
 
@@ -2668,12 +2770,12 @@ This chapter provides sample solutions for selected exercises from each section.
     }
 
 
-<a id="orgea32576"></a>
+<a id="org953c1a9"></a>
 
 ## Random Number Solutions
 
 
-<a id="orgba32523"></a>
+<a id="org1ecd718"></a>
 
 ### Intermediate: Rock, Paper, Scissors
 
@@ -2712,7 +2814,7 @@ This chapter provides sample solutions for selected exercises from each section.
     }
 
 
-<a id="orgcc6e246"></a>
+<a id="org194fee1"></a>
 
 ### Challenge: Coin Flip Statistics
 
@@ -2752,12 +2854,12 @@ This chapter provides sample solutions for selected exercises from each section.
     }
 
 
-<a id="orge8a28cb"></a>
+<a id="org160c07d"></a>
 
 ## For-Loop Solutions
 
 
-<a id="org94e70fa"></a>
+<a id="org684a62a"></a>
 
 ### Basic: Fibonacci Numbers
 
@@ -2782,7 +2884,7 @@ This chapter provides sample solutions for selected exercises from each section.
     }
 
 
-<a id="org1b831c5"></a>
+<a id="org46ce213"></a>
 
 ### Intermediate: Triangle Pattern
 
@@ -2806,7 +2908,7 @@ This chapter provides sample solutions for selected exercises from each section.
     }
 
 
-<a id="orgd3f9f6b"></a>
+<a id="orgf4cbae8"></a>
 
 ### Challenge: Prime Numbers
 
@@ -2839,12 +2941,12 @@ This chapter provides sample solutions for selected exercises from each section.
     }
 
 
-<a id="org94f2ff7"></a>
+<a id="org405ca72"></a>
 
 ## Array Solutions
 
 
-<a id="org6ec1e54"></a>
+<a id="org7a525e6"></a>
 
 ### Basic: Temperature Analysis
 
@@ -2881,7 +2983,7 @@ This chapter provides sample solutions for selected exercises from each section.
     }
 
 
-<a id="org9d13197"></a>
+<a id="org8461a9a"></a>
 
 ### Intermediate: Array Reversal
 
@@ -2914,12 +3016,12 @@ This chapter provides sample solutions for selected exercises from each section.
     }
 
 
-<a id="org35fdee2"></a>
+<a id="org456a26d"></a>
 
 ## String Operation Solutions
 
 
-<a id="org44baffe"></a>
+<a id="org3869ba3"></a>
 
 ### Basic: Vowel Counter
 
@@ -2947,7 +3049,7 @@ This chapter provides sample solutions for selected exercises from each section.
     }
 
 
-<a id="orgdd64531"></a>
+<a id="org4f80e27"></a>
 
 ### Intermediate: Palindrome Checker
 
@@ -2981,12 +3083,12 @@ This chapter provides sample solutions for selected exercises from each section.
     }
 
 
-<a id="orge28242e"></a>
+<a id="org9b6ba16"></a>
 
 ## Switch Statement Solutions
 
 
-<a id="org546961b"></a>
+<a id="orgd208f4a"></a>
 
 ### Intermediate: Calculator
 
@@ -3030,12 +3132,12 @@ This chapter provides sample solutions for selected exercises from each section.
     }
 
 
-<a id="org75e98fc"></a>
+<a id="orgfd0d035"></a>
 
 ## Function Solutions
 
 
-<a id="orgb815e0a"></a>
+<a id="orgf562ebb"></a>
 
 ### Basic: Larger of Two Numbers
 
@@ -3064,7 +3166,7 @@ This chapter provides sample solutions for selected exercises from each section.
     }
 
 
-<a id="org174ad75"></a>
+<a id="orgadeaee7"></a>
 
 ### Intermediate: Area Calculators
 
@@ -3128,12 +3230,12 @@ This chapter provides sample solutions for selected exercises from each section.
     }
 
 
-<a id="org40cc185"></a>
+<a id="orgb135e78"></a>
 
 ## Pass by Reference Solutions
 
 
-<a id="orge9cb51f"></a>
+<a id="org52c50b9"></a>
 
 ### Basic: Swap Function
 
@@ -3157,7 +3259,7 @@ This chapter provides sample solutions for selected exercises from each section.
     }
 
 
-<a id="org0664022"></a>
+<a id="orgb3a7190"></a>
 
 ### Intermediate: Division with Quotient and Remainder
 
@@ -3191,7 +3293,7 @@ This chapter provides sample solutions for selected exercises from each section.
     }
 
 
-<a id="org807477c"></a>
+<a id="org194ab03"></a>
 
 ### Challenge: Array Statistics
 
@@ -3233,12 +3335,12 @@ This chapter provides sample solutions for selected exercises from each section.
     }
 
 
-<a id="org841f6ed"></a>
+<a id="org98bf528"></a>
 
 ## Data Validation Solutions
 
 
-<a id="orgd6afafc"></a>
+<a id="orge2fffa8"></a>
 
 ### Challenge: Date Validator
 
@@ -3305,7 +3407,7 @@ This chapter provides sample solutions for selected exercises from each section.
     }
 
 
-<a id="orgc0de822"></a>
+<a id="orgadb5ab0"></a>
 
 ## Notes on Solutions
 
