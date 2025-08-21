@@ -1,0 +1,16 @@
+Write a C++ program that receives two double-precision floating-point 
+values from the user. The program then should print the sum (addition), 
+difference (subtraction), product (multiplication), quotient (division), 
+and remainder after division (modulus). Your program must use only integers. 
+A sample program run would look like (the user enters the 10 and the 2 
+after the colons, and the program prints the rest):
+
+Please enter the first number: 10
+Please enter the second number: 2
+10 + 2 = 12
+10 - 2 = 8
+10 * 2 = 20
+10 / 2 = 5
+10 % 2 = 0
+
+© Fundamentals of C++ Programming 2018 Richard L. Halterman

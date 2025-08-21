@@ -1,0 +1,18 @@
+Write a program that asks the user to enter a year (e.g., 2024). 
+Determine whether the year is a leap year using the following rules:
+A year is a leap year if it is divisible by 4.
+Except years that are divisible by 100 are not leap years.
+Except years that are divisible by 400 are leap years.
+Output a message indicating if the year is a leap year or not. For example: 
+
+Enter year: 1600
+1600 is a leap year
+
+Enter year: 1997
+1997 is not a leap year
+
+Enter year: 2000
+2000 is not leap year
+
+Enter year: 2024 
+2024 is a leap year

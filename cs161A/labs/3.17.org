@@ -1,0 +1,13 @@
+Mad Libs is a word game where players are asked to fill in blanks in a 
+story with specific types of words (like nouns, verbs, or adjectives) 
+without knowing the full context. Once the blanks are filled, the 
+completed story is read aloud—usually resulting in something silly or absurd.
+
+Write a C++ program that prompts the user for 4 strings, and outputs a
+brief story including those strings. For example:
+
+Enter a noun: octopus
+Enter an adjective: clumsy
+Enter a noun: radish
+Enter a verb: dance
+The clumsy octopus decided to dance with a radish.

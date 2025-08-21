@@ -1,0 +1,12 @@
+Write a C++ program that receives as input a string of text, and a
+character. The program counts the number of instances of the given 
+character within the text, and outputs that amount. Output a different
+message to indicate singular/plural if the count is exactly 1 or not.
+
+Enter text: hello world
+Enter character: o
+There are 2 o's in hello world
+
+Enter text: hello world
+Enter character: e
+There is 1 e in hello world
