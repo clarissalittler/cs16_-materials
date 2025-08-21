@@ -796,7 +796,7 @@ So, let's take the smallest silliest example we can to show the syntax: a progra
 2. *Intermediate*: Create a password checker that keeps asking until the user enters "quit" or the correct password (you choose it).
 3. *Challenge*: Implement a simple calculator that keeps performing operations until the user enters 0 for both numbers.
 *** TODO A randomized guessing game
-So a guessing game where the number is the same every time isn't very interesting. What we really want is the ability to have the program choose a new number "randomly"[fn:9] and then ask you to guess. Of course, it'd be a pretty unfair game if it didn't at least give you a hint so this program will also tell you whether to guess higher or lower.
+So a guessing game where the number is the same every time isn't very interesting. What we really want is the ability to have the program choose a new number "randomly" and then ask you to guess. Of course, it'd be a pretty unfair game if it didn't at least give you a hint so this program will also tell you whether to guess higher or lower.
 
 So first, here's a really simple example of how to generate random numbers in C++. Note that we also have to include a thing thing at the top of the file: =#include <cstdlib>=, because that's where the functions we need for random numbers live. 
 
@@ -855,9 +855,9 @@ Let's try to print out a bunch of random numbers
 #+end_example
 So each time we use =rand()= it is giving a different number but each time we run the program it's the same sequence of random numbers. This is where we need to explain seeds.
 
-Seeds are what makes pseudo-random[fn:9] number generation so different than actual randomness. Computers can't /really/ do true randomness, but they can fake it well by performing a series of calculations where the output looks random unless you know the very first input that starts the calculations. This very first input is the "seed" for the random number generator.
+Seeds are what makes pseudo-random number generation so different than actual randomness. Computers can't /really/ do true randomness, but they can fake it well by performing a series of calculations where the output looks random unless you know the very first input that starts the calculations. This very first input is the "seed" for the random number generator.
 
-For a given seed, =rand= will always produce the same sequence of outputs. The trick, then, is that we need to choose a different seed every time we run the program. The traditional choice is to use another function called =time=. If you write =time(0)= what you'll get back is the number of seconds since midnight January 1st 1970. Since this is a number that will be different every time you run the program, it will be a good choice of different seeds for every time we run our code.[fn:10]
+For a given seed, =rand= will always produce the same sequence of outputs. The trick, then, is that we need to choose a different seed every time we run the program. The traditional choice is to use another function called =time=. If you write =time(0)= what you'll get back is the number of seconds since midnight January 1st 1970. Since this is a number that will be different every time you run the program, it will be a good choice of different seeds for every time we run our code.
 
 Let's test this out quick
 #+begin_src cpp :tangle codesnips/betterrand.cpp
@@ -1275,7 +1275,7 @@ Let's run the program above one more time but now with the following input
 #+begin_example
 1 dog[hit the enter key]
 #+end_example
-What you'll get printed out is "The sum of these numbers was: 1". Why? Because it failed to read a number into =num2= and, so, just gave it a value of 0 rather than stop the program and fail.[fn:11]
+What you'll get printed out is "The sum of these numbers was: 1". Why? Because it failed to read a number into =num2= and, so, just gave it a value of 0 rather than stop the program and fail.
 
 We're going to introduce a new function called =cin.fail()= that lets us ask the question "did the last time we tried to read from =cin= go wrong?"
 
@@ -1422,7 +1422,7 @@ Okay, so now let's talk about some convenience functions that help us take apart
 #+end_src
 
 *** TODO Iterating over strings with for-loops
-Now remember how I showed you a bit about how arrays work and the fact that for-loops were made to work with them? Okay, so part of why I needed to show you that is while *technically* you're not using arrays in this class it's useful to understand the idea behind them because you can treat strings "like"[fn:13] arrays for operating on them.
+Now remember how I showed you a bit about how arrays work and the fact that for-loops were made to work with them? Okay, so part of why I needed to show you that is while *technically* you're not using arrays in this class it's useful to understand the idea behind them because you can treat strings "like" arrays for operating on them.
 
 The general idiom is that you can get the length of the string like this =s.length()= for a string =s=, then you can put that as the bounds of the for-loop and you can use array syntax (e.g. the square brackets) in order access the characters inside the string one by one.
 
@@ -1603,7 +1603,7 @@ Now that just seems inconvenient here but there are times that it's actually a b
   }
 #+end_src
 
-If you were to naively[fn:12] convert this to if-statements you might do something like this!
+If you were to naively convert this to if-statements you might do something like this!
 #+begin_src cpp :tangle codesnips/diceRollIf.cpp
   #include <iostream>
   #include <cstdlib>
@@ -1680,7 +1680,7 @@ Like, for example, consider our function for the sarcasm case up above. This fun
 #+end_src
 And this tells us that we're defining a function called =sarcasmCase=, it takes a =string= as an argument that we will bind to the variable =s= for the duration of the function body, and we can see that it returns a string. That means we need to make sure that we have a =return __= where the =__= needs to be something of type string.
 
-We haven't really seen examples of it so far but you can have a bunch of function arguments[fn:14]. Like, consider this function that will let us make rows for a table.
+We haven't really seen examples of it so far but you can have a bunch of function arguments. Like, consider this function that will let us make rows for a table.
 
 #+begin_src cpp :tangle codesnips/rowmaker.cpp
   #include <iostream>
