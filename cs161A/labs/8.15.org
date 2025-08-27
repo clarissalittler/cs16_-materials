@@ -1,0 +1,44 @@
+Finish this program by writing a function called getValidInt(). 
+This function will save you time in future programs! Anytime 
+you need safe, validated integer input, just call getValidInt() 
+instead of rewriting the same code.
+
+Requirements:
+- It should take one argument: a string containing a custom prompt message.
+- Prints the prompt
+- Uses a while loop to check whether the input is a valid integer. 
+  If it’s not, print an error message and ask again.
+- Once the user enters a valid integer, return it.
+
+For example: 
+
+Enter your age: uhhh ok.
+Oops! That’s not an integer. Please try again.
+Enter your age: 30
+
+How many miles did you run today? I don't want to say.
+Oops! That’s not an integer. Please try again.
+How many miles did you run today? :(
+Oops! That’s not an integer. Please try again.
+How many miles did you run today? 0
+
+You are 30 years old and ran 0 miles today.
+
+
+~~~
+#include <iostream>
+using namespace std;
+
+// Todo: define your function here
+
+int main(){
+
+  int age = getValidInt("Enter your age: ");
+  int milesRan = getValidInt("How many miles did you run today? ");
+
+  cout << "You are " << age << " years old and ran " << milesRan << " miles today." << endl;
+
+  return 0;
+}
+~~~
+

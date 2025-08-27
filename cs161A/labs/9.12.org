@@ -1,0 +1,57 @@
+Finish this program by writing a function called prependMetadata() 
+that adds metadata to a message string.
+
+Requirements:
+- The function should take three arguments:
+  - A string& representing the message to modify.
+  - A string representing the username.
+  - A string representing the timestamp.
+- The function should prepend the timestamp and username to the beginning of the message in this format:
+  timestamp [username]: message
+- The function should modify the original message and return nothing (void).
+
+Sample run: 
+Enter username: Riley
+Enter message: Hey, anyone free?
+Sending...
+12:31pm [Riley]: Hey, anyone free?
+
+~~~
+#include <iostream>
+#include <string>
+#include <ctime>
+using namespace std;
+
+// Todo: define your function here
+
+string getCurrentTime() {
+    time_t now = time(nullptr);
+    tm* localTime = localtime(&now);
+
+    char buffer[80];
+    strftime(buffer, sizeof(buffer), "%I:%M%p", localTime);
+    return string(buffer);
+}
+
+int main(){
+
+  string username;
+  string message;
+  string timestamp = getCurrentTime();
+
+  cout << "Enter username: ";
+  getline(cin, message);
+
+  cout << "Enter message: ";
+  getline(cin, message);
+
+  cout << "Sending..."
+  
+  prependMetadata(message, username, timestamp);
+  
+  cout << message << endl;
+
+  return 0;
+}
+~~~
+

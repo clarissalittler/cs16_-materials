@@ -1,0 +1,12 @@
+Write a program that asks the user to enter a word or sentence, 
+then prints out the text in reverse order.
+
+Requirements:
+- Read a string from the user (it may include spaces).
+- Use a loop to build the reversed string, character by character.
+- Print the reversed string.
+
+For example:
+
+Enter text: hello world
+Reversed: dlrow olleh

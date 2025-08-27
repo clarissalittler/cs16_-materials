@@ -1,0 +1,40 @@
+Finish this program by writing a function called swapValues() 
+that swaps the values of two integers using pass by reference.
+
+Requirements:
+- The function should take two int arguments by reference.
+- After calling the function, the original variables should have their values swapped.
+
+Sample run:
+Enter the first number: 10
+Enter the second number: 25
+
+Before swap: a = 10, b = 25
+After swap: a = 25, b = 10
+
+
+~~~
+#include <iostream>
+using namespace std;
+
+// Todo: define your function here
+
+int main(){
+
+  int a;
+  int b;
+
+  cout << "Enter the first number: ";
+  cin >> a;
+
+  cout << "Enter the second number: ";
+  cin >> b;
+
+  cout << "Before swap: a = " << a << ", b = " << b << endl;
+  swapValues(a, b);
+  cout << "After swap: a = " << a << ", b = " << b << endl;
+
+  return 0;
+}
+~~~
+

@@ -1,0 +1,27 @@
+It’s easy to lose track of how much you’re spending on coffee (or any other 
+daily indulgence). In this program, you will build a small tool that 
+helps you monitor your spending.
+
+Requirements:
+- Continuously prompt the user to enter the price of each coffee purchased.
+- Use -1 as a sentinel value to stop input.
+- Do not include -1 in your calculations.
+- After input ends, calculate and display:
+  - The total amount spent on coffee.
+  - The average price per coffee.
+- Format the output to two decimal places, prefixed with $.
+
+For example:
+
+Welcome! This tool will help you track your coffee expenses.
+Enter the price of coffee (or -1 to finish): 4.50
+Enter the price of coffee (or -1 to finish): 5.25
+Enter the price of coffee (or -1 to finish): 4.25
+Enter the price of coffee (or -1 to finish): 6.75
+Enter the price of coffee (or -1 to finish): -1
+
+Total spent on coffee: $20.75
+Average price per coffee: $5.18
+
+Goodbye!
+

@@ -126,9 +126,9 @@
 * 7.4 Break and continue
 * 7.5 Variable name scope
 * 7.6 Assignment Sample
-* 7.7 LAB: Shapes
+* 7.7 LAB: Reverse string
 * 7.8 LAB: Character counter
-* 7.12 LAB: Reverse string
+* 7.9 LAB: Draw a tree
 
 # 8. CS 161A: Functions pass by value
 * 8.1 User-defined function basics

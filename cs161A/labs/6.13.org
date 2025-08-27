@@ -1,0 +1,20 @@
+Write a program that asks the user to enter a password and uses loops to 
+validate that it is strong. A strong password must:
+
+- Be at least 8 characters long
+- Contain at least one uppercase letter
+- Contain at least one lowercase letter
+- Contain at least one digit
+- Contain at least one punctuation symbol
+
+Use loops to scan through the string and check each requirement. 
+At the end, output whether the password is strong, or list 
+which requirements are missing. For example:
+
+Enter password: iLOVEcats!2002
+Your password is strong!
+
+Enter password: forever21
+Your password is missing: 
+At least one uppercase character
+At least one punctuation symbol

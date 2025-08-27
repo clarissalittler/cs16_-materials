@@ -1,0 +1,27 @@
+In this exercise, you will use loops to draw a simple ASCII-art tree. The tree should look like this:
+
+   *
+  ***
+ *****
+*******
+   *
+   *
+
+
+Requirements:
+- Ask the user for the height of the triangle (number of rows of leaves), and then draw the tree accordingly.
+- Use nested loops: one to control the rows, and one to print the correct number of spaces and stars on each row.
+- The top part of the tree (the leaves) should form a centered triangle of stars.
+- The trunk should be drawn always using two rows of a single star, also centered under the tree.
+
+Hint: use your cursor to highlight the example, and take note of the number of spaces and stars.
+
+For example:
+
+Enter tree height: 3
+Here is your ascii tree!
+  *
+ ***
+*****
+  *
+  *

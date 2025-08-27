@@ -1,0 +1,33 @@
+Finish this program by writing a function called trimWhitespace() 
+that removes any leading and trailing spaces from a string.
+
+Requirements:
+- The function should take one argument by reference: 
+  a string& representing the message to modify.
+- It should remove spaces at the beginning and end of the string.
+- The function should return nothing (void).
+
+Sample run: (use your cursor to highlight the text to view whitespace)
+Enter a message:         Hello, world!           
+Trimmed message: Hello, world!
+
+~~~
+#include <iostream>
+#include <string>
+using namespace std;
+
+// Todo: define your function here
+
+int main() {
+    string message;
+
+    cout << "Enter a message: ";
+    getline(cin, message);
+
+    trimWhitespace(message);
+
+    cout << "Trimmed message: \"" << message << "\"" << endl;
+
+    return 0;
+}
+

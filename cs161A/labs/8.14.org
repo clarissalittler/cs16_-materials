@@ -1,0 +1,34 @@
+Complete this program by defining a function that converts temperatures 
+from Celsius to Fahrenheit.
+
+Requirements: 
+- It must be named celsiusToFahrenheit()
+- It must take one argument: the temperature in Celsius (double). 
+- It must return the equivalent Fahrenheit value (double).
+
+Note: remember that returning a value is not the same as printing a value. 
+
+For example: 
+Enter temperature in Celsius: 22.5
+22.5C is 72.5F
+
+~~~
+#include <iostream>
+using namespace std;
+
+// Todo: define your function here
+
+int main(){
+
+  double tempC;
+  cout << "Enter temperature in Celsius: ";
+  cin >> tempC;
+
+  double tempF = celsiusToFahrenheit(tempC);
+
+  cout << tempC << "C is " << tempF << "F" << endl;
+
+  return 0;
+}
+~~~
+

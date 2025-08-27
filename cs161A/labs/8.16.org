@@ -1,0 +1,27 @@
+======= meta note: ==========
+
+idk if this one can be automated, so maybe its better for lecture rather than a lab.
+not sure how to make an automation friendly lab for unit testing.
+
+=============================
+
+
+Write a function named power() that mimics the behavior of C++’s built-in pow() function.
+
+Requirements: 
+- It should take two integer arguments: a base and an exponent.
+- It should return the result of raising the base to the exponent.
+- It must be implemented using loops, not pow() or other math libraries.
+
+Next, write a second function named testPower().
+
+Requirements: 
+- Create at least 4 test cases: 1 normal case, and 3 edge cases.
+- Print each test using this format: 
+  cout << "power(5, 3) expected: 125, got: " << power(5, 3) << endl;
+- Do not return anything
+
+
+Think like a tester: try to “break” your function with unexpected inputs. 
+Even if your first version doesn’t handle everything perfectly, 
+this process will help you see where improvements are needed.
