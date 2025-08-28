@@ -2,4 +2,132 @@
 This should cover
 
 Arrays, structs, File I/O, as well as how to do separate compilation.
+* Re-introduction
+Here's we'll present a whirlwind re-introduction to the C++ language and everything you should know from the previous class.
+** Hello again
+Do you remember how to make a simple program? Depending on how long it's been since you wrote C++ the answer might range from "yes!" to "...yes?". Let's just review the syntax and propose some quick gut-checks.
 
+Here's our "Hello, world!" program as a first reminder:
+#+begin_src cpp :tangle codesnips/helloagain.cpp 
+  #include <iostream>
+  using namespace std;
+
+  int main() {
+
+    cout << "Hello, again!" << endl;
+    
+    return 0;
+  }
+#+end_src
+
+*** Exercise
+Now for your first self-check, write down a line-by-line description of what this program does and check it against the solution below.
+**** Solution
+#+begin_src cpp
+  // this first line includes the basic I/O functions like cin and cout
+  #include <iostream>
+  // this second line lets you use functions from iostream without having to preface them with std::
+  using namespace std;
+
+  // this third line is declaring a function, a very special function called "main"
+  // every C++ program has to have exactly one function called main!
+  // This function has a return type of int, which is the type of
+  // whole numbers and it takes *no* arguments. Note that the /body/ of the function
+  // has to be enclosed in { } before the start of the body
+  // and at the end of the body
+  int main() {
+
+    // cout is a "sink" for text (as in "source and sink"),
+    // you put text in and it exits the program and goes into the screen
+    // you feed things into cout with the << symbol, you can separate
+    // different things you put into cout by just putting more << between them
+    // endl means "end line", which means that the next thing you print to the screen will be
+    // on a new line.
+    cout << "Hello, again!" << endl;
+
+    // return leaves a function and hands off the value you put in it to whoever called the function
+    // in the first place! In the case of main, specifically, it exits the program and hands the return value
+    // to the operating system!
+    return 0;
+  }
+#+end_src
+** Recalling fors and functions
+Now let's remind ourselves of how /functions/ work and what they're good for, also making ourselves do a little bit of iteration on the way.
+
+We're going to snazz up our "hello, again" program by having it have a big billboard of =|= and =-= around the text, eventually asking the user to enter their name so it can address them properly! We're going to have to do a lot of separate small things here in the form of a series of exercises.
+*** Exercise: Refactoring
+Your first exercise is to refactor the "hello, again" program so that there's a /separate/ function that takes in a string and prints the string out followed by a newline. That's going to seem superfluous at first, but we need to do this in order to build up our program.
+
+You don't need to change the text that prints, it can still be "hello, again!" at this point.
+
+Since this is review, try it /first/ and if you get stuck then look at the solution below!
+**** Solution
+#+begin_src cpp :tangle codesnips/refactorsol.cpp 
+  #include <iostream>
+  using namespace std;
+
+  void proclaim(string s){
+    cout << s << endl;
+  }
+
+  int main(){
+    proclaim("Hello, again!");
+    
+    return 0;
+  }
+#+end_src
+*** Exercise: Asking for the name
+The next thing to do is to ask for the /name/ of the user. First, of course, you have to /ask/ their name and then read it (c)in to a variable before you can use it!
+
+Again, try to see if you can recall this yourself first before seeing the example!
+**** Solution
+#+begin_src cpp :tangle codesnips/askingsol.cpp
+  #include <iostream>
+  using namespace std;
+
+  void proclaim(string s){
+    cout << s << endl;
+  }
+
+  int main(){
+    string name;
+    proclaim("Hello there...wait, what's your name?");
+    cin >> name;
+    proclaim("Yes, right, let's try this again!");
+    proclaim("Hello there, " + name);
+
+    return 0;
+    
+  }
+#+end_src
+*** Exercise: Giving it pizazz!
+Now we have to do the really hard part, which is to use for-loops to print out the text with =-= characters over and underneath the text and =|= to the side, creating a big box around the text. The one hint I'll give is that you can use =s.length()= to get the size of a string!
+**** Solution
+#+begin_src cpp :tangle codesnips/pizazzsol.cpp
+  #include <iostream>
+  using namespace std;
+
+  void proclaim(string s){
+    for(int i= 0; i<s.length()+2; i++){
+      cout << "-";
+    }
+    cout << endl;
+    cout << "|" << s << "|" << endl;
+    for(int i= 0; i<s.length()+2; i++){
+      cout << "-";
+    }
+    cout << endl;
+  }
+
+  int main(){
+    string name;
+    proclaim("Hello there...wait, what's your name?");
+    cin >> name;
+    proclaim("Yes, right, let's try this again!");
+    proclaim("Hello there, " + name + "!");
+    
+    return 0;
+      
+  }
+
+#+end_src
