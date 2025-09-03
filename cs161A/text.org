@@ -144,6 +144,62 @@ So to understand the final line of the function, =return 0;=, remember how we sa
    * Hello *
    *********
    #+end_example
+3. *Advanced*
+   This is less of an exercise and more of a "follow the recipe" to give you a taste of something you'll need to do later.
+
+   First, start with this code either in-browser or locally on your computer!
+   #+begin_src cpp
+     #include <iostream>
+     using namespace std;
+
+     void sayHello(){
+     }
+
+     int main(){
+       cout << "Hello, world!" << endl;
+       
+       return 0;
+     }
+   #+end_src
+
+   What we've done here is create a /new/ function. This new function doesn't return /anything/ so instead of =int= it has the word =void= in front. Now this function, this reusable bit of code, doesn't do anything yet.
+
+   Your first step is to copy the line =cout << ...= from main into the =sayHello= function. It should look like this now:
+   #+begin_src cpp 
+     #include <iostream>
+     using namespace std;
+
+     void sayHello(){
+       cout << "Hello, world!" << endl;
+     }
+
+     int main(){
+       cout << "Hello, world!" << endl;
+
+       return 0;
+     }
+   #+end_src
+
+   Now, go ahead and delete the line you copied from =main= and replace it with =sayHello();=, so it looks like this:
+   #+begin_src cpp :tangle helloFuncSol.cpp
+     #include <iostream>
+     using namespace std;
+
+     void sayHello(){
+       cout << "Hello, world!" << endl;
+     }
+
+     int main(){
+       sayHello();
+       
+       return 0;
+     }
+
+   #+end_src 
+
+Congratulations, you've written a /function/ for the first time. This is one of the core-est of core concepts in programming: separating code into pieces that can be re-used and re-combined easily.
+
+Question: From this alone, can you write a couple of sentences about how you /think/ you'll use functions in the future?
 ** DONE Why semicolons?
 Already, you've probably noticed all the semicolons (the ";" symbols) in this code and this might be one of the first times in your life you've really needed to use them! It's reasonable to be asking "why, though?" now.
 
@@ -287,6 +343,58 @@ Continuing this metaphor we can explain what happens when you make a variable:
  + comes back and puts the value of that label into the variable name you declared
 
 We can help explain, too, what these type signifiers are like =int= and =string=: they're there to make it easy for the computer to know what the size of the data is, "where to put the divider" if we keep going with the metaphor.[fn:15]
+
+*** TODO Comments and documentation
+There's a line from the (absolutely amazing) old computer science textbook "Structure and Interpretation of Computer Programs" that goes
+
+#+begin_quote
+Programs must be written for people to read, and only incidentally for machines to execute.
+#+end_quote
+
+If that pithy line sounds weird think of it this way: when we write code we're solving problems. When we solve problems, we want other people to be able to understand those solutions for two reasons.
+
+The first is that we want other people to be able to check our work and see if we did it correctly! If there's a problem not with the /code/ but with the /reasoning/ then it needs to be clear the decisions that were made and /why/ they were made.
+
+To make this really concrete, imagine that you're coding a physics simulation for a game engine. It works great for one game, a retro-style 2.5D shoot-em'-up. Now, later people want to adapt this physics engine to a remake of gamer-rage classic Getting Over It, but now with a pogo-stick. Except it doesn't work! The bouncing looks and moves completely wrong!
+
+Now, if your code is well-written, clear, and properly documented these game developers might discover the assumption that all collisions are perfectly elastic, so if something bounces once it will bounce *exactly* as high every single time. A cup of coffee's worth of coding later, they have it fixed!
+
+If your code is obtuse, poorly refactored, and has no documentation then, well, they might have to just write something new from scratch or grab a new physics engine library.
+
+To recall a point made earlier, one of the most common ways this story plays out is for both developers to be /you/: because the past is a foreign country and time makes us strangers to ourselves.
+
+All of that being said, /what/ does good documentation look like? This is a subjective thing but my take would be something like:
+
++ functions have names that tell you something
++ variables and function parameters are clear either by descriptive names or short names with useful conventions (i.e. generic arithmetic functions have parameters like =n1= and =n2= rather than =firstNumber=/=secondNumber=
++ the /ideas/ behind the code and description of how it /should/ work are explained well
+
+With that last bit, you might be wondering how we can add explanations into the code? Those are /comments/.
+
+Comments are *completely* ignored by the compiler and are text only people see in the source code, thrown away in the creation of the actual program.
+
+There are two ways to write comments: the first is to put =//= anywhere in a line of code, which means that everything to the right of the double-slash becomes a comment; the second is to have a pair =/*= and =*/= across multiple lines, which makes the entire region commented. Here's an example:
+
+#+begin_src cpp
+  #include <iostream>
+  using namespace std;
+
+  int main(){
+    int num = 0; // this program doesn't do anything interesting
+
+    /* but it
+       has
+       plenty
+       of
+       comments
+       
+       explodeComputer();
+
+       oh look this function doesn't get called, I guess
+    ,*/
+    return num;
+  }
+#+end_src
 
 *** DONE Arithmetic and such in C++
 Arithmetic in C++, like most programming languages, is meant to look a lot like the arithmetic operations you're used to. You can test out some basic operations with the following code. Note that this example shows us that you can use =cin= with types other than =string=.
@@ -1966,7 +2074,7 @@ Let's write a little program to test this out:
 
   int main(){
 
-    int test = {10,11,12,13,14};
+    int test[] = {10,11,12,13,14};
 
     //let's prove that the [] brackets were really just playing with pointers all along!
     for(int i=0; i < 5; i++){

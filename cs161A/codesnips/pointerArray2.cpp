@@ -3,7 +3,7 @@ using namespace std;
 
 int main(){
 
-  int test = {10,11,12,13,14};
+  int test[] = {10,11,12,13,14};
 
   //let's prove that the [] brackets were really just playing with pointers all along!
   for(int i=0; i < 5; i++){
