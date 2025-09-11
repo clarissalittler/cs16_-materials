@@ -700,12 +700,12 @@ So if we wanted to make a table in C++ we might want to do something like use so
 
     cout << "|" << "Liese"
          << "|" << "Cat"
-         << "|" << "24"
+         << "|" << 24
          << "|" << endl;
 
     cout << "|" << "Dora"
          << "|" << "Dachshund"
-         << "|" << "15"
+         << "|" << 15
          << "|" << endl;
 
     return 0;
@@ -728,12 +728,12 @@ We can test it out by modifying our program like this:
 
     cout << "|" << setw(15) << "Liese"
          << "|" << setw(15) << "Cat"
-         << "|" << setw(15) << "24"
+         << "|" << setw(15) << 24
          << "|" << endl;
 
     cout << "|" << setw(15) << "Dora"
          << "|" << setw(15) << "Dachshund"
-         << "|" << setw(15) << "15"
+         << "|" << setw(15) << 15
          << "|" << endl;
 
     return 0;
@@ -761,12 +761,12 @@ This is /alright/ but personally I think the way the data and columns are aligne
 
     cout << "|" << setw(15) << "Liese"
          << "|" << setw(15) << "Cat"
-         << "|" << setw(15) << "24"
+         << "|" << setw(15) << 24
          << "|" << endl;
 
     cout << "|" << setw(15) << "Dora"
          << "|" << setw(15) << "Dachshund"
-         << "|" << setw(15) << "15"
+         << "|" << setw(15) << 15
          << "|" << endl;
 
     return 0;
@@ -796,18 +796,112 @@ That's slightly easier to read, but we still have room to fuss around with this 
   
     cout << "|" << setw(15) << "Liese"
          << "|" << setw(15) << "Cat"
-         << "|" << setw(15) << "24"
+         << "|" << setw(15) << 24
          << "|" << endl;
 
     cout << "|" << setw(15) << "Dora"
          << "|" << setw(15) << "Dachshund"
-         << "|" << setw(15) << "15"
+         << "|" << setw(15) << 15
          << "|" << endl;
   
     return 0;
   }
 
 #+end_src
+
+Quick Check: What happens if the longest word is longer than the space you set aside for it? Does it truncate or does it through off the formatting? Try it and find out!
+
+**** TODO Abstracting formatting with functions
+If you've been following along and doing all the exercises, you'll have seen the concept of functions once already. Functions are ways to /encapsulate/, to package up, code for re-use later. This can let us simplify our programs by only having to implement a concept /once/ and then using it again and again.
+
+For example, let's simplify our pet tables a bit!
+
+Before I /show/ you how to change the code, take a second to look it over and note what is repetitious about it. What jumps out to you?
+
+It's the =cout ... setw(15) ... setw(15) ...= lines, right?
+
+So what do all these lines have in common? They all have the same pattern of ="|"= and =setw(15)=. What's different between them? The actual values passed in: the pet's name, species, and age.
+
+Let's write a new function that takes those three items as arguments and builds up the =cout << ...= line from that!
+
+#+begin_src cpp :tangle codesnips/colfunc1.cpp
+  #include <iostream>
+  #include <iomanip>
+  using namespace std;
+
+  void petRow(string name, string species, int age){
+    cout << "|" << setw(15) << name
+         << "|" << setw(15) << species
+         << "|" << setw(15) << age
+         << "|" << endl;
+  }
+
+  int main(){
+
+    cout << "|" << setw(15) << "Pet name"
+         << "|" << setw(15) << "Pet species"
+         << "|" << setw(15) << "Pet age"
+         << "|" << endl;
+
+    cout << setfill('-');
+    cout << "|" << setw(15) << ""
+         << "|" << setw(15) << ""
+         << "|" << setw(15) << ""
+         << "|" << endl;
+    cout << setfill(' ');
+
+    petRow("Liese", "Cat", 24);
+    petRow("Dora", "Dachshund", 15);
+    
+    return 0;
+  }
+#+end_src
+Okay, so this is an improvement! Now if we want to add new rows it's going to be nice and easy: a single call to =petRow= each.
+
+Now, there's one annoying thing, right? We can't actually use this =petRow= function in order to also print the header of the table, because "Pet age" is a string but the actual ages are numbers!
+
+C++ does, actually, give us a way to deal with this but it's mildly annoying: we can write a second function that has the same name but different parameters, like so.
+
+#+begin_src cpp :tangle codesnips/colfunc2.cpp
+  #include <iostream>
+  #include <iomanip>
+  using namespace std;
+
+  void petRow(string header1, string header2, string header3){
+    cout << "|" << setw(15) << header1
+         << "|" << setw(15) << header2
+         << "|" << setw(15) << header3
+         << "|" << endl;
+  }
+
+
+  void petRow(string name, string species, int age){
+    cout << "|" << setw(15) << name
+         << "|" << setw(15) << species
+         << "|" << setw(15) << age
+         << "|" << endl;
+  }
+
+  int main(){
+
+    petRow("Pet name", "Pet species", "Pet age");
+    
+    cout << setfill('-');
+    petRow("","","");
+    cout << setfill(' ');
+
+    petRow("Liese", "Cat", 24);
+    petRow("Dora", "Dachshund", 15);
+    
+    return 0;
+  }
+#+end_src
+
+This is called "overloading" and is a trick that C++ lets you use when you need to write conceptually related functions that have slightly different arguments. 
+
+Is this a satisfying solution? That's a personal question of style, but it /is/ the method that C++ gives us for handling this problem.
+
+The /good/ thing is that this lets us make row after row after row with just simple calls to functions, which will be helpful very soon.
 
 **** DONE Formatting decimal points
 Okay the other formatting topic that we need to deal with is how to deal with decimal points. Let's look at a simple program with doubles and you can immediately see the formatting problem:
@@ -866,12 +960,11 @@ So we need to /also/ do =cout << fixed;= in order to make sure it /always/ print
   }
 
 #+end_src
-*** Exercises
+**** Exercises
 1. *Basic*: Create a receipt with 3 items showing item name, price, and quantity in aligned columns.
 2. *Intermediate*: Display a multiplication table (1-10) with proper alignment and borders.
 3. *Challenge*: Create a formatted invoice that includes items, quantities, unit prices, line totals, subtotal, tax (8.5%), and grand total - all properly aligned and formatted.
 
-**** TODO Abstracting formatting with functions
 *** DONE Your first while loop: a number guessing game
 In this section we'll be covering how to do your first kind of loop in C++, the =while= loop. Conceptually, a =while= loop lets you do something over and over again until the question "should I keep going" returns false.
 
@@ -1271,12 +1364,12 @@ So line by line what this program does is:
 3. a for-loop that asks for the information for each row of the table and fills it in
 4. a for loop that prints out each row
 
-
 #+begin_quote
-Exercise: Take this program and add another column for the age of the pet
+Quick Check: Take this program and add another column for the age of the pet
 
 That means you'll need to add a new array of ints to hold the age, ask for the age with cin, and also print that out appropriately.
 #+end_quote
+
 *** Exercises
 1. *Basic*: Create an array of 7 daily temperatures and find the warmest and coldest days.
 2. *Intermediate*: Reverse the contents of an array in-place (without creating a new array).
@@ -1304,7 +1397,94 @@ Now let's try a similar thing in C++:
   }
 #+end_src
 
-Well when I ran this I got =1663205712= printed out to the console. If you remember from way at the beginning of this tutorial when we went over what happens when you use an uninitialized variable, you might see a similarity! Except that, in some ways, this is worse!
+Well when I ran this I got =1663205712= printed out to the console. If you remember from way at the beginning of this tutorial when we went over what happens when you use an uninitialized variable, you might see a similarity! Except that, in some ways, this is worse.
+
+It /feels/ like I initialized everything correctly, I told C++ how big the array should be, and yet C++ didn't stop me from going off the edge of the world!
+
+We'll cover, in greater depth, /why/ C++ doesn't protect you from this error but for now the way you should think of it is that when you declare an array variable you're actively setting aside a contiguous set of cubbyholes in the storage wall, but that *you* need to keep track of which ones belong to which array. This is part of the reason why, in our previous example, we had a separate variable called =numPets= that kept track of how many pets were supposed to be in the database. We reproduce the example below.
+
+#+begin_src cpp 
+  #include <iostream>
+  using namespace std;
+
+  int main(){
+    int numPets = 5;
+  
+    string petNames[numPets];
+    string petSpecies[numPets];
+
+    for(int i=0; i < numPets; i++){
+      cout << "Enter the name of the pet: ";
+      cin >> petNames[i];
+      cout << "Enter the pet species: ";
+      cin >> petSpecies[i];
+    }
+
+    for(int i=0; i < numPets; i++){
+      cout << petNames[i] << " is a " << petSpecies[i] << endl;
+    }
+  
+    return 0;
+  }
+#+end_src
+
+Now you might look at this and think "couldn't you accidentally change numPets?" and, yes, you could! I could write something like this:
+#+begin_src cpp 
+  #include <iostream>
+  using namespace std;
+
+  int main(){
+    int numPets = 5;
+
+    string petNames[numPets];
+    string petSpecies[numPets];
+
+    numPets = 10;
+
+    for(int i=0; i < numPets; i++){
+      cout << "Enter the name of the pet: ";
+      cin >> petNames[i];
+      cout << "Enter the pet species: ";
+      cin >> petSpecies[i];
+    }
+
+    for(int i=0; i < numPets; i++){
+      cout << petNames[i] << " is a " << petSpecies[i] << endl;
+    }
+
+    return 0;
+  }
+#+end_src
+
+This is why we have /constants/ in C++, which are like variables but once they have a value that value isn't allowed to change! It's just like any other variable but you put =const= in front of the variable declaration:
+
+#+begin_src cpp  :tangle codesnips/petDBConst.cpp
+  #include <iostream>
+  using namespace std;
+
+  int main(){
+    const int numPets = 5;
+  
+    string petNames[numPets];
+    string petSpecies[numPets];
+
+    for(int i=0; i < numPets; i++){
+      cout << "Enter the name of the pet: ";
+      cin >> petNames[i];
+      cout << "Enter the pet species: ";
+      cin >> petSpecies[i];
+    }
+
+    for(int i=0; i < numPets; i++){
+      cout << petNames[i] << " is a " << petSpecies[i] << endl;
+    }
+  
+    return 0;
+  }
+#+end_src
+
+Go ahead and try to mess it up by changing =numPets= later in the program and see what happens when you try to compile and run it?
+**** TODO Faking a variable-length array
 
 ** TODO Data validation, the world's most annoying idiom [1/2]
 So we've been playing fast and loose for awhile about how to read in data from the user. But, in reality, you should be checking what the user has entered and asking them to re-enter their response if it's not something you expect. This is actually a really annoying topic because there's no easy way to do this in base C++, which is why I'm going to introduce this topic early. 
@@ -2086,6 +2266,11 @@ Let's write a little program to test this out:
   }
 #+end_src
 
+If you run this you should see that both methods print identical items in the array!
+*** Pointer and a promise
+Let's take a step back now and talk about what the implications of all this actually is: arrays are "really" just pointers. Pointers have no sense of how many contiguous addresses after the pointer are valid as they're merely /addresses/ for memory locations. That's why you have so many of these awkward coding idioms where you have to separately keep track of, for example, how many items you read in rather than being able to access the length of an array.
+
+This is why, in modern programming, you don't use basic C/C++ style arrays that often. Arrays in Python, for e
 
 
 ** TODO Char Arrays

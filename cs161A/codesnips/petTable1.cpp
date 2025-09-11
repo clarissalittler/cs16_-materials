@@ -9,12 +9,12 @@ int main(){
 
   cout << "|" << "Liese"
        << "|" << "Cat"
-       << "|" << "24"
+       << "|" << 24
        << "|" << endl;
 
   cout << "|" << "Dora"
        << "|" << "Dachshund"
-       << "|" << "15"
+       << "|" << 15
        << "|" << endl;
 
   return 0;

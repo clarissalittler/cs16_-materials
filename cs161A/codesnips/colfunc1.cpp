@@ -2,6 +2,13 @@
 #include <iomanip>
 using namespace std;
 
+void petRow(string name, string species, int age){
+  cout << "|" << setw(15) << name
+       << "|" << setw(15) << species
+       << "|" << setw(15) << age
+       << "|" << endl;
+}
+
 int main(){
 
   cout << "|" << setw(15) << "Pet name"
@@ -16,16 +23,8 @@ int main(){
        << "|" << endl;
   cout << setfill(' ');
 
-
-  cout << "|" << setw(15) << "Liese"
-       << "|" << setw(15) << "Cat"
-       << "|" << setw(15) << 24
-       << "|" << endl;
-
-  cout << "|" << setw(15) << "Dora"
-       << "|" << setw(15) << "Dachshund"
-       << "|" << setw(15) << 15
-       << "|" << endl;
-
+  petRow("Liese", "Cat", 24);
+  petRow("Dora", "Dachshund", 15);
+  
   return 0;
 }

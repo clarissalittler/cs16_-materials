@@ -10,12 +10,12 @@ int main(){
 
   cout << "|" << setw(15) << "Liese"
        << "|" << setw(15) << "Cat"
-       << "|" << setw(15) << "24"
+       << "|" << setw(15) << 24
        << "|" << endl;
 
   cout << "|" << setw(15) << "Dora"
        << "|" << setw(15) << "Dachshund"
-       << "|" << setw(15) << "15"
+       << "|" << setw(15) << 15
        << "|" << endl;
 
   return 0;
