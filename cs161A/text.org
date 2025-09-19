@@ -344,7 +344,9 @@ Continuing this metaphor we can explain what happens when you make a variable:
 
 We can help explain, too, what these type signifiers are like =int= and =string=: they're there to make it easy for the computer to know what the size of the data is, "where to put the divider" if we keep going with the metaphor.[fn:15]
 
-*** TODO Comments and documentation
+This memory[fn:9] gets reset every time you run the program. That's because the memory of your computer isn't for long-term storage, it's the scratch paper that programs need to run and keep track of all of their calculations.
+
+*** DONE Comments and documentation
 There's a line from the (absolutely amazing) old computer science textbook "Structure and Interpretation of Computer Programs" that goes
 
 #+begin_quote
@@ -395,6 +397,9 @@ There are two ways to write comments: the first is to put =//= anywhere in a lin
     return num;
   }
 #+end_src
+
+**** TODO Exercise about documenting a program
+
 
 *** DONE Arithmetic and such in C++
 Arithmetic in C++, like most programming languages, is meant to look a lot like the arithmetic operations you're used to. You can test out some basic operations with the following code. Note that this example shows us that you can use =cin= with types other than =string=.
@@ -1709,6 +1714,32 @@ Okay, so now let's talk about some convenience functions that help us take apart
     return 0;
   }
 #+end_src
+It should have returned the number =10= when you ran it. Can you guess what that number represents?
+
+#+begin_example
+t h i s _ i s _ a _  r  o  c  k
+0 1 2 3 4 5 6 7 8 9 10 11 12 13
+#+end_example
+
+It's the position in the string where the /substring/ rock starts! Here, let's test this theory by also checking for ="is"= . What should =find= return when we run =str1.find("is")=?
+
+#+begin_src cpp :tangle codesnips/find2.cpp
+  #include <iostream>
+  #include <string>
+  using namespace std;
+
+  int main(){
+
+    string str1 = "this is a rock";
+
+    // let's see what find does
+    cout << str1.find("is") << endl;
+    return 0;
+  }
+#+end_src
+Hopefully you also saw =2=. Why =2=? Because it's not looking for /words/-per-se, it's looking for the literal characters "is", which first show up as the third and fourth letters in "this".
+
+
 
 *** TODO Iterating over strings with for-loops
 Now remember how I showed you a bit about how arrays work and the fact that for-loops were made to work with them? Okay, so part of why I needed to show you that is while *technically* you're not using arrays in this class it's useful to understand the idea behind them because you can treat strings "like" arrays for operating on them.
@@ -1948,7 +1979,7 @@ No, instead, you need to do something more like
 2. *Intermediate*: Build a simple calculator using switch for operations (+, -, *, /). Handle division by zero.
 3. *Challenge*: Create a text-based restaurant ordering system with switch for menu categories (appetizers, mains, desserts) and nested switches for items.
 ** TODO Writing your own functions
-*** TODO The basics of functions
+*** TODO Functions, reintroduced
 So we've seen a couple of ways to define our own functions so far in this course, but we haven't *formally* talked about it.
 
 Our very first function we've defined was in our "hello world" program! =main= is a function and we're defining it. It's kind of a weird function because it has to be the same every time:
@@ -1969,7 +2000,7 @@ Like, for example, consider our function for the sarcasm case up above. This fun
 #+end_src
 And this tells us that we're defining a function called =sarcasmCase=, it takes a =string= as an argument that we will bind to the variable =s= for the duration of the function body, and we can see that it returns a string. That means we need to make sure that we have a =return __= where the =__= needs to be something of type string.
 
-We haven't really seen examples of it so far but you can have a bunch of function arguments. Like, consider this function that will let us make rows for a table.
+We haven't really seen examples of it so far but you can have a bunch of function arguments. Here's a variant of our functions for building tables. 
 
 #+begin_src cpp :tangle codesnips/rowmaker.cpp
   #include <iostream>
@@ -3195,6 +3226,7 @@ These solutions demonstrate various programming concepts and best practices:
 Remember: The best solution is one that works correctly, is readable, and can be maintained. As you gain experience, you'll develop your own coding style and preferences.
 
 * Footnotes
+[fn:9] This is only true for memory allocated, allocated being the technical term for setting up the dividers on the storage wall and putting the labels on the cubbyhole, /on the stack/. All the memory you're allocating in this class---every variable you create, every array you make---will be on the stack. There is /another/ way to allocate memory that is more flexible but also harder to manage that can persist even after the program is closed. That's not a neat feature though, that's called a "memory leak" and is the reason why Chrome and Firefox seem to swell up to 20GB of RAM if you leave them open long enough. It still can't be used for long-term storage!
 
 [fn:15] Okay type systems, in general, can actually do so much more than this but in C/C++ this is one of the primary reasons. If you take a systems programming class, you'll learn more about /why/ C/C++ work this way. 
 [fn:8] Okay, what on earth does "less precise" mean in this context? Okay, let's talk about sizes of infinity. No, really, I promise that this isn't a tangent. So the whole numbers, the integers, are infinite. You can start counting in either direction---positive or negative---and you'll never reach the end. This is the smallest infinity though. The numbers that have decimals, which are the "real numbers", are much bigger than the whole numbers. There are more real numbers between 0 and 1 than the entirety of the integers. The reason for this is, in a sense, is because a real number can have an infinite number of digits to the right of the decimal point. The problem for us, as computer scientists, is that there's no way to represent "an infinite number of digits" in a way that can fit in a finite amount of memory. So, instead, we have to compromise and instead of representing *all* possible real numbers we represent *some* of them. How well we can represent a number is the "precision". The higher the precision, the more fine-grained of distinctions we can make between representing two real numbers.
