@@ -398,8 +398,48 @@ There are two ways to write comments: the first is to put =//= anywhere in a lin
   }
 #+end_src
 
-**** TODO Exercise about documenting a program
+**** DONE Exercise about documenting a program
+Here's a program that is uncommented and uses a number of constructs you haven't seen before.
 
+See if you can take this code and add comments to it to clarify what it does and write notes about what you don't understand. This is an exercise to practice /reading/ code, which is about as important a skill as writing it in the first place!
+
+#+begin_src cpp
+  #include <iostream>
+  #include <cmath>
+  using namespace std;
+
+  int main() {
+      int choice;
+      double radius, length, width, area;
+      
+      cout << "Shape Area Calculator" << endl;
+      cout << "1. Circle" << endl;
+      cout << "2. Rectangle" << endl;
+      cout << "Enter your choice (1 or 2): ";
+      cin >> choice;
+      
+      if (choice == 1) {
+          cout << "Enter radius: ";
+          cin >> radius;
+          area = 3.14159 * radius * radius;
+          cout << "Area of circle: " << area << endl;
+      }
+      else if (choice == 2) {
+          cout << "Enter length: ";
+          cin >> length;
+          cout << "Enter width: ";
+          cin >> width;
+          area = length * width;
+          cout << "Area of rectangle: " << area << endl;
+      }
+      else {
+          cout << "Invalid choice!" << endl;
+          return 1;
+      }
+      
+      return 0;
+  }
+#+end_src
 
 *** DONE Arithmetic and such in C++
 Arithmetic in C++, like most programming languages, is meant to look a lot like the arithmetic operations you're used to. You can test out some basic operations with the following code. Note that this example shows us that you can use =cin= with types other than =string=.
@@ -462,7 +502,26 @@ There, that's probably more what you would have expected from division.
 
 Note that =cin= keeps working no matter what type of container we're trying to fill with it! There's definitely no possibility that is going to go wrong later in a really annoying way! Foreshadowing!
 **** TODO On casting numbers
- Let's imagine that you start out with integers but you do need to divide them later, you can actually "type cast" one into the other. 
+ Let's imagine that you start out with integers but you do need to divide them later. You could just start with doubles but that violates a basic principle of programming: you want the /type/ of the variable to match what it /is/. If you wanted to, say, keep track of rock/paper/scissors wins versus the total number of games played, you wouldn't want to store that as a double because what's 0.3 games? It's has no meaningful interpretation[fn:10], so our program shouldn't allow it even accidentally.
+
+ So what do we do? We temporarily tell the C++ compiler "here, right here, treat this data like it's a different type".
+
+ So we can do something like this to divide two integers:
+
+ #+begin_src cpp :tangle codesnips/cast1.cpp
+   #include <iostream>
+   using namespace std;
+
+   int main(){
+
+     int num1 = 5;
+     int num2 = 3;
+
+     cout << static_cast<double>(num1)/static_cast<double>(num2) << endl;
+     
+     return 0;
+   }
+ #+end_src
 *** Exercises
 1. *Basic*: Calculate the area and perimeter of a rectangle from user input (length and width).
 2. *Intermediate*: Create a tip calculator that asks for bill amount and tip percentage, then shows the tip amount and total.
@@ -3226,6 +3285,8 @@ These solutions demonstrate various programming concepts and best practices:
 Remember: The best solution is one that works correctly, is readable, and can be maintained. As you gain experience, you'll develop your own coding style and preferences.
 
 * Footnotes
+
+[fn:10] Computer scientists, when talking about the "meaning" of things in programming borrow a word from the linguistics community and we talk about the /semantics/ of a program. So the /semantics/ of "the number of wins" should be a whole number, an integer, because there's no such thing as "a partial win". So our point can be rephrased as saying that "the type of the data should fit the /semantics/ of the data". 
 [fn:9] This is only true for memory allocated, allocated being the technical term for setting up the dividers on the storage wall and putting the labels on the cubbyhole, /on the stack/. All the memory you're allocating in this class---every variable you create, every array you make---will be on the stack. There is /another/ way to allocate memory that is more flexible but also harder to manage that can persist even after the program is closed. That's not a neat feature though, that's called a "memory leak" and is the reason why Chrome and Firefox seem to swell up to 20GB of RAM if you leave them open long enough. It still can't be used for long-term storage!
 
 [fn:15] Okay type systems, in general, can actually do so much more than this but in C/C++ this is one of the primary reasons. If you take a systems programming class, you'll learn more about /why/ C/C++ work this way. 
