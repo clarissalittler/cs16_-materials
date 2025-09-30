@@ -1,0 +1,25 @@
+# Gitignore for CS161A Autograder
+
+# Reference solutions - DO NOT COMMIT (contains solutions to assignments)
+reference_solutions/
+
+# Student submissions
+submissions/
+
+# Compiled binaries
+build/
+*.o
+*.out
+*.exe
+
+# Temporary files
+*.tmp
+*.swp
+*~
+
+# Test scripts that might contain solutions (if any)
+# (Currently none - all test scripts are safe to commit)
+
+# OS files
+.DS_Store
+Thumbs.db
