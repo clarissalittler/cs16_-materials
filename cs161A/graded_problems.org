@@ -1,0 +1,349 @@
+* Graded Programming Problems
+These problems are designed to be submitted for grading. They are at the intermediate difficulty level and should not include solutions in student-facing materials.
+
+Problems are ordered by the week they should be assigned in a typical 10-week introductory programming course.
+
+** Week 3 Problems
+
+*** Problem 1: Temperature Converter
+Create a program that converts temperatures between Fahrenheit, Celsius, and Kelvin.
+
+*Requirements:*
+- Display a menu with options:
+  1. Fahrenheit to Celsius
+  2. Fahrenheit to Kelvin
+  3. Celsius to Fahrenheit
+  4. Celsius to Kelvin
+  5. Kelvin to Fahrenheit
+  6. Kelvin to Celsius
+- Read the user's choice (1-6)
+- Prompt for the temperature value
+- Perform the conversion and display the result with 2 decimal places
+- Handle invalid menu choices with an error message
+
+*Conversion formulas:*
+- C = (F - 32) * 5/9
+- F = C * 9/5 + 32
+- K = C + 273.15
+- C = K - 273.15
+
+** Week 4 Problems
+
+*** Problem 2: Number Guessing Game with Hints
+Write a guessing game where the computer picks a random number and the player tries to guess it.
+
+*Requirements:*
+- Generate a random number between 1 and 50
+- Allow the player up to 7 attempts
+- For each guess:
+  - Tell the player if they guessed too high or too low
+  - Display how many attempts remain
+  - If within 5 of the answer, print "You're getting warm!"
+  - If within 2 of the answer, print "You're very close!"
+- If they guess correctly, congratulate them and show how many attempts it took
+- If they run out of attempts, reveal the correct number
+- Use a while loop for the guessing
+
+*** Problem 3: Input Validation Loop
+Write a program that validates user input for a student registration system.
+
+*Requirements:*
+- Ask the user for:
+  - Student age (must be 16-100)
+  - Student grade level (must be 9, 10, 11, or 12)
+  - Number of courses (must be 4-8)
+- For each input, use a while loop to keep asking until valid input is provided
+- Provide specific error messages for each type of invalid input
+- After all valid input is collected, display a confirmation message with all the information
+- Handle non-numeric input gracefully using cin.fail(), cin.clear(), and cin.ignore()
+
+*Example of handling invalid input:*
+#+begin_example
+Enter student age: 200
+Error: Age must be between 16 and 100.
+Enter student age: fifteen
+Error: Invalid input. Please enter a number.
+Enter student age: 17
+Valid!
+#+end_example
+
+** Week 5 Problems
+
+*** Problem 4: Pyramid Pattern Printer
+Write a program that prints a centered pyramid pattern of asterisks.
+
+*Requirements:*
+- Ask the user for the height of the pyramid (must be between 1 and 20)
+- Print a centered pyramid with that many rows
+- Each row should have the appropriate number of spaces before the asterisks to center them
+- The bottom row should have (2*height - 1) asterisks
+
+*Example for height 5:*
+#+begin_example
+    *
+   ***
+  *****
+ *******
+*********
+#+end_example
+
+*Hint:* You'll need nested for loops - one for rows, one for spaces, one for asterisks.
+
+** Week 6 Problems
+
+*** Problem 5: Grade Book Average
+Write a program that calculates statistics for a student's test scores.
+
+*Requirements:*
+- Ask the user how many test scores they want to enter (must be between 1 and 10)
+- Create an array to store the scores
+- Read in all the scores (each should be 0-100)
+- Calculate and display:
+  - The average score
+  - The highest score
+  - The lowest score
+  - How many scores are above the average
+- Use proper formatting with 2 decimal places for the average
+
+*** Problem 6: Dice Roll Statistics
+Write a program that simulates rolling dice and tracks the results.
+
+*Requirements:*
+- Ask the user how many times to roll two six-sided dice (must be between 10 and 1000)
+- Simulate rolling two dice for that many rolls
+- Keep track of how many times each sum (2-12) appears
+- After all rolls, display:
+  - A table showing each possible sum (2-12) and how many times it occurred
+  - The most frequent sum
+  - The least frequent sum
+  - What percentage of rolls resulted in a 7
+- Use an array to store the counts for each sum
+
+*Example output:*
+#+begin_example
+How many rolls? 100
+
+Sum    Count
+---    -----
+2      3
+3      6
+4      8
+5      10
+6      15
+7      18
+8      14
+9      11
+10     7
+11     6
+12     2
+
+Most frequent: 7 (18 times)
+Least frequent: 12 (2 times)
+Percentage of 7s: 18.00%
+#+end_example
+
+** Week 7 Problems
+
+*** Problem 7: Word Statistics
+Create a program that analyzes a sentence entered by the user.
+
+*Requirements:*
+- Use getline() to read an entire sentence with spaces
+- Count and display:
+  - Total number of characters (including spaces)
+  - Number of letters (alphabetic characters only)
+  - Number of vowels (a, e, i, o, u - both upper and lowercase)
+  - Number of consonants
+  - Number of spaces
+  - Number of words (count spaces + 1, assuming clean input)
+- The counts should all be displayed in a clear format
+
+*Example output:*
+#+begin_example
+Enter a sentence: The quick brown fox jumps
+
+Statistics:
+Total characters: 24
+Letters: 20
+Vowels: 6
+Consonants: 14
+Spaces: 4
+Words: 5
+#+end_example
+
+*** Problem 8: Simple Cipher
+Create a program that encodes and decodes messages using a Caesar cipher.
+
+*Requirements:*
+- Ask the user if they want to encode or decode (E/D)
+- Ask for a shift value (1-25)
+- Ask for the message (use getline)
+- For encoding: shift each letter forward by the shift value
+- For decoding: shift each letter backward by the shift value
+- Wrap around the alphabet (z+1 becomes a, a-1 becomes z)
+- Preserve the case of letters (uppercase stays uppercase, lowercase stays lowercase)
+- Leave non-letter characters unchanged (spaces, punctuation, etc.)
+
+*Example:*
+#+begin_example
+Encode or Decode (E/D)? E
+Enter shift value: 3
+Enter message: Hello World!
+Encoded: Khoor Zruog!
+#+end_example
+
+** Week 8 Problems
+
+*** Problem 9: Day of Week Calculator
+Write a program that uses a switch statement to work with days of the week.
+
+*Requirements:*
+- Display a menu asking what information the user wants:
+  1. Enter a number (1-7) and get the day name
+  2. Enter a day number and find out if it's a weekday or weekend
+  3. Enter a day number and get the next day
+- For option 1: 1=Monday, 2=Tuesday, ..., 7=Sunday
+- For option 2: Display "Weekday" or "Weekend"
+- For option 3: Display the name of the next day (Sunday wraps to Monday)
+- Use a switch statement for the day-to-name conversion
+- Handle invalid input appropriately
+
+*** Problem 10: Array Rotation
+Write a program that rotates the elements of an array.
+
+*Requirements:*
+- Create an integer array of size 8
+- Ask the user to enter 8 numbers to fill the array
+- Display the original array
+- Ask the user how many positions to rotate right (1-7)
+- Perform the rotation (moving elements to the right, wrapping around)
+- Display the rotated array
+
+*Example:*
+Original: [1, 2, 3, 4, 5, 6, 7, 8]
+Rotate right by 3: [6, 7, 8, 1, 2, 3, 4, 5]
+
+*Hint:* You may need a temporary array or clever indexing.
+
+** Week 9 Problems
+
+*** Problem 11: Prime Number Checker Function
+Write a program with a function that determines if a number is prime.
+
+*Requirements:*
+- Implement a function: =bool isPrime(int n)= that:
+  - Returns true if n is prime, false otherwise
+  - Handles edge cases (numbers less than 2 are not prime)
+  - Uses efficient checking (only test divisors up to sqrt(n))
+- In main:
+  - Ask the user for a starting number and ending number (both must be positive, start < end)
+  - Use the isPrime function to find and display all prime numbers in that range
+  - Count and display how many primes were found
+  - Calculate and display what percentage of the numbers in the range were prime
+
+*Example output:*
+#+begin_example
+Enter starting number: 10
+Enter ending number: 30
+
+Prime numbers between 10 and 30:
+11 13 17 19 23 29
+
+Total primes found: 6
+Percentage: 28.57%
+#+end_example
+
+*** Problem 12: Distance Calculator Function
+Write a program with functions that calculate distances in different scenarios.
+
+*Requirements:*
+- Implement three functions:
+  - =double distance2D(double x1, double y1, double x2, double y2)= - Euclidean distance between two 2D points
+  - =double distance3D(double x1, double y1, double z1, double x2, double y2, double z2)= - Euclidean distance between two 3D points
+  - =double manhattanDistance(double x1, double y1, double x2, double y2)= - Manhattan distance in 2D
+- In main, provide a menu to choose which distance to calculate
+- Prompt for the appropriate coordinates
+- Call the correct function and display the result with 2 decimal places
+
+*Distance formulas:*
+- 2D Euclidean: sqrt((x2-x1)^2 + (y2-y1)^2)
+- 3D Euclidean: sqrt((x2-x1)^2 + (y2-y1)^2 + (z2-z1)^2)
+- Manhattan: |x2-x1| + |y2-y1|
+
+*** Problem 13: Sales Receipt Calculator
+Write a program that calculates the final cost of a purchase with tax and discount.
+
+*Requirements:*
+- Ask the user for the item price
+- Ask for the sales tax rate (as a percentage, e.g., 8.5 for 8.5%)
+- Ask for a discount percentage (e.g., 15 for 15% off)
+- Calculate and display:
+  - Original price
+  - Discount amount
+  - Price after discount
+  - Tax amount (calculated on discounted price)
+  - Final total
+- Use proper formatting with 2 decimal places for all dollar amounts
+
+*Example output:*
+#+begin_example
+Enter item price: $50.00
+Enter sales tax rate (%): 8.5
+Enter discount percentage (%): 20
+
+Original Price:    $50.00
+Discount (20%):    -$10.00
+Discounted Price:  $40.00
+Tax (8.5%):        +$3.40
+----------------------------
+Final Total:       $43.40
+#+end_example
+
+** Week 10 Problems
+
+*** Problem 14: Array Search and Replace
+Write a program using pass-by-reference to modify an array.
+
+*Requirements:*
+- Create an integer array of size 12
+- Write a function: =void fillArray(int arr[], int size)= that fills the array with values from user input
+- Write a function: =int searchAndReplace(int arr[], int size, int target, int replacement, int& count)= that:
+  - Searches for all occurrences of target value
+  - Replaces them with replacement value
+  - Uses the reference parameter count to report how many replacements were made
+  - Returns 1 if at least one replacement was made, 0 otherwise
+- In main:
+  - Fill the array
+  - Display the original array
+  - Ask for a target value and replacement value
+  - Call searchAndReplace
+  - Display how many replacements were made
+  - Display the modified array
+
+*** Problem 15: Time Converter with Functions
+Write a program that converts time between different units using functions.
+
+*Requirements:*
+- Implement the following functions:
+  - =void hoursToMinutesSeconds(int hours, int& minutes, int& seconds)= - converts hours to total minutes and seconds
+  - =void minutesToHoursSeconds(int minutes, int& hours, int& seconds)= - converts minutes to hours and remaining seconds
+  - =void secondsToHoursMinutes(int seconds, int& hours, int& minutes)= - converts seconds to hours and remaining minutes
+- In main:
+  - Display a menu asking what conversion the user wants
+  - Get the input value
+  - Call the appropriate function using pass-by-reference for output values
+  - Display the result in a clear format
+- All functions should use pass-by-reference to return multiple values
+
+*Example output:*
+#+begin_example
+Time Converter
+1. Hours to Minutes and Seconds
+2. Minutes to Hours and Seconds
+3. Seconds to Hours and Minutes
+Choose (1-3): 1
+
+Enter hours: 2
+
+2 hours = 120 minutes = 7200 seconds
+#+end_example
