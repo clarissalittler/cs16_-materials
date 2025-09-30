@@ -1,7 +1,5 @@
 * Graded Programming Problems
-These problems are designed to be submitted for grading. They are at the intermediate difficulty level and should not include solutions in student-facing materials.
-
-Problems are ordered by the week they should be assigned in a typical 10-week introductory programming course.
+These problems are intended to be submitted according to the instructions in your course shell. They will be graded against the corresponding autograding scripts. Please note that this is all still very much in beta!
 
 ** Week 3 Problems
 
