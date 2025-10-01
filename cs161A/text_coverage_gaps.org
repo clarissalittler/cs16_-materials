@@ -1,0 +1,180 @@
+* Text Coverage Gaps Analysis
+
+This document identifies topics required by graded_problems.org that are missing or inadequately covered in text.org.
+
+** Executive Summary
+
+The text.org covers foundational concepts well (basic I/O, loops, arrays, functions, pass-by-reference) but is missing crucial intermediate patterns and algorithms needed for the graded problems. Many required techniques appear only as challenge exercises without being taught first in the main tutorial sections.
+
+** Topics Well Covered in text.org
+
+- Basic I/O and arithmetic
+- Decimal formatting (setprecision, fixed)
+- Random numbers (rand, srand, time)
+- While loops
+- For loops
+- Arrays basics
+- Input validation (cin.fail(), cin.clear(), cin.ignore())
+- Switch statements
+- String operations (find, substr, concatenation)
+- Functions basics
+- Pass-by-reference
+- tolower/toupper
+- sqrt function
+
+** Topics Missing or Insufficiently Covered
+
+*** Menu-driven programs
+*Problems affected:* 1, 9
+
+Menu systems are only mentioned in exercises with no concrete tutorial example showing how to build a menu with numbered choices and handle user selection.
+
+*What's needed:* A tutorial section showing:
+- Displaying numbered menu options
+- Reading user choice
+- Using if/else or switch to dispatch to different operations
+- Input validation for menu choices
+
+*** Nested loops for patterns
+*Problems affected:* 4
+
+Triangle pattern is only mentioned as an exercise (line 1348), but there is NO tutorial section explaining nested loop concepts or pyramid patterns with spaces.
+
+*What's needed:* A tutorial section covering:
+- Outer loop for rows
+- Inner loops for spaces and characters
+- How to calculate number of spaces and asterisks per row
+- Centered pyramid pattern logic
+
+*** getline() for reading full lines
+*Problems affected:* 7, 8
+
+getline() only appears ONCE in a sample solution (line 2934) and is not explained in the main tutorial text.
+
+*What's needed:* A tutorial section on:
+- Difference between cin >> and getline()
+- When to use getline() (input with spaces)
+- Syntax: getline(cin, stringVariable)
+- Common pitfalls (leftover newlines after cin >>)
+
+*** Character classification functions
+*Problems affected:* 7
+
+Functions like isalpha() and isdigit() are NOT covered at all in the text.
+
+*What's needed:* Tutorial covering:
+- isalpha() - checking if character is a letter
+- isdigit() - checking if character is a digit
+- isspace() - checking for whitespace
+- How to include <cctype>
+- Using these in loops to analyze strings
+
+*** Vowel/consonant detection
+*Problems affected:* 7
+
+Only appears as an exercise (line 1755) and one solution (lines 2923-2943), with no tutorial explanation.
+
+*What's needed:* Example showing:
+- How to check if a character is a vowel
+- Handling both uppercase and lowercase
+- Pattern: if (ch == 'a' || ch == 'e' || ...) or using a string of vowels
+
+*** Caesar cipher with wraparound
+*Problems affected:* 8
+
+Only mentioned as a challenge exercise (line 1862), with no tutorial or worked example.
+
+*What's needed:* Tutorial explaining:
+- How to shift letters in the alphabet
+- Wraparound logic (z+1 becomes a, a-1 becomes z)
+- Preserving case (uppercase stays uppercase)
+- Using modular arithmetic or conditional logic
+- Leaving non-letters unchanged
+
+*** Array rotation algorithms
+*Problems affected:* 10
+
+NOT covered at all in the text.
+
+*What's needed:* Tutorial on:
+- What rotation means (moving elements right/left with wraparound)
+- Using a temporary array
+- OR using clever indexing with modular arithmetic
+- Example implementation
+
+*** Frequency counting with arrays
+*Problems affected:* 6
+
+Basic random number generation is covered, but not the pattern of using arrays to count frequencies.
+
+*What's needed:* Tutorial showing:
+- Using array indices to represent categories (e.g., dice sums 2-12)
+- Incrementing counters in a loop
+- Finding max/min in a frequency array
+- Calculating percentages
+
+*** Proximity detection
+*Problems affected:* 2
+
+The "getting warm" feature (checking if guess is within X of target) is not covered.
+
+*What's needed:* Example showing:
+- Using abs() or conditional logic to check distance
+- Multiple proximity thresholds ("warm" vs "very close")
+
+*** Functions returning bool
+*Problems affected:* 11
+
+isPrime is shown in solutions but bool return type is not taught in the main text.
+
+*What's needed:* Tutorial covering:
+- Functions that return true/false
+- Using bool return values in conditionals
+- Common patterns (validation functions, checker functions)
+
+*** Distance formulas and mathematical applications
+*Problems affected:* 12
+
+NOT covered at all.
+
+*What's needed:* Tutorial on:
+- Euclidean distance formula in 2D and 3D
+- Manhattan distance
+- Using sqrt() and pow() from <cmath>
+- Implementing these as functions
+
+*** Multiple return values via pass-by-reference
+*Problems affected:* 15
+
+Pass-by-reference is covered conceptually, but there are no concrete examples showing how to use it for functions that need to return multiple values.
+
+*What's needed:* More examples showing:
+- Functions that compute multiple results
+- Using multiple reference parameters for outputs
+- Clear naming conventions (input vs output parameters)
+
+** Problem-Specific Gaps Summary
+
+| Problem | Topic Gap |
+|---------+-----------|
+| 1 | Menu pattern not taught |
+| 2 | Proximity detection not taught |
+| 4 | Nested loops for centered patterns not taught |
+| 6 | Frequency counting arrays not taught |
+| 7 | getline(), isalpha(), vowel detection minimally covered |
+| 8 | Character wraparound logic not taught |
+| 9 | Menu pattern not taught |
+| 10 | Array rotation not covered at all |
+| 11 | Functions returning bool not formally taught |
+| 12 | Distance formulas and sqrt() application not taught |
+| 14 | Need more concrete examples for array manipulation |
+| 15 | Need more examples of multiple return values |
+
+** Recommendations
+
+1. Add tutorial sections for all missing topics before they appear in exercises
+2. Include worked examples for intermediate algorithms (rotation, frequency counting, wraparound)
+3. Expand string handling section to include getline() and character classification
+4. Add a section on menu-driven program patterns early in the course
+5. Include more mathematical application examples
+6. Ensure every concept used in graded problems is taught in the main text first

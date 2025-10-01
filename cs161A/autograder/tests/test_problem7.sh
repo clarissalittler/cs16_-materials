@@ -47,11 +47,11 @@ run_test() {
 # Test 1: "Hello World" - 10 letters, 3 vowels, 2 words
 run_test "Hello World" "10" "3" "2" "\"Hello World\" analysis"
 
-# Test 2: "The quick brown fox" - 15 letters, 5 vowels, 4 words
-run_test "The quick brown fox" "15" "5" "4" "\"The quick brown fox\" analysis"
+# Test 2: "The quick brown fox" - 16 letters, 5 vowels, 4 words
+run_test "The quick brown fox" "16" "5" "4" "\"The quick brown fox\" analysis"
 
-# Test 3: "Programming is fun" - 15 letters, 5 vowels, 3 words
-run_test "Programming is fun" "15" "5" "3" "\"Programming is fun\" analysis"
+# Test 3: "Programming is fun" - 16 letters, 5 vowels, 3 words
+run_test "Programming is fun" "16" "5" "3" "\"Programming is fun\" analysis"
 
 echo ""
 echo "Tests passed: $PASSED/$TOTAL_TESTS"
