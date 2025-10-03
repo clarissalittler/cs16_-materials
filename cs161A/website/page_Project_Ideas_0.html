@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Mini-Projects (After Major Sections) - CS161A Interactive Text</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> /
+                <span class="chapter">Project Ideas</span>
+            </div>
+            <h1>Mini-Projects (After Major Sections)</h1>
+        </header>
+
+        <main class="content">
+            <p>These projects are designed to be completed after finishing specific sections of the course. Each should take 1-3 hours to complete.</p>
+<br>
+<h3>After Loops</h3>
+<ul>
+<li><strong>Multiplication Quiz Game</strong>: Create a timed quiz that asks multiplication problems, keeps score, and gives feedback. Include difficulty levels.</li>
+<li><strong>Password Strength Checker</strong>: Check passwords for length, uppercase, lowercase, numbers, and special characters. Give a strength score.</li>
+</ul>
+<br>
+<h3>After Arrays  </h3>
+<ul>
+<li><strong>Class Attendance Tracker</strong>: Track attendance for a class of students over multiple days. Calculate attendance percentages.</li>
+<li><strong>Simple Statistics Calculator</strong>: Input a dataset and calculate mean, median, mode, and standard deviation.</li>
+</ul>
+<br>
+<h3>After Functions</h3>
+<ul>
+<li><strong>Temperature Converter Suite</strong>: Convert between Celsius, Fahrenheit, and Kelvin with a menu-driven interface.</li>
+<li><strong>Geometry Calculator</strong>: Calculate areas, perimeters, and volumes for various shapes using dedicated functions.</li>
+</ul>
+<br>
+<h3>After Strings</h3>
+<ul>
+<li><strong>Text-based Wordle Clone</strong>: Implement the popular word guessing game with colored hints (use symbols for colors).</li>
+<li><strong>Simple Text Editor Commands</strong>: Implement find/replace, word count, and case conversion operations.</li>
+</ul>
+<br>
+<h3>After Data Validation</h3>
+<ul>
+<li><strong>Robust ATM Simulator</strong>: Handle deposits, withdrawals, balance checks with proper validation and error handling.</li>
+<li><strong>Date Calculator</strong>: Calculate days between dates, add days to dates, handle leap years properly.</li>
+</ul>
+<br>
+        </main>
+
+        <nav class="page-nav">
+            <a href="page_TODO_Extended_example_Lets_play_shop_0.html" class="nav-btn prev">← More on iteration and choices</a>
+            <a href="page_Project_Ideas_1.html" class="nav-btn next">Larger Projects →</a>
+        </nav>
+    </div>
+
+    <!-- Terminal for running code -->
+    <div id="terminal-overlay" class="hidden">
+        <div class="terminal-container">
+            <div class="terminal-header">
+                <span>Program Output</span>
+                <button id="close-terminal-btn">✕</button>
+            </div>
+            <div id="terminal-output"></div>
+            <div id="input-area" class="hidden">
+                <span class="prompt">→</span>
+                <input type="text" id="user-input" autocomplete="off" placeholder="Enter input...">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.48.0/min/vs/loader.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

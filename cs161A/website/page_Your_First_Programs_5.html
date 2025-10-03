@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>TODO Menus with while-loops - CS161A Interactive Text</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> /
+                <span class="chapter">Your First Programs</span>
+            </div>
+            <h1>TODO Menus with while-loops</h1>
+        </header>
+
+        <main class="content">
+            <p> Here's another idiom that we're going to use constantly: text-driven menus.</p>
+<br>
+<p> The basic principle is pretty simple:</p>
+<ul>
+<li>create a variable to hold a number (an <code>int</code>, most likely) or a variable to hold text (a <code>char</code> or <code>string</code>)</li>
+<li>print out a prompt that explains the menu</li>
+<li>read in the option chosen into the variable you made</li>
+<li>use if-statements to decide what to do next</li>
+</ul>
+<br>
+        </main>
+
+        <nav class="page-nav">
+            <a href="page_Your_First_Programs_4.html" class="nav-btn prev">← TODO For-loops (and the shape of loops to come)[fn:8] [1/2]</a>
+            <a href="page_Your_First_Programs_6.html" class="nav-btn next">TODO Data validation, the world's most annoying idiom [1/2] →</a>
+        </nav>
+    </div>
+
+    <!-- Terminal for running code -->
+    <div id="terminal-overlay" class="hidden">
+        <div class="terminal-container">
+            <div class="terminal-header">
+                <span>Program Output</span>
+                <button id="close-terminal-btn">✕</button>
+            </div>
+            <div id="terminal-output"></div>
+            <div id="input-area" class="hidden">
+                <span class="prompt">→</span>
+                <input type="text" id="user-input" autocomplete="off" placeholder="Enter input...">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.48.0/min/vs/loader.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

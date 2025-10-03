@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Why C++? - CS161A Interactive Text</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> /
+                <span class="chapter">Introduction</span>
+            </div>
+            <h1>Why C++?</h1>
+        </header>
+
+        <main class="content">
+            <p>C++ is a fascinating old-ish language. It blends a combination of "high-level" and "low-level" features. Now those might sound like rather judgy descriptors, like "high-level" is better than "low-level", but they're just different ways of looking at programming that---for our purposes---serve as a segue into talking about what programming is.</p>
+        </main>
+
+        <nav class="page-nav">
+            
+            <a href="page_Introduction_1.html" class="nav-btn next">What is programming? A high-level perspective →</a>
+        </nav>
+    </div>
+
+    <!-- Terminal for running code -->
+    <div id="terminal-overlay" class="hidden">
+        <div class="terminal-container">
+            <div class="terminal-header">
+                <span>Program Output</span>
+                <button id="close-terminal-btn">✕</button>
+            </div>
+            <div id="terminal-output"></div>
+            <div id="input-area" class="hidden">
+                <span class="prompt">→</span>
+                <input type="text" id="user-input" autocomplete="off" placeholder="Enter input...">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.48.0/min/vs/loader.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

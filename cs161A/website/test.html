@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Test Page</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Test Monaco Editor</h1>
+        </header>
+
+        <main class="content">
+            <p>Testing if Monaco loads correctly:</p>
+
+            <div class="code-block">
+                <div class="code-toolbar">
+                    <button onclick="runCode('test-editor')">▶ Run</button>
+                    <button onclick="resetCode('test-editor')">↻ Reset</button>
+                </div>
+                <div id="test-editor" class="code-editor"></div>
+                <script>
+                    (function() {
+                        const code = "#include <iostream>\nusing namespace std;\n\nint main() {\n  cout << \"Hello from test!\" << endl;\n  return 0;\n}";
+                        if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+                        codeBlocks['test-editor'] = {
+                            original: code,
+                            current: code
+                        };
+                    })();
+                </script>
+            </div>
+
+            <p>Open browser console (F12) to see debug messages.</p>
+        </main>
+    </div>
+
+    <!-- Terminal -->
+    <div id="terminal-overlay" class="hidden">
+        <div class="terminal-container">
+            <div class="terminal-header">
+                <span>Output</span>
+                <button onclick="closeTerminal()">✕</button>
+            </div>
+            <div id="terminal-output"></div>
+            <div id="input-area" class="hidden">
+                <span class="prompt">→</span>
+                <input type="text" id="user-input" autocomplete="off">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.48.0/min/vs/loader.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

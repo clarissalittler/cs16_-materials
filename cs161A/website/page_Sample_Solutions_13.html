@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Notes on Solutions - CS161A Interactive Text</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> /
+                <span class="chapter">Sample Solutions</span>
+            </div>
+            <h1>Notes on Solutions</h1>
+        </header>
+
+        <main class="content">
+            <p>These solutions demonstrate various programming concepts and best practices:</p>
+<br>
+<p>1. **Input validation**: Always check user input for validity</p>
+<p>2. **Edge cases**: Consider special cases like division by zero</p>
+<p>3. **Code organization**: Use functions to break down complex problems</p>
+<p>4. **Comments**: While not heavily commented here, production code should include explanations</p>
+<p>5. **Efficiency**: Some solutions prioritize clarity over optimization for learning purposes</p>
+<p>6. **Alternative approaches**: Many problems have multiple valid solutions</p>
+<br>
+<p>Remember: The best solution is one that works correctly, is readable, and can be maintained. As you gain experience, you'll develop your own coding style and preferences.</p>
+<br>
+        </main>
+
+        <nav class="page-nav">
+            <a href="page_Sample_Solutions_12.html" class="nav-btn prev">← Data Validation Solutions</a>
+            
+        </nav>
+    </div>
+
+    <!-- Terminal for running code -->
+    <div id="terminal-overlay" class="hidden">
+        <div class="terminal-container">
+            <div class="terminal-header">
+                <span>Program Output</span>
+                <button id="close-terminal-btn">✕</button>
+            </div>
+            <div id="terminal-output"></div>
+            <div id="input-area" class="hidden">
+                <span class="prompt">→</span>
+                <input type="text" id="user-input" autocomplete="off" placeholder="Enter input...">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.48.0/min/vs/loader.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>TODO For-loops (and the shape of loops to come)[fn:8] [1/2] - CS161A Interactive Text</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> /
+                <span class="chapter">Your First Programs</span>
+            </div>
+            <h1>TODO For-loops (and the shape of loops to come)[fn:8] [1/2]</h1>
+        </header>
+
+        <main class="content">
+            <p>So far we've seen some examples of using <code>while</code> loops and now it's time to see the other kind of loop: the <code>for</code>-loop. Unlike <code>while</code>, which is "indefinite" iteration because it could theoretically go on forever, the <code>for</code>-loop is "definite" iteration because it should (unless there's a bug) only run for a pre-determined number of times.</p>
+<br>
+<p>If <code>while</code> can be thought of us "keep going until something changes", then <code>for</code> should be thought of as "do this X times".</p>
+<br>
+<p>The simplest possible for-statement we can write looks like</p>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page9-0">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page9-0">↻ Reset</button>
+    </div>
+    <div id="editor-page9-0" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n    for(int i=0; i < 20; i = i +1){\n      cout << \"We're on the \" << i  << \"th loop\" << endl;\n    }\n    \n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page9-0'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>Okay so let's break down the syntax of this a bit because it's more complicated than the syntax of a <code>while</code> loop:</p>
+<p>you start with <code>for</code>, then the next part declares a whole number (<code>int</code>) valued counter that you can use inside the loop. Then you after the <code>;</code> you have the condition for when the loop continues: in this case the loop should continue as long as the variable <code>i</code> is less than 20. Then the last bit is what happens to the counter at the end of the next loop, which in this case says "increase <code>i</code> by 1". In fact, there's a special operator <code>i++</code> that just means <code>i </code>i+1= so in the future we'll use that.</p>
+<br>
+<p>Another thing you might have noticed is that we're starting to count <em>from</em> 0 and <em>going up to</em> 19. How many times does that mean the loop is executing in total? The answer is 20! Count it yourself if that doesn't feel intuitive.</p>
+<br>
+<p>Let's make another loop quick but this time I want you to write out, for yourself, what it should print out before you even compile and run it.</p>
+<br>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page9-1">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page9-1">↻ Reset</button>
+    </div>
+    <div id="editor-page9-1" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n    for(int i=0; i < 5; i++){\n      cout << \"The \" << i << \"th number squared is: \" << i*i << endl;\n    }\n  \n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page9-1'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>#+begin_quote</p>
+<p>Exercise: Change this loop so that it instead runs from 1 through 5 rather than 0 through 4. You <em>could</em> do this by changing the <code>cout</code> statement but I want you to change the for-loop setup itself.</p>
+<p>#+end_quote</p>
+<br>
+<p>Now you don't <em>just</em> have to count up by one, even though that's probably the most common use for reasons we'll see in a couple of sections from now.</p>
+<br>
+<p>You can count down like this:</p>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page9-2">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page9-2">↻ Reset</button>
+    </div>
+    <div id="editor-page9-2" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n    for(int i=4; i >= 0; i = i - 1){\n      cout << \"The \" << i << \"th number squared is: \" << i*i << endl;\n    }\n\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page9-2'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>#+begin_quote</p>
+<p>Exercise: Try making a for-loop that prints out only even numbers. Again, you could do this by changing the <code>cout</code> statement but I want you to change the for-loop itself.</p>
+<p>#+end_quote</p>
+<br>
+<h3>DONE Summing a bunch of numbers</h3>
+<p>Here's an example of another common idiom in programming: you use a for-loop to <em>accumulate</em> results of a calculation.</p>
+<br>
+<p>So here's how to add a bunch of numbers together:</p>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page9-3">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page9-3">↻ Reset</button>
+    </div>
+    <div id="editor-page9-3" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n\n    int sum = 0;\n\n    for(int i=0; i < 10; i++){\n      sum = sum + i;\n    }\n\n    cout << \"The sum is: \" << sum << endl;\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page9-3'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>Note that what we've done is create a new variable, <code>sum</code>, in order to hold the sum of all the numbers from 0 through 9 and each step of the for-loop we add <code>i</code> to <code>sum</code>. The formula for this is, in general, <code>n*(n+1)/2</code> and we can see that running this code prints 45, which is exactly what we'd expect from this formula. Change the numbers a few times in the limits of the for-loop and check that it stays fitting this formula.</p>
+<br>
+<p>#+begin_quote</p>
+<p>Exercise: Change this so that it sums the <em>squares</em> of 0 - 9.</p>
+<p>#+end_quote</p>
+<h3>Exercises</h3>
+<p>1. <strong>Basic</strong>: Print the first 20 Fibonacci numbers using a for-loop.</p>
+<p>2. <strong>Intermediate</strong>: Draw a triangle pattern with asterisks. Ask the user for height. Example for height=5:</p>
+<p>   #+begin_example</p>
+<p>   *</p>
+<p>   **</p>
+<p>   <strong>*</strong></p>
+<p>   ****</p>
+<p>   *****</p>
+<p>   #+end_example</p>
+<p>3. <strong>Challenge</strong>: Print all prime numbers between 1 and 100. Hint: For each number, check if it's divisible by any number from 2 to its square root.</p>
+<h3>TODO (Advanced) Arrays: the reasons for =for=</h3>
+<p>Here's a more advanced topic that you'll be needing not just for this class but for the rest of your classes where you're doing C++: arrays.</p>
+<br>
+<p>We're covering arrays here because they are, in a sense, the reason for using <code>for</code> loops. If, in the previous sections, you felt like "okay so a <code>for</code> is like a while, but more restricted?" that impression isn't <em>wrong</em> per se. <code>while</code> is the more general concept that lets us do all sorts of things but <code>for</code> is best when you're dealing with finite collections of <em>stuff</em>.</p>
+<br>
+<p>What we haven't shown you yet is what "a finite collection of stuff" looks like!</p>
+<br>
+<p>Here's an example and we'll talk it through</p>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page9-4">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page9-4">↻ Reset</button>
+    </div>
+    <div id="editor-page9-4" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n\n  \n    int numberArray[10]; // this is how you declare an array\n    // this declares the array with ten \"boxes\" for ints in it\n    // the boxes are all labeled from 0 - 9\n\n    // now we're going to use a for-loop in order to try\n    // and put things in the boxes\n\n    for(int i=0; i<10; i++){\n      numberArray[i] = i*i;\n    }\n    // we're putting i^2 in the ith slot\n\n    // to use an array slot once it's filled it's, again, just\n    // like a variable with a special name\n    for(int i=0; i<10; i++){\n      cout << numberArray[i] << endl;\n    }\n  \n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page9-4'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>If you run this it will first fill the array with values, putting 0 in the <code>numberArray[0]</code> slot, 1 in the <code>numberArray[1]</code> slot, 4 in the <code>numberArray[2]</code> slot, &c.</p>
+<br>
+<p>This really is like having a really special variable that has a numerical index---a number in the name. When you declare an array of size <code>n</code> C++ sets aside the amount of memory to hold <code>n</code> things of that type. You can make arrays of any type (including other arrays, as we'll see shortly).</p>
+<br>
+<p>So arrays get really useful when trying to represent things like rows in a table. Each array is going to represent a different column and an index is going to represent a row.</p>
+<br>
+<p>An example program would be something like this:</p>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page9-5">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page9-5">↻ Reset</button>
+    </div>
+    <div id="editor-page9-5" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n    int numPets = 5;\n  \n    string petNames[numPets];\n    string petSpecies[numPets];\n\n    for(int i=0; i < numPets; i++){\n      cout << \"Enter the name of the pet: \";\n      cin >> petNames[i];\n      cout << \"Enter the pet species: \";\n      cin >> petSpecies[i];\n    }\n\n    for(int i=0; i < numPets; i++){\n      cout << petNames[i] << \" is a \" << petSpecies[i] << endl;\n    }\n  \n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page9-5'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<p>So line by line what this program does is:</p>
+<p>1. make a variable to hold the number of pets in the pet-information table, so that we can change it in just one place</p>
+<p>2. two arrays for the names of pets and the species of pet</p>
+<p>3. a for-loop that asks for the information for each row of the table and fills it in</p>
+<p>4. a for loop that prints out each row</p>
+<br>
+<p>#+begin_quote</p>
+<p>Quick Check: Take this program and add another column for the age of the pet</p>
+<br>
+<p>That means you'll need to add a new array of ints to hold the age, ask for the age with cin, and also print that out appropriately.</p>
+<p>#+end_quote</p>
+<br>
+<h3>Exercises</h3>
+<p>1. <strong>Basic</strong>: Create an array of 7 daily temperatures and find the warmest and coldest days.</p>
+<p>2. <strong>Intermediate</strong>: Reverse the contents of an array in-place (without creating a new array).</p>
+<p>3. <strong>Challenge</strong>: Implement a simple grade book that stores 5 students with 3 test scores each. Calculate and display each student's average.</p>
+<h4>TODO What happens if you access outside the bounds of an array?</h4>
+<p>There's one last topic we need to address: what happens if you access outside the bounds of the array? Now in many programming languages this will end in an <strong>error</strong>. For example, if you run the following Python program it will crash which is <strong>a good thing</strong>.</p>
+<br>
+<p>#+begin_src python :tangle codesnips/badArray.py</p>
+<p>  arr = [1,2,3,4]</p>
+<br>
+<p>  print(arr[10])</p>
+<p>#+end_src</p>
+<br>
+<p>Now let's try a similar thing in C++:</p>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page9-6">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page9-6">↻ Reset</button>
+    </div>
+    <div id="editor-page9-6" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n    int arr[5] = {0,1,2,3,4}; // this is how we initialize an array, for the record, but it's only practical for really small arrays\n\n    cout << arr[10] << endl;\n\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page9-6'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>Well when I ran this I got <code>1663205712</code> printed out to the console. If you remember from way at the beginning of this tutorial when we went over what happens when you use an uninitialized variable, you might see a similarity! Except that, in some ways, this is worse.</p>
+<br>
+<p>It <em>feels</em> like I initialized everything correctly, I told C++ how big the array should be, and yet C++ didn't stop me from going off the edge of the world!</p>
+<br>
+<p>We'll cover, in greater depth, <em>why</em> C++ doesn't protect you from this error but for now the way you should think of it is that when you declare an array variable you're actively setting aside a contiguous set of cubbyholes in the storage wall, but that <strong>you</strong> need to keep track of which ones belong to which array. This is part of the reason why, in our previous example, we had a separate variable called <code>numPets</code> that kept track of how many pets were supposed to be in the database. We reproduce the example below.</p>
+<br>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page9-7">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page9-7">↻ Reset</button>
+    </div>
+    <div id="editor-page9-7" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n    int numPets = 5;\n  \n    string petNames[numPets];\n    string petSpecies[numPets];\n\n    for(int i=0; i < numPets; i++){\n      cout << \"Enter the name of the pet: \";\n      cin >> petNames[i];\n      cout << \"Enter the pet species: \";\n      cin >> petSpecies[i];\n    }\n\n    for(int i=0; i < numPets; i++){\n      cout << petNames[i] << \" is a \" << petSpecies[i] << endl;\n    }\n  \n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page9-7'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>Now you might look at this and think "couldn't you accidentally change numPets?" and, yes, you could! I could write something like this:</p>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page9-8">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page9-8">↻ Reset</button>
+    </div>
+    <div id="editor-page9-8" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n    int numPets = 5;\n\n    string petNames[numPets];\n    string petSpecies[numPets];\n\n    numPets = 10;\n\n    for(int i=0; i < numPets; i++){\n      cout << \"Enter the name of the pet: \";\n      cin >> petNames[i];\n      cout << \"Enter the pet species: \";\n      cin >> petSpecies[i];\n    }\n\n    for(int i=0; i < numPets; i++){\n      cout << petNames[i] << \" is a \" << petSpecies[i] << endl;\n    }\n\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page9-8'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>This is why we have <em>constants</em> in C++, which are like variables but once they have a value that value isn't allowed to change! It's just like any other variable but you put <code>const</code> in front of the variable declaration:</p>
+<br>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page9-9">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page9-9">↻ Reset</button>
+    </div>
+    <div id="editor-page9-9" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n    const int numPets = 5;\n  \n    string petNames[numPets];\n    string petSpecies[numPets];\n\n    for(int i=0; i < numPets; i++){\n      cout << \"Enter the name of the pet: \";\n      cin >> petNames[i];\n      cout << \"Enter the pet species: \";\n      cin >> petSpecies[i];\n    }\n\n    for(int i=0; i < numPets; i++){\n      cout << petNames[i] << \" is a \" << petSpecies[i] << endl;\n    }\n  \n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page9-9'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>Go ahead and try to mess it up by changing <code>numPets</code> later in the program and see what happens when you try to compile and run it?</p>
+<h4>TODO Faking a variable-length array</h4>
+<br>
+        </main>
+
+        <nav class="page-nav">
+            <a href="page_Your_First_Programs_3.html" class="nav-btn prev">← TODO More early steps [7/8]</a>
+            <a href="page_Your_First_Programs_5.html" class="nav-btn next">TODO Menus with while-loops →</a>
+        </nav>
+    </div>
+
+    <!-- Terminal for running code -->
+    <div id="terminal-overlay" class="hidden">
+        <div class="terminal-container">
+            <div class="terminal-header">
+                <span>Program Output</span>
+                <button id="close-terminal-btn">✕</button>
+            </div>
+            <div id="terminal-output"></div>
+            <div id="input-area" class="hidden">
+                <span class="prompt">→</span>
+                <input type="text" id="user-input" autocomplete="off" placeholder="Enter input...">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.48.0/min/vs/loader.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

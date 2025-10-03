@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>TODO How to run examples [0/3] - CS161A Interactive Text</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> /
+                <span class="chapter">Your First Programs</span>
+            </div>
+            <h1>TODO How to run examples [0/3]</h1>
+        </header>
+
+        <main class="content">
+            <h3>TODO In-browser</h3>
+<h3>TODO In onlinegdb</h3>
+<h3>TODO Locally in the terminal</h3>
+        </main>
+
+        <nav class="page-nav">
+            <a href="page_Introduction_4.html" class="nav-btn prev">← Why learn programming in the age of LLMs</a>
+            <a href="page_Your_First_Programs_1.html" class="nav-btn next">DONE Hello World →</a>
+        </nav>
+    </div>
+
+    <!-- Terminal for running code -->
+    <div id="terminal-overlay" class="hidden">
+        <div class="terminal-container">
+            <div class="terminal-header">
+                <span>Program Output</span>
+                <button id="close-terminal-btn">✕</button>
+            </div>
+            <div id="terminal-output"></div>
+            <div id="input-area" class="hidden">
+                <span class="prompt">→</span>
+                <input type="text" id="user-input" autocomplete="off" placeholder="Enter input...">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.48.0/min/vs/loader.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

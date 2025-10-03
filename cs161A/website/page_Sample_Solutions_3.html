@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Boolean/If-Statement Solutions - CS161A Interactive Text</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> /
+                <span class="chapter">Sample Solutions</span>
+            </div>
+            <h1>Boolean/If-Statement Solutions</h1>
+        </header>
+
+        <main class="content">
+            <h3>Intermediate: Grade Calculator</h3>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page25-0">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page25-0">↻ Reset</button>
+    </div>
+    <div id="editor-page25-0" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "#include <iostream>\nusing namespace std;\n\nint main(){\n  double score;\n  \n  cout << \"Enter your numeric score (0-100): \";\n  cin >> score;\n  \n  if(score >= 90){\n    cout << \"Grade: A\" << endl;\n  }\n  else if(score >= 80){\n    cout << \"Grade: B\" << endl;\n  }\n  else if(score >= 70){\n    cout << \"Grade: C\" << endl;\n  }\n  else if(score >= 60){\n    cout << \"Grade: D\" << endl;\n  }\n  else{\n    cout << \"Grade: F\" << endl;\n  }\n  \n  return 0;\n}";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page25-0'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<h3>Challenge: Eligibility Checker</h3>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page25-1">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page25-1">↻ Reset</button>
+    </div>
+    <div id="editor-page25-1" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "#include <iostream>\nusing namespace std;\n\nint main(){\n  int age;\n  \n  cout << \"Enter your age: \";\n  cin >> age;\n  \n  cout << \"\\nBased on your age, you can legally:\" << endl;\n  \n  if(age >= 16){\n    cout << \"\u2713 Drive (in most states)\" << endl;\n  }\n  if(age >= 18){\n    cout << \"\u2713 Vote\" << endl;\n    cout << \"\u2713 Join the military\" << endl;\n  }\n  if(age >= 21){\n    cout << \"\u2713 Purchase alcohol\" << endl;\n  }\n  if(age >= 25){\n    cout << \"\u2713 Rent a car (without extra fees)\" << endl;\n  }\n  if(age >= 35){\n    cout << \"\u2713 Run for President\" << endl;\n  }\n  \n  if(age < 16){\n    cout << \"Sorry, you'll need to wait \" << 16 - age \n         << \" years before you can drive!\" << endl;\n  }\n  \n  return 0;\n}";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page25-1'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+
+        </main>
+
+        <nav class="page-nav">
+            <a href="page_Sample_Solutions_2.html" class="nav-btn prev">← Arithmetic Solutions</a>
+            <a href="page_Sample_Solutions_4.html" class="nav-btn next">While Loop Solutions →</a>
+        </nav>
+    </div>
+
+    <!-- Terminal for running code -->
+    <div id="terminal-overlay" class="hidden">
+        <div class="terminal-container">
+            <div class="terminal-header">
+                <span>Program Output</span>
+                <button id="close-terminal-btn">✕</button>
+            </div>
+            <div id="terminal-output"></div>
+            <div id="input-area" class="hidden">
+                <span class="prompt">→</span>
+                <input type="text" id="user-input" autocomplete="off" placeholder="Enter input...">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.48.0/min/vs/loader.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>TODO Functions on strings - CS161A Interactive Text</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> /
+                <span class="chapter">TODO More advanced programs [1/3]</span>
+            </div>
+            <h1>TODO Functions on strings</h1>
+        </header>
+
+        <main class="content">
+            <h3>DONE Simple operations on strings</h3>
+<p>So there's a few things you can do with strings. The first, is the ability to glue strings together, also called "concatentation". So far we've been implicitly gluing strings together using the syntax of <code>cout</code> and <code><<</code>, but you can <strong>actually</strong> stick two strings to each other with <code>+</code>, just like adding two numbers.</p>
+<br>
+<p>Like this program:</p>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page12-0">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page12-0">↻ Reset</button>
+    </div>
+    <div id="editor-page12-0" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n\n    string str1;\n    string str2;\n\n    cout << \"Enter some things: \";\n    cin >> str1;\n    cin >> str2;\n\n    cout << \"Okay gluing those together you said: \" << str1 + str2 << endl;\n  \n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page12-0'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>This is an example of something kinda neat in C++, called "operator overloading". Basically, you can reuse things like  <code><<</code> and <code>+</code> in all sorts of different contexts at different <strong>types</strong>. That's the key part. The different uses have to be for different types or else there will be confusion. <code>+</code> can mean something for two ints, for an int and a string (check that one out yourself, by the way), for two strings, for two doubles, &c. But it can't mean two different things if you're just writing <code>1 + 2</code> where 1 and 2 are both ints.</p>
+<br>
+<p>Okay, also we should talk about how to turn data into strings because this is going to be useful! Basically, there's just a function in the <code><string></code> library that you can use called <code>to_string</code> that will convert any other data to being a string. This works with basically everything, like in this program:</p>
+<br>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page12-1">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page12-1">↻ Reset</button>
+    </div>
+    <div id="editor-page12-1" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include <string>\n  using namespace std;\n\n  int main(){\n    int num1 = 1;\n    bool b = true;\n    char c = 'd';\n    double d = 1.23456;\n\n    cout << to_string(num1) + to_string(b) + to_string(c) + to_string(d) << endl;\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page12-1'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<h3>Exercises</h3>
+<p>1. <strong>Basic</strong>: Count the number of vowels (a, e, i, o, u) in a string entered by the user.</p>
+<p>2. <strong>Intermediate</strong>: Check if a string is a palindrome (reads the same forwards and backwards).</p>
+<p>3. <strong>Challenge</strong>: Create a word censoring program that replaces specified "bad words" with asterisks of the same length.</p>
+<h3>TODO =find= and =substr=</h3>
+<p>Okay, so now let's talk about some convenience functions that help us take apart and manipulate strings. The first is the ability to <em>find</em> an occurence of one string inside another:</p>
+<br>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page12-2">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page12-2">↻ Reset</button>
+    </div>
+    <div id="editor-page12-2" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include <string>\n  using namespace std;\n\n  int main(){\n\n    string str1 = \"this is a rock\";\n    string str2 = \"rock\";\n\n    // let's see what find does\n    cout << str1.find(str2) << endl;\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page12-2'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<p>It should have returned the number <code>10</code> when you ran it. Can you guess what that number represents?</p>
+<br>
+<p>#+begin_example</p>
+<p>t h i s _ i s _ a _  r  o  c  k</p>
+<p>0 1 2 3 4 5 6 7 8 9 10 11 12 13</p>
+<p>#+end_example</p>
+<br>
+<p>It's the position in the string where the <em>substring</em> rock starts! Here, let's test this theory by also checking for <code>"is"</code> . What should <code>find</code> return when we run <code>str1.find("is")</code>?</p>
+<br>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page12-3">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page12-3">↻ Reset</button>
+    </div>
+    <div id="editor-page12-3" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include <string>\n  using namespace std;\n\n  int main(){\n\n    string str1 = \"this is a rock\";\n\n    // let's see what find does\n    cout << str1.find(\"is\") << endl;\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page12-3'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<p>Hopefully you also saw <code>2</code>. Why <code>2</code>? Because it's not looking for <em>words</em>-per-se, it's looking for the literal characters "is", which first show up as the third and fourth letters in "this".</p>
+<br>
+<br>
+<br>
+<h3>TODO Iterating over strings with for-loops</h3>
+<p>Now remember how I showed you a bit about how arrays work and the fact that for-loops were made to work with them? Okay, so part of why I needed to show you that is while <strong>technically</strong> you're not using arrays in this class it's useful to understand the idea behind them because you can treat strings "like" arrays for operating on them.</p>
+<br>
+<p>The general idiom is that you can get the length of the string like this <code>s.length()</code> for a string <code>s</code>, then you can put that as the bounds of the for-loop and you can use array syntax (e.g. the square brackets) in order access the characters inside the string one by one.</p>
+<br>
+<p>Okay so here's a wholeLower function that turns an entire string to lower case using the per-character function <code>tolower()</code>:</p>
+<br>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page12-4">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page12-4">↻ Reset</button>
+    </div>
+    <div id="editor-page12-4" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include <string>\n  using namespace std;\n\n  string wholeLower(string s){\n\n    for(int i = 0; i < s.length(); i++){\n      s[i] = tolower(s[i]);\n    }\n  \n    return s;\n  }\n\n  int main(){\n    string str = \"YELLING\";\n\n    cout << wholeLower(str) << endl;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page12-4'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<h3>TODO Example: Sarcasm Case</h3>
+<p> Alright, here's a nice silly example for how we use for-loops with strings:</p>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page12-5">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page12-5">↻ Reset</button>
+    </div>
+    <div id="editor-page12-5" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include <string>\n  #include <cstdlib>\n  using namespace std;\n\n  string sarcasmCase(string s){\n    string s2 = s;\n    for(int i = 0; i < s2.length(); i++){\n      if(rand() % 2 == 0){\n        s2[i] = tolower(s[i]);\n      }\n      else{\n        s2[i] = toupper(s[i]);\n      }\n    }\n    return s2;\n  }\n\n  int main(){\n    srand(time(0));\n    string str = \"you can't do that!\";\n\n    cout << sarcasmCase(str) << endl;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page12-5'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<h3>Exercises</h3>
+<p>1. <strong>Basic</strong>: Convert a string to alternating caps (LiKe ThIs) for every character.</p>
+<p>2. <strong>Intermediate</strong>: Count the frequency of each word in a sentence (case-insensitive).</p>
+<p>3. <strong>Challenge</strong>: Implement a Caesar cipher that shifts letters by a user-specified amount. Handle wrapping (z+1 = a) and preserve case.</p>
+<br>
+        </main>
+
+        <nav class="page-nav">
+            <a href="page_Your_First_Programs_6.html" class="nav-btn prev">← TODO Data validation, the world's most annoying idiom [1/2]</a>
+            <a href="page_TODO_More_advanced_programs_13_1.html" class="nav-btn next">DONE Switches vs. ifs →</a>
+        </nav>
+    </div>
+
+    <!-- Terminal for running code -->
+    <div id="terminal-overlay" class="hidden">
+        <div class="terminal-container">
+            <div class="terminal-header">
+                <span>Program Output</span>
+                <button id="close-terminal-btn">✕</button>
+            </div>
+            <div id="terminal-output"></div>
+            <div id="input-area" class="hidden">
+                <span class="prompt">→</span>
+                <input type="text" id="user-input" autocomplete="off" placeholder="Enter input...">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.48.0/min/vs/loader.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

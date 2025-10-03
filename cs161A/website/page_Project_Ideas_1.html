@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Larger Projects - CS161A Interactive Text</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> /
+                <span class="chapter">Project Ideas</span>
+            </div>
+            <h1>Larger Projects</h1>
+        </header>
+
+        <main class="content">
+            <p>These are comprehensive projects that integrate multiple concepts. Each should take 5-10 hours to complete.</p>
+<br>
+<h3>Store Management System</h3>
+<p>Create an inventory management system with the following features:</p>
+<ul>
+<li>Add/remove products with prices and quantities</li>
+<li>Search products by name or category</li>
+<li>Generate sales reports</li>
+<li>Track low inventory and suggest reorders</li>
+<li>Apply discounts and calculate totals</li>
+</ul>
+<p>Skills practiced: Arrays, functions, data validation, formatting</p>
+<br>
+<h3>Grade Calculator System</h3>
+<p>Build a complete gradebook application:</p>
+<ul>
+<li>Support multiple students and multiple assignments</li>
+<li>Weight different assignment categories (homework, tests, projects)</li>
+<li>Drop lowest scores option</li>
+<li>Calculate letter grades with +/- modifiers</li>
+<li>Generate grade reports with statistics</li>
+</ul>
+<p>Skills practiced: 2D arrays, functions with references, data formatting</p>
+<br>
+<h3>Game Collection</h3>
+<p>Implement 2-3 classic games in a single program:</p>
+<ul>
+<li><strong>Tic-Tac-Toe</strong>: Two-player game with win detection</li>
+<li><strong>Hangman</strong>: Word guessing with ASCII art</li>
+<li><strong>Number Baseball</strong>: Guess a 4-digit number with hints</li>
+</ul>
+<p>Include a main menu, score tracking, and play-again options</p>
+<p>Skills practiced: Arrays, string manipulation, game logic, input validation</p>
+<br>
+<h3>Data Analysis Tool</h3>
+<p>Create a program that reads survey or experimental data:</p>
+<ul>
+<li>Import data from user input or predefined datasets</li>
+<li>Calculate statistical summaries (mean, median, mode, range)</li>
+<li>Find correlations between variables</li>
+<li>Generate formatted reports with findings</li>
+<li>Handle missing or invalid data gracefully</li>
+</ul>
+<p>Skills practiced: File I/O concepts, arrays, mathematical functions, error handling</p>
+<br>
+<h3>Encryption Tool Suite</h3>
+<p>Build a collection of encryption/decryption methods:</p>
+<ul>
+<li>Caesar cipher with custom shifts</li>
+<li>Substitution cipher with custom keys</li>
+<li>Vigenère cipher</li>
+<li>ROT13</li>
+<li>Include encode/decode modes and file support</li>
+</ul>
+<p>Skills practiced: String manipulation, algorithms, modular programming</p>
+<br>
+        </main>
+
+        <nav class="page-nav">
+            <a href="page_Project_Ideas_0.html" class="nav-btn prev">← Mini-Projects (After Major Sections)</a>
+            <a href="page_Project_Ideas_2.html" class="nav-btn next">Project Guidelines →</a>
+        </nav>
+    </div>
+
+    <!-- Terminal for running code -->
+    <div id="terminal-overlay" class="hidden">
+        <div class="terminal-container">
+            <div class="terminal-header">
+                <span>Program Output</span>
+                <button id="close-terminal-btn">✕</button>
+            </div>
+            <div id="terminal-output"></div>
+            <div id="input-area" class="hidden">
+                <span class="prompt">→</span>
+                <input type="text" id="user-input" autocomplete="off" placeholder="Enter input...">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.48.0/min/vs/loader.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>What is programming? A low-level perspective - CS161A Interactive Text</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> /
+                <span class="chapter">Introduction</span>
+            </div>
+            <h1>What is programming? A low-level perspective</h1>
+        </header>
+
+        <main class="content">
+            <p>Computers are, fundamentally, just super-calculators acting on numbers. Everything you see and deal with on a computer is, under the hood, just a number. The pixels you see lit up on your screen are just encoded as a series of numbers. Your internet traffic is a series of numbers. That emotional-support video essay you have on in the background for the 20th time[fn:2] is just a series of numbers.</p>
+<br>
+<p>These numbers aren't even represented the normal way you would think of numbers, instead each number is just a sequence of 1s and 0s that the computer's <em>processor</em>, well, <em>processes</em>.</p>
+<br>
+<p>The computer's processor takes these sequences of 1s and 0s and does simple things like adding, subtracting, and multiplying them together.</p>
+<br>
+<p>It's kind of amazing that something so simple can, at a large enough scale, do all the things we do with computers, right?</p>
+<br>
+<p>Now, thinking of how to turn "streaming a video" into "a bunch of arithmetic operations" is <em>really hard</em>. You have to be an electrical engineer or computer scientist to figure out how to do that and it will <em>still</em> take you a really long, error prone, time.</p>
+<br>
+<p>Programming languages are ways of turning concepts that make more sense to us, like "if <strong>this</strong> then <strong>that</strong>", into simple number-crunching that the processor understands. The problem, though, is that turning concepts that are easy for us into arithmetic is hard to do efficiently. If you do it badly, the resulting programming is <em>slow</em>, takes a ton of memory, and might just be completely unusable.</p>
+<br>
+<p>A good programming language is, then, a thing that lets you have control over how the logic of the program you want gets turned into number-crunching at the end: you control the resources the program uses and the way it runs.</p>
+        </main>
+
+        <nav class="page-nav">
+            <a href="page_Introduction_1.html" class="nav-btn prev">← What is programming? A high-level perspective</a>
+            <a href="page_Introduction_3.html" class="nav-btn next">Why C++, redux →</a>
+        </nav>
+    </div>
+
+    <!-- Terminal for running code -->
+    <div id="terminal-overlay" class="hidden">
+        <div class="terminal-container">
+            <div class="terminal-header">
+                <span>Program Output</span>
+                <button id="close-terminal-btn">✕</button>
+            </div>
+            <div id="terminal-output"></div>
+            <div id="input-area" class="hidden">
+                <span class="prompt">→</span>
+                <input type="text" id="user-input" autocomplete="off" placeholder="Enter input...">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.48.0/min/vs/loader.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Pass by Reference Solutions - CS161A Interactive Text</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> /
+                <span class="chapter">Sample Solutions</span>
+            </div>
+            <h1>Pass by Reference Solutions</h1>
+        </header>
+
+        <main class="content">
+            <h3>Basic: Swap Function</h3>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page33-0">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page33-0">↻ Reset</button>
+    </div>
+    <div id="editor-page33-0" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "#include <iostream>\nusing namespace std;\n\nvoid swap(int &a, int &b){\n  int temp = a;\n  a = b;\n  b = temp;\n}\n\nint main(){\n  int x = 5, y = 10;\n  \n  cout << \"Before swap: x = \" << x << \", y = \" << y << endl;\n  swap(x, y);\n  cout << \"After swap: x = \" << x << \", y = \" << y << endl;\n  \n  return 0;\n}";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page33-0'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<h3>Intermediate: Division with Quotient and Remainder</h3>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page33-1">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page33-1">↻ Reset</button>
+    </div>
+    <div id="editor-page33-1" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "#include <iostream>\nusing namespace std;\n\nint divide(int dividend, int divisor, int &remainder){\n  remainder = dividend % divisor;\n  return dividend / divisor;\n}\n\nint main(){\n  int num1, num2;\n  int remainder;\n  \n  cout << \"Enter dividend: \";\n  cin >> num1;\n  cout << \"Enter divisor: \";\n  cin >> num2;\n  \n  if(num2 != 0){\n    int quotient = divide(num1, num2, remainder);\n    cout << num1 << \" / \" << num2 << \" = \" << quotient \n         << \" with remainder \" << remainder << endl;\n  }\n  else{\n    cout << \"Error: Cannot divide by zero!\" << endl;\n  }\n  \n  return 0;\n}";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page33-1'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<h3>Challenge: Array Statistics</h3>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page33-2">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page33-2">↻ Reset</button>
+    </div>
+    <div id="editor-page33-2" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "#include <iostream>\nusing namespace std;\n\ndouble analyzeArray(int arr[], int size, int &min, int &max){\n  min = arr[0];\n  max = arr[0];\n  double sum = arr[0];\n  \n  for(int i = 1; i < size; i++){\n    if(arr[i] < min) min = arr[i];\n    if(arr[i] > max) max = arr[i];\n    sum += arr[i];\n  }\n  \n  return sum / size;  // Return average\n}\n\nint main(){\n  int numbers[10];\n  int min, max;\n  \n  cout << \"Enter 10 numbers:\" << endl;\n  for(int i = 0; i < 10; i++){\n    cout << \"Number \" << i+1 << \": \";\n    cin >> numbers[i];\n  }\n  \n  double avg = analyzeArray(numbers, 10, min, max);\n  \n  cout << \"\\nStatistics:\" << endl;\n  cout << \"Minimum: \" << min << endl;\n  cout << \"Maximum: \" << max << endl;\n  cout << \"Average: \" << avg << endl;\n  \n  return 0;\n}";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page33-2'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+
+        </main>
+
+        <nav class="page-nav">
+            <a href="page_Sample_Solutions_10.html" class="nav-btn prev">← Function Solutions</a>
+            <a href="page_Sample_Solutions_12.html" class="nav-btn next">Data Validation Solutions →</a>
+        </nav>
+    </div>
+
+    <!-- Terminal for running code -->
+    <div id="terminal-overlay" class="hidden">
+        <div class="terminal-container">
+            <div class="terminal-header">
+                <span>Program Output</span>
+                <button id="close-terminal-btn">✕</button>
+            </div>
+            <div id="terminal-output"></div>
+            <div id="input-area" class="hidden">
+                <span class="prompt">→</span>
+                <input type="text" id="user-input" autocomplete="off" placeholder="Enter input...">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.48.0/min/vs/loader.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

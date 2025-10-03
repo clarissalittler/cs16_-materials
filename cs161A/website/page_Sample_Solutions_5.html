@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Random Number Solutions - CS161A Interactive Text</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> /
+                <span class="chapter">Sample Solutions</span>
+            </div>
+            <h1>Random Number Solutions</h1>
+        </header>
+
+        <main class="content">
+            <h3>Intermediate: Rock, Paper, Scissors</h3>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page27-0">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page27-0">↻ Reset</button>
+    </div>
+    <div id="editor-page27-0" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "#include <iostream>\n#include <cstdlib>\nusing namespace std;\n\nint main(){\n  srand(time(0));\n  \n  string choices[3] = {\"rock\", \"paper\", \"scissors\"};\n  string userChoice;\n  \n  cout << \"Enter your choice (rock/paper/scissors): \";\n  cin >> userChoice;\n  \n  int computerIndex = rand() % 3;\n  string computerChoice = choices[computerIndex];\n  \n  cout << \"You chose: \" << userChoice << endl;\n  cout << \"Computer chose: \" << computerChoice << endl;\n  \n  if(userChoice == computerChoice){\n    cout << \"It's a tie!\" << endl;\n  }\n  else if((userChoice == \"rock\" && computerChoice == \"scissors\") ||\n          (userChoice == \"paper\" && computerChoice == \"rock\") ||\n          (userChoice == \"scissors\" && computerChoice == \"paper\")){\n    cout << \"You win!\" << endl;\n  }\n  else{\n    cout << \"Computer wins!\" << endl;\n  }\n  \n  return 0;\n}";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page27-0'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<h3>Challenge: Coin Flip Statistics</h3>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page27-1">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page27-1">↻ Reset</button>
+    </div>
+    <div id="editor-page27-1" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "#include <iostream>\n#include <cstdlib>\n#include <iomanip>\nusing namespace std;\n\nint main(){\n  srand(time(0));\n  \n  int flips;\n  cout << \"How many times should I flip the coin? \";\n  cin >> flips;\n  \n  int heads = 0;\n  int tails = 0;\n  \n  for(int i = 0; i < flips; i++){\n    if(rand() % 2 == 0){\n      heads++;\n    }\n    else{\n      tails++;\n    }\n  }\n  \n  double headsPercent = (heads * 100.0) / flips;\n  double tailsPercent = (tails * 100.0) / flips;\n  \n  cout << fixed << setprecision(2);\n  cout << \"\\nResults after \" << flips << \" flips:\" << endl;\n  cout << \"Heads: \" << heads << \" (\" << headsPercent << \"%)\" << endl;\n  cout << \"Tails: \" << tails << \" (\" << tailsPercent << \"%)\" << endl;\n  \n  return 0;\n}";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page27-1'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+
+        </main>
+
+        <nav class="page-nav">
+            <a href="page_Sample_Solutions_4.html" class="nav-btn prev">← While Loop Solutions</a>
+            <a href="page_Sample_Solutions_6.html" class="nav-btn next">For-Loop Solutions →</a>
+        </nav>
+    </div>
+
+    <!-- Terminal for running code -->
+    <div id="terminal-overlay" class="hidden">
+        <div class="terminal-container">
+            <div class="terminal-header">
+                <span>Program Output</span>
+                <button id="close-terminal-btn">✕</button>
+            </div>
+            <div id="terminal-output"></div>
+            <div id="input-area" class="hidden">
+                <span class="prompt">→</span>
+                <input type="text" id="user-input" autocomplete="off" placeholder="Enter input...">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.48.0/min/vs/loader.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

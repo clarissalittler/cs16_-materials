@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>DONE Switches vs. ifs - CS161A Interactive Text</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> /
+                <span class="chapter">TODO More advanced programs [1/3]</span>
+            </div>
+            <h1>DONE Switches vs. ifs</h1>
+        </header>
+
+        <main class="content">
+            <p>Switch statements are actually pretty simple and can, essentially, be thought of as "compiling" down to a more verbose if-elseif-else statement, except that rather than being able to ask <strong>any</strong> question you're just asking the question is <em>this</em> equal to <em>this</em>.</p>
+<br>
+<p>Okay, concrete example time:</p>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page13-0">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page13-0">↻ Reset</button>
+    </div>
+    <div id="editor-page13-0" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include <string>\n  using namespace std;\n\n  int main(){\n\n    char letter;\n    cout << \"Enter a letter and I'll tell you the name of a dog that starts with that: \";\n    cin >> letter;\n  \n    switch(tolower(letter)){\n      case 'b':\n        cout << \"Bertie\" << endl;\n        break;\n      case 'c':\n        cout << \"Charles\" << endl;\n        break;\n      case 'd':\n        cout << \"Dora\" << endl;\n        break;\n      case 'e':\n        cout << \"Edie\" << endl;\n        break;\n      case 'f':\n        cout << \"Francine\" << endl;\n        break;\n      case 't':\n        cout << \"Taffy\" << endl;\n        break;\n      case 'p':\n        cout << \"Pisces\" << endl;\n        break;\n      default:\n        cout << \"Sorry, I don't know any dog names that start with that\" << endl;\n    }\n\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page13-0'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>So what this code is doing is equivalent to the following program</p>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page13-1">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page13-1">↻ Reset</button>
+    </div>
+    <div id="editor-page13-1" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include <string>\n  using namespace std;\n\n  int main(){\n    char letter;\n    cout << \"Enter a letter and I'll tell you the name of a dog that starts with that: \";\n    cin >> letter;\n\n    if(tolower(letter) == 'b'){\n      cout << \"Bertie\" << endl;\n    }\n    else if(tolower(letter) == 'c'){\n      cout << \"Charles\" << endl;\n    }\n    else if(tolower(letter) == 'd'){\n      cout << \"Dora\" << endl;\n    }\n    else if(tolower(letter) == 'e'){\n      cout << \"Edie\" << endl;\n    }\n    else if(tolower(letter) == 'f'){\n      cout << \"Francine\" << endl;\n    }\n    else if(tolower(letter) == 't'){\n      cout << \"Taffy\" << endl;\n    }\n    else if(tolower(letter) == 'p'){\n      cout << \"Pisces\" << endl;\n    }\n    else {\n      cout << \"Sorry, I don't know any dog names that start with that\" << endl;\n    }\n\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page13-1'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>So you can see some of the differences between if and switch. First, note that you only have to provide the expression you're comparing <strong>once</strong> to the switch statement. Meanwhile the direct equivalent would involve having to run <code>tolower</code> on the letter every time.</p>
+<br>
+<p>Now that just seems inconvenient here but there are times that it's actually a big deal! Let's consider this example with random numbers</p>
+<br>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page13-2">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page13-2">↻ Reset</button>
+    </div>
+    <div id="editor-page13-2" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include <cstdlib>\n  using namespace std;\n\n  int main(){\n    // here we set the starting seed for the random number generator\n    srand(time(0));\n\n    // here we're playing a game where on a 1 you super win\n    // on a 2 or 6 you lose\n    // on a 3,4,5 you win a little bit\n    // we're going to use a neat property of switch which is that if you don't use break you can have multiple things\n    // all fall into the same case\n    switch(rand() % 6 + 1){\n\n    case 1 :\n      cout << \"You super duper win\" << endl;\n      break;\n    case 3:\n    case 4:\n    case 5:\n      cout << \"You win a little!\" << endl;\n      break;\n    default:\n      cout << \"You lose, you so lose\" << endl;\n    }\n\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page13-2'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>If you were to naively convert this to if-statements you might do something like this!</p>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page13-3">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page13-3">↻ Reset</button>
+    </div>
+    <div id="editor-page13-3" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include <cstdlib>\n  using namespace std;\n\n  // this is a translation of the dice roll program from switches to ifs but\n\n  int main(){\n    srand(time(0));\n\n    if((rand() % 6 + 1) == 1){\n      // ...\n    }\n    else if(rand() % 6 + 1 == 3 || rand() % 6 + 1 == 4 || rand() % 6 + 1 == 5){\n      // ...\n    }\n    else {\n      // ...\n    }\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page13-3'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>Given what we've talked about, can you see the problem here? See the problem is that you're going to get a <strong>different</strong> random number every time you call <code>rand()</code>. So that middle condition isn't testing whether the number you rolled is 3, 4, or 5 it's doing a separate dice roll for each condition. That's very much not what you want when dealing with random number generation!</p>
+<br>
+<p>No, instead, you need to do something more like</p>
+<br>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page13-4">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page13-4">↻ Reset</button>
+    </div>
+    <div id="editor-page13-4" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include <cstdlib>\n  using namespace std;\n\n  // this is a translation of the dice roll program from switches to ifs, problems fixed\n\n  int main(){\n    srand(time(0));\n    int rolledDie = rand() % 6 + 1;\n    if(rolledDie == 1){\n      // ...\n    }\n    else if(rolledDie == 3 || rolledDie == 4 || rolledDie == 5){\n      // ...\n    }\n    else {\n      // ...\n    }\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page13-4'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<h3>Exercises</h3>
+<p>1. <strong>Basic</strong>: Create a days-of-week printer using switch (1<code>Monday, 2</code>Tuesday, etc.).</p>
+<p>2. <strong>Intermediate</strong>: Build a simple calculator using switch for operations (+, -, *, /). Handle division by zero.</p>
+<p>3. <strong>Challenge</strong>: Create a text-based restaurant ordering system with switch for menu categories (appetizers, mains, desserts) and nested switches for items.</p>
+        </main>
+
+        <nav class="page-nav">
+            <a href="page_TODO_More_advanced_programs_13_0.html" class="nav-btn prev">← TODO Functions on strings</a>
+            <a href="page_TODO_More_advanced_programs_13_2.html" class="nav-btn next">TODO Writing your own functions →</a>
+        </nav>
+    </div>
+
+    <!-- Terminal for running code -->
+    <div id="terminal-overlay" class="hidden">
+        <div class="terminal-container">
+            <div class="terminal-header">
+                <span>Program Output</span>
+                <button id="close-terminal-btn">✕</button>
+            </div>
+            <div id="terminal-output"></div>
+            <div id="input-area" class="hidden">
+                <span class="prompt">→</span>
+                <input type="text" id="user-input" autocomplete="off" placeholder="Enter input...">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.48.0/min/vs/loader.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

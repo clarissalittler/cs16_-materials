@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>String Operation Solutions - CS161A Interactive Text</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> /
+                <span class="chapter">Sample Solutions</span>
+            </div>
+            <h1>String Operation Solutions</h1>
+        </header>
+
+        <main class="content">
+            <h3>Basic: Vowel Counter</h3>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page30-0">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page30-0">↻ Reset</button>
+    </div>
+    <div id="editor-page30-0" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "#include <iostream>\n#include <string>\nusing namespace std;\n\nint main(){\n  string text;\n  int vowelCount = 0;\n  \n  cout << \"Enter some text: \";\n  getline(cin, text);  // Use getline to get entire line including spaces\n  \n  for(int i = 0; i < text.length(); i++){\n    char c = tolower(text[i]);\n    if(c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u'){\n      vowelCount++;\n    }\n  }\n  \n  cout << \"Number of vowels: \" << vowelCount << endl;\n  \n  return 0;\n}";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page30-0'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<h3>Intermediate: Palindrome Checker</h3>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page30-1">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page30-1">↻ Reset</button>
+    </div>
+    <div id="editor-page30-1" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "#include <iostream>\n#include <string>\nusing namespace std;\n\nint main(){\n  string text;\n  cout << \"Enter a word: \";\n  cin >> text;\n  \n  bool isPalindrome = true;\n  int len = text.length();\n  \n  for(int i = 0; i < len/2; i++){\n    if(tolower(text[i]) != tolower(text[len-1-i])){\n      isPalindrome = false;\n      break;\n    }\n  }\n  \n  if(isPalindrome){\n    cout << \"\\\"\" << text << \"\\\" is a palindrome!\" << endl;\n  }\n  else{\n    cout << \"\\\"\" << text << \"\\\" is not a palindrome.\" << endl;\n  }\n  \n  return 0;\n}";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page30-1'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+
+        </main>
+
+        <nav class="page-nav">
+            <a href="page_Sample_Solutions_7.html" class="nav-btn prev">← Array Solutions</a>
+            <a href="page_Sample_Solutions_9.html" class="nav-btn next">Switch Statement Solutions →</a>
+        </nav>
+    </div>
+
+    <!-- Terminal for running code -->
+    <div id="terminal-overlay" class="hidden">
+        <div class="terminal-container">
+            <div class="terminal-header">
+                <span>Program Output</span>
+                <button id="close-terminal-btn">✕</button>
+            </div>
+            <div id="terminal-output"></div>
+            <div id="input-area" class="hidden">
+                <span class="prompt">→</span>
+                <input type="text" id="user-input" autocomplete="off" placeholder="Enter input...">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.48.0/min/vs/loader.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

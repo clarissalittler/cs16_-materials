@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>TODO Data validation, the world's most annoying idiom [1/2] - CS161A Interactive Text</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> /
+                <span class="chapter">Your First Programs</span>
+            </div>
+            <h1>TODO Data validation, the world&#x27;s most annoying idiom [1/2]</h1>
+        </header>
+
+        <main class="content">
+            <p>So we've been playing fast and loose for awhile about how to read in data from the user. But, in reality, you should be checking what the user has entered and asking them to re-enter their response if it's not something you expect. This is actually a really annoying topic because there's no easy way to do this in base C++, which is why I'm going to introduce this topic early. </p>
+<br>
+<p>Here's two scenarios:</p>
+<ul>
+<li>The user enters an option that is the right kind of data but that you didn't expect and you need to ask again</li>
+<li>The user enters an option that is the <strong>wrong</strong> kind of data, which means that <code>cin</code> is going to have a hiccup</li>
+</ul>
+<h3>DONE Right kind of data, but wrong option</h3>
+<p>So what we mean here is something like you asking for "yes" or "no" from the user and they, in their infinite snarkiness, enter "chicken". You will not let this chicken stand and, instead, will stop and make them answer again until they give a response that's useful. This is the easier scenario and we can solve the problem with a simple while-loop like this</p>
+<br>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page11-0">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page11-0">↻ Reset</button>
+    </div>
+    <div id="editor-page11-0" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n    // we need to make a space for storing the input\n    string opt = \"\";\n\n    //we have our \"asking\" loop\n    //we're asking the questions while it is NOT \"yes\" and it is NOT \"no\" and it is NOT \"y\" and it is NOT \"n\"\n    //or, in a way that's maybe closer to how we say it in English it's\n    // NOT (yes or no or y or n)\n    while(! (opt == \"yes\" || opt == \"no\" || opt == \"y\" || opt == \"n\")){\n      cout << \"Enter a valid option (yes/no/y/n): \";\n      cin >> opt;\n    }\n\n    cout << \"You chose: \" << opt << endl;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page11-0'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<h3>TODO The wrong kind of data (cin.fail() &c.) [0/2]</h3>
+<p>Okay so from here we have some interesting issues that come down to exactly <strong>what</strong> <code>cin</code> and <code>>></code> are doing together.</p>
+<h4>TODO What ever happened to baby cin?</h4>
+<p>First off, consider the following program.</p>
+<br>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page11-1">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page11-1">↻ Reset</button>
+    </div>
+    <div id="editor-page11-1" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n    int num1;\n    int num2;\n\n    cout << \"Enter two numbers\" << endl;\n    cin >> num1;\n    cin >> num2;\n\n    cout << \"The sum of these numbers was: \" << num1 + num2 << endl;\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page11-1'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>Now if I run this program and enter input like this</p>
+<p>#+begin_example</p>
+<p>1[hit the enter key]</p>
+<p>2[hit the enter key]</p>
+<p>#+end_example</p>
+<br>
+<p>You'll see "The sum of these numbers was: 3" printed out.</p>
+<br>
+<p>If I enter</p>
+<p>#+begin_example</p>
+<p>1 2[hit the enter key]</p>
+<p>#+end_example</p>
+<br>
+<p>I'll <strong>also</strong> see "The sum of these numbers was: 3" printed out. Why is that? Okay, so it has to do with the way <code>>></code> works. Think of <code>cin</code> as being like a kind of pipeline. We fill it with stuff by typing a bunch of things and then hitting the enter key. Now <code>>></code> doesn't just empty out everything in the pipe at once. It goes until either there's an error or until it hits whitespace (like, well, a space). So in the second example you've put "1 2" in the pipeline and the first call to <code>>></code> will grab the <code>1</code> from the pipeline then <strong>stop</strong>. Then the second call to <code>>></code> will grab the <code>2</code> from the pipeline then <strong>stop</strong>.</p>
+<br>
+<p>Now with that behavior in mind, we can start talking about what happens if you enter something that is the wrong type.</p>
+<br>
+<p>Let's run the program above one more time but now with the following input</p>
+<p>#+begin_example</p>
+<p>1 dog[hit the enter key]</p>
+<p>#+end_example</p>
+<p>What you'll get printed out is "The sum of these numbers was: 1". Why? Because it failed to read a number into <code>num2</code> and, so, just gave it a value of 0 rather than stop the program and fail.</p>
+<br>
+<p>We're going to introduce a new function called <code>cin.fail()</code> that lets us ask the question "did the last time we tried to read from <code>cin</code> go wrong?"</p>
+<br>
+<p>So now in the following program we'll ask for two numbers and, then, if there's a failure we'll print out "hey, buddy, that's not cool" rather than print the sum of the numbers</p>
+<br>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page11-2">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page11-2">↻ Reset</button>
+    </div>
+    <div id="editor-page11-2" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n\n    int num1;\n    int num2;\n\n    cout << \"Enter two numbers\" << endl;\n    cin >> num1;\n    cin >> num2;\n\n    if(cin.fail()){\n      cout << \"Hey, buddy, that's not cool\" << endl;\n    }\n    else{\n      cout << \"The sum of these numbers was: \" << num1 + num2 << endl;\n    }\n\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page11-2'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>Run this and test it out and you'll find that if you write something that can't be read as a number then it'll print out "Hey, buddy, that's not cool" rather than print out a badly formed sum. </p>
+<br>
+<p>Okay so we can <em>avoid</em> running our program if something has gone wrong but we also want to potentially ask for new input over and over until correct data is entered.</p>
+<h4>TODO Recovering from an error</h4>
+<p>So this next part is another application of our old friend the <em>while</em> loop.</p>
+<br>
+<br>
+<p>We'll start with the obvious thing to do from the pieces we've seen so far (and spoiler this code isn't going to work)</p>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page11-3">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page11-3">↻ Reset</button>
+    </div>
+    <div id="editor-page11-3" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n    int num1;\n\n    cout << \"Enter a number\" << endl;\n    cin >> num1;\n\n    while(cin.fail()){\n      cout << \"No, buddy, enter a *number*: \" << endl;\n      cin >> num1;\n    }\n\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page11-3'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>So <em>why</em> doesn't this work? You'll see that it leads to an infinite loop of printing "No, buddy, enter a <strong>number</strong>" after just one bad input. So the behavior of <code>cin</code> is that once it sees a single error it gets into a state of not accepting any more input until it gets fixed. You can do that by calling a function <code>cin.clear()</code>. We're not done yet, though, because if you remember the "pipeline" analogy for how <code>cin</code> works we haven't actually gotten rid of what's in the pipeline that was causing the error. In order to throw it away we need to write <code>cin.ignore(256,'\n')</code>. So putting this all together we've got</p>
+<br>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page11-4">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page11-4">↻ Reset</button>
+    </div>
+    <div id="editor-page11-4" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n    int num1;\n\n    cout << \"Enter a number\" << endl;\n    cin >> num1;\n\n    while(cin.fail()){\n      cout << \"No, buddy, enter a *number*: \" << endl;\n      cin.clear();\n      cin.ignore(256,'\\n');\n      cin >> num1;\n    }\n\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page11-4'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<h3>Exercises</h3>
+<p>1. <strong>Basic</strong>: Create a menu system that only accepts options 1-5, rejecting anything else.</p>
+<p>2. <strong>Intermediate</strong>: Validate email format - must contain exactly one @ and at least one . after the @.</p>
+<p>3. <strong>Challenge</strong>: Create a date validator that checks valid month (1-12) and appropriate days for each month (including leap years for February).</p>
+<br>
+        </main>
+
+        <nav class="page-nav">
+            <a href="page_Your_First_Programs_5.html" class="nav-btn prev">← TODO Menus with while-loops</a>
+            <a href="page_TODO_More_advanced_programs_13_0.html" class="nav-btn next">TODO Functions on strings →</a>
+        </nav>
+    </div>
+
+    <!-- Terminal for running code -->
+    <div id="terminal-overlay" class="hidden">
+        <div class="terminal-container">
+            <div class="terminal-header">
+                <span>Program Output</span>
+                <button id="close-terminal-btn">✕</button>
+            </div>
+            <div id="terminal-output"></div>
+            <div id="input-area" class="hidden">
+                <span class="prompt">→</span>
+                <input type="text" id="user-input" autocomplete="off" placeholder="Enter input...">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.48.0/min/vs/loader.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

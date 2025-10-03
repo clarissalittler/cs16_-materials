@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>DONE Why semicolons? - CS161A Interactive Text</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> /
+                <span class="chapter">Your First Programs</span>
+            </div>
+            <h1>DONE Why semicolons?</h1>
+        </header>
+
+        <main class="content">
+            <p>Already, you've probably noticed all the semicolons (the ";" symbols) in this code and this might be one of the first times in your life you've really needed to use them! It's reasonable to be asking "why, though?" now.</p>
+<br>
+<p>The answer is that C++ is an old language, that also borrows the syntax of <em>even older</em> languages. Part of being "an old language" means that it has weird bits that come from a time we were both a lot worse at making compilers and computers were also much much much [&c.] much slower. So the semicolons are a way to note, for the compiler, "hi this is end of a line of code". This is not an essential feature of all programming languages and, indeed, more modern languages have much more elegant ways to denote the end of one line and the start of another.</p>
+<br>
+<p>But once a language, like C++, exists and starts being wildly used you can't do things like "change fundamental features of the syntax"</p>
+<br>
+<p>So, yes, <strong>most</strong> lines need semi-colons at the end. The lines that don't need a semicolon are</p>
+<ul>
+<li>lines that end with <code>{</code> or <code>}</code> (with one annoying exception we'll get to)</li>
+<li>lines that start with #</li>
+<li>comments, which we haven't discussed yet</li>
+</ul>
+        </main>
+
+        <nav class="page-nav">
+            <a href="page_Your_First_Programs_1.html" class="nav-btn prev">← DONE Hello World</a>
+            <a href="page_Your_First_Programs_3.html" class="nav-btn next">TODO More early steps [7/8] →</a>
+        </nav>
+    </div>
+
+    <!-- Terminal for running code -->
+    <div id="terminal-overlay" class="hidden">
+        <div class="terminal-container">
+            <div class="terminal-header">
+                <span>Program Output</span>
+                <button id="close-terminal-btn">✕</button>
+            </div>
+            <div id="terminal-output"></div>
+            <div id="input-area" class="hidden">
+                <span class="prompt">→</span>
+                <input type="text" id="user-input" autocomplete="off" placeholder="Enter input...">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.48.0/min/vs/loader.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

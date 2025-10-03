@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Why learn programming in the age of LLMs - CS161A Interactive Text</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> /
+                <span class="chapter">Introduction</span>
+            </div>
+            <h1>Why learn programming in the age of LLMs</h1>
+        </header>
+
+        <main class="content">
+            <p>This is a <em>weird</em> topic to have to bring up in an introduction to computer science text, but I think it's necessary. There's a lot of talk these days about how programming will be obsolete, "English is the new programming language", &c.</p>
+<br>
+<p>These arguments are a little silly. Not because large language models are bad at coding---they're not---or because they're going to hit a ceiling soon---they <em>might</em> not---but rather because there will always need to be people who understand</p>
+<br>
+<ul>
+<li>what the code is doing</li>
+<li>how the code does it</li>
+</ul>
+<br>
+<p>so that there are people who can guide the AI, override the AI, or decide that the task is outside the capabilities of the AI and get their hands dirty.</p>
+<br>
+<p>In other words, we will always need programmers. In fact, a personal prediction of the author is that the average programmer will have to be better than ever: a master of the <em>high</em> and <em>low</em> levels of programming. In a world where non-programmers can "vibe code" simple proofs of concept, there may well be even more need for competent programmers to take those simple programs and turn them into robust products.</p>
+<br>
+<p>By analogy, this is like how home CAD software and 3D printers didn't kill manufacturing but rather let people quickly prototype ideas that they then pay engineers to turn into production lines.</p>
+        </main>
+
+        <nav class="page-nav">
+            <a href="page_Introduction_3.html" class="nav-btn prev">← Why C++, redux</a>
+            <a href="page_Your_First_Programs_0.html" class="nav-btn next">TODO How to run examples [0/3] →</a>
+        </nav>
+    </div>
+
+    <!-- Terminal for running code -->
+    <div id="terminal-overlay" class="hidden">
+        <div class="terminal-container">
+            <div class="terminal-header">
+                <span>Program Output</span>
+                <button id="close-terminal-btn">✕</button>
+            </div>
+            <div id="terminal-output"></div>
+            <div id="input-area" class="hidden">
+                <span class="prompt">→</span>
+                <input type="text" id="user-input" autocomplete="off" placeholder="Enter input...">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.48.0/min/vs/loader.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

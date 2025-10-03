@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>TODO Writing your own functions - CS161A Interactive Text</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> /
+                <span class="chapter">TODO More advanced programs [1/3]</span>
+            </div>
+            <h1>TODO Writing your own functions</h1>
+        </header>
+
+        <main class="content">
+            <h3>TODO Functions, reintroduced</h3>
+<p>So we've seen a couple of ways to define our own functions so far in this course, but we haven't <strong>formally</strong> talked about it.</p>
+<br>
+<p>Our very first function we've defined was in our "hello world" program! <code>main</code> is a function and we're defining it. It's kind of a weird function because it has to be the same every time:</p>
+<br>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page14-0">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page14-0">↻ Reset</button>
+    </div>
+    <div id="editor-page14-0" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  int main(){\n    //...\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page14-0'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>Again, this says our function is going to return a type <code>int</code>, so at some point in our function we're going to need a <code>return</code> followed by something of type <code>int</code>. Now, in the case of <code>main</code> that should almost always just be <code>return 0</code> but let's step back and recognize that it could, in theory, but anything as long as it has the right type.</p>
+<br>
+<p>The <code>()</code> after main are because the <code>main</code> function doesn't actually take any arguments! Other functions can and will!</p>
+<br>
+<p>Like, for example, consider our function for the sarcasm case up above. This function has the declaration</p>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page14-1">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page14-1">↻ Reset</button>
+    </div>
+    <div id="editor-page14-1" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  string sarcasmCase(string s){";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page14-1'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<p>And this tells us that we're defining a function called <code>sarcasmCase</code>, it takes a <code>string</code> as an argument that we will bind to the variable <code>s</code> for the duration of the function body, and we can see that it returns a string. That means we need to make sure that we have a <code>return __</code> where the <code>__</code> needs to be something of type string.</p>
+<br>
+<p>We haven't really seen examples of it so far but you can have a bunch of function arguments. Here's a variant of our functions for building tables. </p>
+<br>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page14-2">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page14-2">↻ Reset</button>
+    </div>
+    <div id="editor-page14-2" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include <iomanip>\n  using namespace std;\n\n  void divider(int width){\n    cout << setfill('-');\n    cout << \"|\" << setw(width) << \"\";\n    cout << \"|\" << endl;\n  }\n\n  void makeRow(int fieldWidth, string studentname, string classname, double grade){\n    //we're assuming that all fields are the same width and are right aligned\n    cout << setfill(' ');\n    cout << right;\n    cout << fixed << setprecision(2);\n\n    cout << \"|\" << setw(fieldWidth) << studentname;\n    cout << \"|\" << setw(fieldWidth) << classname;\n    cout << \"|\" << setw(fieldWidth) << grade;\n    cout << \"|\" << endl;\n  }\n\n  void makeTitleRow(int fieldWidth, string col1, string col2, string col3){\n    cout << setfill(' ');\n    cout << right;\n    cout << \"|\" << setw(fieldWidth) << col1;\n    cout << \"|\" << setw(fieldWidth) << col2;\n    cout << \"|\" << setw(fieldWidth) << col3;\n    cout << \"|\" << endl;\n  }\n\n  int main(){\n    divider(47); // why is this 47? because 15*3 + one for each of the |\n    makeTitleRow(15, \"student\", \"class\", \"gpa\");\n    divider(47);\n    makeRow(15, \"Chicken B.\", \"CS 720\", 2.3);\n    makeRow(15, \"Brad Default\", \"CS 250\", 3.1);\n\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page14-2'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<h3>Exercises</h3>
+<p>1. <strong>Basic</strong>: Write a function that returns the larger of two numbers.</p>
+<p>2. <strong>Intermediate</strong>: Create functions for calculating area of different shapes (circle, rectangle, triangle). Each should take appropriate parameters.</p>
+<p>3. <strong>Challenge</strong>: Implement a function that checks if a number is prime. Then use it to find all twin primes (primes that differ by 2) up to 100.</p>
+<h3>TODO Passing by reference</h3>
+<p>Now here's a weird little feature of C++. So let's look at how arguments to functions differ from normal variables with a simple example:</p>
+<br>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page14-3">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page14-3">↻ Reset</button>
+    </div>
+    <div id="editor-page14-3" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int sillyFun(int num){\n    num = 10;\n    return num;\n  }\n\n  int main(){\n\n    int ourNum = 30;\n\n    cout << \"Now we're going to call our function and it'll return \" << sillyFun(ourNum) << endl;\n    cout << \"But now what value does our variable have?: \" << ourNum << endl;\n  \n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page14-3'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>Now if you run this code you'll see that the function returns <code>10</code> but that the value of <code>ourNum</code> at the end is <code>30</code>. How is this possible? Afterall, we set <code>num </code> 10<code> inside the function and return </code>num<code> and that's 10! Why doesn't the assignment stick? Well, because the variable </code>num<code> inside the function </code>sillyFun<code> is not /actually/ the same as </code>ourNum= it's just a variable that lives inside a function and it is initialized with the same <em>value</em> as the ourNum when it's passed in.</p>
+<br>
+<p>Okay, why am I telling you this? Because there is a different way to write functions in C++ where you don't take in the value of the argument, you are giving the function the variable itself!</p>
+<br>
+<p>For example, consider this</p>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page14-4">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page14-4">↻ Reset</button>
+    </div>
+    <div id="editor-page14-4" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int sillyFun(int &num){\n    num = 10;\n    return num;\n  }\n\n  int main(){\n    int ourNum = 30;\n\n    cout << \"Now we're going to call our function and it'll return \" << sillyFun(ourNum) << endl;\n    cout << \"But now what value does our variable have?: \" << ourNum << endl;\n  \n    return 0;  \n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page14-4'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<p>The only difference between these programs is the little <code>&</code> symbol in front of the name of the variable. This signifies that it's an argument that is "passed by reference", or in other words it's literally passing in the variable as a thing that can be manipulated, assigned, &c. instead of just handing the function the value inside the variable.</p>
+<br>
+<p>Why use this? That's probably the obvious question to ask. So there are a few reasons. The first is that it lets you do something that C++ can't normally do: return multiple arguments!</p>
+<br>
+<p>What does that mean? So if you've ever used Python at all you might be familiar with the ability to do something like this</p>
+<br>
+<p>#+begin_src python</p>
+<p>  def askAndSum():</p>
+<p>      num = int(input("Enter a number: "))</p>
+<p>      total = 0</p>
+<p>      entries = 0</p>
+<p>      while num >= 0:</p>
+<p>          entries = entries + 1</p>
+<p>          total = total + num</p>
+<p>          num = int(input("Enter a number: "))</p>
+<p>      return (total, entries)</p>
+<br>
+<p>  print(askAndSum())</p>
+<p>#+end_src</p>
+<br>
+<p>This program mimics things we've seen in this class: you run a loop that keeps asking for numbers until it gets a negative entry and then it returns the sum of all the numbers <strong>and</strong> how many numbers got added together!</p>
+<br>
+<p>You <strong>cannot</strong> do this in C++. Instead, you have to write this program with a pass-by-reference argument like this:</p>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page14-5">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page14-5">↻ Reset</button>
+    </div>
+    <div id="editor-page14-5" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int askAndSum(int &entries){\n    int sum = 0;\n    int num = 0;\n  \n    cout << \"Enter a number: \";\n    cin >> num;\n\n    while(num >= 0){\n      entries = entries + 1;\n      sum = sum + num;\n    \n      cout << \"Enter a number: \";\n      cin >> num;\n    }\n  \n    return sum;\n  }\n\n  int main(){\n\n    int entries = 0;\n    int sum = askAndSum(entries);\n\n    cout << sum << \" \" << entries << endl;\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page14-5'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<h3>Exercises</h3>
+<p>1. <strong>Basic</strong>: Write a swap function that exchanges the values of two variables using pass by reference.</p>
+<p>2. <strong>Intermediate</strong>: Create a function that returns both quotient and remainder of division (use reference parameters for one of them).</p>
+<p>3. <strong>Challenge</strong>: Build a function that finds minimum, maximum, and average of an array in a single pass. Use reference parameters for min and max.</p>
+        </main>
+
+        <nav class="page-nav">
+            <a href="page_TODO_More_advanced_programs_13_1.html" class="nav-btn prev">← DONE Switches vs. ifs</a>
+            <a href="page_TODO_More_advanced_programs_13_3.html" class="nav-btn next">TODO Arrays, again, and Pointers →</a>
+        </nav>
+    </div>
+
+    <!-- Terminal for running code -->
+    <div id="terminal-overlay" class="hidden">
+        <div class="terminal-container">
+            <div class="terminal-header">
+                <span>Program Output</span>
+                <button id="close-terminal-btn">✕</button>
+            </div>
+            <div id="terminal-output"></div>
+            <div id="input-area" class="hidden">
+                <span class="prompt">→</span>
+                <input type="text" id="user-input" autocomplete="off" placeholder="Enter input...">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.48.0/min/vs/loader.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

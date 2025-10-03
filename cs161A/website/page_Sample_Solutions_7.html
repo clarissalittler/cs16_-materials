@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Array Solutions - CS161A Interactive Text</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> /
+                <span class="chapter">Sample Solutions</span>
+            </div>
+            <h1>Array Solutions</h1>
+        </header>
+
+        <main class="content">
+            <h3>Basic: Temperature Analysis</h3>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page29-0">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page29-0">↻ Reset</button>
+    </div>
+    <div id="editor-page29-0" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "#include <iostream>\nusing namespace std;\n\nint main(){\n  double temps[7];\n  \n  cout << \"Enter temperatures for 7 days:\" << endl;\n  for(int i = 0; i < 7; i++){\n    cout << \"Day \" << i+1 << \": \";\n    cin >> temps[i];\n  }\n  \n  int warmestDay = 0;\n  int coldestDay = 0;\n  \n  for(int i = 1; i < 7; i++){\n    if(temps[i] > temps[warmestDay]){\n      warmestDay = i;\n    }\n    if(temps[i] < temps[coldestDay]){\n      coldestDay = i;\n    }\n  }\n  \n  cout << \"Warmest day was Day \" << warmestDay + 1 \n       << \" with \" << temps[warmestDay] << \" degrees\" << endl;\n  cout << \"Coldest day was Day \" << coldestDay + 1 \n       << \" with \" << temps[coldestDay] << \" degrees\" << endl;\n  \n  return 0;\n}";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page29-0'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<h3>Intermediate: Array Reversal</h3>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page29-1">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page29-1">↻ Reset</button>
+    </div>
+    <div id="editor-page29-1" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "#include <iostream>\nusing namespace std;\n\nint main(){\n  int arr[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};\n  \n  cout << \"Original array: \";\n  for(int i = 0; i < 10; i++){\n    cout << arr[i] << \" \";\n  }\n  cout << endl;\n  \n  // Reverse in-place\n  for(int i = 0; i < 5; i++){\n    int temp = arr[i];\n    arr[i] = arr[9-i];\n    arr[9-i] = temp;\n  }\n  \n  cout << \"Reversed array: \";\n  for(int i = 0; i < 10; i++){\n    cout << arr[i] << \" \";\n  }\n  cout << endl;\n  \n  return 0;\n}";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page29-1'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+
+        </main>
+
+        <nav class="page-nav">
+            <a href="page_Sample_Solutions_6.html" class="nav-btn prev">← For-Loop Solutions</a>
+            <a href="page_Sample_Solutions_8.html" class="nav-btn next">String Operation Solutions →</a>
+        </nav>
+    </div>
+
+    <!-- Terminal for running code -->
+    <div id="terminal-overlay" class="hidden">
+        <div class="terminal-container">
+            <div class="terminal-header">
+                <span>Program Output</span>
+                <button id="close-terminal-btn">✕</button>
+            </div>
+            <div id="terminal-output"></div>
+            <div id="input-area" class="hidden">
+                <span class="prompt">→</span>
+                <input type="text" id="user-input" autocomplete="off" placeholder="Enter input...">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.48.0/min/vs/loader.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

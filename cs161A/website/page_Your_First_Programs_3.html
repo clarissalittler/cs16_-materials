@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>TODO More early steps [7/8] - CS161A Interactive Text</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> /
+                <span class="chapter">Your First Programs</span>
+            </div>
+            <h1>TODO More early steps [7/8]</h1>
+        </header>
+
+        <main class="content">
+            <h3>DONE Echoing text and string types</h3>
+<p>So we've already done a non-trivial amount of work because we've learned to compile a file, run it, and have it print something out the screen.</p>
+<br>
+<p>Now here's our first program that we're going to use to explain</p>
+<ul>
+<li>variables</li>
+<li>our first data type, string</li>
+<li>how to read data in from the command line</li>
+</ul>
+<br>
+<p>Go ahead and first compile and run this code. You should get a command prompt that lets you type something, hit enter, and then get what you typed printed back onto the screen. </p>
+<br>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page8-0">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page8-0">↻ Reset</button>
+    </div>
+    <div id="editor-page8-0" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "   #include <iostream>\n   using namespace std;\n\n   int main(){\n     string stuff;\n     cout << \"Enter a thing: \" << endl;\n     cin >> stuff;\n\n     cout << \"You said: \" << stuff << endl;\n\n     return 0;\n   }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page8-0'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>Now that you've tried it and seen that it works, let's explain it!</p>
+<br>
+<p> Okay, so these first lines are what we've already seen before:</p>
+<p> #+begin_example</p>
+<p>   #include <iostream></p>
+<p>   using namespace std;</p>
+<p> #+end_example</p>
+<p>We'll reiterate that these lines let us</p>
+<ul>
+<li>load in the code needed for us to do things like read and write information from the terminal</li>
+<li><strong>not</strong> have to preface all this code with <code>std::</code> because that gets really annoying to type!</li>
+</ul>
+<br>
+<p> From there we have</p>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page8-1">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page8-1">↻ Reset</button>
+    </div>
+    <div id="editor-page8-1" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "   int main(){\n   ...\n   }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page8-1'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<p>which, again, is a way of declaring a named chunk of code. A very specific named chunk of code: <code>main</code>, the function that is needed as the "entry point" of final program. We'll make our own functions soon enough, but for now know that this is a function and represents the pattern of how they're made.</p>
+<br>
+<p>The next line <code>string stuff;</code> needs some explanation. In C++, like a lot of other programming languages, in order to store information you need to make a container and give it a name. In this case we're naming a container <code>stuff</code>. Now, what's up with the text <code>string</code> that comes before that?</p>
+<br>
+<p>Well, much like the <code>int</code> we saw before <code>main</code> this is a <strong>type</strong>[fn:3], it's a signifier for the <em>form</em> of data we're talking about. <code>int</code> is the type that corresponds to whole numbers. <code>string</code> is the type that corresponds to text-as-data, like what we saw in our <em>Hello, World</em> program where the text "Hello, World" was inside the program in quotes like <code>"Hello, World"</code>.</p>
+<br>
+<p>So our container <code>stuff</code> <em>can</em> contain strings but it's currently empty. We're going to put something in it, though, by using <code>cin</code>! <code>cin</code> is the opposite of <code>cout</code> and, rather than printing something out to the screen, lets you read text <strong>into</strong> the program by typing and hitting enter.</p>
+<br>
+<p>After the <code>cin</code> has run,  we have something <em>in</em> our container and then we can grab the contents of the container using the container name which, in this case, is simply <code>stuff</code>.</p>
+<br>
+<p>So when we want to print out the contents of <code>stuff</code> we say <code>cout << "You said: " << stuff << endl;"</code>.</p>
+<br>
+<p>We also end with <code>return 0;</code> because we're very good programmers and <strong>never</strong> forget to put this in our files.[fn:6]</p>
+<h3>Explore: What's in a name?</h3>
+<p> Try changing the name of "stuff" in the program above. Be careful that when you <em>rename</em> the variable that you rename it consistently and change every use of the name "stuff" in the program. Come back and read on after you're done.</p>
+<br>
+<p> Did anything change? The answer is almost certainly "no!". C++ doesn't <em>care</em> what containers are named as long as you label them correctly. You could have, confusingly, named your text-holding variable to <code>thisIsANumberNotAString</code> and the program would still work just fine. There's nothing in the C++ compiler that actually "knows" what the name you gave a variable means.</p>
+<br>
+<p> That doesn't mean naming variables "hinder" or "boopsboops" is a good idea. There's an old saying that you need to write your code so it's understandable by a total stranger, because that stranger is likely to be <strong>you</strong> in a few months.</p>
+<br>
+<p> So be kind to your future self and user variable names that make sense!</p>
+<h3>Exercises</h3>
+<p>1. <strong>Basic</strong>: Ask for first and last name separately, then print them together in the format "Last, First".</p>
+<p>2. <strong>Intermediate</strong>: Ask for three words and print them in reverse order (if user enters "cat dog bird", print "bird dog cat").</p>
+<p>3. <strong>Challenge</strong>: Create a Mad Libs program that asks for a noun, verb, adjective, and adverb, then inserts them into a story template like: "The [adjective] [noun] decided to [verb] [adverb]."</p>
+<h3>DONE What's in an empty variable?</h3>
+<p>Now, when we declare a variable we're making a container, but is there anything <strong>in</strong> the container at that point? Well let's see![fn:5]</p>
+<br>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page8-2">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page8-2">↻ Reset</button>
+    </div>
+    <div id="editor-page8-2" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n    string stuff;\n    cout << \"And our string holds...\" << stuff << endl;\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page8-2'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>If I run this on my computer, I get an output of "And our string holds..." and nothing else. In this case, <code>stuff</code> contains the empty string "" that corresponds to no text at all. That seems like a pretty reasonable thing for an empty container to hold!</p>
+<br>
+<p>What about if we instead make an empty int?</p>
+<br>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page8-3">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page8-3">↻ Reset</button>
+    </div>
+    <div id="editor-page8-3" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n    int stuff;\n    cout << \"And our int holds...\" << stuff << endl;\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page8-3'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>Well I ran this once and got "And our int holds...779647075". Oh dear <em>dot dot dot</em> that seems like a very <strong>not</strong> great thing to have as a default value!</p>
+<br>
+<p>Okay, and now we get into the punchline. The reason why I'm specifying "on my computer" and "when I run this" is that the answers could actually change between computers and compilers! You really, really, really should <strong>never</strong> use an empty variable because you can guarantee exactly nothing about what it will do.</p>
+<h3>TODO Advanced: What /is/ a container? [0/2]</h3>
+<p>At this point you might be wondering "what <em>are</em> these containers, these <em>variables</em>, anyway?". What does it really mean for the compiler to make space for data? To answer that we need to get into some more details about how data is stored in a computer.</p>
+<h4>TODO All we ever were, just zeros and ones</h4>
+<p>Computers, the modern digital computer we've all settled on, operates fundamentally on Os and 1s. Why? Because in the end you can think of the fundamental atom of the computer, the transistor, as an electrical on-off switch. If it's "on" it lets current flow, if it's "off" it does not. The brilliance of digital computers is in cleverly encoding <em>everything</em> we do into patterns of these ons and offs. First, to explain <em>that</em> we need to review how we write numbers in the normal way.</p>
+<br>
+<p>When we write a number like 42367 this is shorthand for <code>40000 + 2000 + 300 + 60 + 7</code>. You may have learned to describe this as the "ones place", "the tens place", "the hundreds place", &c. We can write this even more compactly as</p>
+<br>
+<p><code>4*10^4 + 2*10^3 + 3*10^2 + 6*10^1 + 7*10^0</code></p>
+<br>
+<p>using the fact that <em>anything</em> to the zeroth power is just one.</p>
+<br>
+<p>This is called the "base ten" representation of numbers because it's a sequence of powers of ten. We can do bases in other numbers though and you might see where we're going with this: computers work with "base two" numbers, also called <em>binary</em>.</p>
+<br>
+<p>A binary number like 10010 is thus a way of writing <code>1*2^4 + 0*2^3 +0*2^2 + 1*2^1 + 0*2^0</code>, which is actually the number <code>16 + 0 + 0 + 2 + 0</code> or <code>18</code>.</p>
+<br>
+<p>We're not going to go deep into how different kinds of data are represented <em>as</em> numbers, but we'll simply say that <strong>everything</strong> on a computer is fundamentally understood as a binary number.</p>
+<br>
+<h4>TODO Memory and storage</h4>
+<p>You might have heard people refer to "memory" when it comes to computers: but what is it? How does it differ from something like the storage space on your laptop or phone?</p>
+<br>
+<p>When someone says "memory" generally what they actually mean is Random Access Memory (RAM, in the sequel), which maybe should be called "Arbitrary Access Memory" because it's not <em>random</em> like a dice roll it's that you can access any part of the memory at any time.</p>
+<br>
+<p>Think of it like a giant wall of cubbyholes like at a gym, each square is labeled so it can be found quickly and when you need something from it you just walk to the right one and grab what you want. You don't have to, say, walk down a hallway starting at the beginning every time you want to grab something.</p>
+<br>
+<p>That image is a little misleading, though, because it's less like a set of fixed cubbyholes and more like a huge wall with a bunch of movable dividers that can---on the fly---be reconfigured to fit different sizes of things. Tiny ones for a pair of running shoes. A huge one for a giant dufflebag.</p>
+<br>
+<p>Continuing this metaphor we can explain what happens when you make a variable:</p>
+<ul>
+<li>the computer then finds space in the giant storage wall to put a divider,</li>
+<li>notes down the label on that storage space</li>
+<li>comes back and puts the value of that label into the variable name you declared</li>
+</ul>
+<br>
+<p>We can help explain, too, what these type signifiers are like <code>int</code> and <code>string</code>: they're there to make it easy for the computer to know what the size of the data is, "where to put the divider" if we keep going with the metaphor.[fn:15]</p>
+<br>
+<p>This memory[fn:9] gets reset every time you run the program. That's because the memory of your computer isn't for long-term storage, it's the scratch paper that programs need to run and keep track of all of their calculations.</p>
+<br>
+<h3>DONE Comments and documentation</h3>
+<p>There's a line from the (absolutely amazing) old computer science textbook "Structure and Interpretation of Computer Programs" that goes</p>
+<br>
+<p>#+begin_quote</p>
+<p>Programs must be written for people to read, and only incidentally for machines to execute.</p>
+<p>#+end_quote</p>
+<br>
+<p>If that pithy line sounds weird think of it this way: when we write code we're solving problems. When we solve problems, we want other people to be able to understand those solutions for two reasons.</p>
+<br>
+<p>The first is that we want other people to be able to check our work and see if we did it correctly! If there's a problem not with the <em>code</em> but with the <em>reasoning</em> then it needs to be clear the decisions that were made and <em>why</em> they were made.</p>
+<br>
+<p>To make this really concrete, imagine that you're coding a physics simulation for a game engine. It works great for one game, a retro-style 2.5D shoot-em'-up. Now, later people want to adapt this physics engine to a remake of gamer-rage classic Getting Over It, but now with a pogo-stick. Except it doesn't work! The bouncing looks and moves completely wrong!</p>
+<br>
+<p>Now, if your code is well-written, clear, and properly documented these game developers might discover the assumption that all collisions are perfectly elastic, so if something bounces once it will bounce <strong>exactly</strong> as high every single time. A cup of coffee's worth of coding later, they have it fixed!</p>
+<br>
+<p>If your code is obtuse, poorly refactored, and has no documentation then, well, they might have to just write something new from scratch or grab a new physics engine library.</p>
+<br>
+<p>To recall a point made earlier, one of the most common ways this story plays out is for both developers to be <em>you</em>: because the past is a foreign country and time makes us strangers to ourselves.</p>
+<br>
+<p>All of that being said, <em>what</em> does good documentation look like? This is a subjective thing but my take would be something like:</p>
+<br>
+<ul>
+<li>functions have names that tell you something</li>
+<li>variables and function parameters are clear either by descriptive names or short names with useful conventions (i.e. generic arithmetic functions have parameters like <code>n1</code> and <code>n2</code> rather than <code>firstNumber</code>/<code>secondNumber</code></li>
+<li>the <em>ideas</em> behind the code and description of how it <em>should</em> work are explained well</li>
+</ul>
+<br>
+<p>With that last bit, you might be wondering how we can add explanations into the code? Those are <em>comments</em>.</p>
+<br>
+<p>Comments are <strong>completely</strong> ignored by the compiler and are text only people see in the source code, thrown away in the creation of the actual program.</p>
+<br>
+<p>There are two ways to write comments: the first is to put <code>//</code> anywhere in a line of code, which means that everything to the right of the double-slash becomes a comment; the second is to have a pair <code>/*</code> and <code>*/</code> across multiple lines, which makes the entire region commented. Here's an example:</p>
+<br>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page8-4">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page8-4">↻ Reset</button>
+    </div>
+    <div id="editor-page8-4" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n    int num = 0; // this program doesn't do anything interesting\n\n    /* but it\n       has\n       plenty\n       of\n       comments\n       \n       explodeComputer();\n\n       oh look this function doesn't get called, I guess\n    ,*/\n    return num;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page8-4'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<h4>DONE Exercise about documenting a program</h4>
+<p>Here's a program that is uncommented and uses a number of constructs you haven't seen before.</p>
+<br>
+<p>See if you can take this code and add comments to it to clarify what it does and write notes about what you don't understand. This is an exercise to practice <em>reading</em> code, which is about as important a skill as writing it in the first place!</p>
+<br>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page8-5">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page8-5">↻ Reset</button>
+    </div>
+    <div id="editor-page8-5" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include <cmath>\n  using namespace std;\n\n  int main() {\n      int choice;\n      double radius, length, width, area;\n      \n      cout << \"Shape Area Calculator\" << endl;\n      cout << \"1. Circle\" << endl;\n      cout << \"2. Rectangle\" << endl;\n      cout << \"Enter your choice (1 or 2): \";\n      cin >> choice;\n      \n      if (choice == 1) {\n          cout << \"Enter radius: \";\n          cin >> radius;\n          area = 3.14159 * radius * radius;\n          cout << \"Area of circle: \" << area << endl;\n      }\n      else if (choice == 2) {\n          cout << \"Enter length: \";\n          cin >> length;\n          cout << \"Enter width: \";\n          cin >> width;\n          area = length * width;\n          cout << \"Area of rectangle: \" << area << endl;\n      }\n      else {\n          cout << \"Invalid choice!\" << endl;\n          return 1;\n      }\n      \n      return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page8-5'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<h3>DONE Arithmetic and such in C++</h3>
+<p>Arithmetic in C++, like most programming languages, is meant to look a lot like the arithmetic operations you're used to. You can test out some basic operations with the following code. Note that this example shows us that you can use <code>cin</code> with types other than <code>string</code>.</p>
+<br>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page8-6">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page8-6">↻ Reset</button>
+    </div>
+    <div id="editor-page8-6" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n    int num1;\n    int num2;\n    int num3 = 5; // look, we're giving a variable a value at the same time as we make it\n\n    cout << \"Enter a number:  \";\n    cin >> num1;\n\n    cout << \"Enter another number: \";\n    cin >> num2;\n\n    cout << \"Adding numbers: \" << num1 + num2 << endl;\n    cout << \"Subtracting numbers: \" << num1 - num2 << endl;\n    cout << \"Multiplying numbers: \" << num1 * num2 << endl;\n    cout << \"Dividing numbers .....?: \" << num1 / num2 << endl;\n\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page8-6'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<p>So this probably <strong>mostly</strong> went the way you expected but when you ran this code were you surprised by anything related to division? If you weren't, try entering 5 for <code>num1</code> and 3 for <code>num2</code>. You'll see that <code>5/3</code> is computed as 1.</p>
+<br>
+<p>Why on earth is that true? Well, because <code>num1</code> and <code>num2</code> are <strong>whole numbers</strong> and 3 goes into 5 only once.</p>
+<br>
+<p>Okay, but what if we want to deal with fractional numbers? That's when we introduce <em>floats</em> and <em>doubles</em>. These are both kinds of "floating point numbers". The term floating point sounds weird but the point (haha) is that these are numbers that allow for decimal points in them and don't have a fixed number of digits to the left or right of the decimal.</p>
+<br>
+<p>Okay, so why are there two different types? Well, one is smaller than the other. No, this doesn't strictly mean it's for smaller numbers. It's also for "less precise" of numbers.[fn:8] If you need more accurate representations of non-whole numbers, you should use a <code>double</code>. Most of the time, folks recommend just defaulting to <code>double</code> instead of <code>float</code>. You might see me sometimes still use <code>float</code> for things where we know the numbers are small and precision doesn't matter.</p>
+<br>
+<p>So let's try this program again with <code>double</code> s instead of <code>int</code>.</p>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page8-7">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page8-7">↻ Reset</button>
+    </div>
+    <div id="editor-page8-7" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n    double num1;\n    double num2;\n\n    cout << \"Enter a number:  \";\n    cin >> num1;\n\n    cout << \"Enter another number: \";\n    cin >> num2;\n\n    cout << \"Adding numbers: \" << num1 + num2 << endl;\n    cout << \"Subtracting numbers: \" << num1 - num2 << endl;\n    cout << \"Multiplying numbers: \" << num1 * num2 << endl;\n    cout << \"Dividing numbers: \" << num1 / num2 << endl;\n\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page8-7'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<p>There, that's probably more what you would have expected from division.</p>
+<br>
+<p>Note that <code>cin</code> keeps working no matter what type of container we're trying to fill with it! There's definitely no possibility that is going to go wrong later in a really annoying way! Foreshadowing!</p>
+<h4>TODO On casting numbers</h4>
+<p> Let's imagine that you start out with integers but you do need to divide them later. You could just start with doubles but that violates a basic principle of programming: you want the <em>type</em> of the variable to match what it <em>is</em>. If you wanted to, say, keep track of rock/paper/scissors wins versus the total number of games played, you wouldn't want to store that as a double because what's 0.3 games? It's has no meaningful interpretation[fn:10], so our program shouldn't allow it even accidentally.</p>
+<br>
+<p> So what do we do? We temporarily tell the C++ compiler "here, right here, treat this data like it's a different type".</p>
+<br>
+<p> So we can do something like this to divide two integers:</p>
+<br>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page8-8">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page8-8">↻ Reset</button>
+    </div>
+    <div id="editor-page8-8" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "   #include <iostream>\n   using namespace std;\n\n   int main(){\n\n     int num1 = 5;\n     int num2 = 3;\n\n     cout << static_cast<double>(num1)/static_cast<double>(num2) << endl;\n     \n     return 0;\n   }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page8-8'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<h3>Exercises</h3>
+<p>1. <strong>Basic</strong>: Calculate the area and perimeter of a rectangle from user input (length and width).</p>
+<p>2. <strong>Intermediate</strong>: Create a tip calculator that asks for bill amount and tip percentage, then shows the tip amount and total.</p>
+<p>3. <strong>Challenge</strong>: Implement a compound interest calculator that asks for principal, annual rate, time in years, and number of times compounded per year. Use the formula: A = P(1 + r/n)^(nt)</p>
+<h3>TODO Booleans and personality tests</h3>
+<p>Okay, if all we could do with code was straight-line programs that just do a sequence of calculations then we'd basically just have the equivalent of a calculator but arguably more annoying.</p>
+<br>
+<p>Our first real important ability is the ability to make <em>choices</em>. "Do I do <em>this</em> or <em>that</em>?" Let's look at an example.</p>
+<br>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page8-9">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page8-9">↻ Reset</button>
+    </div>
+    <div id="editor-page8-9" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n\n    double num1;\n    double num2;\n\n    cout << \"Enter a number: \";\n    cin >> num1;\n    cout << \"Enter another number: \";\n    cin >> num2;\n\n    cout << \"If the first number - the second number is greater than 10, it will print 'beep', otherwise 'boop'\" << endl;\n\n    if(num1 - num2 > 10){\n      cout << \"beep\" << endl;\n    }\n    else{\n      cout << \"boop\" << endl;\n    }\n\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page8-9'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>Let's break down the new part here:</p>
+<p>  <code>if(num1 - num2 > 10){</code> this lets us ask the question "is num1 minus num2 greater than 10"? <em>If</em> the answer to this question is "yes", then all the code between this curly-brace and the next curly brace happens. If the answer is "no", then the code between the curly-brace after <code>else</code> and the closing curly-brace after that is run.</p>
+<br>
+<p> A way you could read this in English is provided in the text that prints out "If the first number - the second number is greater than 10, it will print 'beep', otherwise 'boop'".</p>
+<br>
+<p> We refer to this as an "if-statement".</p>
+<br>
+<p> An if-statement doesn't have to have the <code>else</code> part, though.</p>
+<br>
+<p> Consider this program that makes sure an integer entered is positive</p>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page8-10">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page8-10">↻ Reset</button>
+    </div>
+    <div id="editor-page8-10" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "   #include <iostream>\n   using namespace std;\n\n   int main(){\n     int num;\n     cout << \"Enter a positive number (if it's not positive we'll *make* it positive): \";\n     cin >> num;\n\n     if(num < 0){\n       num = -num;\n     }\n\n     cout << \"Your number: \" << num << endl;\n     return 0;\n   }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page8-10'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p> Okay, so let's talk a bit more about what kinds of "questions" you can ask. "Question" is also a kind of data and has a type. That type is called <code>bool</code>, sometimes called a "boolean", named after the mathematician "George Boole" who was extremely influential in the development of formal logic.</p>
+<br>
+<p> The type <code>bool</code> has two elements: <code>true</code> and <code>false</code>. You can use these inside your if-statements, like the following program:</p>
+<br>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page8-11">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page8-11">↻ Reset</button>
+    </div>
+    <div id="editor-page8-11" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "   #include <iostream>\n   using namespace std;\n\n   int main(){\n     bool isItQuestionMark = true;\n\n     if(isItQuestionMark){\n       cout << \"It's true\" << endl;\n     }\n     else {\n       cout << \"It's not\" << endl;\n     }\n     return 0;\n   }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page8-11'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>There are all sorts of questions you can ask, such as</p>
+<ul>
+<li><code>a == b</code> are two things equal to each other</li>
+<li><code>a != b</code> are two things not equal</li>
+<li><code>a > b</code> is a greater-than b</li>
+<li><code>a < b</code> is a less-than b</li>
+</ul>
+<br>
+<p>You can also take the inverse of a question but putting <code>!</code> in front of it. So we can have</p>
+<br>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page8-12">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page8-12">↻ Reset</button>
+    </div>
+    <div id="editor-page8-12" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n\n    if(!true){\n      cout << \"This shouldn't get printed\" << endl;\n    }\n    else{\n      cout << \"But this should!\" << endl;\n    }\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page8-12'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>You also don't have to ask just one question at a time. You can combine questions with <code>&&</code>, pronounced "and", and <code>||</code>, pronounced "or".</p>
+<br>
+<p>If I have questions a and b then <code>a && b</code> only returns <code>true</code> if <strong>both</strong> <code>a</code> and <code>b</code> are true. Similarly, <code>a || b</code> returns true if <code>a</code> is true, if <code>b</code> is true, or if both of them are true.</p>
+<br>
+<h4>The dirty truth about booleans in C++</h4>
+<p> Beware, absolute nastiness awaits you in this section. You'll learn about horrendous, semantics breaking, decisions in the history of programming language design.</p>
+<br>
+<p> So, you see dear reader, it turns out that </p>
+<br>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page8-13">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page8-13">↻ Reset</button>
+    </div>
+    <div id="editor-page8-13" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "   #include <iostream>\n   using namespace std;\n\n   int main(){\n     if(true == 1){\n       cout << \"true is the same as 1\" << endl;\n     }\n\n     if(false == 0){\n       cout << \"false is the same as 0\" << endl;\n     }\n\n     int num = 1;\n     if(true == num){\n       cout << \"true is 1 even if we insist that the 1 is an int\" << endl;\n     }\n   }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page8-13'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>Compile this code and run it to confirm the horrible truth, but you'll see that booleans are really just numbers. Which is honestly a terrible decision because it means there's all sorts of wrong things that can happen.</p>
+<br>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page8-14">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page8-14">↻ Reset</button>
+    </div>
+    <div id="editor-page8-14" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n    int num;\n    cout << \"Enter a number, promise I won't misuse it\" << endl;\n    cin >> num;\n    if(num){ // whoops I meant to compare this to something but I got distracted by a dog\n      cout << \"This means that num is greater than 3\" << endl;\n      cout << \"See? \" << num << endl;\n    }\n    else{\n      cout << \"num is too small\" << endl;\n    }\n    return false; // what is happening here\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page8-14'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>Look at this wretched code! <code>return false</code>? <code>if(num)</code>? This is terrible! And the compiler did <em>nothing</em> to stop it!</p>
+<br>
+<p>Woe be upon us!</p>
+<h4>TODO An authentication quiz</h4>
+<p>META: Fix this to be an example of a personality quiz instead because that's a project I like to give early on</p>
+<br>
+<p>Okay, let's do something silly as an example of putting some of these concepts together. A little program that runs a very special security quiz that asks you a few questions, use some variables, and then print out the results. This will determine, in a foolproof way, if the person answering the questions is definitely me.</p>
+<br>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page8-15">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page8-15">↻ Reset</button>
+    </div>
+    <div id="editor-page8-15" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n    string q1 = \"Have you ever touched a computer before? type 1 or 0\\n\";\n    bool a1;\n    string q2 = \"Do you prefer whiteboards to blackboards ? type 1 or 0\\n\";\n    bool a2;\n    string q3 = \"False? type 1 or 0\\n\";\n    bool a3;\n    string q4 = \"Is a proof a program? type 1 or 0\\n\";\n    bool a4;\n\n    cout << q1;\n    cin >> a1;\n    cout << q2;\n    cin >> a2;\n    cout << q3;\n    cin >> a3;\n    cout << q4;\n    cin >> a4;\n\n    if((a1 && !a2 && a3) || a4){\n      cout << \"Oh, hi me, it's definitely you I'm talking to because no one could crack that code\" << endl;\n    }\n    else{\n      cout << \"You're not left_adjoint!\" << endl;\n    }\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page8-15'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<p>Can you figure out what to enter to hack the system?</p>
+<h3>Exercises  </h3>
+<p>1. <strong>Basic</strong>: Check if a number is positive, negative, or zero and print an appropriate message.</p>
+<p>2. <strong>Intermediate</strong>: Create a simple grade calculator that takes a numeric score and outputs a letter grade (90+<code>A, 80+</code>B, 70+<code>C, 60+</code>D, <60=F).</p>
+<p>3. <strong>Challenge</strong>: Build an eligibility checker that asks for age and tells the user what they can legally do (vote at 18, drink at 21, rent a car at 25, run for president at 35).</p>
+<h3>TODO Letting the compiler figure out the type</h3>
+<p> There's a fun trick you can do in C++: not even bother writing the type and, instead, just letting the compiler figure out---in the process of compiling---what the type is supposed to be for you! We can do that with the `auto` keyword.</p>
+<br>
+<p> So we can actually do things like:</p>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page8-16">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page8-16">↻ Reset</button>
+    </div>
+    <div id="editor-page8-16" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "   #include <iostream>\n   using namespace std;\n\n   int main(){\n     auto x = 5;\n     auto y = 10;\n\n     cout << \"we can add two numbers whose types we didn't name! So x + y is...\" << x+y << endl;\n     return 0;\n     \n   }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page8-16'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<h3>DONE Data formatting [2/2]</h3>
+<p>Now we get to a useful, but perhaps slightly tedious, set of skills to learn: how to properly format your output.</p>
+<br>
+<p>Note that all of the following examples mean you also need to include the library <code><iomanip></code> as well by adding the line <code>#include <iomanip></code> into your code.</p>
+<br>
+<h4>DONE Making a table</h4>
+<p>So if we wanted to make a table in C++ we might want to do something like use some '|' as dividers like this. For this and the rest of the examples in this table I'm going to assume that we're making a table that shows information about pets: their name, species, and how old they are. If we try this in the naive way we'll try something like this:</p>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page8-17">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page8-17">↻ Reset</button>
+    </div>
+    <div id="editor-page8-17" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n    cout << \"|\" << \"Pet name\"\n         << \"|\" << \"Pet species\"\n         << \"|\" << \"Pet age\"\n         << \"|\" << endl;\n\n    cout << \"|\" << \"Liese\"\n         << \"|\" << \"Cat\"\n         << \"|\" << 24\n         << \"|\" << endl;\n\n    cout << \"|\" << \"Dora\"\n         << \"|\" << \"Dachshund\"\n         << \"|\" << 15\n         << \"|\" << endl;\n\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page8-17'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>Now if you try running this code you'll discover that it looks, well, <strong>terrible</strong>. Everything is badly misaligned. Okay, so what we need is the ability to control the spacing: to set a <em>width</em> to the a field and let the text comfortably inside that space. Thankfully, C++ already has a function to do that: <code>setw</code>, which stands for "set width". The <code>setw</code> function takes one argument, an <code>int</code>, and sets aside that much space for the next piece of text you pass to <code>cout</code>.</p>
+<br>
+<p>We can test it out by modifying our program like this:</p>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page8-18">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page8-18">↻ Reset</button>
+    </div>
+    <div id="editor-page8-18" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include <iomanip>\n  using namespace std;\n\n  int main(){\n    cout << \"|\" << setw(15) << \"Pet name\"\n         << \"|\" << setw(15) << \"Pet species\"\n         << \"|\" << setw(15) << \"Pet age\"\n         << \"|\" << endl;\n\n    cout << \"|\" << setw(15) << \"Liese\"\n         << \"|\" << setw(15) << \"Cat\"\n         << \"|\" << setw(15) << 24\n         << \"|\" << endl;\n\n    cout << \"|\" << setw(15) << \"Dora\"\n         << \"|\" << setw(15) << \"Dachshund\"\n         << \"|\" << setw(15) << 15\n         << \"|\" << endl;\n\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page8-18'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>Exercise:</p>
+<p>#+begin_quote</p>
+<p>So what we've left implicit so far is that a call to <code>setw</code> will modify the <em>next</em> thing. Try out, for yourself, what happens if you put it in front of the "|" instead.</p>
+<p>#+end_quote</p>
+<br>
+<p>This is <em>alright</em> but personally I think the way the data and columns are aligned like this makes it feel hard to skim. I think it looks better to have the column names aligned the <em>opposite</em> way to the data. So C++ has an easy way of doing this: <code>cout << left</code> will make data left-aligned and <code>cout << right</code> will make the data right-aligned. Once you set an alignment it stays that way until you change it again. So we need to do something like this</p>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page8-19">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page8-19">↻ Reset</button>
+    </div>
+    <div id="editor-page8-19" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include <iomanip>\n  using namespace std;\n\n  int main(){\n    cout << left;\n    cout << \"|\" << setw(15) << \"Pet name\"\n         << \"|\" << setw(15) << \"Pet species\"\n         << \"|\" << setw(15) << \"Pet age\"\n         << \"|\" << endl;\n    cout << right;\n\n    cout << \"|\" << setw(15) << \"Liese\"\n         << \"|\" << setw(15) << \"Cat\"\n         << \"|\" << setw(15) << 24\n         << \"|\" << endl;\n\n    cout << \"|\" << setw(15) << \"Dora\"\n         << \"|\" << setw(15) << \"Dachshund\"\n         << \"|\" << setw(15) << 15\n         << \"|\" << endl;\n\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page8-19'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<p>That's slightly easier to read, but we still have room to fuss around with this program. Rather than playing with the alignment of the column names let's try adding a visible divider. To do that we can play with <code>setfill</code>, another function that lets us replace the spaces in the padding created by <code>setw</code> with any character we want.</p>
+<br>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page8-20">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page8-20">↻ Reset</button>
+    </div>
+    <div id="editor-page8-20" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include <iomanip>\n  using namespace std;\n\n  int main(){\n\n    cout << \"|\" << setw(15) << \"Pet name\"\n         << \"|\" << setw(15) << \"Pet species\"\n         << \"|\" << setw(15) << \"Pet age\"\n         << \"|\" << endl;\n\n    cout << setfill('-');\n    cout << \"|\" << setw(15) << \"\"\n         << \"|\" << setw(15) << \"\"\n         << \"|\" << setw(15) << \"\"\n         << \"|\" << endl;\n    cout << setfill(' ');\n  \n  \n    cout << \"|\" << setw(15) << \"Liese\"\n         << \"|\" << setw(15) << \"Cat\"\n         << \"|\" << setw(15) << 24\n         << \"|\" << endl;\n\n    cout << \"|\" << setw(15) << \"Dora\"\n         << \"|\" << setw(15) << \"Dachshund\"\n         << \"|\" << setw(15) << 15\n         << \"|\" << endl;\n  \n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page8-20'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>Quick Check: What happens if the longest word is longer than the space you set aside for it? Does it truncate or does it through off the formatting? Try it and find out!</p>
+<br>
+<h4>TODO Abstracting formatting with functions</h4>
+<p>If you've been following along and doing all the exercises, you'll have seen the concept of functions once already. Functions are ways to <em>encapsulate</em>, to package up, code for re-use later. This can let us simplify our programs by only having to implement a concept <em>once</em> and then using it again and again.</p>
+<br>
+<p>For example, let's simplify our pet tables a bit!</p>
+<br>
+<p>Before I <em>show</em> you how to change the code, take a second to look it over and note what is repetitious about it. What jumps out to you?</p>
+<br>
+<p>It's the <code>cout ... setw(15) ... setw(15) ...</code> lines, right?</p>
+<br>
+<p>So what do all these lines have in common? They all have the same pattern of <code>"|"</code> and <code>setw(15)</code>. What's different between them? The actual values passed in: the pet's name, species, and age.</p>
+<br>
+<p>Let's write a new function that takes those three items as arguments and builds up the <code>cout << ...</code> line from that!</p>
+<br>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page8-21">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page8-21">↻ Reset</button>
+    </div>
+    <div id="editor-page8-21" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include <iomanip>\n  using namespace std;\n\n  void petRow(string name, string species, int age){\n    cout << \"|\" << setw(15) << name\n         << \"|\" << setw(15) << species\n         << \"|\" << setw(15) << age\n         << \"|\" << endl;\n  }\n\n  int main(){\n\n    cout << \"|\" << setw(15) << \"Pet name\"\n         << \"|\" << setw(15) << \"Pet species\"\n         << \"|\" << setw(15) << \"Pet age\"\n         << \"|\" << endl;\n\n    cout << setfill('-');\n    cout << \"|\" << setw(15) << \"\"\n         << \"|\" << setw(15) << \"\"\n         << \"|\" << setw(15) << \"\"\n         << \"|\" << endl;\n    cout << setfill(' ');\n\n    petRow(\"Liese\", \"Cat\", 24);\n    petRow(\"Dora\", \"Dachshund\", 15);\n    \n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page8-21'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<p>Okay, so this is an improvement! Now if we want to add new rows it's going to be nice and easy: a single call to <code>petRow</code> each.</p>
+<br>
+<p>Now, there's one annoying thing, right? We can't actually use this <code>petRow</code> function in order to also print the header of the table, because "Pet age" is a string but the actual ages are numbers!</p>
+<br>
+<p>C++ does, actually, give us a way to deal with this but it's mildly annoying: we can write a second function that has the same name but different parameters, like so.</p>
+<br>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page8-22">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page8-22">↻ Reset</button>
+    </div>
+    <div id="editor-page8-22" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include <iomanip>\n  using namespace std;\n\n  void petRow(string header1, string header2, string header3){\n    cout << \"|\" << setw(15) << header1\n         << \"|\" << setw(15) << header2\n         << \"|\" << setw(15) << header3\n         << \"|\" << endl;\n  }\n\n\n  void petRow(string name, string species, int age){\n    cout << \"|\" << setw(15) << name\n         << \"|\" << setw(15) << species\n         << \"|\" << setw(15) << age\n         << \"|\" << endl;\n  }\n\n  int main(){\n\n    petRow(\"Pet name\", \"Pet species\", \"Pet age\");\n    \n    cout << setfill('-');\n    petRow(\"\",\"\",\"\");\n    cout << setfill(' ');\n\n    petRow(\"Liese\", \"Cat\", 24);\n    petRow(\"Dora\", \"Dachshund\", 15);\n    \n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page8-22'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>This is called "overloading" and is a trick that C++ lets you use when you need to write conceptually related functions that have slightly different arguments. </p>
+<br>
+<p>Is this a satisfying solution? That's a personal question of style, but it <em>is</em> the method that C++ gives us for handling this problem.</p>
+<br>
+<p>The <em>good</em> thing is that this lets us make row after row after row with just simple calls to functions, which will be helpful very soon.</p>
+<br>
+<h4>DONE Formatting decimal points</h4>
+<p>Okay the other formatting topic that we need to deal with is how to deal with decimal points. Let's look at a simple program with doubles and you can immediately see the formatting problem:</p>
+<br>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page8-23">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page8-23">↻ Reset</button>
+    </div>
+    <div id="editor-page8-23" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n\n    double cost = 100;\n\n    cout << \"Calculating tax (33%) on your bill: $\" << cost / 3 << endl;\n\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page8-23'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>it prints out that the tax is $33.3333. Well that's not how we write cents! We actually only want to include two decimal points. We can do that with <code>cout << setprecision(2)</code> so our code becomes</p>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page8-24">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page8-24">↻ Reset</button>
+    </div>
+    <div id="editor-page8-24" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include <iomanip>\n  using namespace std;\n\n  int main(){\n  \n    double cost = 100;\n\n    cout << setprecision(2);\n  \n    cout << \"Calculating tax (33%) on your bill: $\" << cost / 3 << endl;\n  \n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page8-24'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<p>Wait, shoot, no that's still not right. Okay so the problem here is that <code>setprecision(2)</code> is going to keep "two digits" so if your number ends up being 0.3333 it will print as 0.33. If it's 33.3333 it will print as 33. That's not <em>really</em> what we want.</p>
+<br>
+<p>So we need to <em>also</em> do <code>cout << fixed;</code> in order to make sure it <em>always</em> prints exactly two things to the right of the decimal, all the time.</p>
+<br>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page8-25">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page8-25">↻ Reset</button>
+    </div>
+    <div id="editor-page8-25" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include <iomanip>\n  using namespace std;\n\n  int main(){\n\n    double cost = 100;\n\n    cout << setprecision(2);\n    cout << fixed;\n\n    cout << \"Calculating tax (33%) on your bill: $\" << cost / 3 << endl;\n\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page8-25'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<h4>Exercises</h4>
+<p>1. <strong>Basic</strong>: Create a receipt with 3 items showing item name, price, and quantity in aligned columns.</p>
+<p>2. <strong>Intermediate</strong>: Display a multiplication table (1-10) with proper alignment and borders.</p>
+<p>3. <strong>Challenge</strong>: Create a formatted invoice that includes items, quantities, unit prices, line totals, subtotal, tax (8.5%), and grand total - all properly aligned and formatted.</p>
+<br>
+<h3>DONE Your first while loop: a number guessing game</h3>
+<p>In this section we'll be covering how to do your first kind of loop in C++, the <code>while</code> loop. Conceptually, a <code>while</code> loop lets you do something over and over again until the question "should I keep going" returns false.</p>
+<br>
+<p>So, let's take the smallest silliest example we can to show the syntax: a program that keeps running and asking you to enter a number until you enter <code>0</code>.</p>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page8-26">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page8-26">↻ Reset</button>
+    </div>
+    <div id="editor-page8-26" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n    // so if we're going to read in a number it needs\n    // a place to be stored, which means that we need to create a variable.\n    // we want to be in control of what is stored in the variable before our first run of the\n    // loop, so we set it to -1 to start.\n    int guessed = -1; \n\n    // how do we ask the question \"keep going until the variable guessed is 0\"? Well, you need\n    // to mentally invert this and say \"while the variable is NOT 0, run the loop\"\n    while(guessed != 0){ // like every other part of c++ where you have a chunk of code that runs, you put it inside {}\n      // now we ask for our number\n      cout << \"What's the magic number?\" << endl;\n      cin >> guessed;\n    }\n\n    cout << \"You're right! It was 0!\" << endl;\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page8-26'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<h3>Exercises</h3>
+<p>1. <strong>Basic</strong>: Write a countdown program that asks for a starting number and counts down to 0.</p>
+<p>2. <strong>Intermediate</strong>: Create a password checker that keeps asking until the user enters "quit" or the correct password (you choose it).</p>
+<p>3. <strong>Challenge</strong>: Implement a simple calculator that keeps performing operations until the user enters 0 for both numbers.</p>
+<h3>TODO A randomized guessing game</h3>
+<p>So a guessing game where the number is the same every time isn't very interesting. What we really want is the ability to have the program choose a new number "randomly" and then ask you to guess. Of course, it'd be a pretty unfair game if it didn't at least give you a hint so this program will also tell you whether to guess higher or lower.</p>
+<br>
+<p>So first, here's a really simple example of how to generate random numbers in C++. Note that we also have to include a thing thing at the top of the file: <code>#include <cstdlib></code>, because that's where the functions we need for random numbers live. </p>
+<br>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page8-27">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page8-27">↻ Reset</button>
+    </div>
+    <div id="editor-page8-27" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include <cstdlib>\n  using namespace std;\n\n  int main(){\n    int num = rand();\n\n    cout << \"Our number is: \" << num << endl;\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page8-27'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>Now, if I run this I get</p>
+<p>#+begin_example</p>
+<p>Our number is: 1804289383</p>
+<p>#+end_example</p>
+<p>Okay, that's a really huge number and not really what we want but we'll deal with that in a second. It's definitely not a number I expected so that's good! Let me try running it again and---</p>
+<p>#+begin_example</p>
+<p>Our number is: 1804289383</p>
+<p>#+end_example</p>
+<p>Oh, huh, that's weird. Let's try again and</p>
+<p>#+begin_example</p>
+<p>Our number is: 1804289383</p>
+<p>#+end_example</p>
+<br>
+<p>So what's going on here? Yes it's a "random" number but it's the same "random" number every time. It might be illuminating to try the following:</p>
+<br>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page8-28">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page8-28">↻ Reset</button>
+    </div>
+    <div id="editor-page8-28" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include <cstdlib>\n  using namespace std;\n\n  int main(){\n    cout << \"Let's try to print out a bunch of random numbers\" << endl;\n    cout << rand() << endl;\n    cout << rand() << endl;\n    cout << rand() << endl;\n    cout << rand() << endl;\n    cout << rand() << endl;\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page8-28'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>And now I get an output of</p>
+<p>#+begin_example</p>
+<p>Let's try to print out a bunch of random numbers</p>
+<p>1804289383</p>
+<p>846930886</p>
+<p>1681692777</p>
+<p>1714636915</p>
+<p>1957747793</p>
+<p>#+end_example</p>
+<p>So each time we use <code>rand()</code> it is giving a different number but each time we run the program it's the same sequence of random numbers. This is where we need to explain seeds.</p>
+<br>
+<p>Seeds are what makes pseudo-random number generation so different than actual randomness. Computers can't <em>really</em> do true randomness, but they can fake it well by performing a series of calculations where the output looks random unless you know the very first input that starts the calculations. This very first input is the "seed" for the random number generator.</p>
+<br>
+<p>For a given seed, <code>rand</code> will always produce the same sequence of outputs. The trick, then, is that we need to choose a different seed every time we run the program. The traditional choice is to use another function called <code>time</code>. If you write <code>time(0)</code> what you'll get back is the number of seconds since midnight January 1st 1970. Since this is a number that will be different every time you run the program, it will be a good choice of different seeds for every time we run our code.</p>
+<br>
+<p>Let's test this out quick</p>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page8-29">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page8-29">↻ Reset</button>
+    </div>
+    <div id="editor-page8-29" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include <cstdlib>\n  using namespace std;\n\n  int main(){\n    srand(time(0));\n  \n    cout << \"Let's try to print out a bunch of random numbers\" << endl;\n    cout << rand() << endl;\n    cout << rand() << endl;\n    cout << rand() << endl;\n    cout << rand() << endl;\n    cout << rand() << endl;\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page8-29'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>Now we're finally ready to write our number guessing game</p>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page8-30">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page8-30">↻ Reset</button>
+    </div>
+    <div id="editor-page8-30" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include <cstdlib>\n\n  using namespace std;\n\n  int main(){\n    // we make a variable for our guess\n    int guess = -1;\n    // we set the seed for our secret number\n    srand(time(0));\n    // we set our secret number, we use the % function to scale rand() to 0-99 and then add 1 to make\n    // the range 1-100\n    int secret = rand() % 100 + 1;\n\n    while(guess != secret){\n      cout << \"What do you think the number is?\" << endl;\n      cin >> guess;\n      if(guess > secret){\n        cout << \"lower!\" << endl;\n      }\n      else if(guess < secret){\n        cout << \"higher!\" << endl;\n      }\n    }\n\n    cout << \"You guessed it!\" << endl;\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page8-30'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>Try to read this code through and understand the logic of what it's doing! The only thing we haven't explained to this point is the <code>%</code> operator, which is the "modulus" operator. Basically, <code>a % b</code> returns the remainder---in the "you're learning division as a kid" sense of remainder---of dividing <code>a</code> by <code>b</code>. Now, in terms of why we <strong>care</strong> about this operator it gives us a quick way to take a big range of numbers and map it to something smaller. For example, if we do <code>a % 20</code> our outputs, no matter what <code>a</code> is, will be between 0 and 19. Similarly if we say <code>a % 100</code> this will give us an output that's between 0 and 99.</p>
+<h3>Exercises</h3>
+<p>1. <strong>Basic</strong>: Simulate rolling two six-sided dice and display their individual values and sum.</p>
+<p>2. <strong>Intermediate</strong>: Create a "Rock, Paper, Scissors" game where the computer randomly chooses and you play one round.</p>
+<p>3. <strong>Challenge</strong>: Simulate flipping a coin 1000 times and report the percentage of heads vs tails. Bonus: Allow the user to specify the number of flips.</p>
+<h4>TODO Adding a limited number of guesses</h4>
+<h3>DONE Averaging numbers and while-loops</h3>
+<p>Here's another idiom that will help us get practice with while-loops: how do you average an <strong>arbitrary</strong> number of numbers?</p>
+<br>
+<p>So this is a fun exercise because it means we need to keep track of how many things have been entered and then divide by that at the end. So I'm going to just assume we're adding up <code>double</code> s here because it makes everything fundamentally similar. How does one quit out of this loop? Well there's two ways we could do this. One is to have a special number that means "we're done". Something like "-1". That's the approach we're going to do first. After that, we'll see how to  </p>
+<br>
+<p>Our steps are</p>
+<p> 1. Ask for a number, if that number is <code>-1</code> then stop asking and go to the end</p>
+<p> 2. If it's <strong>not</strong> <code>-1</code> then you need to increment a variable that counts how many numbers you've read in and also add the number that was read in to the total</p>
+<p> 3. When you get to the end of the program go ahead and divide the total by the number of things added together to get the average</p>
+<br>
+<p>We're going to do the simplest version like this:</p>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page8-31">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page8-31">↻ Reset</button>
+    </div>
+    <div id="editor-page8-31" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n    int numItems = 0;\n    double sum = 0;\n    double numEntered = 0;\n\n    cout << \"Enter a number greater or equal to 0: \";\n    cin >> numEntered;\n    while(numEntered >= 0){\n      numItems = numItems + 1;\n      sum = sum + numEntered;\n      cout << \"Enter a number greater or equal to 0: \";\n      cin >> numEntered;\n    }\n\n    cout << \"The average of the numbers you entered is: \" << sum / numItems << endl;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page8-31'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>Okay, so there's still a problem with our code: do you see it? If you don't I'll give you a hint: what happens if you don't enter <strong>any</strong> valid numbers at all?</p>
+<br>
+<p>That's right! You're dividing by zero! So instead we want to, at the end, replace our final <code>cout</code> with an if-statement that checks to make sure you didn't enter nothing at all:</p>
+<br>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page8-32">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page8-32">↻ Reset</button>
+    </div>
+    <div id="editor-page8-32" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n    int numItems = 0;\n    double sum = 0;\n    double numEntered = 0;\n  \n    cout << \"Enter a number greater or equal to 0: \";\n    cin >> numEntered;\n    while(numEntered >= 0){\n      numItems = numItems + 1;\n      sum = sum + numEntered;\n      cout << \"Enter a number greater or equal to 0: \";\n      cin >> numEntered;\n    }\n  \n    if(numItems >0){\n      cout << \"The average of the numbers you entered is: \" << sum / numItems << endl;\n    }\n    else{\n      cout << \"Did you change your mind?\" << endl;\n    }\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page8-32'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>Now you can see that we've safeguarded against dividing by zero!</p>
+<h3>Exercises</h3>
+<p>1. <strong>Basic</strong>: Calculate the average of exactly 5 test scores entered by the user.</p>
+<p>2. <strong>Intermediate</strong>: Find the minimum, maximum, and average of numbers entered (stop on -1).</p>
+<p>3. <strong>Challenge</strong>: Calculate a weighted average where the user enters value-weight pairs. Stop when weight is 0. Example: test1<code>85, weight</code>0.3; test2<code>90, weight</code>0.7; weighted average = 88.5.</p>
+<br>
+        </main>
+
+        <nav class="page-nav">
+            <a href="page_Your_First_Programs_2.html" class="nav-btn prev">← DONE Why semicolons?</a>
+            <a href="page_Your_First_Programs_4.html" class="nav-btn next">TODO For-loops (and the shape of loops to come)[fn:8] [1/2] →</a>
+        </nav>
+    </div>
+
+    <!-- Terminal for running code -->
+    <div id="terminal-overlay" class="hidden">
+        <div class="terminal-container">
+            <div class="terminal-header">
+                <span>Program Output</span>
+                <button id="close-terminal-btn">✕</button>
+            </div>
+            <div id="terminal-output"></div>
+            <div id="input-area" class="hidden">
+                <span class="prompt">→</span>
+                <input type="text" id="user-input" autocomplete="off" placeholder="Enter input...">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.48.0/min/vs/loader.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

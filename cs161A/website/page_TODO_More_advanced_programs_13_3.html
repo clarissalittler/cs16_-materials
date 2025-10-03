@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>TODO Arrays, again, and Pointers - CS161A Interactive Text</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> /
+                <span class="chapter">TODO More advanced programs [1/3]</span>
+            </div>
+            <h1>TODO Arrays, again, and Pointers</h1>
+        </header>
+
+        <main class="content">
+            <p>So we've covered the concept of arrays once already, to show you the basics of how they're used in C++. Now we're circling back around to cover the topic <em>again</em>. Remember how we could print all the items in an array? We did it like this:</p>
+<br>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page15-0">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page15-0">↻ Reset</button>
+    </div>
+    <div id="editor-page15-0" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n    int arr[10] = {10,11,12,13,14,15,16,17,18,19};\n    for(int i =0; i<10;i++){\n      cout << \"The \" << i << \"th element is: \" << arr[i] << endl;\n    }\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page15-0'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>Now what will happen if we print just the array like this?</p>
+<br>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page15-1">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page15-1">↻ Reset</button>
+    </div>
+    <div id="editor-page15-1" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n    int arr[10] = {10,11,12,13,14,15,16,17,18,19};\n    cout << \"The array is \" << arr << endl;\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page15-1'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>What do you think it will do? Will it print all the elements of the array? Will it print nothing? This is a slightly unfair question because unless you already <em>know</em> about pointers you would have no way of knowing that it will produce something that looks like this:</p>
+<p>#+begin_example</p>
+<p>The array is 0x7ffc2ee1fa50</p>
+<p>#+end_example</p>
+<br>
+<p>What's <em>that</em>, exactly? A number, and yes this is a number despite the letters mixed in there, that starts with <code>0x</code> is a hexadecimal number. Remember how we talked about binary being a sum of powers of two and our normal base ten is a sum of powers of ten? Hexadecimal is powers of <strong>16</strong>, where the "digits" used in a hex number range from 0-f rather than 0-9. Hex is a little weird to read but it's really convenient for talking about computers because each hex digit is the same as 4 bits of information.</p>
+<br>
+<p>Have you ever seen hex-codes for colors? They're usually a series of 6-hex digits because an rgb color is 24 bits,  <em>or 3 bytes</em>, i.e. 6 groups of 4 bits each.</p>
+<br>
+<p>However, when you see a big hex number in programming it's usually a memory <em>address</em>. An address is what it sounds like, it tells you where the information is stored in the computer's memory, completely analogous to a street address.</p>
+<br>
+<p>Do you remember earlier in this text when we talked about the storage wall with the labeled dividers? Well these addresses are what those labels <strong>really</strong> are.</p>
+<br>
+<p>And this means that when you use the name of the array by itself, without the <code>[]</code>, you're getting the address of where the array starts! An array isn't one big storage chunk, but a contiguous region of dividers on the wall-of-storage. So this address is the label on the <em>first</em> cubbyhole that makes up the array.</p>
+<br>
+<p>Now you might wonder if there's a way to get the label, the address, of any variable. There is! It's the "&" operator.</p>
+<br>
+<p>So I can do a fun trick like the following</p>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page15-2">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page15-2">↻ Reset</button>
+    </div>
+    <div id="editor-page15-2" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main() {\n    int test = 0;\n\n    cout << &test << endl;\n    \n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page15-2'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<p>Which, if you run this code, you'll see something along the lines of</p>
+<p>#+begin_example</p>
+<p>0x7ffec7bdf804</p>
+<p>#+end_example</p>
+<br>
+<p>which, as we now know, is an <em>address</em>.</p>
+<br>
+<p>But how do we know that this is the <em>right</em> address, and what do we do <em>with</em> an address once we have it? We can answer both of those questions by introducing the dual to the <code>&</code> operator: the <code>*</code> operator. Yes, it's the same <code>*</code> you also use for multiplication but generally that's fine and doesn't cause problems.</p>
+<br>
+<p>Here we're going to write a program that</p>
+<p> 1. declares a variable and puts a number in it</p>
+<p> 2. pulls the address out of the variable with <code>&</code></p>
+<p> 3. follows the address with <code>*</code> to get at the number stored in the variable</p>
+<p> 4. prints it out</p>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page15-3">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page15-3">↻ Reset</button>
+    </div>
+    <div id="editor-page15-3" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n    int test = 1234; // since 0 can sometimes be a default let's put a specific number here\n\n    cout << *(&test) << endl; // the * operator will \"follow\" the address and grab what's stored there\n    // should print 1234 and then end\n    \n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page15-3'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>If we can pull an address out, can we also store the <em>address</em> as data? Yes! That involves introducing a new family of types called pointers! Generally, you take the type of the thing being <em>stored</em> and then add the <code>*</code> at the end to make it the pointer version of the type. Let's get really concrete:</p>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page15-4">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page15-4">↻ Reset</button>
+    </div>
+    <div id="editor-page15-4" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n    int test = 1234;\n    int* pointy = &test;\n\n    double dubTest = 3.14;\n    double* dubPoint = &dubTest;\n\n    cout << \"The address of test is: \" << pointy << endl;\n    cout << \"Following the address gives us: \" << *pointy << endl;\n\n    cout << \"The address of dubTest is: \" << dubPoint << endl;\n    cout << \"Following the address gives us: \" << *dubPoint << endl;\n    \n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page15-4'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>Now we can get back to arrays! So I often tell people that in C/C++ an array is "a pointer and a promise", let's see why. First, we're going to try to follow the address of an array.</p>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page15-5">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page15-5">↻ Reset</button>
+    </div>
+    <div id="editor-page15-5" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n    int test[5] = {10,11,12,13,14};\n\n    cout << \"And *test is...: \" << *test << endl; \n    \n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page15-5'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<p>Well look at that, it's 10! Because the address stored in <code>test</code> is the address of the first "cubby". How do we get to the rest of the storage in the array? This is where the fact that an array is <em>contiguous</em> will save us: we can just go to the next address by <em>adding</em> to it.</p>
+<br>
+<p>This is called <em>pointer arithmetic</em> and is actually what the <code>[]</code> syntax for arrays really was all along!</p>
+<br>
+<p>Let's write a little program to test this out:</p>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page15-6">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page15-6">↻ Reset</button>
+    </div>
+    <div id="editor-page15-6" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n\n    int test[] = {10,11,12,13,14};\n\n    //let's prove that the [] brackets were really just playing with pointers all along!\n    for(int i=0; i < 5; i++){\n      cout << \"Accessing elements with []: \"<< test[i] << endl;\n      cout << \"Accessing elements with pointer arithmetic: \"<< *(test+i) << endl;\n    }\n    \n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page15-6'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>If you run this you should see that both methods print identical items in the array!</p>
+<h3>Pointer and a promise</h3>
+<p>Let's take a step back now and talk about what the implications of all this actually is: arrays are "really" just pointers. Pointers have no sense of how many contiguous addresses after the pointer are valid as they're merely <em>addresses</em> for memory locations. That's why you have so many of these awkward coding idioms where you have to separately keep track of, for example, how many items you read in rather than being able to access the length of an array.</p>
+<br>
+<p>This is why, in modern programming, you don't use basic C/C++ style arrays that often. Arrays in Python, for e</p>
+<br>
+<br>
+        </main>
+
+        <nav class="page-nav">
+            <a href="page_TODO_More_advanced_programs_13_2.html" class="nav-btn prev">← TODO Writing your own functions</a>
+            <a href="page_TODO_More_advanced_programs_13_4.html" class="nav-btn next">TODO Char Arrays →</a>
+        </nav>
+    </div>
+
+    <!-- Terminal for running code -->
+    <div id="terminal-overlay" class="hidden">
+        <div class="terminal-container">
+            <div class="terminal-header">
+                <span>Program Output</span>
+                <button id="close-terminal-btn">✕</button>
+            </div>
+            <div id="terminal-output"></div>
+            <div id="input-area" class="hidden">
+                <span class="prompt">→</span>
+                <input type="text" id="user-input" autocomplete="off" placeholder="Enter input...">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.48.0/min/vs/loader.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

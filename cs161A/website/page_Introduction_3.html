@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Why C++, redux - CS161A Interactive Text</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> /
+                <span class="chapter">Introduction</span>
+            </div>
+            <h1>Why C++, redux</h1>
+        </header>
+
+        <main class="content">
+            <p>C++ is a programming language that tries to meet the tension of making it easy to focus on the logic while still having control over the low-level execution of the program as instructions to the processor.</p>
+<br>
+<p>That isn't to say it's perfect: no programming language is. Every single language is a series of design decisions that reflect the ideas, style, and goals of the authors of the language.</p>
+<br>
+<p>Which is something I cannot emphasize enough! Programming languages are made by people and there's no "best" language, there is---at most---a best language for a particular project given the people and technical goals involved.</p>
+<br>
+        </main>
+
+        <nav class="page-nav">
+            <a href="page_Introduction_2.html" class="nav-btn prev">← What is programming? A low-level perspective</a>
+            <a href="page_Introduction_4.html" class="nav-btn next">Why learn programming in the age of LLMs →</a>
+        </nav>
+    </div>
+
+    <!-- Terminal for running code -->
+    <div id="terminal-overlay" class="hidden">
+        <div class="terminal-container">
+            <div class="terminal-header">
+                <span>Program Output</span>
+                <button id="close-terminal-btn">✕</button>
+            </div>
+            <div id="terminal-output"></div>
+            <div id="input-area" class="hidden">
+                <span class="prompt">→</span>
+                <input type="text" id="user-input" autocomplete="off" placeholder="Enter input...">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.48.0/min/vs/loader.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

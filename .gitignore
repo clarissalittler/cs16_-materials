@@ -1,0 +1,18 @@
+# Compiled C++ files
+*.o
+*.out
+a.out
+cs161A/build/
+
+# Website compiler assets (too large - must be copied locally)
+cs161A/website/assets/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Editor files
+.vscode/
+.idea/
+*~
+.DS_Store

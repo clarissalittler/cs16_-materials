@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>For-Loop Solutions - CS161A Interactive Text</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> /
+                <span class="chapter">Sample Solutions</span>
+            </div>
+            <h1>For-Loop Solutions</h1>
+        </header>
+
+        <main class="content">
+            <h3>Basic: Fibonacci Numbers</h3>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page28-0">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page28-0">↻ Reset</button>
+    </div>
+    <div id="editor-page28-0" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "#include <iostream>\nusing namespace std;\n\nint main(){\n  int prev1 = 0, prev2 = 1;\n  \n  cout << \"First 20 Fibonacci numbers:\" << endl;\n  cout << prev1 << \" \" << prev2 << \" \";\n  \n  for(int i = 2; i < 20; i++){\n    int current = prev1 + prev2;\n    cout << current << \" \";\n    prev1 = prev2;\n    prev2 = current;\n  }\n  cout << endl;\n  \n  return 0;\n}";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page28-0'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<h3>Intermediate: Triangle Pattern</h3>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page28-1">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page28-1">↻ Reset</button>
+    </div>
+    <div id="editor-page28-1" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "#include <iostream>\nusing namespace std;\n\nint main(){\n  int height;\n  \n  cout << \"Enter triangle height: \";\n  cin >> height;\n  \n  for(int i = 1; i <= height; i++){\n    for(int j = 0; j < i; j++){\n      cout << \"*\";\n    }\n    cout << endl;\n  }\n  \n  return 0;\n}";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page28-1'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<h3>Challenge: Prime Numbers</h3>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page28-2">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page28-2">↻ Reset</button>
+    </div>
+    <div id="editor-page28-2" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "#include <iostream>\n#include <cmath>\nusing namespace std;\n\nbool isPrime(int n){\n  if(n <= 1) return false;\n  if(n == 2) return true;\n  if(n % 2 == 0) return false;\n  \n  for(int i = 3; i <= sqrt(n); i += 2){\n    if(n % i == 0) return false;\n  }\n  return true;\n}\n\nint main(){\n  cout << \"Prime numbers between 1 and 100:\" << endl;\n  \n  for(int i = 2; i <= 100; i++){\n    if(isPrime(i)){\n      cout << i << \" \";\n    }\n  }\n  cout << endl;\n  \n  return 0;\n}";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page28-2'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+
+        </main>
+
+        <nav class="page-nav">
+            <a href="page_Sample_Solutions_5.html" class="nav-btn prev">← Random Number Solutions</a>
+            <a href="page_Sample_Solutions_7.html" class="nav-btn next">Array Solutions →</a>
+        </nav>
+    </div>
+
+    <!-- Terminal for running code -->
+    <div id="terminal-overlay" class="hidden">
+        <div class="terminal-container">
+            <div class="terminal-header">
+                <span>Program Output</span>
+                <button id="close-terminal-btn">✕</button>
+            </div>
+            <div id="terminal-output"></div>
+            <div id="input-area" class="hidden">
+                <span class="prompt">→</span>
+                <input type="text" id="user-input" autocomplete="off" placeholder="Enter input...">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.48.0/min/vs/loader.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
