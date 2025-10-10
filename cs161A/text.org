@@ -311,9 +311,9 @@ What about if we instead make an empty int?
 Well I ran this once and got "And our int holds...779647075". Oh dear /dot dot dot/ that seems like a very *not* great thing to have as a default value!
 
 Okay, and now we get into the punchline. The reason why I'm specifying "on my computer" and "when I run this" is that the answers could actually change between computers and compilers! You really, really, really should *never* use an empty variable because you can guarantee exactly nothing about what it will do.
-*** TODO Advanced: What /is/ a container? [0/2]
+*** TODO Advanced: What /is/ a container? [1/2]
 At this point you might be wondering "what /are/ these containers, these /variables/, anyway?". What does it really mean for the compiler to make space for data? To answer that we need to get into some more details about how data is stored in a computer.
-**** TODO All we ever were, just zeros and ones
+**** DONE All we ever were, just zeros and ones
 Computers, the modern digital computer we've all settled on, operates fundamentally on Os and 1s. Why? Because in the end you can think of the fundamental atom of the computer, the transistor, as an electrical on-off switch. If it's "on" it lets current flow, if it's "off" it does not. The brilliance of digital computers is in cleverly encoding /everything/ we do into patterns of these ons and offs. First, to explain /that/ we need to review how we write numbers in the normal way.
 
 When we write a number like 42367 this is shorthand for =40000 + 2000 + 300 + 60 + 7=. You may have learned to describe this as the "ones place", "the tens place", "the hundreds place", &c. We can write this even more compactly as
@@ -346,6 +346,7 @@ We can help explain, too, what these type signifiers are like =int= and =string=
 
 This memory[fn:9] gets reset every time you run the program. That's because the memory of your computer isn't for long-term storage, it's the scratch paper that programs need to run and keep track of all of their calculations.
 
+The main takeaway to get out of this is that every program manages its own storage and, for all the programs you'll write in this class, the compiler figures out at compile time what the storage you need is and how to label it.
 *** DONE Comments and documentation
 There's a line from the (absolutely amazing) old computer science textbook "Structure and Interpretation of Computer Programs" that goes
 
@@ -501,12 +502,14 @@ So let's try this program again with =double= s instead of =int=.
 There, that's probably more what you would have expected from division.
 
 Note that =cin= keeps working no matter what type of container we're trying to fill with it! There's definitely no possibility that is going to go wrong later in a really annoying way! Foreshadowing!
-**** TODO On casting numbers
+**** DONE Converting numbers: a word on "casting" types
  Let's imagine that you start out with integers but you do need to divide them later. You could just start with doubles but that violates a basic principle of programming: you want the /type/ of the variable to match what it /is/. If you wanted to, say, keep track of rock/paper/scissors wins versus the total number of games played, you wouldn't want to store that as a double because what's 0.3 games? It's has no meaningful interpretation[fn:10], so our program shouldn't allow it even accidentally.
 
- So what do we do? We temporarily tell the C++ compiler "here, right here, treat this data like it's a different type".
+ So what do we do? We temporarily tell the C++ compiler "here, right here, treat this data like it's a different type". In programming this is called a "type cast".
 
- So we can do something like this to divide two integers:
+ The general form of casts are =static_cast<NEWTYPE>(VARIABLENAME)=. 
+
+ With casting in hand, we can do something like this to divide two integers without losing information:
 
  #+begin_src cpp :tangle codesnips/cast1.cpp
    #include <iostream>
@@ -518,6 +521,48 @@ Note that =cin= keeps working no matter what type of container we're trying to f
      int num2 = 3;
 
      cout << static_cast<double>(num1)/static_cast<double>(num2) << endl;
+     
+     return 0;
+   }
+ #+end_src
+
+ This is, at least in C++, the kind of cast you're going to want to do basically all the time. It's a casting method that is checked by the compiler, letting you know if you're doing something that doesn't make any sense.
+
+ Like, for example, what if we wanted to treat a =string= as an =int=?
+ #+begin_src cpp
+   #include <iostream>
+   using namespace std;
+
+   int main(){
+
+     string stuff = "beepity-boops";
+
+     cout << static_cast<int>(stuff) << endl;
+
+     return 0;
+   }
+ #+end_src
+
+ If you try to compile this code, you'll find that the compiler completely rejects it. Why? Because turning a chunk of text into a number doesn't really have an obvious meaning?
+
+ You *could* do it but you need to define what it means: do you want the length? Do you want to convert each letter into a number and add them all together? It's not clear and the compiler is doing the right thing by /not/ deciding for you and just rejecting the code as unclear.
+
+ We can even assign the result of a cast to a new variable and it creates a /completely separate variable/! Like this:
+ #+begin_src cpp :tangle codesnips/cast2.cpp
+   #include <iostream>
+   using namespace std;
+
+   int main(){
+
+     int num1 = 9;
+
+     double dnum1 = static_cast<double>(num1);
+
+     dnum1 = 11;
+
+     // note that we change dnum1 but num1 stays the same
+     cout << num1 << endl;
+     
      
      return 0;
    }
@@ -1550,13 +1595,21 @@ This is why we have /constants/ in C++, which are like variables but once they h
 Go ahead and try to mess it up by changing =numPets= later in the program and see what happens when you try to compile and run it?
 **** TODO Faking a variable-length array
 
+** TODO Menus with while-loops
+ Here's another idiom that we're going to use constantly: text-driven menus.
+
+ The basic principle is pretty simple:
+ + create a variable to hold a number (an =int=, most likely) or a variable to hold text (a =char= or =string=)
+ + print out a prompt that explains the menu
+ + read in the option chosen into the variable you made
+ + use if-statements to decide what to do next
+ 
 ** TODO Data validation, the world's most annoying idiom [1/2]
 So we've been playing fast and loose for awhile about how to read in data from the user. But, in reality, you should be checking what the user has entered and asking them to re-enter their response if it's not something you expect. This is actually a really annoying topic because there's no easy way to do this in base C++, which is why I'm going to introduce this topic early. 
 
 Here's two scenarios:
  + The user enters an option that is the right kind of data but that you didn't expect and you need to ask again
  + The user enters an option that is the *wrong* kind of data, which means that =cin= is going to have a hiccup
-
 *** DONE Right kind of data, but wrong option
 So what we mean here is something like you asking for "yes" or "no" from the user and they, in their infinite snarkiness, enter "chicken". You will not let this chicken stand and, instead, will stop and make them answer again until they give a response that's useful. This is the easier scenario and we can solve the problem with a simple while-loop like this
 
