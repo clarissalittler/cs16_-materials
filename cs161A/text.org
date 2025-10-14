@@ -730,9 +730,7 @@ Compile this code and run it to confirm the horrible truth, but you'll see that 
 Look at this wretched code! =return false=? =if(num)=? This is terrible! And the compiler did /nothing/ to stop it!
 
 Woe be upon us!
-**** TODO An authentication quiz
-META: Fix this to be an example of a personality quiz instead because that's a project I like to give early on
-
+**** DONE An authentication quiz
 Okay, let's do something silly as an example of putting some of these concepts together. A little program that runs a very special security quiz that asks you a few questions, use some variables, and then print out the results. This will determine, in a foolproof way, if the person answering the questions is definitely me.
 
 #+begin_src cpp :tangle codesnips/securityQuiz.cpp
@@ -767,7 +765,102 @@ Okay, let's do something silly as an example of putting some of these concepts t
     return 0;
   }
 #+end_src
-Can you figure out what to enter to hack the system?
+Can you reverse engineer what to answer for each question to hack the system? Try to parse what the condition in the final if-statement is actually saying!
+**** TODO A quiz on languages
+This is a slightly more complicated version of the above where you accumulate a running total of how many answers they've gotten correct in order to give an appropriate response at the end.
+
+We're going to ask five questions about programming language history and if the user gets all of them right we're going to respond with something like "Hey, no CS grad students allowed here that's cheating!". If they get two to four correct then we'll say "Hey, you know a fair bit!".  If they get one correct we'll say "Well you are the start of your journey" and if they get none correct we'll say "Okay, admit it, you threw that one".
+
+Before you read ahead and see how I did it, see if you can do this yourself first with five questions you think of, then read my solution.
+
+Okay here's my version:
+
+#+begin_src cpp :tangle codesnips/testYourKnowledge.cpp
+  #include <iostream>
+  using namespace std;
+
+  int main(){
+
+    int numberCorrect = 0;
+
+    string input;
+
+    cout << "Is C++ a programming language? y/n" << endl;
+    cin >> input;
+
+    if(input == "y"){
+      cout << "Darn right it is" << endl;
+      numberCorrect = numberCorrect + 1;
+    }
+    else {
+      cout << "You're messing with me, right?" << endl;
+    }
+    
+    cout << "Is the untyped lambda calculus a total language? y/n" << endl;
+    cin >> input;
+    if(input == "n"){
+      cout << "Wow, you know your stuff! A little suspiciously so, actually" << endl;
+      numberCorrect = numberCorrect + 1;
+    }
+    else{
+      cout << "I didn't expect you to get that one, honestly" << endl;
+    }
+
+    cout << "Are JavaScript and Java related languages? y/n" << endl;
+    cin >> input;
+    if(input == "n"){
+      cout << "You're right! It was entirely a marketing decision to give JavaScript a similar name!" << endl;
+      numberCorrect = numberCorrect + 1;
+    }
+    else{
+      cout << "That's a common misconception!" << endl;
+    }
+
+    cout << "Is there a fundamental difference between interpreted and compiled languages? y/n" << endl;
+    cin >> input;
+    if(input == "n"){
+      cout << "That's right. Those are ways that a language can be implemented which is a separate concern from the definition of a language itself!" << endl;
+      numberCorrect = numberCorrect + 1;
+    }
+    else{
+      cout << "That's also a common misconception!" << endl;
+    }
+
+    cout << "Is C still worth learning if you know C++? y/n" << endl;
+    cin >> input;
+    if(input == "y"){
+      cout << "Absolutely!" << endl;
+      numberCorrect = numberCorrect + 1;
+    }
+    else{
+      cout << "It still has its place!" << endl;
+    }
+
+    if(numberCorrect == 5){
+      cout << "Hey no CS grad students allowed here, that's cheating!" << endl;
+    }
+    else if(numberCorrect >= 2){
+      cout << "You really know your stuff!" << endl;
+    }
+    else if(numberCorrect > 0){
+      cout << "You're at the beginning of a long, fun, journey!" << endl;
+    }
+    else {
+      cout << "Oh, okay, you threw that one on purpose" << endl;
+    }
+    
+    return 0;
+  }
+#+end_src
+
+Now if you're looking at my solution, do you notice how I used a chain of =else-if= statements? What do you think would happen if, instead, I actually had them just as =if= statements with an =else= at the very end?
+
+It won't /quite/ work right, but can you see why? Hint: try getting 5 correct after turning the middle =else-if= statements into plain =if=.
+
+Now why did that happen? Well the difference between an =else-if= and a plain =if= is that the =else-if= only checks if nothing else in the chain has fired, but a plain =if= will check no matter what.
+
+You can change this =else-if= example to be based around =if= statements instead if you make the conditions more complicated, like the first one needs to become =numberCorrect >=2 && numberCorrect < 5=.
+
 *** Exercises  
 1. *Basic*: Check if a number is positive, negative, or zero and print an appropriate message.
 2. *Intermediate*: Create a simple grade calculator that takes a numeric score and outputs a letter grade (90+=A, 80+=B, 70+=C, 60+=D, <60=F).
