@@ -76,7 +76,7 @@ so that there are people who can guide the AI, override the AI, or decide that t
 In other words, we will always need programmers. In fact, a personal prediction of the author is that the average programmer will have to be better than ever: a master of the /high/ and /low/ levels of programming. In a world where non-programmers can "vibe code" simple proofs of concept, there may well be even more need for competent programmers to take those simple programs and turn them into robust products.
 
 By analogy, this is like how home CAD software and 3D printers didn't kill manufacturing but rather let people quickly prototype ideas that they then pay engineers to turn into production lines.
-* Your First Programs
+* Your First Program
 ** TODO How to run examples [0/3]
 *** TODO In-browser
 *** TODO In onlinegdb
@@ -211,8 +211,8 @@ So, yes, *most* lines need semi-colons at the end. The lines that don't need a s
  + lines that end with ={= or =}= (with one annoying exception we'll get to)
  + lines that start with #
  + comments, which we haven't discussed yet
-** TODO More early steps [7/8]
-*** DONE Echoing text and string types
+* TODO More early steps [8/11]
+** DONE Echoing text and string types
 So we've already done a non-trivial amount of work because we've learned to compile a file, run it, and have it print something out the screen.
 
 Now here's our first program that we're going to use to explain
@@ -267,7 +267,7 @@ After the =cin= has run,  we have something /in/ our container and then we can g
 So when we want to print out the contents of =stuff= we say =cout << "You said: " << stuff << endl;"=.
 
 We also end with =return 0;= because we're very good programmers and *never* forget to put this in our files.[fn:6]
-*** Explore: What's in a name?
+** Explore: What's in a name?
  Try changing the name of "stuff" in the program above. Be careful that when you /rename/ the variable that you rename it consistently and change every use of the name "stuff" in the program. Come back and read on after you're done.
 
  Did anything change? The answer is almost certainly "no!". C++ doesn't /care/ what containers are named as long as you label them correctly. You could have, confusingly, named your text-holding variable to =thisIsANumberNotAString= and the program would still work just fine. There's nothing in the C++ compiler that actually "knows" what the name you gave a variable means.
@@ -275,11 +275,11 @@ We also end with =return 0;= because we're very good programmers and *never* for
  That doesn't mean naming variables "hinder" or "boopsboops" is a good idea. There's an old saying that you need to write your code so it's understandable by a total stranger, because that stranger is likely to be *you* in a few months.
 
  So be kind to your future self and user variable names that make sense!
-*** Exercises
+** Exercises
 1. *Basic*: Ask for first and last name separately, then print them together in the format "Last, First".
 2. *Intermediate*: Ask for three words and print them in reverse order (if user enters "cat dog bird", print "bird dog cat").
 3. *Challenge*: Create a Mad Libs program that asks for a noun, verb, adjective, and adverb, then inserts them into a story template like: "The [adjective] [noun] decided to [verb] [adverb]."
-*** DONE What's in an empty variable?
+** DONE What's in an empty variable?
 Now, when we declare a variable we're making a container, but is there anything *in* the container at that point? Well let's see![fn:5]
 
 #+begin_src cpp :tangle codesnips/noStringInit.cpp
@@ -311,9 +311,9 @@ What about if we instead make an empty int?
 Well I ran this once and got "And our int holds...779647075". Oh dear /dot dot dot/ that seems like a very *not* great thing to have as a default value!
 
 Okay, and now we get into the punchline. The reason why I'm specifying "on my computer" and "when I run this" is that the answers could actually change between computers and compilers! You really, really, really should *never* use an empty variable because you can guarantee exactly nothing about what it will do.
-*** TODO Advanced: What /is/ a container? [1/2]
+** DONE Advanced: What /is/ a container? [2/2]
 At this point you might be wondering "what /are/ these containers, these /variables/, anyway?". What does it really mean for the compiler to make space for data? To answer that we need to get into some more details about how data is stored in a computer.
-**** DONE All we ever were, just zeros and ones
+** DONE All we ever were, just zeros and ones
 Computers, the modern digital computer we've all settled on, operates fundamentally on Os and 1s. Why? Because in the end you can think of the fundamental atom of the computer, the transistor, as an electrical on-off switch. If it's "on" it lets current flow, if it's "off" it does not. The brilliance of digital computers is in cleverly encoding /everything/ we do into patterns of these ons and offs. First, to explain /that/ we need to review how we write numbers in the normal way.
 
 When we write a number like 42367 this is shorthand for =40000 + 2000 + 300 + 60 + 7=. You may have learned to describe this as the "ones place", "the tens place", "the hundreds place", &c. We can write this even more compactly as
@@ -328,7 +328,7 @@ A binary number like 10010 is thus a way of writing =1*2^4 + 0*2^3 +0*2^2 + 1*2^
 
 We're not going to go deep into how different kinds of data are represented /as/ numbers, but we'll simply say that *everything* on a computer is fundamentally understood as a binary number.
 
-**** TODO Memory and storage
+** DONE Memory and storage
 You might have heard people refer to "memory" when it comes to computers: but what is it? How does it differ from something like the storage space on your laptop or phone?
 
 When someone says "memory" generally what they actually mean is Random Access Memory (RAM, in the sequel), which maybe should be called "Arbitrary Access Memory" because it's not /random/ like a dice roll it's that you can access any part of the memory at any time.
@@ -347,7 +347,7 @@ We can help explain, too, what these type signifiers are like =int= and =string=
 This memory[fn:9] gets reset every time you run the program. That's because the memory of your computer isn't for long-term storage, it's the scratch paper that programs need to run and keep track of all of their calculations.
 
 The main takeaway to get out of this is that every program manages its own storage and, for all the programs you'll write in this class, the compiler figures out at compile time what the storage you need is and how to label it.
-*** DONE Comments and documentation
+** DONE Comments and documentation
 There's a line from the (absolutely amazing) old computer science textbook "Structure and Interpretation of Computer Programs" that goes
 
 #+begin_quote
@@ -399,7 +399,7 @@ There are two ways to write comments: the first is to put =//= anywhere in a lin
   }
 #+end_src
 
-**** DONE Exercise about documenting a program
+*** DONE Exercise about documenting a program
 Here's a program that is uncommented and uses a number of constructs you haven't seen before.
 
 See if you can take this code and add comments to it to clarify what it does and write notes about what you don't understand. This is an exercise to practice /reading/ code, which is about as important a skill as writing it in the first place!
@@ -442,7 +442,7 @@ See if you can take this code and add comments to it to clarify what it does and
   }
 #+end_src
 
-*** DONE Arithmetic and such in C++
+** DONE Arithmetic and such in C++
 Arithmetic in C++, like most programming languages, is meant to look a lot like the arithmetic operations you're used to. You can test out some basic operations with the following code. Note that this example shows us that you can use =cin= with types other than =string=.
 
 #+begin_src cpp :tangle codesnips/arith1.cpp
@@ -502,7 +502,7 @@ So let's try this program again with =double= s instead of =int=.
 There, that's probably more what you would have expected from division.
 
 Note that =cin= keeps working no matter what type of container we're trying to fill with it! There's definitely no possibility that is going to go wrong later in a really annoying way! Foreshadowing!
-**** DONE Converting numbers: a word on "casting" types
+*** DONE Converting numbers: a word on "casting" types
  Let's imagine that you start out with integers but you do need to divide them later. You could just start with doubles but that violates a basic principle of programming: you want the /type/ of the variable to match what it /is/. If you wanted to, say, keep track of rock/paper/scissors wins versus the total number of games played, you wouldn't want to store that as a double because what's 0.3 games? It's has no meaningful interpretation[fn:10], so our program shouldn't allow it even accidentally.
 
  So what do we do? We temporarily tell the C++ compiler "here, right here, treat this data like it's a different type". In programming this is called a "type cast".
@@ -571,7 +571,8 @@ Note that =cin= keeps working no matter what type of container we're trying to f
 1. *Basic*: Calculate the area and perimeter of a rectangle from user input (length and width).
 2. *Intermediate*: Create a tip calculator that asks for bill amount and tip percentage, then shows the tip amount and total.
 3. *Challenge*: Implement a compound interest calculator that asks for principal, annual rate, time in years, and number of times compounded per year. Use the formula: A = P(1 + r/n)^(nt)
-*** TODO Booleans and personality tests
+** TODO Booleans, logic, and quizzes
+*** The if-statement
 Okay, if all we could do with code was straight-line programs that just do a sequence of calculations then we'd basically just have the equivalent of a calculator but arguably more annoying.
 
 Our first real important ability is the ability to make /choices/. "Do I do /this/ or /that/?" Let's look at an example.
@@ -681,56 +682,89 @@ You also don't have to ask just one question at a time. You can combine question
 
 If I have questions a and b then =a && b= only returns =true= if *both* =a= and =b= are true. Similarly, =a || b= returns true if =a= is true, if =b= is true, or if both of them are true.
 
-**** The dirty truth about booleans in C++
- Beware, absolute nastiness awaits you in this section. You'll learn about horrendous, semantics breaking, decisions in the history of programming language design.
+This is really useful for when you need to check if, say, a number is /between/ two values like so:
+#+begin_src cpp :tangle codesnips/ifAnd.cpp
+  #include <iostream>
+  using namepsace std;
 
- So, you see dear reader, it turns out that 
- 
- #+begin_src cpp :tangle codesnips/truth2.cpp
-   #include <iostream>
-   using namespace std;
+  int main(){
 
-   int main(){
-     if(true == 1){
-       cout << "true is the same as 1" << endl;
-     }
-
-     if(false == 0){
-       cout << "false is the same as 0" << endl;
-     }
-
-     int num = 1;
-     if(true == num){
-       cout << "true is 1 even if we insist that the 1 is an int" << endl;
-     }
-   }
- #+end_src
-
-Compile this code and run it to confirm the horrible truth, but you'll see that booleans are really just numbers. Which is honestly a terrible decision because it means there's all sorts of wrong things that can happen.
-
-#+begin_src cpp :tangle codesnips/truth3.cpp
+    int input;
+    cout << "Enter a number between 1 and 10" << endl;
+    cin >> input;
+    if(input > 0 && input < 10){
+      cout << "Good work" << endl;
+    }
+    else {
+      cout << "Oh c'mon!" << endl;
+    }
+    return 0;
+  }
+#+end_src
+This is a silly example but being able to make these checks will be important as we make bigger programs.
+*** if, else, else-if
+If-statements can also be chained together for more complicated decision making, like in the following example:
+#+begin_src cpp :tangle codesnips/elseif1.cpp
   #include <iostream>
   using namespace std;
 
   int main(){
-    int num;
-    cout << "Enter a number, promise I won't misuse it" << endl;
-    cin >> num;
-    if(num){ // whoops I meant to compare this to something but I got distracted by a dog
-      cout << "This means that num is greater than 3" << endl;
-      cout << "See? " << num << endl;
+
+    string input;
+    cout << "Name an animal: ";
+    cin >> input;
+
+    if(input == "dog"){
+      cout << "The dog goes woof" << endl;
     }
-    else{
-      cout << "num is too small" << endl;
+    else if(input == "cat"){
+      cout << "The cat seeks revenge" << endl;
     }
-    return false; // what is happening here
+    else if(input == "possum"){
+      cout << "The possum faints dramatically" << endl;
+    }
+    else {
+      cout << "I...don't know what to say" << endl;
+    }
+    
+    return 0;
   }
 #+end_src
+Try the code out! If you enter "dog" you'll see the text "The dog goes woof" printed out. If you enter something, like, "Parrot", then you'll get "I...don't know what to say".
 
-Look at this wretched code! =return false=? =if(num)=? This is terrible! And the compiler did /nothing/ to stop it!
+We can expand beyond a binary of choices this way, chaining as many "else-if"s before we finally get to an =else=.
 
-Woe be upon us!
-**** DONE An authentication quiz
+The =else= has to be the last thing. Try compiling the following code:
+#+begin_src cpp
+  #include <iostream>
+  using namespace std;
+
+  int main(){
+
+    string input;
+    cout << "Name an animal: ";
+    cin >> input;
+
+    if(input == "dog"){
+      cout << "The dog goes woof" << endl;
+    }
+    else if(input == "cat"){
+      cout << "The cat seeks revenge" << endl;
+    }
+    else {
+      cout << "I...don't know what to say" << endl;
+    }
+    else if(input == "possum"){
+      cout << "The possum faints dramatically" << endl;
+    }
+    
+    return 0;
+  }
+#+end_src
+The C++ compiler just completely rejects this program as poorly defined!
+
+That is, in fact, a good thing!
+*** DONE An authentication quiz
 Okay, let's do something silly as an example of putting some of these concepts together. A little program that runs a very special security quiz that asks you a few questions, use some variables, and then print out the results. This will determine, in a foolproof way, if the person answering the questions is definitely me.
 
 #+begin_src cpp :tangle codesnips/securityQuiz.cpp
@@ -766,7 +800,7 @@ Okay, let's do something silly as an example of putting some of these concepts t
   }
 #+end_src
 Can you reverse engineer what to answer for each question to hack the system? Try to parse what the condition in the final if-statement is actually saying!
-**** TODO A quiz on languages
+*** DONE A quiz on languages
 This is a slightly more complicated version of the above where you accumulate a running total of how many answers they've gotten correct in order to give an appropriate response at the end.
 
 We're going to ask five questions about programming language history and if the user gets all of them right we're going to respond with something like "Hey, no CS grad students allowed here that's cheating!". If they get two to four correct then we'll say "Hey, you know a fair bit!".  If they get one correct we'll say "Well you are the start of your journey" and if they get none correct we'll say "Okay, admit it, you threw that one".
@@ -861,11 +895,60 @@ Now why did that happen? Well the difference between an =else-if= and a plain =i
 
 You can change this =else-if= example to be based around =if= statements instead if you make the conditions more complicated, like the first one needs to become =numberCorrect >=2 && numberCorrect < 5=.
 
+*** The dirty truth about booleans in C++
+ Beware, absolute nastiness awaits you in this section. You'll learn about horrendous, semantics breaking, decisions in the history of programming language design.
+
+ So, you see dear reader, it turns out that 
+ 
+ #+begin_src cpp :tangle codesnips/truth2.cpp
+   #include <iostream>
+   using namespace std;
+
+   int main(){
+     if(true == 1){
+       cout << "true is the same as 1" << endl;
+     }
+
+     if(false == 0){
+       cout << "false is the same as 0" << endl;
+     }
+
+     int num = 1;
+     if(true == num){
+       cout << "true is 1 even if we insist that the 1 is an int" << endl;
+     }
+   }
+ #+end_src
+
+Compile this code and run it to confirm the horrible truth, but you'll see that booleans are really just numbers. Which is honestly a terrible decision because it means there's all sorts of wrong things that can happen.
+
+#+begin_src cpp :tangle codesnips/truth3.cpp
+  #include <iostream>
+  using namespace std;
+
+  int main(){
+    int num;
+    cout << "Enter a number, promise I won't misuse it" << endl;
+    cin >> num;
+    if(num){ // whoops I meant to compare this to something but I got distracted by a dog
+      cout << "This means that num is greater than 3" << endl;
+      cout << "See? " << num << endl;
+    }
+    else{
+      cout << "num is too small" << endl;
+    }
+    return false; // what is happening here
+  }
+#+end_src
+
+Look at this wretched code! =return false=? =if(num)=? This is terrible! And the compiler did /nothing/ to stop it!
+
+Woe be upon us!
 *** Exercises  
 1. *Basic*: Check if a number is positive, negative, or zero and print an appropriate message.
 2. *Intermediate*: Create a simple grade calculator that takes a numeric score and outputs a letter grade (90+=A, 80+=B, 70+=C, 60+=D, <60=F).
 3. *Challenge*: Build an eligibility checker that asks for age and tells the user what they can legally do (vote at 18, drink at 21, rent a car at 25, run for president at 35).
-*** TODO Letting the compiler figure out the type
+** TODO Letting the compiler figure out the type
  There's a fun trick you can do in C++: not even bother writing the type and, instead, just letting the compiler figure out---in the process of compiling---what the type is supposed to be for you! We can do that with the `auto` keyword.
 
  So we can actually do things like:
@@ -883,12 +966,12 @@ You can change this =else-if= example to be based around =if= statements instead
    }
  #+end_src
 
-*** DONE Data formatting [2/2]
+** DONE Data formatting [3/3]
 Now we get to a useful, but perhaps slightly tedious, set of skills to learn: how to properly format your output.
 
 Note that all of the following examples mean you also need to include the library =<iomanip>= as well by adding the line =#include <iomanip>= into your code.
 
-**** DONE Making a table
+*** DONE Making a table
 So if we wanted to make a table in C++ we might want to do something like use some '|' as dividers like this. For this and the rest of the examples in this table I'm going to assume that we're making a table that shows information about pets: their name, species, and how old they are. If we try this in the naive way we'll try something like this:
 #+begin_src cpp :tangle codesnips/petTable1.cpp
   #include <iostream>
@@ -1013,7 +1096,7 @@ That's slightly easier to read, but we still have room to fuss around with this 
 
 Quick Check: What happens if the longest word is longer than the space you set aside for it? Does it truncate or does it through off the formatting? Try it and find out!
 
-**** TODO Abstracting formatting with functions
+*** DONE Abstracting formatting with functions
 If you've been following along and doing all the exercises, you'll have seen the concept of functions once already. Functions are ways to /encapsulate/, to package up, code for re-use later. This can let us simplify our programs by only having to implement a concept /once/ and then using it again and again.
 
 For example, let's simplify our pet tables a bit!
@@ -1105,7 +1188,7 @@ Is this a satisfying solution? That's a personal question of style, but it /is/ 
 
 The /good/ thing is that this lets us make row after row after row with just simple calls to functions, which will be helpful very soon.
 
-**** DONE Formatting decimal points
+*** DONE Formatting decimal points
 Okay the other formatting topic that we need to deal with is how to deal with decimal points. Let's look at a simple program with doubles and you can immediately see the formatting problem:
 
 #+begin_src cpp :tangle codesnips/badmoney.cpp
@@ -1162,12 +1245,12 @@ So we need to /also/ do =cout << fixed;= in order to make sure it /always/ print
   }
 
 #+end_src
-**** Exercises
+*** Exercises
 1. *Basic*: Create a receipt with 3 items showing item name, price, and quantity in aligned columns.
 2. *Intermediate*: Display a multiplication table (1-10) with proper alignment and borders.
 3. *Challenge*: Create a formatted invoice that includes items, quantities, unit prices, line totals, subtotal, tax (8.5%), and grand total - all properly aligned and formatted.
 
-*** DONE Your first while loop: a number guessing game
+** DONE Your first while loop: a number guessing game
 In this section we'll be covering how to do your first kind of loop in C++, the =while= loop. Conceptually, a =while= loop lets you do something over and over again until the question "should I keep going" returns false.
 
 So, let's take the smallest silliest example we can to show the syntax: a program that keeps running and asking you to enter a number until you enter =0=.
@@ -1194,7 +1277,7 @@ So, let's take the smallest silliest example we can to show the syntax: a progra
     return 0;
   }
 #+end_src
-*** Exercises
+** Exercises
 1. *Basic*: Write a countdown program that asks for a starting number and counts down to 0.
 2. *Intermediate*: Create a password checker that keeps asking until the user enters "quit" or the correct password (you choose it).
 3. *Challenge*: Implement a simple calculator that keeps performing operations until the user enters 0 for both numbers.
@@ -1315,11 +1398,53 @@ Now we're finally ready to write our number guessing game
 #+end_src
 
 Try to read this code through and understand the logic of what it's doing! The only thing we haven't explained to this point is the =%= operator, which is the "modulus" operator. Basically, =a % b= returns the remainder---in the "you're learning division as a kid" sense of remainder---of dividing =a= by =b=. Now, in terms of why we *care* about this operator it gives us a quick way to take a big range of numbers and map it to something smaller. For example, if we do =a % 20= our outputs, no matter what =a= is, will be between 0 and 19. Similarly if we say =a % 100= this will give us an output that's between 0 and 99.
-*** Exercises
-1. *Basic*: Simulate rolling two six-sided dice and display their individual values and sum.
-2. *Intermediate*: Create a "Rock, Paper, Scissors" game where the computer randomly chooses and you play one round.
-3. *Challenge*: Simulate flipping a coin 1000 times and report the percentage of heads vs tails. Bonus: Allow the user to specify the number of flips.
-**** TODO Adding a limited number of guesses
+*** TODO Adding a limited number of guesses
+The last thing we need to do with our "number guessing game" is adding a limited number of guesses. To do that we're going to have to
+ + add another number container
+ + add a second check to the while loop to make sure that the loop keeps going as long as the number of guesses is greater than zero
+
+ Try doing this yourself before checking my solution below.
+
+**** My solution
+#+begin_src cpp :tangle codesnips/guessy2.cpp
+  #include <iostream>
+  #include <cstdlib>
+
+  using namespace std;
+
+  int main(){
+    // we make a variable for our guess
+    int guess = -1;
+    int numGuesses = 3;
+    // we set the seed for our secret number
+    srand(time(0));
+    // we set our secret number, we use the % function to scale rand() to 0-99 and then add 1 to make
+    // the range 1-100
+    int secret = rand() % 100 + 1;
+
+    while(guess != secret && numGuesses > 0){
+      numGuesses = numGuesses-1;
+      cout << "What do you think the number is?" << endl;
+      cin >> guess;
+      if(guess > secret){
+        cout << "lower!" << endl;
+      }
+      else if(guess < secret){
+        cout << "higher!" << endl;
+      }
+    }
+    if(guess == secret){
+      cout << "You guessed it!" << endl;
+    }
+    else{
+      cout << "Shoot, you ran out of guesses!" << endl;
+    }
+    return 0;
+  }
+#+end_src
+
+The only truly tricky bit is the fact that you need to make sure that you actually check to see if /why/ the while-loop broke at the end in order to decide what message to give, otherwise you'll congratulate them for winning when they lost!
+
 *** DONE Averaging numbers and while-loops
 Here's another idiom that will help us get practice with while-loops: how do you average an *arbitrary* number of numbers?
 
@@ -1385,6 +1510,10 @@ That's right! You're dividing by zero! So instead we want to, at the end, replac
 #+end_src
 
 Now you can see that we've safeguarded against dividing by zero!
+*** Exercises
+1. *Basic*: Simulate rolling two six-sided dice and display their individual values and sum.
+2. *Intermediate*: Create a "Rock, Paper, Scissors" game where the computer randomly chooses and you play one round.
+3. *Challenge*: Simulate flipping a coin 1000 times and report the percentage of heads vs tails. Bonus: Allow the user to specify the number of flips.
 *** Exercises
 1. *Basic*: Calculate the average of exactly 5 test scores entered by the user.
 2. *Intermediate*: Find the minimum, maximum, and average of numbers entered (stop on -1).
