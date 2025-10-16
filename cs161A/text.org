@@ -211,7 +211,7 @@ So, yes, *most* lines need semi-colons at the end. The lines that don't need a s
  + lines that end with ={= or =}= (with one annoying exception we'll get to)
  + lines that start with #
  + comments, which we haven't discussed yet
-* TODO More early steps [8/11]
+* TODO More early steps [10/14]
 ** DONE Echoing text and string types
 So we've already done a non-trivial amount of work because we've learned to compile a file, run it, and have it print something out the screen.
 
@@ -944,11 +944,11 @@ Compile this code and run it to confirm the horrible truth, but you'll see that 
 Look at this wretched code! =return false=? =if(num)=? This is terrible! And the compiler did /nothing/ to stop it!
 
 Woe be upon us!
-*** Exercises  
+*** Exercises
 1. *Basic*: Check if a number is positive, negative, or zero and print an appropriate message.
 2. *Intermediate*: Create a simple grade calculator that takes a numeric score and outputs a letter grade (90+=A, 80+=B, 70+=C, 60+=D, <60=F).
 3. *Challenge*: Build an eligibility checker that asks for age and tells the user what they can legally do (vote at 18, drink at 21, rent a car at 25, run for president at 35).
-** TODO Letting the compiler figure out the type
+** DONE Letting the compiler figure out the type
  There's a fun trick you can do in C++: not even bother writing the type and, instead, just letting the compiler figure out---in the process of compiling---what the type is supposed to be for you! We can do that with the `auto` keyword.
 
  So we can actually do things like:
@@ -965,7 +965,10 @@ Woe be upon us!
      
    }
  #+end_src
+ 
+ This is an example of something called /type inference/. There are entire programming languages built around the idea of type inference such as Haskell! This is very different than languages like Python that don't really /have/ types that are checked by the compiler/interpreter.
 
+ I'd encourage you to use this sparingly when you're first learning to code but the more experienced you become, feel free to use this trick.
 ** DONE Data formatting [3/3]
 Now we get to a useful, but perhaps slightly tedious, set of skills to learn: how to properly format your output.
 
@@ -1281,7 +1284,7 @@ So, let's take the smallest silliest example we can to show the syntax: a progra
 1. *Basic*: Write a countdown program that asks for a starting number and counts down to 0.
 2. *Intermediate*: Create a password checker that keeps asking until the user enters "quit" or the correct password (you choose it).
 3. *Challenge*: Implement a simple calculator that keeps performing operations until the user enters 0 for both numbers.
-*** TODO A randomized guessing game
+*** DONE A randomized guessing game
 So a guessing game where the number is the same every time isn't very interesting. What we really want is the ability to have the program choose a new number "randomly" and then ask you to guess. Of course, it'd be a pretty unfair game if it didn't at least give you a hint so this program will also tell you whether to guess higher or lower.
 
 So first, here's a really simple example of how to generate random numbers in C++. Note that we also have to include a thing thing at the top of the file: =#include <cstdlib>=, because that's where the functions we need for random numbers live. 
@@ -1398,7 +1401,7 @@ Now we're finally ready to write our number guessing game
 #+end_src
 
 Try to read this code through and understand the logic of what it's doing! The only thing we haven't explained to this point is the =%= operator, which is the "modulus" operator. Basically, =a % b= returns the remainder---in the "you're learning division as a kid" sense of remainder---of dividing =a= by =b=. Now, in terms of why we *care* about this operator it gives us a quick way to take a big range of numbers and map it to something smaller. For example, if we do =a % 20= our outputs, no matter what =a= is, will be between 0 and 19. Similarly if we say =a % 100= this will give us an output that's between 0 and 99.
-*** TODO Adding a limited number of guesses
+*** DONE Adding a limited number of guesses
 The last thing we need to do with our "number guessing game" is adding a limited number of guesses. To do that we're going to have to
  + add another number container
  + add a second check to the while loop to make sure that the loop keeps going as long as the number of guesses is greater than zero
@@ -1520,6 +1523,7 @@ Now you can see that we've safeguarded against dividing by zero!
 3. *Challenge*: Calculate a weighted average where the user enters value-weight pairs. Stop when weight is 0. Example: test1=85, weight=0.3; test2=90, weight=0.7; weighted average = 88.5.
 
 ** TODO For-loops (and the shape of loops to come)[fn:8] [1/2]
+*** The syntax of for-loops
 So far we've seen some examples of using =while= loops and now it's time to see the other kind of loop: the =for=-loop. Unlike =while=, which is "indefinite" iteration because it could theoretically go on forever, the =for=-loop is "definite" iteration because it should (unless there's a bug) only run for a pre-determined number of times.
 
 If =while= can be thought of us "keep going until something changes", then =for= should be thought of as "do this X times".
@@ -1621,7 +1625,7 @@ Exercise: Change this so that it sums the /squares/ of 0 - 9.
    *****
    #+end_example
 3. *Challenge*: Print all prime numbers between 1 and 100. Hint: For each number, check if it's divisible by any number from 2 to its square root.
-*** TODO (Advanced) Arrays: the reasons for =for=
+** TODO (Advanced) Arrays: the reasons for =for=
 Here's a more advanced topic that you'll be needing not just for this class but for the rest of your classes where you're doing C++: arrays.
 
 We're covering arrays here because they are, in a sense, the reason for using =for= loops. If, in the previous sections, you felt like "okay so a =for= is like a while, but more restricted?" that impression isn't /wrong/ per se. =while= is the more general concept that lets us do all sorts of things but =for= is best when you're dealing with finite collections of /stuff/.
@@ -2633,17 +2637,98 @@ Let's write a little program to test this out:
 
 If you run this you should see that both methods print identical items in the array!
 *** Pointer and a promise
-Let's take a step back now and talk about what the implications of all this actually is: arrays are "really" just pointers. Pointers have no sense of how many contiguous addresses after the pointer are valid as they're merely /addresses/ for memory locations. That's why you have so many of these awkward coding idioms where you have to separately keep track of, for example, how many items you read in rather than being able to access the length of an array.
+Let's take a step back now and talk about what the implications of all this actually is: arrays are "really" just pointers. Pointers have no sense of how many contiguous addresses after the pointer are valid as they're merely /addresses/ for memory locations. That's why you have so many of these awkward coding idioms where you have to separately keep track of, for example, how many items you read in rather than being able to access the length of an array. That's why we can have these strange error states where we can go /beyond/ the array and access random gibberish data.
 
-This is why, in modern programming, you don't use basic C/C++ style arrays that often. Arrays in Python, for e
+In modern programming, you don't use basic C/C++ style arrays that often. Even in C++ most of the time you're going to use a data structure we call a /vector/. These vectors are what most programming languages call arrays, like Python, and they're capable of doing things like
++ changing in size
++ adding and deleting elements
++ telling you how many elements are currently in them
++ throw an error if you access beyond the bounds of the container
+
+Very convenient!
+
+We won't really use vectors in this class and that's because we're trying to install +fear of+ healthy respect for the problems that can happen if you aren't careful using arrays.
+*** Dynamic arrays
+If we wanted to /try/ and have arrays that were a little more flexible, without using the =vector= type, what might we do?
+
+One idea is that we could make an array that's a lot bigger than we really need and then only use /part/ of it, marking the "effective" end with some kind of special piece of data.
+
+Let's assume that the arrays we're going to make are going to be arrays of natural numbers, so 0 and above. That means we could treat -1 as the special "this is the end of the array value".
+
+Let's try writing some functions that will let you actually do something with this
+
+#+begin_src cpp :tangle codesnips/dyanmicArray1.cpp
+  #include <iostream>
+  using namespace std;
+
+  int dynLength(int arr[]){
+    int i=0;
+    
+  }
+
+  int main(){
+
+    return 0;
+  }
+#+end_src
 
 
 ** TODO Char Arrays
+So far we've used strings this entire time but there's another way that strings are used in older code, especially older /C/ code, and you need to get some experience with how "strings-as-character-arrays" actually work.
+
+We haven't really done a lot with the =char= type so far other than some menuing, but you might remember earlier where we were able to treat the =string= type almost like an array of characters. As a reminder, we were able to do things like this
+#+begin_src cpp :tangle codesnips/strArrayReview1.cpp
+  #include <iostream>
+  using namespace std;
+
+  void changeChar(string& s){
+    for(int i=0; i < s.length(); i++){
+      s[i] = s[i]+1;
+    }
+  }
+
+  int main(){
+
+    string text = "hal";
+    changeChar(text);
+    cout << text << endl;
+    
+    return 0;
+  }
+#+end_src
+
+Well at first all that's going to change is that we're going to make our code use an array of =char=.
+
+#+begin_src cpp :tangle codesnips/charArray1.cpp
+  #include <iostream>
+  using namespace std;
+
+  void changeChar(char c[], int length){
+    for(int i=0; i < length; i++){
+      c[i] = c[i] + 1;
+    }
+  }
+
+  int main(){
+
+    char text[] = "hal";
+    changeChar(text,3);
+    cout << text << endl;
+    
+    return 0;
+  }
+#+end_src
+
+The only real difference is that since we're using /arrays/ we have to explicitly pass the length around rather than just being able to /ask/ the array how long it is.
+
+What if I told you, though, character arrays in C were a kind of /dynamic array/ like we made above?
+
+Wait though, let's actually be a little clever and instead of 
+
 * TODO Extended example: Let's play shop
 In this example we'll be writing a small program that prints out a menu, let's you select items and quantities to purchase, and prints out your total at the end.
 
 We'll do this program "the hard way" at first, which isn't very flexible, but we'll end up showing some more features of C++ that will let us simplify and refactor this code.
-** More on iteration and choices 
 * TODO Extended example: An Adventure Game
 In this example we're going to look at how to make an old-school text-adventure game in C++. 
 * Project Ideas
