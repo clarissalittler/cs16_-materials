@@ -2655,23 +2655,81 @@ One idea is that we could make an array that's a lot bigger than we really need 
 
 Let's assume that the arrays we're going to make are going to be arrays of natural numbers, so 0 and above. That means we could treat -1 as the special "this is the end of the array value".
 
-Let's try writing some functions that will let you actually do something with this
+Let's try writing some functions that will let you actually use these arrays a little more conveniently. The basic trick we're going to be using is the idea of a =while= loop that keeps going until you reach a =-1= value.
 
-#+begin_src cpp :tangle codesnips/dyanmicArray1.cpp
+So if we want to calculate the "effective" length of the array that's being used we can just write a loop like the following =dynLength= function, complete with a small program to test it out.
+
+#+begin_src cpp :tangle codesnips/dynamicArray1.cpp
   #include <iostream>
   using namespace std;
 
   int dynLength(int arr[]){
     int i=0;
-    
+    while(arr[i] != -1){
+      i++;
+    }
+    return i;
   }
 
   int main(){
 
+    int arr[] = {1,2,3,4,-1};
+
+    cout << dynLength(arr) << endl;
+    
     return 0;
   }
 #+end_src
 
+If you run this code you should find that it prints =4=. Go ahead and test it out by adding elements /after/ the =-1= and check that the answer doesn't change! It should always stop when it hits the /first/ =-1= in the array.
+
+So now we have a length function that means we can write functions that do things like "multiply every element in the array by 2" without actually needing to pass the length explicitly, like this:
+
+#+begin_src cpp :tangle codesnips/dynamicArray2.cpp
+  #include <iostream>
+  using namespace std;
+
+  int dynLength(int arr[]){
+    int i=0;
+    while(arr[i] != -1){
+      i++;
+    }
+    return i;
+  }
+
+  void doubleArray(int arr[]){
+    for(int i=0;i<dynLength(arr);i++){
+      arr[i] = 2*arr[i];
+    }
+  }
+
+  void printArray(int arr[]){
+    cout << "[";
+    for(int i=0; i<dynLength(arr); i++){
+      if( i > 0){
+        cout << ", ";
+      }
+      cout << arr[i];
+    }
+    cout << "]";
+    cout << endl;
+  }
+
+  int main(){
+
+    int arr[] = {1,2,3,4,-1};
+    
+    doubleArray(arr);
+    printArray(arr);
+
+    return 0;
+  }
+
+#+end_src
+
+#+begin_quote
+Exercise: here's a quick check for yourself. Why is the =printArray= function written like this? Can you puzzle it out?
+#+end_quote
 
 ** TODO Char Arrays
 So far we've used strings this entire time but there's another way that strings are used in older code, especially older /C/ code, and you need to get some experience with how "strings-as-character-arrays" actually work.
@@ -2697,7 +2755,7 @@ We haven't really done a lot with the =char= type so far other than some menuing
   }
 #+end_src
 
-Well at first all that's going to change is that we're going to make our code use an array of =char=.
+Well at first all that's going to change is that we're going to make our code use an array of =char=, so we might expect that we need to pass the length in like so:
 
 #+begin_src cpp :tangle codesnips/charArray1.cpp
   #include <iostream>
@@ -2719,11 +2777,95 @@ Well at first all that's going to change is that we're going to make our code us
   }
 #+end_src
 
-The only real difference is that since we're using /arrays/ we have to explicitly pass the length around rather than just being able to /ask/ the array how long it is.
+But what if I told you, though, that character arrays in C were a kind of /dynamic array/ like we made above? But instead of the number =-1= being the terminator it's actually going to be a special character ='\0'=. This special character is the "null" character, that means literally don't print anything. That makes it really useful for signifying the "end" of a string-as-character-array.
 
-What if I told you, though, character arrays in C were a kind of /dynamic array/ like we made above?
+Let's go ahead and adapt some of our code from above to this new kind of dynamic array:
+#+begin_src cpp :tangle codesnips/charArray2.cpp
+  #include <iostream>
+  using namespace std;
 
-Wait though, let's actually be a little clever and instead of 
+  int dynLength(char arr[]){
+    int i=0;
+    while(arr[i] != '\0'){
+      i++;
+    }
+    return i;
+  }
+
+  void changeChar(char c[]){
+    for(int i=0; i < dynLength(c); i++){
+      c[i] = c[i]+1;
+    }
+  }
+
+  int main(){
+    
+    char text[] = "hal";
+    changeChar(text);
+    cout << text << endl;
+    
+    return 0;
+  }
+#+end_src
+
+Notice that we no longer need the length in the =changeChar= function, so it's kind of like normal strings again!
+
+We'll do one more function with character arrays before we leave the rest of the topic to CS161B: concatenating two strings.
+
+This is going to involve a bit of work but we'll go line-by-line
+
+#+begin_src cpp :tangle codesnips/charArray3.cpp
+  #include <iostream>
+  using namespace std;
+
+  int dynLength(char arr[]){
+    int i=0;
+    while(arr[i] != '\0'){
+      i++;
+    }
+    return i;
+  }
+
+  void concat(char c1[], char c2[]){
+    // this function is going to attach c2 to the end of c1
+    int i = 0;
+    // first we need to make our index point to the end of string one, which means we need to find
+    // the first \0 in the string
+    while(c1[i] != '\0'){
+      i++;
+    }
+    // now i is pointing to the end
+    // alternatively, we could have just used a call to dynLength
+    // can you see why that works??
+    // so the next thing we need is the length of the second string
+    int length2 = dynLength(c2);
+    // now we need to write a for loop that goes from 0 to length2 and copies characters over from c2 to c1
+    for(int j=0; j<length2; j++){
+      c1[j+i] = c2[j];
+    }
+    // now we're *not* done because we also need to make sure we put a \0 at the new end of the string
+    c1[length2+i] = '\0';
+  }
+
+  int main(){
+    char hello[] = "Hello";
+    char world[] = ", World!";
+
+    concat(hello,world);
+
+    cout << hello << endl;
+    
+    return 0;
+  }
+#+end_src
+
+If you run this we'll see that what gets printed out is "Hello, World!", which is exactly what we'd hoped.
+
+Now, note that this means we /modified/ the first string to do this concatenation. That's very different than how the =+= operator worked on the =string= type, which didn't change the arguments passed into it.
+
+This is an example of what's called a "destructive" operation, because it doesn't leave operands passed into it unscathed! This isn't inherently bad, you just have to be careful with it!
+
+There are a lot more operations on C-style character array strings that you'll see in CS 161B, so this is functioning just as a brief preview of how that kind of programming works. The good news is that you don't have to write them from scratch every time, instead you can use a library full of them. I do think, though, it's good to see how they work /at least/ once.
 
 * TODO Extended example: Let's play shop
 In this example we'll be writing a small program that prints out a menu, let's you select items and quantities to purchase, and prints out your total at the end.
