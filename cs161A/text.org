@@ -685,7 +685,7 @@ If I have questions a and b then =a && b= only returns =true= if *both* =a= and 
 This is really useful for when you need to check if, say, a number is /between/ two values like so:
 #+begin_src cpp :tangle codesnips/ifAnd.cpp
   #include <iostream>
-  using namepsace std;
+  using namespace std;
 
   int main(){
 
@@ -2867,17 +2867,51 @@ This is an example of what's called a "destructive" operation, because it doesn'
 
 There are a lot more operations on C-style character array strings that you'll see in CS 161B, so this is functioning just as a brief preview of how that kind of programming works. The good news is that you don't have to write them from scratch every time, instead you can use a library full of them. I do think, though, it's good to see how they work /at least/ once.
 
-* CS161B Preview Chapters
-These chapters provide a preview of topics that will be covered more thoroughly in CS161B. They're included here to give you a head start on important C++ concepts.
+* CS161B Preview: Looking Ahead to the Second Quarter
+
+You've made it through the core material for CS161A—congratulations! Before we wrap up, I want to give you a preview of some topics that you'll encounter in CS161B, the second quarter of this programming sequence.
+
+Why include preview material in the CS161A textbook? A few reasons:
+
+1. *To give you a head start*: If you have extra time or curiosity, you can start exploring these concepts early. Getting familiar with them now will make CS161B feel more manageable.
+
+2. *To show you where we're headed*: Programming is a journey, and it helps to see the road ahead. These topics build naturally on what you've learned so far.
+
+3. *To provide context*: Some of the things we've learned in CS161A (like arrays and pointers) will make more sense when you see the "better" alternatives that C++ provides (like vectors).
+
+4. *To support bridge students*: If you're taking CS161A to prepare for CS161B, this material gives you a taste of what's coming and helps you assess your readiness.
+
+** What to Expect from These Preview Chapters
+
+The following topics will all be covered in much greater depth during CS161B:
+- *Vectors*: Dynamic arrays that grow and shrink as needed
+- *Structs*: Organizing related data into custom types
+- *File I/O*: Reading from and writing to files
+- *Multi-file Programs*: Breaking your code into organized modules
+- *Algorithms*: Sorting and searching techniques
+
+**Important**: Don't feel pressured to master these topics right now. They're here as a preview, not as required CS161A material. In CS161B, you'll have much more time to practice and understand these concepts thoroughly. Think of these chapters as "coming attractions" rather than homework.
+
+That said, if you're feeling confident with the CS161A material and want to challenge yourself, by all means dive in! These are all practical, useful topics that will make you a better programmer.
+
+All right, let's take a peek at what's coming next quarter!
 
 ** TODO Vectors: Dynamic Arrays
+
+Remember how we had to declare arrays with a fixed size, and couldn't easily change that size later? Remember how we had to manually track the size of arrays and pass it as a separate parameter to functions? Remember how going out of bounds on an array just... caused mysterious crashes without any helpful error messages?
+
+Yeah, vectors solve all of those problems.
+
+Vectors are one of the most useful tools in C++, and you'll use them constantly in CS161B. They're like arrays, but better in almost every way. Think of them as "arrays that actually make sense."
+
 *** TODO Introduction to Vectors
 **** Why Use Vectors Over Arrays?
+
 Vectors are part of the C++ Standard Library and provide:
-- Dynamic sizing (can grow and shrink)
-- Bounds checking (with =.at()= method)
-- Built-in size tracking
-- Easier to use with functions
+- *Dynamic sizing*: They can grow and shrink as needed—no more guessing how big to make your array!
+- *Bounds checking*: With the =.at()= method, you get helpful error messages instead of mysterious crashes
+- *Built-in size tracking*: The vector knows how big it is, so you don't have to keep track separately
+- *Easier to use with functions*: You can pass vectors around without worrying about losing size information
 
 **** Including the Vector Library
 #+begin_src cpp
@@ -3123,9 +3157,24 @@ Create a game score tracker that:
 - Allows searching for a player's score
 
 ** TODO Structs: Organizing Related Data
+
+Imagine you're writing a program to manage student records. You need to store each student's name, ID number, GPA, and maybe their major. You could create separate arrays or vectors for each piece of information:
+
+#+begin_src cpp
+vector<string> studentNames;
+vector<int> studentIDs;
+vector<double> studentGPAs;
+vector<string> studentMajors;
+#+end_src
+
+But now you have a nightmare: you have to keep all four vectors synchronized. If you want to add a new student, you need to remember to add to all four vectors. If you want to delete a student, you need to delete from all four at the same index. If you accidentally get the indices mixed up, you'll have students with the wrong GPAs or majors. This is fragile and error-prone.
+
+Structs solve this problem by letting you bundle related data together into a single custom type. Instead of four separate vectors, you can have one vector of "Student" objects, where each student carries all their own information. It's cleaner, safer, and much more intuitive.
+
 *** TODO Introduction to Structs
 **** Why Group Related Data?
-When you have related pieces of information (like a student's name, ID, and GPA), keeping them in separate variables becomes unwieldy. Structs let you bundle related data together.
+
+When you have related pieces of information (like a student's name, ID, and GPA), keeping them in separate variables or arrays becomes unwieldy and error-prone. Structs let you bundle related data together into a single unit, making your code more organized and easier to maintain.
 
 **** Declaring a Struct
 #+begin_src cpp
@@ -3379,12 +3428,23 @@ Create a contact manager:
 - Show upcoming birthdays
 
 ** TODO File I/O: Reading and Writing Files
+
+So far, all of our programs have been ephemeral—when they end, any data they worked with disappears. If you run a program that asks for user input, processes it, and displays results, that's great... but as soon as the program ends, everything is gone. If you want to use that data again, you have to re-enter it all over again.
+
+This is where files come in.
+
+Files let your programs save data permanently to disk, read data that was saved earlier, and share information between different programs. Want to save high scores in a game? Files. Want to process a spreadsheet of student grades? Files. Want to create a log of what your program did? Files.
+
+File I/O (Input/Output) is one of the most practical programming skills you'll learn. Nearly every real-world program needs to read from or write to files at some point. The good news is that once you understand =cin= and =cout=, file I/O will feel very familiar—it uses almost the same syntax!
+
 *** TODO Introduction to File Input/Output
 **** Why Use Files?
-- Permanent storage (data persists after program ends)
-- Process large amounts of data
-- Share data between programs
-- Create logs and reports
+
+Files give your programs the ability to:
+- *Permanent storage*: Data persists after the program ends—no more re-entering the same information!
+- *Process large amounts of data*: Work with thousands of records that would be impractical to type in manually
+- *Share data between programs*: One program writes a file, another program reads it
+- *Create logs and reports*: Track what your program does over time or generate output for users
 
 **** Text Files vs Binary Files
 In this course, we focus on text files (human-readable). Binary files are more efficient but harder to work with.
@@ -3716,12 +3776,23 @@ Create a contact management system that:
 - Preserves data between program runs
 
 ** TODO Multi-File Programs
+
+Up until now, you've probably been writing all your code in a single file—maybe =main.cpp= or something similar. For small programs, that's perfectly fine. But as your programs grow larger and more complex, putting everything in one file becomes a problem.
+
+Imagine trying to find one specific function among 2,000 lines of code in a single file. Or imagine wanting to reuse your grade-calculation functions in three different programs—are you going to copy-paste the same code into three different files? What happens when you find a bug in that code? Do you have to fix it in three places?
+
+This is where multi-file programs come in. Breaking your code into multiple files makes it more organized, reusable, and maintainable. It's like organizing your closet: instead of throwing everything in one big pile, you sort things into drawers and sections so you can actually find what you need.
+
+In CS161B, you'll work on projects that are too large to fit comfortably in one file, so learning how to organize code across multiple files is essential. The key concepts are header files (=.h=) and implementation files (=.cpp=), and they work together to keep your code modular and clean.
+
 *** TODO Why Split Code into Multiple Files?
-- **Organization**: Group related functions together
-- **Reusability**: Use the same code in multiple programs
-- **Maintainability**: Easier to find and fix bugs
-- **Collaboration**: Multiple people can work on different files
-- **Compilation speed**: Only recompile changed files
+
+Breaking code into multiple files provides several important benefits:
+- *Organization*: Group related functions together (all math functions in one file, all file I/O functions in another)
+- *Reusability*: Write a function once, use it in multiple programs without copy-pasting
+- *Maintainability*: Find and fix bugs more easily when code is organized logically
+- *Collaboration*: Multiple people can work on different files without conflicts
+- *Compilation speed*: Only recompile the files that changed, not your entire program
 
 *** TODO Header Files (.h)
 **** Creating Header Files
@@ -3873,9 +3944,21 @@ Create a multi-file calculator:
 - =main.cpp= (program entry point)
 
 ** TODO Common Algorithms & Problem Solving
+
+So you know how to write programs that do specific things: calculate grades, play guessing games, manage a list of names. But what about solving more general problems that come up over and over again in programming?
+
+For example: "How do I find a specific item in a list?" or "How do I sort a list of items in order?" These are such common problems that computer scientists have developed standard solutions for them, called *algorithms*.
+
+An algorithm is just a step-by-step procedure for solving a problem. The algorithms we'll look at here—searching and sorting—are fundamental to computer science. You'll use them constantly in real programs, and understanding how they work will help you become a better problem solver.
+
+In CS161B, you'll study algorithms in much more depth, learning about their efficiency (how fast they run) and when to use one algorithm versus another. For now, we'll introduce a few classic algorithms to give you a taste of algorithmic thinking.
+
+Don't worry if these seem abstract at first—that's normal! The key is to understand the logic of each algorithm, trace through how it works step-by-step, and recognize when you might need to use one in your own programs.
+
 *** TODO Searching Algorithms
 **** Linear Search
-Search through an array one element at a time.
+
+This is the simplest search algorithm: just look through an array one element at a time until you find what you're looking for (or reach the end without finding it).
 
 #+begin_src cpp
 int linearSearch(int arr[], int size, int target){
