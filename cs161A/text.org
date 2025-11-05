@@ -685,7 +685,7 @@ If I have questions a and b then =a && b= only returns =true= if *both* =a= and 
 This is really useful for when you need to check if, say, a number is /between/ two values like so:
 #+begin_src cpp :tangle codesnips/ifAnd.cpp
   #include <iostream>
-  using namepsace std;
+  using namespace std;
 
   int main(){
 
@@ -2386,6 +2386,403 @@ We haven't really seen examples of it so far but you can have a bunch of functio
 1. *Basic*: Write a function that returns the larger of two numbers.
 2. *Intermediate*: Create functions for calculating area of different shapes (circle, rectangle, triangle). Each should take appropriate parameters.
 3. *Challenge*: Implement a function that checks if a number is prime. Then use it to find all twin primes (primes that differ by 2) up to 100.
+
+** Scope and Lifetime: Where Do Variables Live?
+
+Now that you're writing functions, you've probably noticed something: variables you declare inside a function don't seem to exist outside of it. And variables you declare in =main= aren't accessible inside your functions. What's going on?
+
+This is all about *scope* and *lifetime*—two related but distinct concepts that control where variables can be used and how long they exist.
+
+Think of scope as "where can I see this variable?" and lifetime as "when does this variable exist?" Understanding these concepts will help you avoid confusing bugs and write cleaner, more organized code.
+
+*** Local Variables: The Building Blocks
+
+Whenever you declare a variable inside a block of code (anything between ={ }=), that variable is *local* to that block. It only exists within those curly braces, and it disappears when the block ends.
+
+Let's start with a simple example:
+
+#+begin_src cpp
+  #include <iostream>
+  using namespace std;
+
+  int main(){
+    int x = 10;
+
+    if(x > 5){
+      int y = 20;
+      cout << "Inside if: x = " << x << ", y = " << y << endl;
+    }
+
+    cout << "Outside if: x = " << x << endl;
+    // cout << y << endl;  // ERROR! y doesn't exist here
+
+    return 0;
+  }
+#+end_src
+
+In this code, =x= is declared in =main=, so it's accessible anywhere inside =main=. But =y= is declared inside the =if= block, so it only exists there. Once we exit the =if= block, =y= is gone—it's been destroyed and its memory has been freed.
+
+If you tried to uncomment that last =cout= statement, you'd get a compiler error saying =y= was not declared in this scope.
+
+**** Variables in Loops
+
+This same principle applies to loops. Variables declared inside a loop only exist for that iteration of the loop:
+
+#+begin_src cpp
+  #include <iostream>
+  using namespace std;
+
+  int main(){
+    for(int i = 0; i < 3; i++){
+      int loopVar = i * 10;
+      cout << "Iteration " << i << ": loopVar = " << loopVar << endl;
+    }
+
+    // cout << loopVar << endl;  // ERROR! loopVar doesn't exist here
+    // cout << i << endl;         // ERROR! i doesn't exist here either
+
+    return 0;
+  }
+#+end_src
+
+Both =i= (the loop counter) and =loopVar= only exist inside the loop. Once the loop finishes, they're gone.
+
+Actually, there's something even more interesting happening here: =loopVar= is created and destroyed on *every iteration* of the loop. Each time through the loop, a fresh =loopVar= is created, used, and then destroyed. It's not the same variable being reused—it's a new one each time!
+
+*** Variables in Functions
+
+When you declare a variable inside a function, it's local to that function. Other functions can't see it, and it disappears when the function returns.
+
+#+begin_src cpp
+  #include <iostream>
+  using namespace std;
+
+  void calculateSomething(){
+    int result = 42;
+    cout << "Inside function: result = " << result << endl;
+  }
+
+  int main(){
+    calculateSomething();
+
+    // cout << result << endl;  // ERROR! result doesn't exist in main
+
+    return 0;
+  }
+#+end_src
+
+The variable =result= only exists inside =calculateSomething=. It's created when the function is called, and it's destroyed when the function returns. =main= has no idea that =result= even exists.
+
+**** Function Parameters Are Local Too
+
+Here's something that might surprise you: the parameters to a function are treated like local variables declared at the start of the function.
+
+#+begin_src cpp
+  #include <iostream>
+  using namespace std;
+
+  void greet(string name){
+    // 'name' is a local variable that was initialized with the argument
+    cout << "Hello, " << name << "!" << endl;
+    name = "stranger";  // We can modify it, but...
+    cout << "Modified: " << name << endl;
+  }
+
+  int main(){
+    string myName = "Alice";
+    greet(myName);
+
+    cout << "Back in main: " << myName << endl;  // Still "Alice"!
+
+    return 0;
+  }
+#+end_src
+
+When we call =greet(myName)=, what happens is that a *new* local variable called =name= is created inside =greet=, and it's initialized with a *copy* of the value from =myName=. So =name= and =myName= are completely separate variables! That's why modifying =name= inside the function doesn't affect =myName= in =main=.
+
+This is called *pass by value*—we're passing the value, not the variable itself. We'll see later how to change this behavior with pass-by-reference, but first you need to understand that by default, function parameters are just local variables with initial values.
+
+*** Variable Shadowing: When Names Collide
+
+What happens if you declare a variable with the same name in different scopes? This is called *shadowing*, and it can be confusing:
+
+#+begin_src cpp
+  #include <iostream>
+  using namespace std;
+
+  int main(){
+    int x = 10;
+    cout << "Outer x: " << x << endl;
+
+    {
+      int x = 20;  // This is a DIFFERENT variable named x
+      cout << "Inner x: " << x << endl;
+    }
+
+    cout << "Outer x again: " << x << endl;  // Back to 10
+
+    return 0;
+  }
+#+end_src
+
+Output:
+#+begin_example
+Outer x: 10
+Inner x: 20
+Outer x again: 10
+#+end_example
+
+The inner =x= "shadows" (hides) the outer =x= while the inner block is executing. Once we exit that block, the inner =x= is destroyed, and the outer =x= is visible again.
+
+This works, but it's generally considered bad practice because it's confusing. Try to give your variables distinct names to avoid shadowing.
+
+*** Global Variables: Use Sparingly!
+
+So far we've only looked at local variables. But you can also declare variables *outside* of any function, at the top level of your program. These are called *global variables*:
+
+#+begin_src cpp
+  #include <iostream>
+  using namespace std;
+
+  int globalCounter = 0;  // Global variable
+
+  void incrementCounter(){
+    globalCounter++;
+  }
+
+  void showCounter(){
+    cout << "Counter: " << globalCounter << endl;
+  }
+
+  int main(){
+    showCounter();        // Counter: 0
+    incrementCounter();
+    incrementCounter();
+    showCounter();        // Counter: 2
+
+    return 0;
+  }
+#+end_src
+
+Global variables are accessible from anywhere in your program—any function can read and modify them. That might sound convenient, but it's actually a problem!
+
+**** Why Global Variables Are Dangerous
+
+1. *Hard to track changes*: When any function can modify a global variable, it's hard to figure out where a bug is coming from. Which function changed the value? When?
+
+2. *Hidden dependencies*: Functions that use global variables have hidden dependencies that aren't visible in their parameter lists. This makes code harder to understand and reuse.
+
+3. *Naming conflicts*: As your program grows, you might accidentally use the same name for different things.
+
+4. *Testing nightmare*: Functions that depend on global variables are hard to test because you have to set up the global state correctly before each test.
+
+**** When Global Variables Are Okay
+
+That said, there are a few legitimate uses:
+- *Global constants*: If you use =const=, the variable can't be modified, so it's safe:
+  #+begin_src cpp
+    const double PI = 3.14159265359;  // This is fine
+    const int MAX_STUDENTS = 100;     // This is fine too
+  #+end_src
+
+- *Configuration that truly needs to be global*: Sometimes you have settings that really do need to be accessible everywhere (but even then, there are often better solutions you'll learn later).
+
+As a general rule: *prefer local variables and function parameters over global variables*. If you need to share data between functions, pass it as parameters or return it as a result.
+
+*** Lifetime vs. Scope: What's the Difference?
+
+We've been using these terms somewhat interchangeably, but they're actually different:
+
+- *Scope*: Where in your code you can use a variable name to access the variable
+- *Lifetime*: When the variable actually exists in memory
+
+For local variables, scope and lifetime are usually the same: the variable is created when you enter the block, and it's destroyed when you leave the block.
+
+#+begin_src cpp
+  {
+    int x = 10;  // x is created here
+    // x's scope and lifetime both start here
+
+    // ... do stuff with x ...
+
+  }  // x is destroyed here (lifetime ends, scope ends)
+#+end_src
+
+But for global variables, they're different:
+- *Lifetime*: The entire execution of the program (created at startup, destroyed at shutdown)
+- *Scope*: Anywhere in the file after the declaration (or in other files if you use certain keywords)
+
+**** A Quick Note on Static Variables (Preview)
+
+There's also a keyword =static= that lets you create variables with special properties, but we won't go into that in CS161A. Just know that it exists and lets you create variables with local scope but global lifetime. You'll learn more about this in CS161B when you need it.
+
+*** Practical Examples: Seeing Scope in Action
+
+Let's look at a more realistic example that combines everything we've learned:
+
+#+begin_src cpp
+  #include <iostream>
+  using namespace std;
+
+  // Global constant (good use of global)
+  const double TAX_RATE = 0.08;
+
+  double calculateTotal(double subtotal){
+    double tax = subtotal * TAX_RATE;  // local to this function
+    double total = subtotal + tax;     // local to this function
+    return total;
+  }
+
+  void printReceipt(double subtotal){
+    double total = calculateTotal(subtotal);  // different 'total' than above!
+
+    cout << "Subtotal: $" << subtotal << endl;
+    cout << "Tax:      $" << (total - subtotal) << endl;
+    cout << "Total:    $" << total << endl;
+  }
+
+  int main(){
+    double price = 19.99;  // local to main
+
+    printReceipt(price);
+
+    // tax, subtotal, and total from the functions don't exist here!
+
+    return 0;
+  }
+#+end_src
+
+Notice how:
+- =TAX_RATE= is a global constant (accessible everywhere)
+- Each function has its own local variables
+- =total= appears in both =calculateTotal= and =printReceipt=, but they're different variables
+- Variables from one function don't leak into other functions
+
+*** Common Mistakes and Debugging Tips
+
+**** Mistake 1: Assuming variables persist across function calls
+
+#+begin_src cpp
+  void badCounter(){
+    int count = 0;  // Created fresh each time!
+    count++;
+    cout << count << endl;  // Always prints 1
+  }
+#+end_src
+
+Each time you call =badCounter=, =count= is created fresh and initialized to 0. It doesn't remember its value from previous calls.
+
+**** Mistake 2: Trying to use a variable outside its scope
+
+#+begin_src cpp
+  if(temperature > 80){
+    string message = "It's hot!";
+  }
+
+  cout << message << endl;  // ERROR! message doesn't exist here
+#+end_src
+
+Solution: Declare =message= before the =if= statement:
+
+#+begin_src cpp
+  string message;
+
+  if(temperature > 80){
+    message = "It's hot!";
+  }
+  else{
+    message = "It's nice!";
+  }
+
+  cout << message << endl;  // Now it works!
+#+end_src
+
+**** Mistake 3: Accidental shadowing
+
+#+begin_src cpp
+  int score = 100;
+
+  for(int i = 0; i < 5; i++){
+    int score = i * 10;  // Oops! Shadows the outer score
+    cout << score << endl;  // Prints 0, 10, 20, 30, 40
+  }
+
+  cout << score << endl;  // Still 100 (never modified)
+#+end_src
+
+This compiles fine but probably isn't what you meant! Use different variable names to avoid confusion.
+
+*** Exercises
+
+1. *Basic*: What will this program print? Try to figure it out without running it, then check your answer:
+   #+begin_src cpp
+     #include <iostream>
+     using namespace std;
+
+     int main(){
+       int a = 5;
+
+       {
+         int b = 10;
+         cout << a + b << endl;
+       }
+
+       {
+         int b = 20;
+         cout << a + b << endl;
+       }
+
+       return 0;
+     }
+   #+end_src
+
+2. *Basic*: Fix this code so it compiles:
+   #+begin_src cpp
+     #include <iostream>
+     using namespace std;
+
+     int main(){
+       for(int i = 0; i < 5; i++){
+         int sum = i + i;
+       }
+
+       cout << "Sum: " << sum << endl;
+
+       return 0;
+     }
+   #+end_src
+
+3. *Intermediate*: Write a function =calculateAverage= that takes three test scores as parameters and returns the average. Make sure all variables are appropriately scoped and don't use any global variables (except maybe a constant).
+
+4. *Intermediate*: Explain in your own words: Why does this function always return the same value no matter how many times you call it?
+   #+begin_src cpp
+     int getNumber(){
+       int num = 7;
+       num = num + 1;
+       return num;
+     }
+   #+end_src
+
+5. *Challenge*: Write a program that demonstrates the difference between:
+   - A variable declared in =main= and passed to a function
+   - A variable declared inside a function
+   - A global variable accessed by multiple functions
+
+   Your program should clearly show which variables are accessible where, and what happens when functions try to modify them.
+
+6. *Discussion*: Why is it generally better to pass data to functions via parameters rather than using global variables? Can you think of a situation where a global variable might be the right choice?
+
+*** Summary: Key Takeaways
+
+- *Local variables* exist only within the block ={ }= where they're declared
+- *Scope* is where you can access a variable; *lifetime* is when it exists in memory
+- Function parameters are local variables initialized with argument values
+- *Shadowing* happens when an inner scope declares a variable with the same name as an outer scope (avoid this!)
+- *Global variables* are accessible everywhere but should be used sparingly (constants are okay)
+- Variables are destroyed when their scope ends, freeing up memory
+
+Understanding scope and lifetime will save you from many confusing bugs and help you write cleaner, more maintainable code. Next, we'll see how to bend these rules slightly with pass-by-reference!
+
 *** TODO Passing by reference
 Now here's a weird little feature of C++. So let's look at how arguments to functions differ from normal variables with a simple example:
 
@@ -2867,17 +3264,51 @@ This is an example of what's called a "destructive" operation, because it doesn'
 
 There are a lot more operations on C-style character array strings that you'll see in CS 161B, so this is functioning just as a brief preview of how that kind of programming works. The good news is that you don't have to write them from scratch every time, instead you can use a library full of them. I do think, though, it's good to see how they work /at least/ once.
 
-* CS161B Preview Chapters
-These chapters provide a preview of topics that will be covered more thoroughly in CS161B. They're included here to give you a head start on important C++ concepts.
+* CS161B Preview: Looking Ahead to the Second Quarter
+
+You've made it through the core material for CS161A—congratulations! Before we wrap up, I want to give you a preview of some topics that you'll encounter in CS161B, the second quarter of this programming sequence.
+
+Why include preview material in the CS161A textbook? A few reasons:
+
+1. *To give you a head start*: If you have extra time or curiosity, you can start exploring these concepts early. Getting familiar with them now will make CS161B feel more manageable.
+
+2. *To show you where we're headed*: Programming is a journey, and it helps to see the road ahead. These topics build naturally on what you've learned so far.
+
+3. *To provide context*: Some of the things we've learned in CS161A (like arrays and pointers) will make more sense when you see the "better" alternatives that C++ provides (like vectors).
+
+4. *To support bridge students*: If you're taking CS161A to prepare for CS161B, this material gives you a taste of what's coming and helps you assess your readiness.
+
+** What to Expect from These Preview Chapters
+
+The following topics will all be covered in much greater depth during CS161B:
+- *Vectors*: Dynamic arrays that grow and shrink as needed
+- *Structs*: Organizing related data into custom types
+- *File I/O*: Reading from and writing to files
+- *Multi-file Programs*: Breaking your code into organized modules
+- *Algorithms*: Sorting and searching techniques
+
+**Important**: Don't feel pressured to master these topics right now. They're here as a preview, not as required CS161A material. In CS161B, you'll have much more time to practice and understand these concepts thoroughly. Think of these chapters as "coming attractions" rather than homework.
+
+That said, if you're feeling confident with the CS161A material and want to challenge yourself, by all means dive in! These are all practical, useful topics that will make you a better programmer.
+
+All right, let's take a peek at what's coming next quarter!
 
 ** TODO Vectors: Dynamic Arrays
+
+Remember how we had to declare arrays with a fixed size, and couldn't easily change that size later? Remember how we had to manually track the size of arrays and pass it as a separate parameter to functions? Remember how going out of bounds on an array just... caused mysterious crashes without any helpful error messages?
+
+Yeah, vectors solve all of those problems.
+
+Vectors are one of the most useful tools in C++, and you'll use them constantly in CS161B. They're like arrays, but better in almost every way. Think of them as "arrays that actually make sense."
+
 *** TODO Introduction to Vectors
 **** Why Use Vectors Over Arrays?
+
 Vectors are part of the C++ Standard Library and provide:
-- Dynamic sizing (can grow and shrink)
-- Bounds checking (with =.at()= method)
-- Built-in size tracking
-- Easier to use with functions
+- *Dynamic sizing*: They can grow and shrink as needed—no more guessing how big to make your array!
+- *Bounds checking*: With the =.at()= method, you get helpful error messages instead of mysterious crashes
+- *Built-in size tracking*: The vector knows how big it is, so you don't have to keep track separately
+- *Easier to use with functions*: You can pass vectors around without worrying about losing size information
 
 **** Including the Vector Library
 #+begin_src cpp
@@ -3123,9 +3554,24 @@ Create a game score tracker that:
 - Allows searching for a player's score
 
 ** TODO Structs: Organizing Related Data
+
+Imagine you're writing a program to manage student records. You need to store each student's name, ID number, GPA, and maybe their major. You could create separate arrays or vectors for each piece of information:
+
+#+begin_src cpp
+vector<string> studentNames;
+vector<int> studentIDs;
+vector<double> studentGPAs;
+vector<string> studentMajors;
+#+end_src
+
+But now you have a nightmare: you have to keep all four vectors synchronized. If you want to add a new student, you need to remember to add to all four vectors. If you want to delete a student, you need to delete from all four at the same index. If you accidentally get the indices mixed up, you'll have students with the wrong GPAs or majors. This is fragile and error-prone.
+
+Structs solve this problem by letting you bundle related data together into a single custom type. Instead of four separate vectors, you can have one vector of "Student" objects, where each student carries all their own information. It's cleaner, safer, and much more intuitive.
+
 *** TODO Introduction to Structs
 **** Why Group Related Data?
-When you have related pieces of information (like a student's name, ID, and GPA), keeping them in separate variables becomes unwieldy. Structs let you bundle related data together.
+
+When you have related pieces of information (like a student's name, ID, and GPA), keeping them in separate variables or arrays becomes unwieldy and error-prone. Structs let you bundle related data together into a single unit, making your code more organized and easier to maintain.
 
 **** Declaring a Struct
 #+begin_src cpp
@@ -3379,12 +3825,23 @@ Create a contact manager:
 - Show upcoming birthdays
 
 ** TODO File I/O: Reading and Writing Files
+
+So far, all of our programs have been ephemeral—when they end, any data they worked with disappears. If you run a program that asks for user input, processes it, and displays results, that's great... but as soon as the program ends, everything is gone. If you want to use that data again, you have to re-enter it all over again.
+
+This is where files come in.
+
+Files let your programs save data permanently to disk, read data that was saved earlier, and share information between different programs. Want to save high scores in a game? Files. Want to process a spreadsheet of student grades? Files. Want to create a log of what your program did? Files.
+
+File I/O (Input/Output) is one of the most practical programming skills you'll learn. Nearly every real-world program needs to read from or write to files at some point. The good news is that once you understand =cin= and =cout=, file I/O will feel very familiar—it uses almost the same syntax!
+
 *** TODO Introduction to File Input/Output
 **** Why Use Files?
-- Permanent storage (data persists after program ends)
-- Process large amounts of data
-- Share data between programs
-- Create logs and reports
+
+Files give your programs the ability to:
+- *Permanent storage*: Data persists after the program ends—no more re-entering the same information!
+- *Process large amounts of data*: Work with thousands of records that would be impractical to type in manually
+- *Share data between programs*: One program writes a file, another program reads it
+- *Create logs and reports*: Track what your program does over time or generate output for users
 
 **** Text Files vs Binary Files
 In this course, we focus on text files (human-readable). Binary files are more efficient but harder to work with.
@@ -3716,12 +4173,23 @@ Create a contact management system that:
 - Preserves data between program runs
 
 ** TODO Multi-File Programs
+
+Up until now, you've probably been writing all your code in a single file—maybe =main.cpp= or something similar. For small programs, that's perfectly fine. But as your programs grow larger and more complex, putting everything in one file becomes a problem.
+
+Imagine trying to find one specific function among 2,000 lines of code in a single file. Or imagine wanting to reuse your grade-calculation functions in three different programs—are you going to copy-paste the same code into three different files? What happens when you find a bug in that code? Do you have to fix it in three places?
+
+This is where multi-file programs come in. Breaking your code into multiple files makes it more organized, reusable, and maintainable. It's like organizing your closet: instead of throwing everything in one big pile, you sort things into drawers and sections so you can actually find what you need.
+
+In CS161B, you'll work on projects that are too large to fit comfortably in one file, so learning how to organize code across multiple files is essential. The key concepts are header files (=.h=) and implementation files (=.cpp=), and they work together to keep your code modular and clean.
+
 *** TODO Why Split Code into Multiple Files?
-- **Organization**: Group related functions together
-- **Reusability**: Use the same code in multiple programs
-- **Maintainability**: Easier to find and fix bugs
-- **Collaboration**: Multiple people can work on different files
-- **Compilation speed**: Only recompile changed files
+
+Breaking code into multiple files provides several important benefits:
+- *Organization*: Group related functions together (all math functions in one file, all file I/O functions in another)
+- *Reusability*: Write a function once, use it in multiple programs without copy-pasting
+- *Maintainability*: Find and fix bugs more easily when code is organized logically
+- *Collaboration*: Multiple people can work on different files without conflicts
+- *Compilation speed*: Only recompile the files that changed, not your entire program
 
 *** TODO Header Files (.h)
 **** Creating Header Files
@@ -3873,9 +4341,21 @@ Create a multi-file calculator:
 - =main.cpp= (program entry point)
 
 ** TODO Common Algorithms & Problem Solving
+
+So you know how to write programs that do specific things: calculate grades, play guessing games, manage a list of names. But what about solving more general problems that come up over and over again in programming?
+
+For example: "How do I find a specific item in a list?" or "How do I sort a list of items in order?" These are such common problems that computer scientists have developed standard solutions for them, called *algorithms*.
+
+An algorithm is just a step-by-step procedure for solving a problem. The algorithms we'll look at here—searching and sorting—are fundamental to computer science. You'll use them constantly in real programs, and understanding how they work will help you become a better problem solver.
+
+In CS161B, you'll study algorithms in much more depth, learning about their efficiency (how fast they run) and when to use one algorithm versus another. For now, we'll introduce a few classic algorithms to give you a taste of algorithmic thinking.
+
+Don't worry if these seem abstract at first—that's normal! The key is to understand the logic of each algorithm, trace through how it works step-by-step, and recognize when you might need to use one in your own programs.
+
 *** TODO Searching Algorithms
 **** Linear Search
-Search through an array one element at a time.
+
+This is the simplest search algorithm: just look through an array one element at a time until you find what you're looking for (or reach the end without finding it).
 
 #+begin_src cpp
 int linearSearch(int arr[], int size, int target){
