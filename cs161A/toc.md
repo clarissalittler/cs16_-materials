@@ -49,24 +49,30 @@
 * 3.1 Using math functions
 * 3.2 Integer division and modulo
 * 3.3 Type conversions
-* 3.4 Binary.
-* 3.5 Characters
-* 3.6 Strings
-  * 3.6.1 Program that asks the user for their first and last name separately, then print them together in last, first format.
-* 3.7 Input stream and cin functions
-* 3.8 Input Failure
-* 3.9 Integer overflow
-* 3.10 Numeric data types
-* 3.11 Output formatting
-* 3.12 Random numbers
-* 3.13 Debugging
-  * 3.13.1 Find the 3 errors in this program
-* 3.14 Auto (since C++11)
-* 3.15 Style guidelines
-* 3.16 Assignment Sample
-* 3.17 LAB: Mad Libs
-* 3.18 LAB: Pizza slices 
-* 3.19 LAB: Splitting the bill
+* 3.4 Type casting (explicit conversions)
+  * 3.4.1 When and why to use static_cast
+* 3.5 Binary.
+* 3.6 Characters
+* 3.7 Strings
+  * 3.7.1 Program that asks the user for their first and last name separately, then print them together in last, first format.
+* 3.8 Input stream and cin functions
+* 3.9 Input Failure
+* 3.10 Integer overflow
+* 3.11 Numeric data types
+* 3.12 Output formatting
+  * 3.12.1 setw, setprecision, and iomanip
+  * 3.12.2 Formatting tables of data
+* 3.13 Random numbers
+* 3.14 Debugging techniques
+  * 3.14.1 Find the 3 errors in this program
+  * 3.14.2 Using print statements for debugging
+  * 3.14.3 Reading compiler error messages
+* 3.15 Auto (since C++11)
+* 3.16 Style guidelines
+* 3.17 Assignment Sample
+* 3.18 LAB: Mad Libs
+* 3.19 LAB: Pizza slices
+* 3.20 LAB: Splitting the bill
 
 # 4. CS 161A: Conditionals Part I
 * 4.1 If-else branches (general).
@@ -90,18 +96,25 @@
 * 5.1 Switch statements
 * 5.2 Pseudocode and flowcharts - switch/case
 * 5.3 Boolean data type
-* 5.4 String comparisons
-  * 5.4.1 Username/password login 
-* 5.5 String access operations
-* 5.6 Character operations
-* 5.7 Finding, inserting, and replacing text in a string
-* 5.8 Example: TBD (using find())
-* 5.9 Conditional expressions
-* 5.10 Floating-point comparison
-* 5.11 Short circuit evaluation
-* 5.12 Assignment Sample
-* 5.13 LAB: User input --> boolean variable
-* 5.14 LAB: Find and replace tool
+* 5.4 Enums (enumerated types)
+  * 5.4.1 Creating and using enums
+  * 5.4.2 Example: Menu options with enums
+* 5.5 String comparisons
+  * 5.5.1 Username/password login
+* 5.6 String access operations
+* 5.7 Character operations
+* 5.8 Finding, inserting, and replacing text in a string
+* 5.9 Example: TBD (using find())
+* 5.10 String parsing and tokenization
+  * 5.10.1 Breaking strings into words
+  * 5.10.2 Parsing CSV-style data
+* 5.11 Conditional expressions (ternary operator)
+* 5.12 Floating-point comparison
+* 5.13 Short circuit evaluation
+* 5.14 Assignment Sample
+* 5.15 LAB: User input --> boolean variable
+* 5.16 LAB: Find and replace tool
+* 5.17 LAB: String tokenizer
 
 # 6. CS 161A: Loops Part I
 * 6.1 Loops (general).
@@ -122,13 +135,20 @@
 # 7. CS 161A: Loops Part II
 * 7.1 Loops and strings
 * 7.2 Nested loops
+  * 7.2.1 Example: Drawing patterns with nested loops
+  * 7.2.2 Example: Multiplication tables
 * 7.3 Developing programs incrementally.
 * 7.4 Break and continue
 * 7.5 Variable name scope
-* 7.6 Assignment Sample
-* 7.7 LAB: Reverse string
-* 7.8 LAB: Character counter
-* 7.9 LAB: Draw a tree
+* 7.6 Common loop patterns
+  * 7.6.1 Counting and accumulating
+  * 7.6.2 Finding maximum/minimum values
+  * 7.6.3 Input validation loops
+* 7.7 Assignment Sample
+* 7.8 LAB: Reverse string
+* 7.9 LAB: Character counter
+* 7.10 LAB: Draw a tree
+* 7.11 LAB: Pattern generator
 
 # 8. CS 161A: Functions pass by value
 * 8.1 User-defined function basics
@@ -159,6 +179,154 @@
 * 9.8 Parameter error checking
 * 9.9 Preprocessor and include
 * 9.10 Hand trace reference variables
-* 9.11 LAB: Swapping variables
-* 9.12 LAB: Add metadata to a chat
-* 9.13 LAB: Trim whitespace
+* 9.11 Const references
+  * 9.11.1 When to use const parameters
+  * 9.11.2 Const correctness basics
+* 9.12 Assignment Sample
+* 9.13 LAB: Swapping variables
+* 9.14 LAB: Add metadata to a chat
+* 9.15 LAB: Trim whitespace
+* 9.16 LAB: Multiple return values via references
+
+# 10. CS 161A: Arrays
+* 10.1 Introduction to arrays
+  * 10.1.1 Why arrays are needed
+  * 10.1.2 Declaring and initializing arrays
+* 10.2 Accessing array elements
+* 10.3 Iterating through arrays with loops
+* 10.4 Arrays and functions
+  * 10.4.1 Passing arrays to functions
+  * 10.4.2 Array size as a parameter
+* 10.5 Common array algorithms
+  * 10.5.1 Finding maximum/minimum
+  * 10.5.2 Summing and averaging
+  * 10.5.3 Searching arrays
+* 10.6 Two-dimensional arrays
+  * 10.6.1 Declaring 2D arrays
+  * 10.6.2 Nested loops with 2D arrays
+* 10.7 Array limitations and pitfalls
+  * 10.7.1 Array bounds and buffer overflow
+  * 10.7.2 Arrays cannot change size
+* 10.8 Assignment Sample
+* 10.9 LAB: Grade analyzer
+* 10.10 LAB: Array reversal
+* 10.11 LAB: Matrix operations
+
+# 11. CS 161A: Vectors
+* 11.1 Introduction to vectors
+  * 11.1.1 Why use vectors over arrays
+  * 11.1.2 Including the vector library
+* 11.2 Creating and initializing vectors
+* 11.3 Vector operations
+  * 11.3.1 push_back() and pop_back()
+  * 11.3.2 size() and empty()
+  * 11.3.3 clear() and resize()
+* 11.4 Accessing vector elements
+  * 11.4.1 Using [] vs at()
+  * 11.4.2 Bounds checking
+* 11.5 Iterating through vectors
+  * 11.5.1 Index-based loops
+  * 11.5.2 Range-based for loops with vectors
+* 11.6 Vectors and functions
+  * 11.6.1 Passing vectors by reference
+  * 11.6.2 Returning vectors from functions
+* 11.7 Common vector patterns
+  * 11.7.1 Building lists from user input
+  * 11.7.2 Filtering and transforming data
+* 11.8 Two-dimensional vectors
+* 11.9 Assignment Sample
+* 11.10 LAB: Dynamic grade book
+* 11.11 LAB: Shopping list manager
+* 11.12 LAB: High score tracker
+
+# 12. CS 161A: Structs
+* 12.1 Introduction to structs
+  * 12.1.1 Why group related data
+  * 12.1.2 Declaring a struct
+* 12.2 Creating and using struct variables
+* 12.3 Accessing struct members
+* 12.4 Structs and functions
+  * 12.4.1 Passing structs to functions
+  * 12.4.2 Returning structs from functions
+* 12.5 Vectors of structs
+  * 12.5.1 Creating databases with vectors of structs
+  * 12.5.2 Example: Student records system
+* 12.6 Nested structs
+* 12.7 Assignment Sample
+* 12.8 LAB: Student record system
+* 12.9 LAB: Product inventory
+* 12.10 LAB: Contact management system
+
+# 13. CS 161A: File I/O
+* 13.1 Introduction to file input/output
+  * 13.1.1 Why use files
+  * 13.1.2 Text files vs binary files
+* 13.2 Reading from files
+  * 13.2.1 Opening files with ifstream
+  * 13.2.2 Reading line by line
+  * 13.2.3 Reading word by word
+  * 13.2.4 Checking for file open errors
+* 13.3 Writing to files
+  * 13.3.1 Opening files with ofstream
+  * 13.3.2 Writing formatted output
+  * 13.3.3 Append mode vs overwrite mode
+* 13.4 File processing patterns
+  * 13.4.1 Processing until end of file
+  * 13.4.2 Counting lines/words/characters
+  * 13.4.3 Processing CSV files
+* 13.5 Error handling with files
+  * 13.5.1 Checking if file exists
+  * 13.5.2 Handling read/write errors
+* 13.6 Assignment Sample
+* 13.7 LAB: Grade file processor
+* 13.8 LAB: Log file analyzer
+* 13.9 LAB: Simple database (save/load data)
+
+# 14. CS 161A: Multi-file Programs
+* 14.1 Why split code into multiple files
+* 14.2 Header files (.h)
+  * 14.2.1 Creating header files
+  * 14.2.2 Include guards
+  * 14.2.3 Function declarations vs definitions
+* 14.3 Implementation files (.cpp)
+* 14.4 Compiling multi-file programs
+  * 14.4.1 Command-line compilation
+  * 14.4.2 Makefiles (basic introduction)
+* 14.5 Organizing code by purpose
+  * 14.5.1 Utility functions
+  * 14.5.2 Input/output functions
+  * 14.5.3 Business logic functions
+* 14.6 Common errors with multi-file programs
+  * 14.6.1 Multiple definition errors
+  * 14.6.2 Undefined reference errors
+* 14.7 Assignment Sample
+* 14.8 LAB: Refactor single-file program
+* 14.9 LAB: Build a calculator library
+
+# 15. CS 161A: Common Algorithms & Problem Solving
+* 15.1 Searching algorithms
+  * 15.1.1 Linear search
+  * 15.1.2 Binary search (on sorted data)
+* 15.2 Sorting algorithms
+  * 15.2.1 Selection sort
+  * 15.2.2 Bubble sort
+  * 15.2.3 Using built-in sort (preview)
+* 15.3 String algorithms
+  * 15.3.1 Reversing strings
+  * 15.3.2 Checking for palindromes
+  * 15.3.3 Finding patterns in text
+* 15.4 Numeric algorithms
+  * 15.4.1 Finding GCD/LCM
+  * 15.4.2 Prime number testing
+  * 15.4.3 Fibonacci sequences
+* 15.5 Problem-solving strategies
+  * 15.5.1 Breaking down complex problems
+  * 15.5.2 Test-driven development basics
+  * 15.5.3 Debugging systematic approaches
+* 15.6 Command-line arguments
+  * 15.6.1 argc and argv
+  * 15.6.2 Processing command-line parameters
+* 15.7 Assignment Sample
+* 15.8 LAB: Implement search and sort
+* 15.9 LAB: String analysis tool
+* 15.10 LAB: Command-line calculator
