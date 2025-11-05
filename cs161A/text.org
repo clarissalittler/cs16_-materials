@@ -2386,6 +2386,403 @@ We haven't really seen examples of it so far but you can have a bunch of functio
 1. *Basic*: Write a function that returns the larger of two numbers.
 2. *Intermediate*: Create functions for calculating area of different shapes (circle, rectangle, triangle). Each should take appropriate parameters.
 3. *Challenge*: Implement a function that checks if a number is prime. Then use it to find all twin primes (primes that differ by 2) up to 100.
+
+** Scope and Lifetime: Where Do Variables Live?
+
+Now that you're writing functions, you've probably noticed something: variables you declare inside a function don't seem to exist outside of it. And variables you declare in =main= aren't accessible inside your functions. What's going on?
+
+This is all about *scope* and *lifetime*—two related but distinct concepts that control where variables can be used and how long they exist.
+
+Think of scope as "where can I see this variable?" and lifetime as "when does this variable exist?" Understanding these concepts will help you avoid confusing bugs and write cleaner, more organized code.
+
+*** Local Variables: The Building Blocks
+
+Whenever you declare a variable inside a block of code (anything between ={ }=), that variable is *local* to that block. It only exists within those curly braces, and it disappears when the block ends.
+
+Let's start with a simple example:
+
+#+begin_src cpp
+  #include <iostream>
+  using namespace std;
+
+  int main(){
+    int x = 10;
+
+    if(x > 5){
+      int y = 20;
+      cout << "Inside if: x = " << x << ", y = " << y << endl;
+    }
+
+    cout << "Outside if: x = " << x << endl;
+    // cout << y << endl;  // ERROR! y doesn't exist here
+
+    return 0;
+  }
+#+end_src
+
+In this code, =x= is declared in =main=, so it's accessible anywhere inside =main=. But =y= is declared inside the =if= block, so it only exists there. Once we exit the =if= block, =y= is gone—it's been destroyed and its memory has been freed.
+
+If you tried to uncomment that last =cout= statement, you'd get a compiler error saying =y= was not declared in this scope.
+
+**** Variables in Loops
+
+This same principle applies to loops. Variables declared inside a loop only exist for that iteration of the loop:
+
+#+begin_src cpp
+  #include <iostream>
+  using namespace std;
+
+  int main(){
+    for(int i = 0; i < 3; i++){
+      int loopVar = i * 10;
+      cout << "Iteration " << i << ": loopVar = " << loopVar << endl;
+    }
+
+    // cout << loopVar << endl;  // ERROR! loopVar doesn't exist here
+    // cout << i << endl;         // ERROR! i doesn't exist here either
+
+    return 0;
+  }
+#+end_src
+
+Both =i= (the loop counter) and =loopVar= only exist inside the loop. Once the loop finishes, they're gone.
+
+Actually, there's something even more interesting happening here: =loopVar= is created and destroyed on *every iteration* of the loop. Each time through the loop, a fresh =loopVar= is created, used, and then destroyed. It's not the same variable being reused—it's a new one each time!
+
+*** Variables in Functions
+
+When you declare a variable inside a function, it's local to that function. Other functions can't see it, and it disappears when the function returns.
+
+#+begin_src cpp
+  #include <iostream>
+  using namespace std;
+
+  void calculateSomething(){
+    int result = 42;
+    cout << "Inside function: result = " << result << endl;
+  }
+
+  int main(){
+    calculateSomething();
+
+    // cout << result << endl;  // ERROR! result doesn't exist in main
+
+    return 0;
+  }
+#+end_src
+
+The variable =result= only exists inside =calculateSomething=. It's created when the function is called, and it's destroyed when the function returns. =main= has no idea that =result= even exists.
+
+**** Function Parameters Are Local Too
+
+Here's something that might surprise you: the parameters to a function are treated like local variables declared at the start of the function.
+
+#+begin_src cpp
+  #include <iostream>
+  using namespace std;
+
+  void greet(string name){
+    // 'name' is a local variable that was initialized with the argument
+    cout << "Hello, " << name << "!" << endl;
+    name = "stranger";  // We can modify it, but...
+    cout << "Modified: " << name << endl;
+  }
+
+  int main(){
+    string myName = "Alice";
+    greet(myName);
+
+    cout << "Back in main: " << myName << endl;  // Still "Alice"!
+
+    return 0;
+  }
+#+end_src
+
+When we call =greet(myName)=, what happens is that a *new* local variable called =name= is created inside =greet=, and it's initialized with a *copy* of the value from =myName=. So =name= and =myName= are completely separate variables! That's why modifying =name= inside the function doesn't affect =myName= in =main=.
+
+This is called *pass by value*—we're passing the value, not the variable itself. We'll see later how to change this behavior with pass-by-reference, but first you need to understand that by default, function parameters are just local variables with initial values.
+
+*** Variable Shadowing: When Names Collide
+
+What happens if you declare a variable with the same name in different scopes? This is called *shadowing*, and it can be confusing:
+
+#+begin_src cpp
+  #include <iostream>
+  using namespace std;
+
+  int main(){
+    int x = 10;
+    cout << "Outer x: " << x << endl;
+
+    {
+      int x = 20;  // This is a DIFFERENT variable named x
+      cout << "Inner x: " << x << endl;
+    }
+
+    cout << "Outer x again: " << x << endl;  // Back to 10
+
+    return 0;
+  }
+#+end_src
+
+Output:
+#+begin_example
+Outer x: 10
+Inner x: 20
+Outer x again: 10
+#+end_example
+
+The inner =x= "shadows" (hides) the outer =x= while the inner block is executing. Once we exit that block, the inner =x= is destroyed, and the outer =x= is visible again.
+
+This works, but it's generally considered bad practice because it's confusing. Try to give your variables distinct names to avoid shadowing.
+
+*** Global Variables: Use Sparingly!
+
+So far we've only looked at local variables. But you can also declare variables *outside* of any function, at the top level of your program. These are called *global variables*:
+
+#+begin_src cpp
+  #include <iostream>
+  using namespace std;
+
+  int globalCounter = 0;  // Global variable
+
+  void incrementCounter(){
+    globalCounter++;
+  }
+
+  void showCounter(){
+    cout << "Counter: " << globalCounter << endl;
+  }
+
+  int main(){
+    showCounter();        // Counter: 0
+    incrementCounter();
+    incrementCounter();
+    showCounter();        // Counter: 2
+
+    return 0;
+  }
+#+end_src
+
+Global variables are accessible from anywhere in your program—any function can read and modify them. That might sound convenient, but it's actually a problem!
+
+**** Why Global Variables Are Dangerous
+
+1. *Hard to track changes*: When any function can modify a global variable, it's hard to figure out where a bug is coming from. Which function changed the value? When?
+
+2. *Hidden dependencies*: Functions that use global variables have hidden dependencies that aren't visible in their parameter lists. This makes code harder to understand and reuse.
+
+3. *Naming conflicts*: As your program grows, you might accidentally use the same name for different things.
+
+4. *Testing nightmare*: Functions that depend on global variables are hard to test because you have to set up the global state correctly before each test.
+
+**** When Global Variables Are Okay
+
+That said, there are a few legitimate uses:
+- *Global constants*: If you use =const=, the variable can't be modified, so it's safe:
+  #+begin_src cpp
+    const double PI = 3.14159265359;  // This is fine
+    const int MAX_STUDENTS = 100;     // This is fine too
+  #+end_src
+
+- *Configuration that truly needs to be global*: Sometimes you have settings that really do need to be accessible everywhere (but even then, there are often better solutions you'll learn later).
+
+As a general rule: *prefer local variables and function parameters over global variables*. If you need to share data between functions, pass it as parameters or return it as a result.
+
+*** Lifetime vs. Scope: What's the Difference?
+
+We've been using these terms somewhat interchangeably, but they're actually different:
+
+- *Scope*: Where in your code you can use a variable name to access the variable
+- *Lifetime*: When the variable actually exists in memory
+
+For local variables, scope and lifetime are usually the same: the variable is created when you enter the block, and it's destroyed when you leave the block.
+
+#+begin_src cpp
+  {
+    int x = 10;  // x is created here
+    // x's scope and lifetime both start here
+
+    // ... do stuff with x ...
+
+  }  // x is destroyed here (lifetime ends, scope ends)
+#+end_src
+
+But for global variables, they're different:
+- *Lifetime*: The entire execution of the program (created at startup, destroyed at shutdown)
+- *Scope*: Anywhere in the file after the declaration (or in other files if you use certain keywords)
+
+**** A Quick Note on Static Variables (Preview)
+
+There's also a keyword =static= that lets you create variables with special properties, but we won't go into that in CS161A. Just know that it exists and lets you create variables with local scope but global lifetime. You'll learn more about this in CS161B when you need it.
+
+*** Practical Examples: Seeing Scope in Action
+
+Let's look at a more realistic example that combines everything we've learned:
+
+#+begin_src cpp
+  #include <iostream>
+  using namespace std;
+
+  // Global constant (good use of global)
+  const double TAX_RATE = 0.08;
+
+  double calculateTotal(double subtotal){
+    double tax = subtotal * TAX_RATE;  // local to this function
+    double total = subtotal + tax;     // local to this function
+    return total;
+  }
+
+  void printReceipt(double subtotal){
+    double total = calculateTotal(subtotal);  // different 'total' than above!
+
+    cout << "Subtotal: $" << subtotal << endl;
+    cout << "Tax:      $" << (total - subtotal) << endl;
+    cout << "Total:    $" << total << endl;
+  }
+
+  int main(){
+    double price = 19.99;  // local to main
+
+    printReceipt(price);
+
+    // tax, subtotal, and total from the functions don't exist here!
+
+    return 0;
+  }
+#+end_src
+
+Notice how:
+- =TAX_RATE= is a global constant (accessible everywhere)
+- Each function has its own local variables
+- =total= appears in both =calculateTotal= and =printReceipt=, but they're different variables
+- Variables from one function don't leak into other functions
+
+*** Common Mistakes and Debugging Tips
+
+**** Mistake 1: Assuming variables persist across function calls
+
+#+begin_src cpp
+  void badCounter(){
+    int count = 0;  // Created fresh each time!
+    count++;
+    cout << count << endl;  // Always prints 1
+  }
+#+end_src
+
+Each time you call =badCounter=, =count= is created fresh and initialized to 0. It doesn't remember its value from previous calls.
+
+**** Mistake 2: Trying to use a variable outside its scope
+
+#+begin_src cpp
+  if(temperature > 80){
+    string message = "It's hot!";
+  }
+
+  cout << message << endl;  // ERROR! message doesn't exist here
+#+end_src
+
+Solution: Declare =message= before the =if= statement:
+
+#+begin_src cpp
+  string message;
+
+  if(temperature > 80){
+    message = "It's hot!";
+  }
+  else{
+    message = "It's nice!";
+  }
+
+  cout << message << endl;  // Now it works!
+#+end_src
+
+**** Mistake 3: Accidental shadowing
+
+#+begin_src cpp
+  int score = 100;
+
+  for(int i = 0; i < 5; i++){
+    int score = i * 10;  // Oops! Shadows the outer score
+    cout << score << endl;  // Prints 0, 10, 20, 30, 40
+  }
+
+  cout << score << endl;  // Still 100 (never modified)
+#+end_src
+
+This compiles fine but probably isn't what you meant! Use different variable names to avoid confusion.
+
+*** Exercises
+
+1. *Basic*: What will this program print? Try to figure it out without running it, then check your answer:
+   #+begin_src cpp
+     #include <iostream>
+     using namespace std;
+
+     int main(){
+       int a = 5;
+
+       {
+         int b = 10;
+         cout << a + b << endl;
+       }
+
+       {
+         int b = 20;
+         cout << a + b << endl;
+       }
+
+       return 0;
+     }
+   #+end_src
+
+2. *Basic*: Fix this code so it compiles:
+   #+begin_src cpp
+     #include <iostream>
+     using namespace std;
+
+     int main(){
+       for(int i = 0; i < 5; i++){
+         int sum = i + i;
+       }
+
+       cout << "Sum: " << sum << endl;
+
+       return 0;
+     }
+   #+end_src
+
+3. *Intermediate*: Write a function =calculateAverage= that takes three test scores as parameters and returns the average. Make sure all variables are appropriately scoped and don't use any global variables (except maybe a constant).
+
+4. *Intermediate*: Explain in your own words: Why does this function always return the same value no matter how many times you call it?
+   #+begin_src cpp
+     int getNumber(){
+       int num = 7;
+       num = num + 1;
+       return num;
+     }
+   #+end_src
+
+5. *Challenge*: Write a program that demonstrates the difference between:
+   - A variable declared in =main= and passed to a function
+   - A variable declared inside a function
+   - A global variable accessed by multiple functions
+
+   Your program should clearly show which variables are accessible where, and what happens when functions try to modify them.
+
+6. *Discussion*: Why is it generally better to pass data to functions via parameters rather than using global variables? Can you think of a situation where a global variable might be the right choice?
+
+*** Summary: Key Takeaways
+
+- *Local variables* exist only within the block ={ }= where they're declared
+- *Scope* is where you can access a variable; *lifetime* is when it exists in memory
+- Function parameters are local variables initialized with argument values
+- *Shadowing* happens when an inner scope declares a variable with the same name as an outer scope (avoid this!)
+- *Global variables* are accessible everywhere but should be used sparingly (constants are okay)
+- Variables are destroyed when their scope ends, freeing up memory
+
+Understanding scope and lifetime will save you from many confusing bugs and help you write cleaner, more maintainable code. Next, we'll see how to bend these rules slightly with pass-by-reference!
+
 *** TODO Passing by reference
 Now here's a weird little feature of C++. So let's look at how arguments to functions differ from normal variables with a simple example:
 
