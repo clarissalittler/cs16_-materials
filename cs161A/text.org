@@ -2867,6 +2867,1554 @@ This is an example of what's called a "destructive" operation, because it doesn'
 
 There are a lot more operations on C-style character array strings that you'll see in CS 161B, so this is functioning just as a brief preview of how that kind of programming works. The good news is that you don't have to write them from scratch every time, instead you can use a library full of them. I do think, though, it's good to see how they work /at least/ once.
 
+* TODO Arrays: Storing Multiple Values
+** TODO Introduction to Arrays
+*** Why Arrays are Needed
+When you need to work with multiple related values (like storing grades for an entire class, or temperatures for each day of the week), creating individual variables becomes impractical. Arrays let us store multiple values of the same type under a single name.
+
+*** Declaring and Initializing Arrays
+#+begin_src cpp
+// Declaring an array of 5 integers
+int grades[5];
+
+// Declaring and initializing
+int numbers[5] = {10, 20, 30, 40, 50};
+
+// Let compiler determine size
+int values[] = {1, 2, 3, 4, 5, 6}; // size is 6
+#+end_src
+
+** TODO Accessing Array Elements
+Array indices start at 0 in C++. The first element is =arr[0]=, the second is =arr[1]=, and so on.
+
+#+begin_src cpp
+int temps[7] = {65, 68, 72, 75, 73, 70, 67};
+
+cout << "Monday's temperature: " << temps[0] << endl;
+cout << "Friday's temperature: " << temps[4] << endl;
+
+// Modifying an element
+temps[0] = 66; // Change Monday's temp
+#+end_src
+
+*** Exercises
+1. *Basic*: Create an array of 5 test scores, initialize them, and print each one.
+2. *Intermediate*: Ask the user to enter 5 numbers, store them in an array, then print them in reverse order.
+
+** TODO Iterating Through Arrays with Loops
+The combination of arrays and loops is fundamental to programming.
+
+#+begin_src cpp
+int numbers[5] = {10, 20, 30, 40, 50};
+
+// Print all elements
+for(int i = 0; i < 5; i++){
+  cout << numbers[i] << " ";
+}
+cout << endl;
+
+// Calculate sum
+int sum = 0;
+for(int i = 0; i < 5; i++){
+  sum += numbers[i];
+}
+cout << "Sum: " << sum << endl;
+#+end_src
+
+*** Exercises
+1. *Basic*: Write a program that finds the maximum value in an array.
+2. *Intermediate*: Count how many values in an array are above the average.
+3. *Challenge*: Find the second-largest value in an array.
+
+** TODO Arrays and Functions
+*** Passing Arrays to Functions
+Arrays are passed by reference to functions (unlike simple variables). This means changes to the array inside the function affect the original array.
+
+#+begin_src cpp
+void printArray(int arr[], int size){
+  for(int i = 0; i < size; i++){
+    cout << arr[i] << " ";
+  }
+  cout << endl;
+}
+
+int findMax(int arr[], int size){
+  int max = arr[0];
+  for(int i = 1; i < size; i++){
+    if(arr[i] > max){
+      max = arr[i];
+    }
+  }
+  return max;
+}
+
+int main(){
+  int numbers[] = {5, 12, 3, 19, 7};
+  int size = 5;
+
+  printArray(numbers, size);
+  cout << "Max: " << findMax(numbers, size) << endl;
+
+  return 0;
+}
+#+end_src
+
+*** Why Pass the Size?
+Arrays don't "know" their own size when passed to functions, so you must pass the size as a separate parameter.
+
+*** Exercises
+1. *Basic*: Write a function that calculates the average of an array.
+2. *Intermediate*: Write a function that reverses an array in-place.
+
+** TODO Common Array Algorithms
+*** Finding Maximum and Minimum
+#+begin_src cpp
+int findMax(int arr[], int size){
+  int max = arr[0];
+  for(int i = 1; i < size; i++){
+    if(arr[i] > max) max = arr[i];
+  }
+  return max;
+}
+#+end_src
+
+*** Searching Arrays (Linear Search)
+#+begin_src cpp
+int linearSearch(int arr[], int size, int target){
+  for(int i = 0; i < size; i++){
+    if(arr[i] == target){
+      return i; // Return index where found
+    }
+  }
+  return -1; // Return -1 if not found
+}
+#+end_src
+
+*** Exercises
+1. *Basic*: Implement a function to find the minimum value.
+2. *Intermediate*: Implement a function that counts how many times a value appears in an array.
+3. *Challenge*: Implement a function that removes duplicates from an array.
+
+** TODO Two-Dimensional Arrays
+For storing data in a grid or table format (like a tic-tac-toe board or grade spreadsheet).
+
+#+begin_src cpp
+// 3x4 array (3 rows, 4 columns)
+int matrix[3][4] = {
+  {1, 2, 3, 4},
+  {5, 6, 7, 8},
+  {9, 10, 11, 12}
+};
+
+// Accessing elements
+cout << matrix[0][0] << endl; // Prints 1
+cout << matrix[2][3] << endl; // Prints 12
+
+// Nested loops to process
+for(int row = 0; row < 3; row++){
+  for(int col = 0; col < 4; col++){
+    cout << matrix[row][col] << " ";
+  }
+  cout << endl;
+}
+#+end_src
+
+*** Exercises
+1. *Basic*: Create a 3x3 array and fill it with values 1-9.
+2. *Intermediate*: Write a function to sum all elements in a 2D array.
+3. *Challenge*: Implement a simple tic-tac-toe board checker.
+
+** TODO Array Limitations and Pitfalls
+*** Arrays Cannot Change Size
+Once declared, an array's size is fixed. You cannot add or remove elements.
+
+*** Array Bounds and Buffer Overflow
+C++ does NOT check array bounds. Accessing =arr[10]= when the array has only 5 elements will cause undefined behavior (crashes, corrupted data, security vulnerabilities).
+
+#+begin_src cpp
+int arr[5] = {1, 2, 3, 4, 5};
+arr[10] = 99; // DANGER! Out of bounds - undefined behavior
+#+end_src
+
+Always ensure your indices stay within valid range: =0= to =size-1=.
+
+*** Exercises
+1. *Discussion*: What happens if you access an array out of bounds? Try it and observe.
+2. *Basic*: Write code that safely checks bounds before accessing an array element.
+
+** TODO Lab Projects
+*** LAB: Grade Analyzer
+Create a program that:
+- Stores 10 student grades in an array
+- Calculates and displays the average
+- Finds and displays the highest and lowest grades
+- Counts how many students passed (grade >= 60)
+
+*** LAB: Array Reversal
+Write a function that reverses an array in place (without creating a new array).
+
+*** LAB: Matrix Operations
+Create a program with a 3x3 matrix that can:
+- Display the matrix
+- Calculate the sum of each row
+- Calculate the sum of each column
+- Find the largest element
+
+* TODO Vectors: Dynamic Arrays
+** TODO Introduction to Vectors
+*** Why Use Vectors Over Arrays?
+Vectors are part of the C++ Standard Library and provide:
+- Dynamic sizing (can grow and shrink)
+- Bounds checking (with =.at()= method)
+- Built-in size tracking
+- Easier to use with functions
+
+*** Including the Vector Library
+#+begin_src cpp
+#include <iostream>
+#include <vector>
+using namespace std;
+#+end_src
+
+** TODO Creating and Initializing Vectors
+#+begin_src cpp
+// Empty vector of integers
+vector<int> numbers;
+
+// Vector with initial size
+vector<int> grades(5); // 5 elements, all initialized to 0
+
+// Vector with initial values
+vector<int> temps = {65, 68, 72, 75, 73};
+
+// Vector of strings
+vector<string> names = {"Alice", "Bob", "Charlie"};
+#+end_src
+
+** TODO Vector Operations
+*** Adding and Removing Elements
+#+begin_src cpp
+vector<int> nums;
+
+// Add to end
+nums.push_back(10);
+nums.push_back(20);
+nums.push_back(30);
+// Now nums = {10, 20, 30}
+
+// Remove from end
+nums.pop_back();
+// Now nums = {10, 20}
+#+end_src
+
+*** Size and Empty
+#+begin_src cpp
+vector<int> values = {1, 2, 3, 4, 5};
+
+cout << "Size: " << values.size() << endl; // Prints 5
+
+if(values.empty()){
+  cout << "Vector is empty" << endl;
+}
+else{
+  cout << "Vector has " << values.size() << " elements" << endl;
+}
+#+end_src
+
+*** Clear and Resize
+#+begin_src cpp
+vector<int> nums = {1, 2, 3, 4, 5};
+
+// Remove all elements
+nums.clear();
+cout << nums.size() << endl; // Prints 0
+
+// Resize to specific size
+nums.resize(10); // Now has 10 elements (all 0)
+#+end_src
+
+*** Exercises
+1. *Basic*: Create a vector, add 5 numbers to it using push_back, then print all elements.
+2. *Intermediate*: Create a program that reads numbers from the user until they enter -1, stores them in a vector, then displays them.
+
+** TODO Accessing Vector Elements
+*** Using [] vs at()
+#+begin_src cpp
+vector<int> nums = {10, 20, 30, 40, 50};
+
+// Both access the same element
+cout << nums[0] << endl;   // No bounds checking
+cout << nums.at(0) << endl; // With bounds checking
+
+// Out of bounds
+nums[10] = 99;   // Undefined behavior (dangerous!)
+nums.at(10) = 99; // Throws exception (safer!)
+#+end_src
+
+*** Exercises
+1. *Basic*: Write a program that safely accesses vector elements using .at() with error handling.
+2. *Discussion*: When would you use [] vs .at()?
+
+** TODO Iterating Through Vectors
+*** Index-Based Loops
+#+begin_src cpp
+vector<int> numbers = {5, 10, 15, 20, 25};
+
+for(int i = 0; i < numbers.size(); i++){
+  cout << numbers[i] << " ";
+}
+cout << endl;
+#+end_src
+
+*** Range-Based For Loops
+#+begin_src cpp
+vector<string> names = {"Alice", "Bob", "Charlie"};
+
+// Read-only access
+for(string name : names){
+  cout << name << " ";
+}
+cout << endl;
+
+// Modify elements (use reference)
+vector<int> values = {1, 2, 3, 4, 5};
+for(int& val : values){
+  val = val * 2; // Double each value
+}
+#+end_src
+
+*** Exercises
+1. *Basic*: Use a range-based for loop to sum all elements in a vector.
+2. *Intermediate*: Use a range-based for loop to convert all strings in a vector to uppercase.
+
+** TODO Vectors and Functions
+*** Passing Vectors by Reference
+#+begin_src cpp
+// Pass by reference to avoid copying
+void printVector(const vector<int>& v){
+  for(int num : v){
+    cout << num << " ";
+  }
+  cout << endl;
+}
+
+// Modify the vector
+void doubleValues(vector<int>& v){
+  for(int& val : v){
+    val *= 2;
+  }
+}
+#+end_src
+
+*** Returning Vectors from Functions
+#+begin_src cpp
+vector<int> generateSequence(int n){
+  vector<int> result;
+  for(int i = 1; i <= n; i++){
+    result.push_back(i);
+  }
+  return result;
+}
+
+int main(){
+  vector<int> nums = generateSequence(10);
+  // nums = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+  return 0;
+}
+#+end_src
+
+*** Exercises
+1. *Basic*: Write a function that returns a vector of even numbers from 0 to n.
+2. *Intermediate*: Write a function that filters a vector, keeping only positive numbers.
+
+** TODO Common Vector Patterns
+*** Building Lists from User Input
+#+begin_src cpp
+vector<int> readNumbers(){
+  vector<int> numbers;
+  int num;
+
+  cout << "Enter numbers (enter -1 to stop):" << endl;
+  while(cin >> num && num != -1){
+    numbers.push_back(num);
+  }
+
+  return numbers;
+}
+#+end_src
+
+*** Filtering and Transforming Data
+#+begin_src cpp
+vector<int> filterPositive(const vector<int>& nums){
+  vector<int> result;
+  for(int num : nums){
+    if(num > 0){
+      result.push_back(num);
+    }
+  }
+  return result;
+}
+#+end_src
+
+*** Exercises
+1. *Basic*: Write a function that returns only the even numbers from a vector.
+2. *Intermediate*: Write a function that removes duplicates from a vector.
+3. *Challenge*: Write a function that merges two sorted vectors into one sorted vector.
+
+** TODO Two-Dimensional Vectors
+#+begin_src cpp
+// Vector of vectors (2D vector)
+vector<vector<int>> matrix;
+
+// Initialize 3x4 matrix
+matrix = {
+  {1, 2, 3, 4},
+  {5, 6, 7, 8},
+  {9, 10, 11, 12}
+};
+
+// Access elements
+cout << matrix[0][0] << endl; // Prints 1
+
+// Iterate
+for(int row = 0; row < matrix.size(); row++){
+  for(int col = 0; col < matrix[row].size(); col++){
+    cout << matrix[row][col] << " ";
+  }
+  cout << endl;
+}
+#+end_src
+
+*** Exercises
+1. *Intermediate*: Create a 2D vector to store a multiplication table.
+2. *Challenge*: Create a jagged 2D vector where each row has a different length.
+
+** TODO Lab Projects
+*** LAB: Dynamic Grade Book
+Create a program that:
+- Allows adding student grades dynamically
+- Calculates statistics (average, min, max)
+- Can remove the lowest grade
+- Displays all grades sorted
+
+*** LAB: Shopping List Manager
+Create a program with a menu that can:
+- Add items to shopping list
+- Remove items
+- Display all items
+- Clear the list
+- Show number of items
+
+*** LAB: High Score Tracker
+Create a game score tracker that:
+- Stores player names and scores in separate vectors
+- Adds new scores
+- Displays top 5 scores
+- Allows searching for a player's score
+
+* TODO Structs: Organizing Related Data
+** TODO Introduction to Structs
+*** Why Group Related Data?
+When you have related pieces of information (like a student's name, ID, and GPA), keeping them in separate variables becomes unwieldy. Structs let you bundle related data together.
+
+*** Declaring a Struct
+#+begin_src cpp
+struct Student {
+  string name;
+  int id;
+  double gpa;
+};
+#+end_src
+
+** TODO Creating and Using Struct Variables
+#+begin_src cpp
+struct Book {
+  string title;
+  string author;
+  int pages;
+  double price;
+};
+
+int main(){
+  // Create a book
+  Book myBook;
+  myBook.title = "1984";
+  myBook.author = "George Orwell";
+  myBook.pages = 328;
+  myBook.price = 12.99;
+
+  // Create and initialize
+  Book anotherBook = {"Dune", "Frank Herbert", 688, 18.99};
+
+  // Access members
+  cout << myBook.title << " by " << myBook.author << endl;
+  cout << "Pages: " << myBook.pages << endl;
+
+  return 0;
+}
+#+end_src
+
+*** Exercises
+1. *Basic*: Create a struct for a Person with name, age, and height. Create a Person variable and display it.
+2. *Intermediate*: Create a struct for a Rectangle with width and height. Add variables to store the calculated area and perimeter.
+
+** TODO Accessing Struct Members
+Use the dot operator (=.=) to access struct members.
+
+#+begin_src cpp
+struct Point {
+  double x;
+  double y;
+};
+
+int main(){
+  Point p1;
+  p1.x = 3.5;
+  p1.y = 7.2;
+
+  cout << "Point: (" << p1.x << ", " << p1.y << ")" << endl;
+
+  return 0;
+}
+#+end_src
+
+** TODO Structs and Functions
+*** Passing Structs to Functions
+#+begin_src cpp
+struct Rectangle {
+  double width;
+  double height;
+};
+
+double calculateArea(Rectangle rect){
+  return rect.width * rect.height;
+}
+
+void displayRectangle(const Rectangle& rect){
+  cout << "Width: " << rect.width << endl;
+  cout << "Height: " << rect.height << endl;
+  cout << "Area: " << calculateArea(rect) << endl;
+}
+
+int main(){
+  Rectangle r = {5.0, 3.0};
+  displayRectangle(r);
+  return 0;
+}
+#+end_src
+
+*** Returning Structs from Functions
+#+begin_src cpp
+struct Point {
+  double x;
+  double y;
+};
+
+Point createPoint(double x, double y){
+  Point p;
+  p.x = x;
+  p.y = y;
+  return p;
+}
+
+int main(){
+  Point p1 = createPoint(3.5, 7.2);
+  cout << "Point: (" << p1.x << ", " << p1.y << ")" << endl;
+  return 0;
+}
+#+end_src
+
+*** Exercises
+1. *Basic*: Write a function that takes two Point structs and calculates the distance between them.
+2. *Intermediate*: Write a function that takes a Rectangle and returns true if it's a square.
+
+** TODO Vectors of Structs
+This is where structs become really powerful - creating databases of records.
+
+#+begin_src cpp
+struct Student {
+  string name;
+  int id;
+  double gpa;
+};
+
+int main(){
+  vector<Student> students;
+
+  // Add students
+  Student s1 = {"Alice", 1001, 3.8};
+  Student s2 = {"Bob", 1002, 3.5};
+  Student s3 = {"Charlie", 1003, 3.9};
+
+  students.push_back(s1);
+  students.push_back(s2);
+  students.push_back(s3);
+
+  // Display all students
+  for(const Student& s : students){
+    cout << s.name << " (ID: " << s.id << "): "
+         << s.gpa << endl;
+  }
+
+  return 0;
+}
+#+end_src
+
+*** Example: Student Records System
+#+begin_src cpp
+struct Student {
+  string name;
+  int id;
+  double gpa;
+};
+
+void displayStudent(const Student& s){
+  cout << s.name << " (ID: " << s.id << "): GPA " << s.gpa << endl;
+}
+
+Student findTopStudent(const vector<Student>& students){
+  Student top = students[0];
+  for(const Student& s : students){
+    if(s.gpa > top.gpa){
+      top = s;
+    }
+  }
+  return top;
+}
+
+int main(){
+  vector<Student> students = {
+    {"Alice", 1001, 3.8},
+    {"Bob", 1002, 3.5},
+    {"Charlie", 1003, 3.9}
+  };
+
+  cout << "All students:" << endl;
+  for(const Student& s : students){
+    displayStudent(s);
+  }
+
+  cout << "\nTop student:" << endl;
+  displayStudent(findTopStudent(students));
+
+  return 0;
+}
+#+end_src
+
+*** Exercises
+1. *Basic*: Create a vector of Book structs and display them all.
+2. *Intermediate*: Write a function to find the most expensive book in a vector of Books.
+3. *Challenge*: Create a simple contact management system with add, search, and display functions.
+
+** TODO Nested Structs
+Structs can contain other structs as members.
+
+#+begin_src cpp
+struct Date {
+  int month;
+  int day;
+  int year;
+};
+
+struct Person {
+  string name;
+  Date birthday;
+  string email;
+};
+
+int main(){
+  Person p;
+  p.name = "Alice";
+  p.birthday.month = 5;
+  p.birthday.day = 15;
+  p.birthday.year = 1995;
+  p.email = "alice@example.com";
+
+  cout << p.name << " was born on "
+       << p.birthday.month << "/"
+       << p.birthday.day << "/"
+       << p.birthday.year << endl;
+
+  return 0;
+}
+#+end_src
+
+*** Exercises
+1. *Intermediate*: Create an Address struct and a Person struct that contains an Address.
+2. *Challenge*: Create a School struct that contains a vector of Student structs.
+
+** TODO Lab Projects
+*** LAB: Student Record System
+Create a complete student management system:
+- Add new students
+- Display all students
+- Find student by ID
+- Calculate class average GPA
+- Find honor roll students (GPA >= 3.5)
+
+*** LAB: Product Inventory
+Create an inventory system with Product structs:
+- Track name, SKU, quantity, price
+- Add new products
+- Update quantities
+- Display all products
+- Calculate total inventory value
+
+*** LAB: Contact Management System
+Create a contact manager:
+- Store name, phone, email, birthday
+- Add/remove contacts
+- Search contacts by name
+- Display all contacts sorted by name
+- Show upcoming birthdays
+
+* TODO File I/O: Reading and Writing Files
+** TODO Introduction to File Input/Output
+*** Why Use Files?
+- Permanent storage (data persists after program ends)
+- Process large amounts of data
+- Share data between programs
+- Create logs and reports
+
+*** Text Files vs Binary Files
+In this course, we focus on text files (human-readable). Binary files are more efficient but harder to work with.
+
+** TODO Reading from Files
+*** Opening Files with ifstream
+#+begin_src cpp
+#include <iostream>
+#include <fstream>
+#include <string>
+using namespace std;
+
+int main(){
+  ifstream inFile;
+  inFile.open("data.txt");
+
+  // Always check if file opened successfully
+  if(!inFile.is_open()){
+    cout << "Error opening file!" << endl;
+    return 1;
+  }
+
+  // Read and process file here...
+
+  inFile.close();
+  return 0;
+}
+#+end_src
+
+*** Reading Line by Line
+#+begin_src cpp
+#include <iostream>
+#include <fstream>
+#include <string>
+using namespace std;
+
+int main(){
+  ifstream inFile("data.txt");
+
+  if(!inFile.is_open()){
+    cout << "Error opening file!" << endl;
+    return 1;
+  }
+
+  string line;
+  while(getline(inFile, line)){
+    cout << line << endl;
+  }
+
+  inFile.close();
+  return 0;
+}
+#+end_src
+
+*** Reading Word by Word
+#+begin_src cpp
+ifstream inFile("words.txt");
+string word;
+
+while(inFile >> word){
+  cout << word << endl;
+}
+
+inFile.close();
+#+end_src
+
+*** Checking for File Open Errors
+#+begin_src cpp
+ifstream inFile("data.txt");
+
+if(inFile.fail()){
+  cout << "Could not open file!" << endl;
+  return 1;
+}
+
+// Alternative: check with is_open()
+if(!inFile.is_open()){
+  cout << "Could not open file!" << endl;
+  return 1;
+}
+#+end_src
+
+*** Exercises
+1. *Basic*: Write a program that reads and displays the contents of a text file.
+2. *Intermediate*: Write a program that counts the number of lines in a file.
+3. *Challenge*: Write a program that counts the number of words in a file.
+
+** TODO Writing to Files
+*** Opening Files with ofstream
+#+begin_src cpp
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+int main(){
+  ofstream outFile("output.txt");
+
+  if(!outFile.is_open()){
+    cout << "Error creating file!" << endl;
+    return 1;
+  }
+
+  outFile << "Hello, file!" << endl;
+  outFile << "This is line 2" << endl;
+
+  outFile.close();
+  return 0;
+}
+#+end_src
+
+*** Writing Formatted Output
+#+begin_src cpp
+ofstream outFile("grades.txt");
+
+outFile << "Name\tGrade" << endl;
+outFile << "Alice\t95" << endl;
+outFile << "Bob\t87" << endl;
+outFile << "Charlie\t92" << endl;
+
+outFile.close();
+#+end_src
+
+*** Append Mode vs Overwrite Mode
+#+begin_src cpp
+// Overwrite mode (default)
+ofstream outFile1("file.txt");
+outFile1 << "This replaces file contents" << endl;
+outFile1.close();
+
+// Append mode
+ofstream outFile2("file.txt", ios::app);
+outFile2 << "This is added to the end" << endl;
+outFile2.close();
+#+end_src
+
+*** Exercises
+1. *Basic*: Write a program that asks for user's name and age, then saves it to a file.
+2. *Intermediate*: Create a simple diary program that appends entries to a file with timestamps.
+
+** TODO File Processing Patterns
+*** Processing Until End of File
+#+begin_src cpp
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+int main(){
+  ifstream inFile("numbers.txt");
+  int num;
+  int sum = 0;
+  int count = 0;
+
+  while(inFile >> num){
+    sum += num;
+    count++;
+  }
+
+  if(count > 0){
+    cout << "Average: " << (double)sum / count << endl;
+  }
+
+  inFile.close();
+  return 0;
+}
+#+end_src
+
+*** Counting Lines, Words, Characters
+#+begin_src cpp
+ifstream inFile("document.txt");
+string line;
+int lineCount = 0;
+int wordCount = 0;
+int charCount = 0;
+
+while(getline(inFile, line)){
+  lineCount++;
+  charCount += line.length();
+
+  // Count words (simple approach)
+  string word;
+  for(char c : line){
+    if(c == ' '){
+      if(!word.empty()){
+        wordCount++;
+        word = "";
+      }
+    }
+    else{
+      word += c;
+    }
+  }
+  if(!word.empty()) wordCount++;
+}
+
+cout << "Lines: " << lineCount << endl;
+cout << "Words: " << wordCount << endl;
+cout << "Characters: " << charCount << endl;
+
+inFile.close();
+#+end_src
+
+*** Processing CSV Files
+#+begin_src cpp
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <vector>
+using namespace std;
+
+struct Student {
+  string name;
+  int id;
+  double gpa;
+};
+
+int main(){
+  ifstream inFile("students.csv");
+  string line;
+  vector<Student> students;
+
+  // Skip header line
+  getline(inFile, line);
+
+  while(getline(inFile, line)){
+    Student s;
+    stringstream ss(line);
+    string token;
+
+    getline(ss, s.name, ',');
+    getline(ss, token, ',');
+    s.id = stoi(token);
+    getline(ss, token, ',');
+    s.gpa = stod(token);
+
+    students.push_back(s);
+  }
+
+  // Process students...
+  for(const Student& s : students){
+    cout << s.name << ": " << s.gpa << endl;
+  }
+
+  inFile.close();
+  return 0;
+}
+#+end_src
+
+*** Exercises
+1. *Basic*: Read a file of numbers and find the maximum value.
+2. *Intermediate*: Read a CSV file of names and ages, then display those over 18.
+3. *Challenge*: Create a program that reads student records from a file and generates a report file with statistics.
+
+** TODO Error Handling with Files
+*** Checking if File Exists
+#+begin_src cpp
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+bool fileExists(const string& filename){
+  ifstream file(filename);
+  return file.good();
+}
+
+int main(){
+  string filename;
+  cout << "Enter filename: ";
+  cin >> filename;
+
+  if(fileExists(filename)){
+    cout << "File exists!" << endl;
+  }
+  else{
+    cout << "File not found!" << endl;
+  }
+
+  return 0;
+}
+#+end_src
+
+*** Handling Read/Write Errors
+#+begin_src cpp
+ifstream inFile("data.txt");
+
+if(!inFile){
+  cerr << "ERROR: Cannot open file for reading" << endl;
+  return 1;
+}
+
+// Check for errors during reading
+while(inFile >> data){
+  // Process data
+}
+
+if(inFile.bad()){
+  cerr << "ERROR: Problem reading file" << endl;
+}
+else if(inFile.fail() && !inFile.eof()){
+  cerr << "ERROR: Data format error" << endl;
+}
+
+inFile.close();
+#+end_src
+
+** TODO Lab Projects
+*** LAB: Grade File Processor
+Create a program that:
+- Reads student names and grades from a file
+- Calculates class average
+- Writes a report file with:
+  - All students and grades
+  - Class average
+  - Highest/lowest grades
+  - List of students who passed/failed
+
+*** LAB: Log File Analyzer
+Create a program that:
+- Reads a log file with timestamps and messages
+- Counts total entries
+- Counts entries by type (ERROR, WARNING, INFO)
+- Generates a summary report
+
+*** LAB: Simple Database (Save/Load Data)
+Create a contact management system that:
+- Stores contacts in memory (vector of structs)
+- Saves all contacts to a file
+- Loads contacts from file on startup
+- Allows add/edit/delete/search operations
+- Preserves data between program runs
+
+* TODO Multi-File Programs
+** TODO Why Split Code into Multiple Files?
+- **Organization**: Group related functions together
+- **Reusability**: Use the same code in multiple programs
+- **Maintainability**: Easier to find and fix bugs
+- **Collaboration**: Multiple people can work on different files
+- **Compilation speed**: Only recompile changed files
+
+** TODO Header Files (.h)
+*** Creating Header Files
+Header files contain declarations (what exists) but not usually implementations (how it works).
+
+=math_utils.h=:
+#+begin_src cpp
+#ifndef MATH_UTILS_H
+#define MATH_UTILS_H
+
+// Function declarations
+double calculateArea(double width, double height);
+double calculateCircleArea(double radius);
+int factorial(int n);
+
+#endif
+#+end_src
+
+*** Include Guards
+The =#ifndef=, =#define=, =#endif= pattern prevents the header from being included multiple times, which would cause errors.
+
+*** Function Declarations vs Definitions
+- **Declaration**: Tells the compiler a function exists (in .h file)
+- **Definition**: The actual implementation (in .cpp file)
+
+** TODO Implementation Files (.cpp)
+=math_utils.cpp=:
+#+begin_src cpp
+#include "math_utils.h"
+#include <cmath>
+
+double calculateArea(double width, double height){
+  return width * height;
+}
+
+double calculateCircleArea(double radius){
+  return 3.14159 * radius * radius;
+}
+
+int factorial(int n){
+  if(n <= 1) return 1;
+  return n * factorial(n - 1);
+}
+#+end_src
+
+=main.cpp=:
+#+begin_src cpp
+#include <iostream>
+#include "math_utils.h"
+using namespace std;
+
+int main(){
+  double area = calculateArea(5.0, 3.0);
+  cout << "Area: " << area << endl;
+
+  double circleArea = calculateCircleArea(2.5);
+  cout << "Circle area: " << circleArea << endl;
+
+  return 0;
+}
+#+end_src
+
+** TODO Compiling Multi-File Programs
+*** Command-Line Compilation
+#+begin_example
+# Compile all files together
+g++ main.cpp math_utils.cpp -o program
+
+# Or compile separately (faster for large projects)
+g++ -c math_utils.cpp   # Creates math_utils.o
+g++ -c main.cpp         # Creates main.o
+g++ math_utils.o main.o -o program  # Links them together
+#+end_example
+
+*** Makefiles (Basic Introduction)
+A Makefile automates the compilation process.
+
+=Makefile=:
+#+begin_example
+program: main.o math_utils.o
+	g++ main.o math_utils.o -o program
+
+main.o: main.cpp math_utils.h
+	g++ -c main.cpp
+
+math_utils.o: math_utils.cpp math_utils.h
+	g++ -c math_utils.cpp
+
+clean:
+	rm -f *.o program
+#+end_example
+
+Usage:
+#+begin_example
+make          # Builds the program
+make clean    # Removes compiled files
+#+end_example
+
+** TODO Organizing Code by Purpose
+*** Utility Functions
+=string_utils.h= / =string_utils.cpp=: Common string operations
+
+*** Input/Output Functions
+=io.h= / =io.cpp=: User input validation, file operations
+
+*** Business Logic Functions
+=calculator.h= / =calculator.cpp=: Core application logic
+
+Example project structure:
+#+begin_example
+project/
+  ├── main.cpp
+  ├── string_utils.h
+  ├── string_utils.cpp
+  ├── io.h
+  ├── io.cpp
+  ├── calculator.h
+  ├── calculator.cpp
+  └── Makefile
+#+end_example
+
+** TODO Common Errors with Multi-File Programs
+*** Multiple Definition Errors
+**Problem**: Including a .cpp file instead of .h, or defining functions in .h files
+
+**Solution**: Only put declarations in .h files, definitions in .cpp files
+
+*** Undefined Reference Errors
+**Problem**: Forgot to compile a .cpp file, or misspelled function name
+
+**Solution**: Make sure all .cpp files are compiled and linked
+
+*** Exercises
+1. *Discussion*: What's the difference between =#include <iostream>= and =#include "myfile.h"=?
+2. *Basic*: Create a header file with function declarations and an implementation file with definitions.
+
+** TODO Lab Projects
+*** LAB: Refactor Single-File Program
+Take a previous lab (like the student record system) and split it into:
+- =student.h= / =student.cpp= (struct and related functions)
+- =io.h= / =io.cpp= (input/output functions)
+- =main.cpp= (menu and main program logic)
+
+*** LAB: Build a Calculator Library
+Create a multi-file calculator:
+- =basic_ops.h/.cpp= (add, subtract, multiply, divide)
+- =advanced_ops.h/.cpp= (power, factorial, square root)
+- =calculator.h/.cpp= (menu-driven calculator)
+- =main.cpp= (program entry point)
+
+* TODO Common Algorithms & Problem Solving
+** TODO Searching Algorithms
+*** Linear Search
+Search through an array one element at a time.
+
+#+begin_src cpp
+int linearSearch(int arr[], int size, int target){
+  for(int i = 0; i < size; i++){
+    if(arr[i] == target){
+      return i; // Found at index i
+    }
+  }
+  return -1; // Not found
+}
+#+end_src
+
+Time complexity: O(n) - might need to check every element
+
+*** Binary Search (On Sorted Data)
+Much faster than linear search, but only works on sorted arrays.
+
+#+begin_src cpp
+int binarySearch(int arr[], int size, int target){
+  int left = 0;
+  int right = size - 1;
+
+  while(left <= right){
+    int mid = left + (right - left) / 2;
+
+    if(arr[mid] == target){
+      return mid; // Found!
+    }
+    else if(arr[mid] < target){
+      left = mid + 1; // Search right half
+    }
+    else{
+      right = mid - 1; // Search left half
+    }
+  }
+
+  return -1; // Not found
+}
+#+end_src
+
+Time complexity: O(log n) - much faster for large arrays
+
+*** Exercises
+1. *Basic*: Implement linear search for a vector of strings.
+2. *Intermediate*: Modify binary search to return the index where an element should be inserted if not found.
+3. *Challenge*: Implement a search function that works on a vector of structs, searching by a specific field.
+
+** TODO Sorting Algorithms
+*** Selection Sort
+Find the minimum element and move it to the front, repeat for the rest.
+
+#+begin_src cpp
+void selectionSort(int arr[], int size){
+  for(int i = 0; i < size - 1; i++){
+    int minIndex = i;
+
+    // Find minimum in remaining array
+    for(int j = i + 1; j < size; j++){
+      if(arr[j] < arr[minIndex]){
+        minIndex = j;
+      }
+    }
+
+    // Swap minimum to position i
+    int temp = arr[i];
+    arr[i] = arr[minIndex];
+    arr[minIndex] = temp;
+  }
+}
+#+end_src
+
+*** Bubble Sort
+Repeatedly swap adjacent elements if they're in the wrong order.
+
+#+begin_src cpp
+void bubbleSort(int arr[], int size){
+  for(int i = 0; i < size - 1; i++){
+    for(int j = 0; j < size - i - 1; j++){
+      if(arr[j] > arr[j + 1]){
+        // Swap
+        int temp = arr[j];
+        arr[j] = arr[j + 1];
+        arr[j + 1] = temp;
+      }
+    }
+  }
+}
+#+end_src
+
+*** Using Built-in Sort (Preview)
+C++ provides a highly optimized sort function.
+
+#+begin_src cpp
+#include <algorithm>
+#include <vector>
+using namespace std;
+
+int main(){
+  vector<int> nums = {5, 2, 8, 1, 9};
+
+  sort(nums.begin(), nums.end());
+  // nums is now {1, 2, 5, 8, 9}
+
+  return 0;
+}
+#+end_src
+
+*** Exercises
+1. *Basic*: Implement selection sort for a vector.
+2. *Intermediate*: Modify bubble sort to stop early if the array becomes sorted.
+3. *Challenge*: Sort a vector of structs by a specific field (e.g., sort students by GPA).
+
+** TODO String Algorithms
+*** Reversing Strings
+#+begin_src cpp
+string reverseString(string s){
+  string result = "";
+  for(int i = s.length() - 1; i >= 0; i--){
+    result += s[i];
+  }
+  return result;
+}
+
+// In-place reversal
+void reverseInPlace(string& s){
+  int left = 0;
+  int right = s.length() - 1;
+
+  while(left < right){
+    char temp = s[left];
+    s[left] = s[right];
+    s[right] = temp;
+    left++;
+    right--;
+  }
+}
+#+end_src
+
+*** Checking for Palindromes
+#+begin_src cpp
+bool isPalindrome(const string& s){
+  int left = 0;
+  int right = s.length() - 1;
+
+  while(left < right){
+    if(s[left] != s[right]){
+      return false;
+    }
+    left++;
+    right--;
+  }
+
+  return true;
+}
+#+end_src
+
+*** Finding Patterns in Text
+#+begin_src cpp
+int countOccurrences(const string& text, const string& pattern){
+  int count = 0;
+  size_t pos = 0;
+
+  while((pos = text.find(pattern, pos)) != string::npos){
+    count++;
+    pos += pattern.length();
+  }
+
+  return count;
+}
+#+end_src
+
+*** Exercises
+1. *Basic*: Write a function that removes all spaces from a string.
+2. *Intermediate*: Write a function that checks if two strings are anagrams.
+3. *Challenge*: Implement a simple spell checker that finds the closest matching word.
+
+** TODO Numeric Algorithms
+*** Finding GCD (Greatest Common Divisor)
+#+begin_src cpp
+int gcd(int a, int b){
+  while(b != 0){
+    int temp = b;
+    b = a % b;
+    a = temp;
+  }
+  return a;
+}
+#+end_src
+
+*** Finding LCM (Least Common Multiple)
+#+begin_src cpp
+int lcm(int a, int b){
+  return (a * b) / gcd(a, b);
+}
+#+end_src
+
+*** Prime Number Testing
+#+begin_src cpp
+bool isPrime(int n){
+  if(n <= 1) return false;
+  if(n <= 3) return true;
+  if(n % 2 == 0 || n % 3 == 0) return false;
+
+  for(int i = 5; i * i <= n; i += 6){
+    if(n % i == 0 || n % (i + 2) == 0){
+      return false;
+    }
+  }
+
+  return true;
+}
+#+end_src
+
+*** Fibonacci Sequences
+#+begin_src cpp
+// Iterative approach (efficient)
+int fibonacci(int n){
+  if(n <= 1) return n;
+
+  int a = 0, b = 1;
+  for(int i = 2; i <= n; i++){
+    int temp = a + b;
+    a = b;
+    b = temp;
+  }
+
+  return b;
+}
+#+end_src
+
+*** Exercises
+1. *Basic*: Write a function that generates the first n prime numbers.
+2. *Intermediate*: Write a function that finds the prime factorization of a number.
+3. *Challenge*: Implement the Sieve of Eratosthenes to find all primes up to n.
+
+** TODO Problem-Solving Strategies
+*** Breaking Down Complex Problems
+1. **Understand the problem**: Read carefully, identify inputs/outputs
+2. **Plan**: Break into smaller steps, consider edge cases
+3. **Implement**: Write code for each step
+4. **Test**: Try different inputs, including edge cases
+5. **Refine**: Optimize, improve readability
+
+*** Test-Driven Development Basics
+Write tests before writing the actual function.
+
+#+begin_src cpp
+// Test function
+void testFactorial(){
+  assert(factorial(0) == 1);
+  assert(factorial(1) == 1);
+  assert(factorial(5) == 120);
+  cout << "All tests passed!" << endl;
+}
+
+// Then implement factorial to pass the tests
+int factorial(int n){
+  if(n <= 1) return 1;
+  return n * factorial(n - 1);
+}
+#+end_src
+
+*** Debugging Systematic Approaches
+1. **Read error messages carefully**
+2. **Use print statements** to track variable values
+3. **Test small pieces** of code separately
+4. **Check assumptions** (array sizes, input format, etc.)
+5. **Use a debugger** (gdb, IDE debugger)
+6. **Rubber duck debugging**: Explain the code out loud
+
+** TODO Command-Line Arguments
+*** argc and argv
+Programs can accept arguments from the command line.
+
+#+begin_src cpp
+#include <iostream>
+using namespace std;
+
+int main(int argc, char* argv[]){
+  cout << "Number of arguments: " << argc << endl;
+
+  for(int i = 0; i < argc; i++){
+    cout << "Argument " << i << ": " << argv[i] << endl;
+  }
+
+  return 0;
+}
+#+end_src
+
+Running: =./program hello world= would output:
+#+begin_example
+Number of arguments: 3
+Argument 0: ./program
+Argument 1: hello
+Argument 2: world
+#+end_example
+
+*** Processing Command-Line Parameters
+#+begin_src cpp
+#include <iostream>
+#include <cstdlib>
+using namespace std;
+
+int main(int argc, char* argv[]){
+  if(argc != 3){
+    cout << "Usage: " << argv[0] << " <num1> <num2>" << endl;
+    return 1;
+  }
+
+  int num1 = atoi(argv[1]);
+  int num2 = atoi(argv[2]);
+
+  cout << num1 << " + " << num2 << " = " << (num1 + num2) << endl;
+
+  return 0;
+}
+#+end_src
+
+*** Exercises
+1. *Basic*: Write a program that takes a name as a command-line argument and prints a greeting.
+2. *Intermediate*: Create a program that takes a filename as an argument and displays its contents.
+3. *Challenge*: Create a command-line calculator that takes an operation (+, -, *, /) and two numbers.
+
+** TODO Lab Projects
+*** LAB: Implement Search and Sort
+Create a program that:
+- Reads numbers from a file into a vector
+- Implements both linear and binary search
+- Implements selection sort
+- Allows user to search for values
+- Displays sorted results
+
+*** LAB: String Analysis Tool
+Create a comprehensive string analyzer that:
+- Reads a text file
+- Counts words, lines, characters
+- Finds most common words
+- Checks for palindromes
+- Generates statistics report
+
+*** LAB: Command-Line Calculator
+Create a calculator that works from command line:
+#+begin_example
+./calc add 5 3      # Outputs: 8
+./calc multiply 4 7 # Outputs: 28
+./calc power 2 8    # Outputs: 256
+./calc factorial 5  # Outputs: 120
+#+end_example
+
 * TODO Extended example: Let's play shop
 In this example we'll be writing a small program that prints out a menu, let's you select items and quantities to purchase, and prints out your total at the end.
 
