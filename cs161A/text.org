@@ -2034,7 +2034,7 @@ Okay, also we should talk about how to turn data into strings because this is go
 1. *Basic*: Count the number of vowels (a, e, i, o, u) in a string entered by the user.
 2. *Intermediate*: Check if a string is a palindrome (reads the same forwards and backwards).
 3. *Challenge*: Create a word censoring program that replaces specified "bad words" with asterisks of the same length.
-*** TODO =find= and =substr=
+*** DONE =find= and =substr=
 Okay, so now let's talk about some convenience functions that help us take apart and manipulate strings. The first is the ability to /find/ an occurence of one string inside another:
 
 #+begin_src cpp :tangle codesnips/find1.cpp
@@ -2075,7 +2075,240 @@ It's the position in the string where the /substring/ rock starts! Here, let's t
     return 0;
   }
 #+end_src
-Hopefully you also saw =2=. Why =2=? Because it's not looking for /words/-per-se, it's looking for the literal characters "is", which first show up as the third and fourth letters in "this".
+
+So if you run this you should get =2=, because the first occurrence of "is" appears at position 2 (remember we count from 0!). Now you might be wondering: "wait, isn't 'is' /also/ at position 5?" And yes! Yes it is! But =find= only returns the /first/ occurrence. If you want to find all occurrences you'd need to use =find= in a loop, but we'll save that for later.
+
+Okay, so here's the really important question: what happens if you search for something that /isn't/ in the string?
+
+#+begin_src cpp :tangle codesnips/find3.cpp
+  #include <iostream>
+  #include <string>
+  using namespace std;
+
+  int main(){
+    string str1 = "this is a rock";
+
+    cout << str1.find("banana") << endl;
+    return 0;
+  }
+#+end_src
+
+When I run this on my machine, I get a really big number printed out: =18446744073709551615=. That's not a position in our string—that number is way bigger than the length of our string!
+
+This is actually a special value called =string::npos= (which stands for "no position"). It's basically C++'s way of saying "hey, I didn't find that." The actual value is the largest number that can be stored in the type C++ uses for string positions[fn:npos], but the important thing is that you can check if =find= failed by comparing the result to =string::npos=.
+
+Here's a more practical example:
+
+#+begin_src cpp :tangle codesnips/find4.cpp
+  #include <iostream>
+  #include <string>
+  using namespace std;
+
+  int main(){
+    string email;
+
+    cout << "Enter your email address: ";
+    cin >> email;
+
+    if(email.find("@") == string::npos){
+      cout << "That doesn't look like a valid email - there's no @ sign!" << endl;
+    }
+    else{
+      cout << "Found an @ sign at position " << email.find("@") << endl;
+    }
+
+    return 0;
+  }
+#+end_src
+
+Now that we understand =find=, let's talk about its best friend: =substr=. Short for "substring", this function lets you extract a portion of a string.
+
+The syntax is: =str.substr(start_position, length)=
+
+Here's a simple example:
+
+#+begin_src cpp :tangle codesnips/substr1.cpp
+  #include <iostream>
+  #include <string>
+  using namespace std;
+
+  int main(){
+    string str = "Hello, World!";
+
+    string piece = str.substr(0, 5);  // start at position 0, take 5 characters
+    cout << piece << endl;  // prints "Hello"
+
+    return 0;
+  }
+#+end_src
+
+If you run this, it prints =Hello= because we're starting at position 0 and grabbing 5 characters.
+
+Now here's where things get interesting: what if you /only/ give =substr= one argument? Like =str.substr(7)=? In that case, it grabs everything from that position to the end of the string!
+
+#+begin_src cpp :tangle codesnips/substr2.cpp
+  #include <iostream>
+  #include <string>
+  using namespace std;
+
+  int main(){
+    string str = "Hello, World!";
+
+    cout << str.substr(7) << endl;  // prints "World!"
+
+    return 0;
+  }
+#+end_src
+
+**** Combining =find= and =substr=: The Power Couple
+
+Here's where things get really useful. You can use =find= to locate something in a string, then use =substr= to extract the parts you care about.
+
+Let's say you're parsing email addresses and you want to extract the username (the part before the @) and the domain (the part after the @):
+
+#+begin_src cpp :tangle codesnips/findsubstr1.cpp
+  #include <iostream>
+  #include <string>
+  using namespace std;
+
+  int main(){
+    string email;
+
+    cout << "Enter your email: ";
+    cin >> email;
+
+    // Find the @ symbol
+    int atPosition = email.find("@");
+
+    if(atPosition == string::npos){
+      cout << "That's not a valid email!" << endl;
+    }
+    else{
+      // Extract username (everything before @)
+      string username = email.substr(0, atPosition);
+
+      // Extract domain (everything after @)
+      string domain = email.substr(atPosition + 1);
+
+      cout << "Username: " << username << endl;
+      cout << "Domain: " << domain << endl;
+    }
+
+    return 0;
+  }
+#+end_src
+
+Notice how we used =atPosition + 1= for the domain? That's because we don't want to include the @ symbol itself—we want to start /after/ it.
+
+Here's another practical example—extracting a file extension:
+
+#+begin_src cpp :tangle codesnips/findsubstr2.cpp
+  #include <iostream>
+  #include <string>
+  using namespace std;
+
+  int main(){
+    string filename;
+
+    cout << "Enter a filename: ";
+    cin >> filename;
+
+    // Find the last period
+    int dotPosition = filename.find(".");
+
+    if(dotPosition == string::npos){
+      cout << "No file extension found!" << endl;
+    }
+    else{
+      string extension = filename.substr(dotPosition + 1);
+      cout << "File extension: " << extension << endl;
+
+      // We can also get the filename without the extension
+      string nameOnly = filename.substr(0, dotPosition);
+      cout << "Filename without extension: " << nameOnly << endl;
+    }
+
+    return 0;
+  }
+#+end_src
+
+**** A Quick Note About =find= With Multiple Occurrences
+
+Earlier I mentioned that =find= only returns the /first/ occurrence. But what if you need to find all of them? You can use =find= with a second parameter to tell it where to start searching!
+
+The syntax is: =str.find(searchString, startPosition)=
+
+Here's how you'd find all occurrences of a substring:
+
+#+begin_src cpp :tangle codesnips/findAll.cpp
+  #include <iostream>
+  #include <string>
+  using namespace std;
+
+  int main(){
+    string text = "the cat in the hat sat on the mat";
+    string searchFor = "at";
+
+    int position = text.find(searchFor);
+
+    while(position != string::npos){
+      cout << "Found 'at' at position " << position << endl;
+
+      // Start searching from the position after this match
+      position = text.find(searchFor, position + 1);
+    }
+
+    return 0;
+  }
+#+end_src
+
+This will find all the "at" substrings: the one in "cat", the one in "hat", the one in "sat", and the one in "mat".
+
+**** Practical Example: A Simple Text Replacer
+
+Let's put it all together with a program that finds and replaces text in a string:
+
+#+begin_src cpp :tangle codesnips/simpleReplace.cpp
+  #include <iostream>
+  #include <string>
+  using namespace std;
+
+  int main(){
+    string text = "I love cats! Cats are the best. My cat is named Whiskers.";
+    string findWord = "cat";
+    string replaceWord = "dog";
+
+    cout << "Original: " << text << endl;
+
+    // Find the first occurrence
+    int pos = text.find(findWord);
+
+    if(pos != string::npos){
+      // Build a new string: everything before + replacement + everything after
+      string newText = text.substr(0, pos) + replaceWord + text.substr(pos + findWord.length());
+
+      cout << "Modified: " << newText << endl;
+    }
+    else{
+      cout << "Word not found!" << endl;
+    }
+
+    return 0;
+  }
+#+end_src
+
+This only replaces the first occurrence. To replace all of them, you'd use a loop similar to the "find all" example above. We'll leave that as an exercise![fn:replaceall]
+
+*** Exercises
+1. *Basic*: Write a program that asks for a sentence and a word, then prints the position of that word in the sentence (or a message if it's not found).
+
+2. *Intermediate*: Create a program that takes a full name (first and last, separated by a space) and prints the first name and last name separately. Use =find= to locate the space.
+
+3. *Intermediate*: Write a program that checks if a filename has a valid image extension (.jpg, .png, or .gif). Use =substr= to extract the extension and compare it.
+
+4. *Challenge*: Implement a function that takes a string and a substring, and returns how many times the substring appears in the string. For example, counting "the" in "the cat in the hat" should return 2.
+
+5. *Challenge*: Create a "redaction" program that finds a specified word in a sentence and replaces it with asterisks of the same length. For example, "the secret code" with "secret" redacted becomes "the ****** code".
 
 
 
@@ -5646,6 +5879,10 @@ Remember: The best solution is one that works correctly, is readable, and can be
 
 [fn:2] Is that too specific? Is the author of this portion telling on themselves?
 
-[fn:1] bet you never saw that coming! 
+[fn:1] bet you never saw that coming!
+
+[fn:npos] The type is actually =size_t=, which is an unsigned integer type that's used for sizes and indices. Being unsigned means it can't be negative, and =npos= is defined as the maximum value this type can hold. On most modern systems, that's =18446744073709551615=, which is 2^64 - 1. The important thing for you is just to know that if =find= doesn't find anything, it returns =string::npos=, and you can check for that.
+
+[fn:replaceall] If you want to tackle this as a challenge: you'll need a loop that keeps finding and replacing until there are no more occurrences. The tricky part is that after each replacement, the string changes length, so you need to be careful about where you start searching next. Also, be careful about infinite loops—if you replace "cat" with "caterpillar", you'll keep finding "cat" inside "caterpillar" forever! One solution is to start searching /after/ the replacement text. 
 
 
