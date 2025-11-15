@@ -1401,6 +1401,58 @@ Now we're finally ready to write our number guessing game
 #+end_src
 
 Try to read this code through and understand the logic of what it's doing! The only thing we haven't explained to this point is the =%= operator, which is the "modulus" operator. Basically, =a % b= returns the remainder---in the "you're learning division as a kid" sense of remainder---of dividing =a= by =b=. Now, in terms of why we *care* about this operator it gives us a quick way to take a big range of numbers and map it to something smaller. For example, if we do =a % 20= our outputs, no matter what =a= is, will be between 0 and 19. Similarly if we say =a % 100= this will give us an output that's between 0 and 99.
+*** Proximity Detection: "Getting Warm!"
+A nice feature in guessing games is to tell the player when they're getting close to the answer. We can do this by checking how far away the guess is from the target number.
+
+To check the distance between two numbers, we need the /absolute value/ of their difference. The absolute value function =abs()= is available in C++ by including =<cmath>=.
+
+Here's an enhanced guessing game with proximity hints:
+
+#+begin_src cpp :tangle codesnips/warmCold.cpp
+  #include <iostream>
+  #include <cstdlib>
+  #include <ctime>
+  #include <cmath>
+  using namespace std;
+
+  int main(){
+    srand(time(0));
+    int target = rand() % 50 + 1;  // Random number 1-50
+    int guess = 0;
+
+    cout << "I'm thinking of a number between 1 and 50" << endl;
+
+    while(guess != target){
+      cout << "Enter your guess: ";
+      cin >> guess;
+
+      int distance = abs(target - guess);
+
+      if(guess == target){
+        cout << "Perfect! You got it!" << endl;
+      }
+      else if(distance <= 2){
+        cout << "You're VERY close!" << endl;
+      }
+      else if(distance <= 5){
+        cout << "You're getting warm!" << endl;
+      }
+      else if(guess < target){
+        cout << "Too low!" << endl;
+      }
+      else{
+        cout << "Too high!" << endl;
+      }
+    }
+
+    return 0;
+  }
+#+end_src
+
+The key here is =abs(target - guess)= which gives us the distance between the two numbers. If the guess is 42 and the target is 45, the distance is 3. If the guess is 48 and the target is 45, the distance is also 3.
+
+We check the distance first (closest matches first) before checking if the guess is too high or too low.
+
 *** DONE Adding a limited number of guesses
 The last thing we need to do with our "number guessing game" is adding a limited number of guesses. To do that we're going to have to
  + add another number container
@@ -1616,15 +1668,148 @@ Exercise: Change this so that it sums the /squares/ of 0 - 9.
 #+end_quote
 *** Exercises
 1. *Basic*: Print the first 20 Fibonacci numbers using a for-loop.
-2. *Intermediate*: Draw a triangle pattern with asterisks. Ask the user for height. Example for height=5:
-   #+begin_example
-   *
-   **
+2. *Challenge*: Print all prime numbers between 1 and 100. Hint: For each number, check if it's divisible by any number from 2 to its square root.
+
+*** Nested Loops and Patterns
+One of the most common uses of for-loops is to create patterns, and for more complex patterns you often need loops /inside/ of loops. These are called /nested loops/.
+
+The key insight with nested loops is that the inner loop runs /completely/ for each iteration of the outer loop. Let's start with a simple example:
+
+#+begin_src cpp :tangle codesnips/nested1.cpp
+  #include <iostream>
+  using namespace std;
+
+  int main(){
+    for(int row = 0; row < 3; row++){
+      for(int col = 0; col < 5; col++){
+        cout << "*";
+      }
+      cout << endl;  // new line after each row
+    }
+
+    return 0;
+  }
+#+end_src
+
+This prints:
+#+begin_example
+*****
+*****
+*****
+#+end_example
+
+Notice how the inner loop (the =col= loop) runs 5 times for /each/ iteration of the outer loop (the =row= loop). So we get 3 rows, each with 5 stars.
+
+*** Building a Right Triangle
+Now let's make something more interesting: a right triangle where each row has one more star than the previous row:
+
+#+begin_src cpp :tangle codesnips/triangle1.cpp
+  #include <iostream>
+  using namespace std;
+
+  int main(){
+    int height = 5;
+
+    for(int row = 1; row <= height; row++){
+      for(int col = 1; col <= row; col++){
+        cout << "*";
+      }
+      cout << endl;
+    }
+
+    return 0;
+  }
+#+end_src
+
+This prints:
+#+begin_example
+*
+**
+***
+****
+*****
+#+end_example
+
+The trick here is that the inner loop runs from 1 to =row=, so on row 1 it prints 1 star, on row 2 it prints 2 stars, and so on.
+
+*** Building a Centered Pyramid
+Now for the real challenge: a centered pyramid. This requires /two/ inner loops: one for spaces and one for stars.
+
+The pattern for a pyramid of height 5 looks like:
+#+begin_example
+    *
    ***
-   ****
-   *****
-   #+end_example
-3. *Challenge*: Print all prime numbers between 1 and 100. Hint: For each number, check if it's divisible by any number from 2 to its square root.
+  *****
+ *******
+*********
+#+end_example
+
+Notice that:
+- Row 1 has 4 spaces and 1 star
+- Row 2 has 3 spaces and 3 stars
+- Row 3 has 2 spaces and 5 stars
+- Row 4 has 1 space and 7 stars
+- Row 5 has 0 spaces and 9 stars
+
+The pattern is:
+- Number of spaces = height - row
+- Number of stars = 2 * row - 1
+
+Here's the code:
+
+#+begin_src cpp :tangle codesnips/pyramid.cpp
+  #include <iostream>
+  using namespace std;
+
+  int main(){
+    int height = 5;
+
+    for(int row = 1; row <= height; row++){
+      // Print spaces
+      for(int space = 1; space <= height - row; space++){
+        cout << " ";
+      }
+
+      // Print stars
+      for(int star = 1; star <= 2 * row - 1; star++){
+        cout << "*";
+      }
+
+      cout << endl;
+    }
+
+    return 0;
+  }
+#+end_src
+
+This is a classic nested loop pattern that you'll see in many programming courses!
+
+*** Multiplication Tables
+Another common use of nested loops is creating multiplication tables:
+
+#+begin_src cpp :tangle codesnips/multTable.cpp
+  #include <iostream>
+  #include <iomanip>
+  using namespace std;
+
+  int main(){
+    // Print multiplication table for 1-10
+    for(int i = 1; i <= 10; i++){
+      for(int j = 1; j <= 10; j++){
+        cout << setw(4) << i * j;
+      }
+      cout << endl;
+    }
+
+    return 0;
+  }
+#+end_src
+
+*** Exercises on Nested Loops
+1. *Basic*: Write a program that creates a right triangle but with the numbers 1-5 instead of stars. Each row shows numbers from 1 up to the row number.
+2. *Intermediate*: Create an inverted pyramid (wide at top, narrow at bottom).
+3. *Challenge*: Create a diamond pattern by combining an upright pyramid and an inverted pyramid.
+
 ** TODO (Advanced) Arrays: the reasons for =for=
 Here's a more advanced topic that you'll be needing not just for this class but for the rest of your classes where you're doing C++: arrays.
 
@@ -1819,16 +2004,313 @@ This is why we have /constants/ in C++, which are like variables but once they h
 #+end_src
 
 Go ahead and try to mess it up by changing =numPets= later in the program and see what happens when you try to compile and run it?
+
+*** Frequency Counting with Arrays
+One powerful pattern with arrays is using the /array indices/ to count things. This is especially useful for counting how many times each value appears in a dataset.
+
+Here's an example: counting dice roll results.
+
+#+begin_src cpp :tangle codesnips/diceFreq.cpp
+  #include <iostream>
+  #include <cstdlib>
+  #include <ctime>
+  using namespace std;
+
+  int main(){
+    srand(time(0));
+
+    const int NUM_ROLLS = 100;
+    const int NUM_SIDES = 6;
+
+    // Array to count each outcome (1-6)
+    // We use index 0 for nothing, indices 1-6 for the die faces
+    int counts[NUM_SIDES + 1] = {0};  // Initialize all to 0
+
+    // Roll the die NUM_ROLLS times
+    for(int i = 0; i < NUM_ROLLS; i++){
+      int roll = rand() % NUM_SIDES + 1;  // Random 1-6
+      counts[roll]++;  // Increment the counter for this roll
+    }
+
+    // Display the results
+    cout << "Results from " << NUM_ROLLS << " rolls:" << endl;
+    for(int face = 1; face <= NUM_SIDES; face++){
+      cout << "Rolled " << face << ": " << counts[face] << " times" << endl;
+    }
+
+    return 0;
+  }
+#+end_src
+
+The key insight: we use the value we're counting as the /index/ into our counts array!
+
+Here's a more complex example: counting the sum of two dice:
+
+#+begin_src cpp :tangle codesnips/twoDiceFreq.cpp
+  #include <iostream>
+  #include <cstdlib>
+  #include <ctime>
+  using namespace std;
+
+  int main(){
+    srand(time(0));
+
+    const int NUM_ROLLS = 1000;
+
+    // Sums can range from 2 to 12
+    int counts[13] = {0};  // Use indices 2-12
+
+    // Roll two dice NUM_ROLLS times
+    for(int i = 0; i < NUM_ROLLS; i++){
+      int die1 = rand() % 6 + 1;
+      int die2 = rand() % 6 + 1;
+      int sum = die1 + die2;
+      counts[sum]++;
+    }
+
+    // Find the most and least frequent sums
+    int maxCount = 0;
+    int minCount = NUM_ROLLS;
+    int maxSum = 0;
+    int minSum = 0;
+
+    for(int sum = 2; sum <= 12; sum++){
+      if(counts[sum] > maxCount){
+        maxCount = counts[sum];
+        maxSum = sum;
+      }
+      if(counts[sum] < minCount){
+        minCount = counts[sum];
+        minSum = sum;
+      }
+    }
+
+    // Display results
+    cout << "Sum   Count" << endl;
+    cout << "---   -----" << endl;
+    for(int sum = 2; sum <= 12; sum++){
+      cout << sum << "     " << counts[sum] << endl;
+    }
+
+    cout << "\nMost frequent: " << maxSum << " (" << maxCount << " times)" << endl;
+    cout << "Least frequent: " << minSum << " (" << minCount << " times)" << endl;
+
+    double sevenPercent = (counts[7] * 100.0) / NUM_ROLLS;
+    cout << "Percentage of 7s: " << sevenPercent << "%" << endl;
+
+    return 0;
+  }
+#+end_src
+
+This pattern is extremely useful for statistics, histograms, and data analysis!
+
+*** Array Rotation
+Array rotation means shifting all elements to the right (or left) by some number of positions, with elements that "fall off" the end wrapping around to the beginning.
+
+For example, rotating [1, 2, 3, 4, 5] right by 2 gives [4, 5, 1, 2, 3].
+
+Here's how to implement rotation:
+
+#+begin_src cpp :tangle codesnips/arrayRotate.cpp
+  #include <iostream>
+  using namespace std;
+
+  void printArray(int arr[], int size){
+    for(int i = 0; i < size; i++){
+      cout << arr[i] << " ";
+    }
+    cout << endl;
+  }
+
+  void rotateRight(int arr[], int size, int positions){
+    // Normalize positions (rotating by size is same as no rotation)
+    positions = positions % size;
+
+    // Create a temporary array
+    int temp[size];
+
+    // Copy elements to new positions
+    for(int i = 0; i < size; i++){
+      int newIndex = (i + positions) % size;
+      temp[newIndex] = arr[i];
+    }
+
+    // Copy back to original array
+    for(int i = 0; i < size; i++){
+      arr[i] = temp[i];
+    }
+  }
+
+  int main(){
+    const int SIZE = 8;
+    int numbers[SIZE] = {1, 2, 3, 4, 5, 6, 7, 8};
+
+    cout << "Original array: ";
+    printArray(numbers, SIZE);
+
+    int rotateBy;
+    cout << "Rotate right by how many positions? ";
+    cin >> rotateBy;
+
+    rotateRight(numbers, SIZE, rotateBy);
+
+    cout << "After rotation: ";
+    printArray(numbers, SIZE);
+
+    return 0;
+  }
+#+end_src
+
+The key to rotation is the formula: =newIndex = (i + positions) % size=. The modulo operator makes the wraparound work!
+
 **** TODO Faking a variable-length array
 
-** TODO Menus with while-loops
- Here's another idiom that we're going to use constantly: text-driven menus.
+** Menu-Driven Programs
+One of the most common patterns in interactive programs is the menu: you display a list of options, ask the user to choose one, and then perform the corresponding action. This is such a common pattern that you'll use it in almost every program you write.
 
- The basic principle is pretty simple:
+*** Basic Menu Pattern
+The basic principle is pretty simple:
  + create a variable to hold a number (an =int=, most likely) or a variable to hold text (a =char= or =string=)
  + print out a prompt that explains the menu
  + read in the option chosen into the variable you made
- + use if-statements to decide what to do next
+ + use if-statements or switch to decide what to do next
+
+Here's a simple example:
+
+#+begin_src cpp :tangle codesnips/menu1.cpp
+  #include <iostream>
+  using namespace std;
+
+  int main(){
+    int choice;
+
+    cout << "Welcome to the Calculator!" << endl;
+    cout << "1. Add two numbers" << endl;
+    cout << "2. Subtract two numbers" << endl;
+    cout << "3. Multiply two numbers" << endl;
+    cout << "4. Exit" << endl;
+    cout << "Enter your choice (1-4): ";
+    cin >> choice;
+
+    if(choice == 1){
+      cout << "You chose addition!" << endl;
+    }
+    else if(choice == 2){
+      cout << "You chose subtraction!" << endl;
+    }
+    else if(choice == 3){
+      cout << "You chose multiplication!" << endl;
+    }
+    else if(choice == 4){
+      cout << "Goodbye!" << endl;
+    }
+    else{
+      cout << "Invalid choice!" << endl;
+    }
+
+    return 0;
+  }
+#+end_src
+
+*** Menu with Switch Statements
+You can also use a =switch= statement for menus, which is often cleaner:
+
+#+begin_src cpp :tangle codesnips/menu2.cpp
+  #include <iostream>
+  using namespace std;
+
+  int main(){
+    int choice;
+    double num1, num2;
+
+    cout << "Calculator Menu" << endl;
+    cout << "1. Add" << endl;
+    cout << "2. Subtract" << endl;
+    cout << "3. Multiply" << endl;
+    cout << "4. Divide" << endl;
+    cout << "Enter choice: ";
+    cin >> choice;
+
+    if(choice >= 1 && choice <= 4){
+      cout << "Enter first number: ";
+      cin >> num1;
+      cout << "Enter second number: ";
+      cin >> num2;
+    }
+
+    switch(choice){
+      case 1:
+        cout << "Result: " << num1 + num2 << endl;
+        break;
+      case 2:
+        cout << "Result: " << num1 - num2 << endl;
+        break;
+      case 3:
+        cout << "Result: " << num1 * num2 << endl;
+        break;
+      case 4:
+        if(num2 != 0){
+          cout << "Result: " << num1 / num2 << endl;
+        }
+        else{
+          cout << "Error: Division by zero!" << endl;
+        }
+        break;
+      default:
+        cout << "Invalid choice!" << endl;
+    }
+
+    return 0;
+  }
+#+end_src
+
+*** Looping Menus
+Often you want the menu to keep running until the user chooses to exit. You can do this with a while-loop:
+
+#+begin_src cpp :tangle codesnips/menu3.cpp
+  #include <iostream>
+  using namespace std;
+
+  int main(){
+    int choice = 0;
+
+    while(choice != 4){
+      cout << "\n=== Main Menu ===" << endl;
+      cout << "1. Play game" << endl;
+      cout << "2. View high scores" << endl;
+      cout << "3. Settings" << endl;
+      cout << "4. Exit" << endl;
+      cout << "Choice: ";
+      cin >> choice;
+
+      switch(choice){
+        case 1:
+          cout << "Starting game..." << endl;
+          break;
+        case 2:
+          cout << "High Scores: 1000, 950, 800" << endl;
+          break;
+        case 3:
+          cout << "Settings menu would go here" << endl;
+          break;
+        case 4:
+          cout << "Thanks for playing!" << endl;
+          break;
+        default:
+          cout << "Invalid choice! Try again." << endl;
+      }
+    }
+
+    return 0;
+  }
+#+end_src
+
+This pattern of "keep looping while choice is not the exit option" is very common in menu-driven programs.
+
+*** Exercises
+1. *Basic*: Create a menu for a restaurant that displays 5 food items and their prices, then displays the price of whichever item the user selects.
+2. *Intermediate*: Create a temperature converter menu with options to convert between Fahrenheit, Celsius, and Kelvin. Include an option to exit.
+3. *Challenge*: Create a text-adventure game with multiple locations. Each location has a menu of places you can go next.
  
 ** TODO Data validation, the world's most annoying idiom [1/2]
 So we've been playing fast and loose for awhile about how to read in data from the user. But, in reality, you should be checking what the user has entered and asking them to re-enter their response if it's not something you expect. This is actually a really annoying topic because there's no easy way to do this in base C++, which is why I'm going to introduce this topic early. 
@@ -1987,7 +2469,106 @@ So /why/ doesn't this work? You'll see that it leads to an infinite loop of prin
 3. *Challenge*: Create a date validator that checks valid month (1-12) and appropriate days for each month (including leap years for February).
 
 * TODO More advanced programs [1/3]
-** TODO Functions on strings
+** Functions on strings
+
+*** Reading Full Lines with =getline()=
+Before we dive into string functions, we need to talk about a common problem: how do you read a full sentence from the user?
+
+So far we've been using =cin >>= to read user input, but there's a problem: =cin >>= stops reading at the first whitespace (space, tab, or newline). This means if you ask the user for their full name and they type "John Smith", you'll only get "John"!
+
+Try this program:
+#+begin_src cpp
+  #include <iostream>
+  using namespace std;
+
+  int main(){
+    string name;
+
+    cout << "Enter your full name: ";
+    cin >> name;  // This only gets the first word!
+
+    cout << "Hello, " << name << endl;
+    return 0;
+  }
+#+end_src
+
+If you type "John Smith", it will only print "Hello, John".
+
+To read an /entire line/ including spaces, we use =getline()=:
+
+#+begin_src cpp :tangle codesnips/getline1.cpp
+  #include <iostream>
+  #include <string>
+  using namespace std;
+
+  int main(){
+    string fullName;
+
+    cout << "Enter your full name: ";
+    getline(cin, fullName);  // Reads the entire line!
+
+    cout << "Hello, " << fullName << endl;
+    return 0;
+  }
+#+end_src
+
+The syntax for =getline()= is a bit different: =getline(cin, variableName)=. It reads from =cin= until it hits a newline character (when the user presses Enter), and stores everything in the variable.
+
+*** Common Pitfall: Mixing =cin >>= and =getline()=
+If you use =cin >>= before =getline()=, you can run into a problem. Watch out for this:
+
+#+begin_src cpp
+  #include <iostream>
+  #include <string>
+  using namespace std;
+
+  int main(){
+    int age;
+    string favoriteFood;
+
+    cout << "Enter your age: ";
+    cin >> age;  // This leaves a newline in the input buffer!
+
+    cout << "Enter your favorite food: ";
+    getline(cin, favoriteFood);  // This immediately reads the leftover newline!
+
+    cout << "You are " << age << " and you like " << favoriteFood << endl;
+    return 0;
+  }
+#+end_src
+
+This program has a bug! When you type your age and press Enter, =cin >>= reads the number but /leaves the newline character in the buffer/. Then =getline()= immediately reads that newline and thinks you entered an empty string!
+
+The fix is to add =cin.ignore()= after using =cin >>=:
+
+#+begin_src cpp :tangle codesnips/getline2.cpp
+  #include <iostream>
+  #include <string>
+  using namespace std;
+
+  int main(){
+    int age;
+    string favoriteFood;
+
+    cout << "Enter your age: ";
+    cin >> age;
+    cin.ignore();  // Clear the newline from the buffer
+
+    cout << "Enter your favorite food: ";
+    getline(cin, favoriteFood);
+
+    cout << "You are " << age << " and you like " << favoriteFood << endl;
+    return 0;
+  }
+#+end_src
+
+Now it works correctly!
+
+***When to Use =getline()= vs =cin >>=
+- Use =cin >>= when you want a single word or number
+- Use =getline()= when you want an entire line that might contain spaces
+- Remember to use =cin.ignore()= if you mix them!
+
 *** DONE Simple operations on strings
 So there's a few things you can do with strings. The first, is the ability to glue strings together, also called "concatentation". So far we've been implicitly gluing strings together using the syntax of =cout= and =<<=, but you can *actually* stick two strings to each other with =+=, just like adding two numbers.
 
@@ -2341,7 +2922,7 @@ This only replaces the first occurrence. To replace all of them, you'd use a loo
 
 
 
-*** TODO Iterating over strings with for-loops
+*** Iterating over strings with for-loops
 Now remember how I showed you a bit about how arrays work and the fact that for-loops were made to work with them? Okay, so part of why I needed to show you that is while *technically* you're not using arrays in this class it's useful to understand the idea behind them because you can treat strings "like" arrays for operating on them.
 
 The general idiom is that you can get the length of the string like this =s.length()= for a string =s=, then you can put that as the bounds of the for-loop and you can use array syntax (e.g. the square brackets) in order access the characters inside the string one by one.
@@ -2358,7 +2939,7 @@ Okay so here's a wholeLower function that turns an entire string to lower case u
     for(int i = 0; i < s.length(); i++){
       s[i] = tolower(s[i]);
     }
-  
+
     return s;
   }
 
@@ -2368,6 +2949,115 @@ Okay so here's a wholeLower function that turns an entire string to lower case u
     cout << wholeLower(str) << endl;
   }
 #+end_src
+
+*** Character Classification Functions
+When working with strings character by character, you often need to check what /kind/ of character you're dealing with. Is it a letter? A digit? Whitespace? C++ provides a set of handy functions in the =<cctype>= library for this.
+
+Here are the most useful ones:
+- =isalpha(ch)= - returns true if =ch= is a letter (a-z or A-Z)
+- =isdigit(ch)= - returns true if =ch= is a digit (0-9)
+- =isspace(ch)= - returns true if =ch= is whitespace (space, tab, newline)
+- =isupper(ch)= - returns true if =ch= is an uppercase letter
+- =islower(ch)= - returns true if =ch= is a lowercase letter
+- =isalnum(ch)= - returns true if =ch= is alphanumeric (letter or digit)
+
+Here's an example that counts different types of characters in a string:
+
+#+begin_src cpp :tangle codesnips/charTypes.cpp
+  #include <iostream>
+  #include <string>
+  #include <cctype>
+  using namespace std;
+
+  int main(){
+    string text;
+    int letters = 0;
+    int digits = 0;
+    int spaces = 0;
+    int others = 0;
+
+    cout << "Enter some text: ";
+    getline(cin, text);
+
+    for(int i = 0; i < text.length(); i++){
+      if(isalpha(text[i])){
+        letters++;
+      }
+      else if(isdigit(text[i])){
+        digits++;
+      }
+      else if(isspace(text[i])){
+        spaces++;
+      }
+      else{
+        others++;
+      }
+    }
+
+    cout << "Letters: " << letters << endl;
+    cout << "Digits: " << digits << endl;
+    cout << "Spaces: " << spaces << endl;
+    cout << "Other characters: " << others << endl;
+
+    return 0;
+  }
+#+end_src
+
+If you run this with input like "Hello World 123!", you'll get:
+#+begin_example
+Letters: 10
+Digits: 3
+Spaces: 2
+Other characters: 1
+#+end_example
+
+*** Counting Vowels and Consonants
+A common task is to count vowels versus consonants in text. Here's how you can do it:
+
+#+begin_src cpp :tangle codesnips/vowelCount.cpp
+  #include <iostream>
+  #include <string>
+  #include <cctype>
+  using namespace std;
+
+  bool isVowel(char ch){
+    // Convert to lowercase for easier checking
+    ch = tolower(ch);
+    return (ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u');
+  }
+
+  int main(){
+    string text;
+    int vowels = 0;
+    int consonants = 0;
+
+    cout << "Enter a sentence: ";
+    getline(cin, text);
+
+    for(int i = 0; i < text.length(); i++){
+      if(isalpha(text[i])){  // Only count letters
+        if(isVowel(text[i])){
+          vowels++;
+        }
+        else{
+          consonants++;
+        }
+      }
+    }
+
+    cout << "Vowels: " << vowels << endl;
+    cout << "Consonants: " << consonants << endl;
+
+    return 0;
+  }
+#+end_src
+
+Notice how we created our own helper function =isVowel()= that returns a =bool=. This makes the code in =main()= much cleaner and easier to read!
+
+*** Exercises on Character Classification
+1. *Basic*: Write a program that counts how many uppercase vs lowercase letters are in a string.
+2. *Intermediate*: Create a function that checks if a password is strong (at least 8 characters, contains both letters and digits).
+3. *Challenge*: Write a program that extracts all the numbers from a string and adds them up. For example, "I have 3 cats and 2 dogs" should output 5.
 
 *** TODO Example: Sarcasm Case
  Alright, here's a nice silly example for how we use for-loops with strings:
@@ -2397,10 +3087,91 @@ Okay so here's a wholeLower function that turns an entire string to lower case u
     cout << sarcasmCase(str) << endl;
   }
 #+end_src
-*** Exercises
-1. *Basic*: Convert a string to alternating caps (LiKe ThIs) for every character.
-2. *Intermediate*: Count the frequency of each word in a sentence (case-insensitive).
-3. *Challenge*: Implement a Caesar cipher that shifts letters by a user-specified amount. Handle wrapping (z+1 = a) and preserve case.
+*** Caesar Cipher: Shifting Letters with Wraparound
+A Caesar cipher is one of the oldest encryption techniques. It works by shifting each letter in the alphabet by a fixed number of positions. For example, with a shift of 3:
+- A becomes D
+- B becomes E
+- Z wraps around to C
+
+The tricky part is handling the wraparound (what happens when you go past 'z') and preserving the case of letters.
+
+Here's how to implement a Caesar cipher encoder:
+
+#+begin_src cpp :tangle codesnips/caesarCipher.cpp
+  #include <iostream>
+  #include <string>
+  #include <cctype>
+  using namespace std;
+
+  char shiftChar(char ch, int shift){
+    // Only shift letters, leave everything else unchanged
+    if(!isalpha(ch)){
+      return ch;
+    }
+
+    // Determine if uppercase or lowercase
+    char base;
+    if(isupper(ch)){
+      base = 'A';
+    }
+    else{
+      base = 'a';
+    }
+
+    // Shift the character
+    // We subtract base to get 0-25, add shift, use % 26 to wrap around
+    // then add base back to get the ASCII value
+    return base + (ch - base + shift) % 26;
+  }
+
+  string caesarEncode(string text, int shift){
+    string result = "";
+
+    for(int i = 0; i < text.length(); i++){
+      result += shiftChar(text[i], shift);
+    }
+
+    return result;
+  }
+
+  int main(){
+    string message;
+    int shift;
+
+    cout << "Enter message to encode: ";
+    getline(cin, message);
+
+    cout << "Enter shift amount (1-25): ";
+    cin >> shift;
+
+    string encoded = caesarEncode(message, shift);
+    cout << "Encoded: " << encoded << endl;
+
+    // To decode, shift backwards
+    string decoded = caesarEncode(encoded, 26 - shift);
+    cout << "Decoded back: " << decoded << endl;
+
+    return 0;
+  }
+#+end_src
+
+The key insight is in =shiftChar=:
+1. We check if the character is a letter (if not, return it unchanged)
+2. We find the "base" (either 'A' or 'a') based on the case
+3. We do math: =(ch - base + shift) % 26=
+   - =ch - base= converts the letter to a number 0-25
+   - =+ shift= shifts it forward
+   - =% 26= makes it wrap around (so 27 becomes 1)
+   - =+ base= converts back to an ASCII character
+
+The modulo operator (=%= ) is what makes the wraparound work!
+
+If you run this with "Hello World!" and a shift of 3, you get "Khoor Zruog!"
+
+*** Exercises on Ciphers
+1. *Basic*: Modify the Caesar cipher to also handle decoding (shifting backwards) as a separate menu option.
+2. *Intermediate*: Create a ROT13 cipher (shift of 13) which is its own inverse (encoding twice gives you the original text).
+3. *Challenge*: Implement a frequency analysis tool that counts how often each letter appears in encrypted text (useful for breaking Caesar ciphers!).
 
 ** DONE Switches vs. ifs
 Switch statements are actually pretty simple and can, essentially, be thought of as "compiling" down to a more verbose if-elseif-else statement, except that rather than being able to ask *any* question you're just asking the question is /this/ equal to /this/.
@@ -2644,10 +3415,270 @@ We haven't really seen examples of it so far but you can have a bunch of functio
     return 0;
   }
 #+end_src
-*** Exercises
-1. *Basic*: Write a function that returns the larger of two numbers.
-2. *Intermediate*: Create functions for calculating area of different shapes (circle, rectangle, triangle). Each should take appropriate parameters.
-3. *Challenge*: Implement a function that checks if a number is prime. Then use it to find all twin primes (primes that differ by 2) up to 100.
+*** Functions Returning =bool=
+So far we've seen functions that return numbers (=int=, =double=) and strings (=string=), but functions can also return boolean values (=true= or =false=). These are incredibly useful for making yes/no decisions!
+
+A function that returns =bool= is often called a "predicate" or "checker" function. These typically ask a question about their input and return the answer as true or false.
+
+Here's a simple example:
+
+#+begin_src cpp :tangle codesnips/isEven.cpp
+  #include <iostream>
+  using namespace std;
+
+  bool isEven(int n){
+    if(n % 2 == 0){
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
+
+  int main(){
+    int num;
+
+    cout << "Enter a number: ";
+    cin >> num;
+
+    if(isEven(num)){
+      cout << num << " is even!" << endl;
+    }
+    else{
+      cout << num << " is odd!" << endl;
+    }
+
+    return 0;
+  }
+#+end_src
+
+You can actually make this even more concise! Since =n % 2 == 0= already evaluates to a boolean, you can just return it directly:
+
+#+begin_src cpp
+  bool isEven(int n){
+    return (n % 2 == 0);
+  }
+#+end_src
+
+*** Example: Prime Number Checker
+A classic use of bool functions is checking if a number is prime:
+
+#+begin_src cpp :tangle codesnips/isPrime.cpp
+  #include <iostream>
+  #include <cmath>
+  using namespace std;
+
+  bool isPrime(int n){
+    // Numbers less than 2 are not prime
+    if(n < 2){
+      return false;
+    }
+
+    // 2 is prime
+    if(n == 2){
+      return true;
+    }
+
+    // Even numbers (except 2) are not prime
+    if(n % 2 == 0){
+      return false;
+    }
+
+    // Check odd divisors up to sqrt(n)
+    for(int i = 3; i <= sqrt(n); i += 2){
+      if(n % i == 0){
+        return false;  // Found a divisor, not prime
+      }
+    }
+
+    return true;  // No divisors found, it's prime!
+  }
+
+  int main(){
+    int start, end;
+
+    cout << "Enter starting number: ";
+    cin >> start;
+    cout << "Enter ending number: ";
+    cin >> end;
+
+    cout << "Prime numbers between " << start << " and " << end << ":" << endl;
+
+    int count = 0;
+    for(int i = start; i <= end; i++){
+      if(isPrime(i)){
+        cout << i << " ";
+        count++;
+      }
+    }
+
+    cout << endl << "Total primes found: " << count << endl;
+
+    return 0;
+  }
+#+end_src
+
+Notice how we can use =isPrime(i)= directly in an if-statement! This makes the code very readable: "if i is prime, do something."
+
+*** Multiple Boolean Functions Together
+You can combine multiple bool functions to make complex decisions:
+
+#+begin_src cpp :tangle codesnips/passwordCheck.cpp
+  #include <iostream>
+  #include <string>
+  #include <cctype>
+  using namespace std;
+
+  bool hasDigit(string s){
+    for(int i = 0; i < s.length(); i++){
+      if(isdigit(s[i])){
+        return true;
+      }
+    }
+    return false;
+  }
+
+  bool hasLetter(string s){
+    for(int i = 0; i < s.length(); i++){
+      if(isalpha(s[i])){
+        return true;
+      }
+    }
+    return false;
+  }
+
+  bool isStrongPassword(string password){
+    return (password.length() >= 8 && hasDigit(password) && hasLetter(password));
+  }
+
+  int main(){
+    string pass;
+
+    cout << "Enter a password: ";
+    cin >> pass;
+
+    if(isStrongPassword(pass)){
+      cout << "Strong password!" << endl;
+    }
+    else{
+      cout << "Weak password. Must be 8+ chars with letters and digits." << endl;
+    }
+
+    return 0;
+  }
+#+end_src
+
+This demonstrates how to build up complexity: =isStrongPassword= uses =hasDigit= and =hasLetter=, which are themselves bool functions!
+
+*** Exercises on Boolean Functions
+1. *Basic*: Write a function =isPositive= that returns true if a number is greater than 0.
+2. *Intermediate*: Create a function =isLeapYear= that returns true if a year is a leap year (divisible by 4, except centuries must be divisible by 400).
+3. *Challenge*: Write a function =isPalindrome= that returns true if a string reads the same forwards and backwards (ignoring spaces and case).
+
+*** Mathematical Functions
+Now let's look at functions that perform mathematical calculations. These are perfect for things like distance formulas, area calculations, and other geometric problems.
+
+*** Distance Formulas
+A common programming task is calculating the distance between two points. There are different ways to measure distance:
+
+**** Euclidean Distance (2D)
+This is the "straight-line" distance you learned in geometry class:
+
+#+begin_src cpp :tangle codesnips/distance2D.cpp
+  #include <iostream>
+  #include <cmath>
+  using namespace std;
+
+  double distance2D(double x1, double y1, double x2, double y2){
+    double dx = x2 - x1;
+    double dy = y2 - y1;
+    return sqrt(dx * dx + dy * dy);
+  }
+
+  int main(){
+    double x1, y1, x2, y2;
+
+    cout << "Enter first point (x y): ";
+    cin >> x1 >> y1;
+
+    cout << "Enter second point (x y): ";
+    cin >> x2 >> y2;
+
+    double dist = distance2D(x1, y1, x2, y2);
+    cout << "Distance: " << dist << endl;
+
+    return 0;
+  }
+#+end_src
+
+**** Euclidean Distance (3D)
+For 3D space, we just add the z-coordinate:
+
+#+begin_src cpp :tangle codesnips/distance3D.cpp
+  #include <iostream>
+  #include <cmath>
+  using namespace std;
+
+  double distance3D(double x1, double y1, double z1, double x2, double y2, double z2){
+    double dx = x2 - x1;
+    double dy = y2 - y1;
+    double dz = z2 - z1;
+    return sqrt(dx * dx + dy * dy + dz * dz);
+  }
+
+  int main(){
+    double x1, y1, z1, x2, y2, z2;
+
+    cout << "Enter first point (x y z): ";
+    cin >> x1 >> y1 >> z1;
+
+    cout << "Enter second point (x y z): ";
+    cin >> x2 >> y2 >> z2;
+
+    double dist = distance3D(x1, y1, z1, x2, y2, z2);
+    cout << "Distance: " << dist << endl;
+
+    return 0;
+  }
+#+end_src
+
+**** Manhattan Distance
+Manhattan distance (also called "taxicab distance") is the distance you'd travel if you could only move horizontally or vertically, like navigating city blocks:
+
+#+begin_src cpp :tangle codesnips/manhattan.cpp
+  #include <iostream>
+  #include <cmath>
+  using namespace std;
+
+  double manhattanDistance(double x1, double y1, double x2, double y2){
+    return abs(x2 - x1) + abs(y2 - y1);
+  }
+
+  int main(){
+    double x1, y1, x2, y2;
+
+    cout << "Enter first point (x y): ";
+    cin >> x1 >> y1;
+
+    cout << "Enter second point (x y): ";
+    cin >> x2 >> y2;
+
+    double euclidean = sqrt(pow(x2-x1, 2) + pow(y2-y1, 2));
+    double manhattan = manhattanDistance(x1, y1, x2, y2);
+
+    cout << "Euclidean distance: " << euclidean << endl;
+    cout << "Manhattan distance: " << manhattan << endl;
+
+    return 0;
+  }
+#+end_src
+
+Manhattan distance is always greater than or equal to Euclidean distance!
+
+*** Exercises on Mathematical Functions
+1. *Basic*: Write a function that calculates the area of a circle given its radius.
+2. *Intermediate*: Create a menu-driven program that lets users choose between calculating 2D distance, 3D distance, or Manhattan distance.
+3. *Challenge*: Write a function that checks if three points form a right triangle (use distance formulas and the Pythagorean theorem).
 
 ** Scope and Lifetime: Where Do Variables Live?
 
