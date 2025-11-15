@@ -1401,57 +1401,45 @@ Now we're finally ready to write our number guessing game
 #+end_src
 
 Try to read this code through and understand the logic of what it's doing! The only thing we haven't explained to this point is the =%= operator, which is the "modulus" operator. Basically, =a % b= returns the remainder---in the "you're learning division as a kid" sense of remainder---of dividing =a= by =b=. Now, in terms of why we *care* about this operator it gives us a quick way to take a big range of numbers and map it to something smaller. For example, if we do =a % 20= our outputs, no matter what =a= is, will be between 0 and 19. Similarly if we say =a % 100= this will give us an output that's between 0 and 99.
-*** Proximity Detection: "Getting Warm!"
-A nice feature in guessing games is to tell the player when they're getting close to the answer. We can do this by checking how far away the guess is from the target number.
+*** Using =abs()= for Distance Checking
+Sometimes you want to check if two numbers are "close" to each other. The /absolute value/ function =abs()= is perfect for this. It's available in C++ by including =<cmath>=.
 
-To check the distance between two numbers, we need the /absolute value/ of their difference. The absolute value function =abs()= is available in C++ by including =<cmath>=.
+The absolute value gives you the distance between two numbers:
+- =abs(10 - 7)= is 3
+- =abs(7 - 10)= is also 3 (absolute value is always positive)
+- =abs(-5)= is 5
 
-Here's an enhanced guessing game with proximity hints:
+Here's an example that checks if a guess is within a certain range of a target:
 
-#+begin_src cpp :tangle codesnips/warmCold.cpp
+#+begin_src cpp :tangle codesnips/closeCheck.cpp
   #include <iostream>
-  #include <cstdlib>
-  #include <ctime>
   #include <cmath>
   using namespace std;
 
   int main(){
-    srand(time(0));
-    int target = rand() % 50 + 1;  // Random number 1-50
-    int guess = 0;
+    int target = 50;
+    int guess;
 
-    cout << "I'm thinking of a number between 1 and 50" << endl;
+    cout << "Guess a number: ";
+    cin >> guess;
 
-    while(guess != target){
-      cout << "Enter your guess: ";
-      cin >> guess;
+    int distance = abs(target - guess);
 
-      int distance = abs(target - guess);
-
-      if(guess == target){
-        cout << "Perfect! You got it!" << endl;
-      }
-      else if(distance <= 2){
-        cout << "You're VERY close!" << endl;
-      }
-      else if(distance <= 5){
-        cout << "You're getting warm!" << endl;
-      }
-      else if(guess < target){
-        cout << "Too low!" << endl;
-      }
-      else{
-        cout << "Too high!" << endl;
-      }
+    if(guess == target){
+      cout << "Exactly right!" << endl;
+    }
+    else if(distance <= 10){
+      cout << "You're close! (off by " << distance << ")" << endl;
+    }
+    else{
+      cout << "Not very close. (off by " << distance << ")" << endl;
     }
 
     return 0;
   }
 #+end_src
 
-The key here is =abs(target - guess)= which gives us the distance between the two numbers. If the guess is 42 and the target is 45, the distance is 3. If the guess is 48 and the target is 45, the distance is also 3.
-
-We check the distance first (closest matches first) before checking if the guess is too high or too low.
+You can use this pattern to give hints based on how close someone is to a target value. Just check different distance thresholds!
 
 *** DONE Adding a limited number of guesses
 The last thing we need to do with our "number guessing game" is adding a limited number of guesses. To do that we're going to have to
@@ -1732,32 +1720,12 @@ This prints:
 
 The trick here is that the inner loop runs from 1 to =row=, so on row 1 it prints 1 star, on row 2 it prints 2 stars, and so on.
 
-*** Building a Centered Pyramid
-Now for the real challenge: a centered pyramid. This requires /two/ inner loops: one for spaces and one for stars.
+*** Patterns with Spaces
+You can also create patterns that use spaces. The key is to have multiple inner loops - one for spaces, one for the content.
 
-The pattern for a pyramid of height 5 looks like:
-#+begin_example
-    *
-   ***
-  *****
- *******
-*********
-#+end_example
+Here's a simple example that right-aligns a triangle by printing spaces first:
 
-Notice that:
-- Row 1 has 4 spaces and 1 star
-- Row 2 has 3 spaces and 3 stars
-- Row 3 has 2 spaces and 5 stars
-- Row 4 has 1 space and 7 stars
-- Row 5 has 0 spaces and 9 stars
-
-The pattern is:
-- Number of spaces = height - row
-- Number of stars = 2 * row - 1
-
-Here's the code:
-
-#+begin_src cpp :tangle codesnips/pyramid.cpp
+#+begin_src cpp :tangle codesnips/rightAlignedTriangle.cpp
   #include <iostream>
   using namespace std;
 
@@ -1765,13 +1733,13 @@ Here's the code:
     int height = 5;
 
     for(int row = 1; row <= height; row++){
-      // Print spaces
+      // Print spaces to push the stars to the right
       for(int space = 1; space <= height - row; space++){
         cout << " ";
       }
 
       // Print stars
-      for(int star = 1; star <= 2 * row - 1; star++){
+      for(int star = 1; star <= row; star++){
         cout << "*";
       }
 
@@ -1782,7 +1750,18 @@ Here's the code:
   }
 #+end_src
 
-This is a classic nested loop pattern that you'll see in many programming courses!
+This prints:
+#+begin_example
+    *
+   **
+  ***
+ ****
+*****
+#+end_example
+
+Notice how we use =height - row= for the number of spaces. As the row number increases, the number of spaces decreases!
+
+You can extend this pattern to create all sorts of interesting shapes by changing the formulas for how many spaces and characters to print on each row.
 
 *** Multiplication Tables
 Another common use of nested loops is creating multiplication tables:
@@ -2008,7 +1987,9 @@ Go ahead and try to mess it up by changing =numPets= later in the program and se
 *** Frequency Counting with Arrays
 One powerful pattern with arrays is using the /array indices/ to count things. This is especially useful for counting how many times each value appears in a dataset.
 
-Here's an example: counting dice roll results.
+The key insight: use the value you're counting as the /index/ into your counts array!
+
+Here's an example: counting single die roll results.
 
 #+begin_src cpp :tangle codesnips/diceFreq.cpp
   #include <iostream>
@@ -2042,126 +2023,44 @@ Here's an example: counting dice roll results.
   }
 #+end_src
 
-The key insight: we use the value we're counting as the /index/ into our counts array!
+This pattern extends to any situation where you need to count occurrences of discrete values!
 
-Here's a more complex example: counting the sum of two dice:
+You could extend this to:
+- Count letter frequencies in text (array of size 26)
+- Track scores in a game
+- Count how many students got each grade
+- Any other counting/histogram problem
 
-#+begin_src cpp :tangle codesnips/twoDiceFreq.cpp
-  #include <iostream>
-  #include <cstdlib>
-  #include <ctime>
-  using namespace std;
+The pattern is always the same:
+1. Create an array large enough to hold all possible values
+2. Initialize all counts to 0
+3. For each data point, increment the appropriate array element
+4. Loop through the array to display or analyze the results
 
-  int main(){
-    srand(time(0));
-
-    const int NUM_ROLLS = 1000;
-
-    // Sums can range from 2 to 12
-    int counts[13] = {0};  // Use indices 2-12
-
-    // Roll two dice NUM_ROLLS times
-    for(int i = 0; i < NUM_ROLLS; i++){
-      int die1 = rand() % 6 + 1;
-      int die2 = rand() % 6 + 1;
-      int sum = die1 + die2;
-      counts[sum]++;
-    }
-
-    // Find the most and least frequent sums
-    int maxCount = 0;
-    int minCount = NUM_ROLLS;
-    int maxSum = 0;
-    int minSum = 0;
-
-    for(int sum = 2; sum <= 12; sum++){
-      if(counts[sum] > maxCount){
-        maxCount = counts[sum];
-        maxSum = sum;
-      }
-      if(counts[sum] < minCount){
-        minCount = counts[sum];
-        minSum = sum;
-      }
-    }
-
-    // Display results
-    cout << "Sum   Count" << endl;
-    cout << "---   -----" << endl;
-    for(int sum = 2; sum <= 12; sum++){
-      cout << sum << "     " << counts[sum] << endl;
-    }
-
-    cout << "\nMost frequent: " << maxSum << " (" << maxCount << " times)" << endl;
-    cout << "Least frequent: " << minSum << " (" << minCount << " times)" << endl;
-
-    double sevenPercent = (counts[7] * 100.0) / NUM_ROLLS;
-    cout << "Percentage of 7s: " << sevenPercent << "%" << endl;
-
-    return 0;
-  }
-#+end_src
-
-This pattern is extremely useful for statistics, histograms, and data analysis!
-
-*** Array Rotation
+*** Array Rotation Concept
 Array rotation means shifting all elements to the right (or left) by some number of positions, with elements that "fall off" the end wrapping around to the beginning.
 
-For example, rotating [1, 2, 3, 4, 5] right by 2 gives [4, 5, 1, 2, 3].
+For example:
+- Original array: [1, 2, 3, 4, 5]
+- Rotate right by 2: [4, 5, 1, 2, 3]
+- Rotate left by 1: [2, 3, 4, 5, 1]
 
-Here's how to implement rotation:
+There are different approaches to implementing rotation:
 
-#+begin_src cpp :tangle codesnips/arrayRotate.cpp
-  #include <iostream>
-  using namespace std;
+*Using a temporary array:*
+1. Create a new array of the same size
+2. Calculate where each element should go in the rotated array
+3. Copy elements to their new positions
+4. Copy the temporary array back to the original
 
-  void printArray(int arr[], int size){
-    for(int i = 0; i < size; i++){
-      cout << arr[i] << " ";
-    }
-    cout << endl;
-  }
+*The modulo trick:*
+When rotating, you can use the modulo operator (=%= ) to handle wraparound:
+- For rotating right: =newPosition = (currentPosition + shift) % size=
+- For rotating left: =newPosition = (currentPosition - shift + size) % size=
 
-  void rotateRight(int arr[], int size, int positions){
-    // Normalize positions (rotating by size is same as no rotation)
-    positions = positions % size;
+The =%size= part makes positions wrap around. If you're at position 7 in an array of size 8, and you rotate right by 3, you end up at position =(7 + 3) % 8 = 2=.
 
-    // Create a temporary array
-    int temp[size];
-
-    // Copy elements to new positions
-    for(int i = 0; i < size; i++){
-      int newIndex = (i + positions) % size;
-      temp[newIndex] = arr[i];
-    }
-
-    // Copy back to original array
-    for(int i = 0; i < size; i++){
-      arr[i] = temp[i];
-    }
-  }
-
-  int main(){
-    const int SIZE = 8;
-    int numbers[SIZE] = {1, 2, 3, 4, 5, 6, 7, 8};
-
-    cout << "Original array: ";
-    printArray(numbers, SIZE);
-
-    int rotateBy;
-    cout << "Rotate right by how many positions? ";
-    cin >> rotateBy;
-
-    rotateRight(numbers, SIZE, rotateBy);
-
-    cout << "After rotation: ";
-    printArray(numbers, SIZE);
-
-    return 0;
-  }
-#+end_src
-
-The key to rotation is the formula: =newIndex = (i + positions) % size=. The modulo operator makes the wraparound work!
+This is a classic array manipulation problem that combines loops, indexing, and modular arithmetic!
 
 **** TODO Faking a variable-length array
 
@@ -3087,91 +2986,42 @@ Notice how we created our own helper function =isVowel()= that returns a =bool=.
     cout << sarcasmCase(str) << endl;
   }
 #+end_src
-*** Caesar Cipher: Shifting Letters with Wraparound
+*** Caesar Cipher Concept
 A Caesar cipher is one of the oldest encryption techniques. It works by shifting each letter in the alphabet by a fixed number of positions. For example, with a shift of 3:
 - A becomes D
 - B becomes E
 - Z wraps around to C
 
-The tricky part is handling the wraparound (what happens when you go past 'z') and preserving the case of letters.
+The interesting challenges in implementing this are:
+1. **Wraparound**: What happens when you shift 'Z' forward?
+2. **Case preservation**: Keep uppercase letters uppercase, lowercase letters lowercase
+3. **Non-letters**: Don't encrypt spaces, punctuation, numbers
 
-Here's how to implement a Caesar cipher encoder:
+**The Wraparound Problem:**
+When you shift a letter past 'Z' or 'z', it should wrap back to 'A' or 'a'. The modulo operator (=%)= is perfect for this!
 
-#+begin_src cpp :tangle codesnips/caesarCipher.cpp
-  #include <iostream>
-  #include <string>
-  #include <cctype>
-  using namespace std;
+Think about it: if we convert letters to numbers (A=0, B=1, ... Z=25), then shifting becomes addition with wraparound:
+- =(position + shift) % 26= gives us the new position
+- The =% 26= makes 26 wrap to 0, 27 wrap to 1, etc.
 
-  char shiftChar(char ch, int shift){
-    // Only shift letters, leave everything else unchanged
-    if(!isalpha(ch)){
-      return ch;
-    }
+**Case Preservation:**
+You need to handle uppercase and lowercase separately:
+- For uppercase: work with the range 'A' to 'Z'
+- For lowercase: work with the range 'a' to 'z'
+- You can use =isupper()= and =islower()= to check
 
-    // Determine if uppercase or lowercase
-    char base;
-    if(isupper(ch)){
-      base = 'A';
-    }
-    else{
-      base = 'a';
-    }
+**Converting Between Letters and Numbers:**
+- To convert a letter to a number: =ch - 'A'= (for uppercase) or =ch - 'a'= (for lowercase)
+- To convert a number back to a letter: =number + 'A'= (for uppercase) or =number + 'a'= (for lowercase)
 
-    // Shift the character
-    // We subtract base to get 0-25, add shift, use % 26 to wrap around
-    // then add base back to get the ASCII value
-    return base + (ch - base + shift) % 26;
-  }
+**Example of shifting one character:**
+If you want to shift 'C' by 3:
+1. Convert to number: 'C' - 'A' = 2
+2. Add shift: 2 + 3 = 5
+3. Apply modulo for wraparound: 5 % 26 = 5
+4. Convert back: 5 + 'A' = 'F'
 
-  string caesarEncode(string text, int shift){
-    string result = "";
-
-    for(int i = 0; i < text.length(); i++){
-      result += shiftChar(text[i], shift);
-    }
-
-    return result;
-  }
-
-  int main(){
-    string message;
-    int shift;
-
-    cout << "Enter message to encode: ";
-    getline(cin, message);
-
-    cout << "Enter shift amount (1-25): ";
-    cin >> shift;
-
-    string encoded = caesarEncode(message, shift);
-    cout << "Encoded: " << encoded << endl;
-
-    // To decode, shift backwards
-    string decoded = caesarEncode(encoded, 26 - shift);
-    cout << "Decoded back: " << decoded << endl;
-
-    return 0;
-  }
-#+end_src
-
-The key insight is in =shiftChar=:
-1. We check if the character is a letter (if not, return it unchanged)
-2. We find the "base" (either 'A' or 'a') based on the case
-3. We do math: =(ch - base + shift) % 26=
-   - =ch - base= converts the letter to a number 0-25
-   - =+ shift= shifts it forward
-   - =% 26= makes it wrap around (so 27 becomes 1)
-   - =+ base= converts back to an ASCII character
-
-The modulo operator (=%= ) is what makes the wraparound work!
-
-If you run this with "Hello World!" and a shift of 3, you get "Khoor Zruog!"
-
-*** Exercises on Ciphers
-1. *Basic*: Modify the Caesar cipher to also handle decoding (shifting backwards) as a separate menu option.
-2. *Intermediate*: Create a ROT13 cipher (shift of 13) which is its own inverse (encoding twice gives you the original text).
-3. *Challenge*: Implement a frequency analysis tool that counts how often each letter appears in encrypted text (useful for breaking Caesar ciphers!).
+For a complete Caesar cipher, you'd apply this logic to each letter in a string using a loop!
 
 ** DONE Switches vs. ifs
 Switch statements are actually pretty simple and can, essentially, be thought of as "compiling" down to a more verbose if-elseif-else statement, except that rather than being able to ask *any* question you're just asking the question is /this/ equal to /this/.
@@ -3461,11 +3311,12 @@ You can actually make this even more concise! Since =n % 2 == 0= already evaluat
 #+end_src
 
 *** Example: Prime Number Checker
-A classic use of bool functions is checking if a number is prime:
+A classic use of bool functions is checking if a number is prime. A prime number is only divisible by 1 and itself.
 
-#+begin_src cpp :tangle codesnips/isPrime.cpp
+Here's a basic approach:
+
+#+begin_src cpp :tangle codesnips/isPrimeBasic.cpp
   #include <iostream>
-  #include <cmath>
   using namespace std;
 
   bool isPrime(int n){
@@ -3474,20 +3325,10 @@ A classic use of bool functions is checking if a number is prime:
       return false;
     }
 
-    // 2 is prime
-    if(n == 2){
-      return true;
-    }
-
-    // Even numbers (except 2) are not prime
-    if(n % 2 == 0){
-      return false;
-    }
-
-    // Check odd divisors up to sqrt(n)
-    for(int i = 3; i <= sqrt(n); i += 2){
+    // Check if n is divisible by any number from 2 to n-1
+    for(int i = 2; i < n; i++){
       if(n % i == 0){
-        return false;  // Found a divisor, not prime
+        return false;  // Found a divisor, not prime!
       }
     }
 
@@ -3495,30 +3336,27 @@ A classic use of bool functions is checking if a number is prime:
   }
 
   int main(){
-    int start, end;
+    int num;
 
-    cout << "Enter starting number: ";
-    cin >> start;
-    cout << "Enter ending number: ";
-    cin >> end;
+    cout << "Enter a number: ";
+    cin >> num;
 
-    cout << "Prime numbers between " << start << " and " << end << ":" << endl;
-
-    int count = 0;
-    for(int i = start; i <= end; i++){
-      if(isPrime(i)){
-        cout << i << " ";
-        count++;
-      }
+    if(isPrime(num)){
+      cout << num << " is prime!" << endl;
     }
-
-    cout << endl << "Total primes found: " << count << endl;
+    else{
+      cout << num << " is not prime." << endl;
+    }
 
     return 0;
   }
 #+end_src
 
-Notice how we can use =isPrime(i)= directly in an if-statement! This makes the code very readable: "if i is prime, do something."
+This works, but it's not very efficient for large numbers. You can optimize it by:
+- Only checking up to the square root of n (if n has a divisor larger than sqrt(n), it must also have one smaller than sqrt(n))
+- Only checking odd numbers after checking if it's even
+
+Notice how we can use =isPrime(num)= directly in an if-statement! This makes the code very readable.
 
 *** Multiple Boolean Functions Together
 You can combine multiple bool functions to make complex decisions:
