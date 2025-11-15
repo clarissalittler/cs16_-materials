@@ -1,130 +1,200 @@
 
 # Table of Contents
 
-1.  [Meta-meta, delete eventually](#orgde54684)
-2.  [Meta-commentary](#orgba31c03)
-    1.  [What is this text?](#org2380692)
-    2.  [Roadmap](#orgd28effe)
-3.  [Introduction](#orgc773457)
-    1.  [Why C++?](#orgcfbfdfa)
-    2.  [What is programming? A high-level perspective](#org6d651fe)
-    3.  [What is programming? A low-level perspective](#org3968b13)
-    4.  [Why C++, redux](#org99d81a3)
-    5.  [Why learn programming in the age of LLMs](#org4a20750)
-4.  [Your First Programs](#org8d0dab5)
-    1.  [How to run examples <code>[0/3]</code>](#org1e94da8)
-        1.  [In-browser](#org63be8d5)
-        2.  [In onlinegdb](#org8e7abd7)
-        3.  [Locally in the terminal](#org7ed8fbf)
-    2.  [Hello World](#org67e749f)
-        1.  [Exercises](#org773bd8f)
-    3.  [Why semicolons?](#orgf6b86b3)
-    4.  [More early steps <code>[7/8]</code>](#orge948811)
-        1.  [Echoing text and string types](#org437107b)
-        2.  [Explore: What's in a name?](#org346539e)
-        3.  [Exercises](#org5968112)
-        4.  [What's in an empty variable?](#org861a3d4)
-        5.  [Advanced: What *is* a container? <code>[0/2]</code>](#org9fd490e)
-        6.  [Arithmetic and such in C++](#org576cfcb)
-        7.  [Exercises](#orgcabfd40)
-        8.  [Booleans and personality tests](#orgad87168)
-        9.  [Exercises](#orgacc4a8f)
-        10. [Letting the compiler figure out the type](#orgb344e1b)
-        11. [Data formatting <code>[2/2]</code>](#orgbf09a13)
-        12. [Exercises](#orga6053b9)
-        13. [Your first while loop: a number guessing game](#org6ca5dff)
-        14. [Exercises](#orgfed9b29)
-        15. [A randomized guessing game](#org43cc71e)
-        16. [Exercises](#org4eab2af)
-        17. [Averaging numbers and while-loops](#org8a5906b)
-        18. [Exercises](#orga6e4b4c)
-    5.  [For-loops (and the shape of loops to come) <code>[1/2]</code>](#orga63a7ea)
-        1.  [Summing a bunch of numbers](#org108cf10)
-        2.  [Exercises](#orgf8a116a)
-        3.  [(Advanced) Arrays: the reasons for `for`](#org2a086d7)
-        4.  [Exercises](#org29dd8b5)
-    6.  [Data validation, the world's most annoying idiom <code>[1/2]</code>](#org091f899)
-        1.  [Right kind of data, but wrong option](#orgd597277)
-        2.  [The wrong kind of data (cin.fail() &c.) <code>[0/2]</code>](#orgfe27c4d)
-        3.  [Exercises](#org6beb4dc)
-5.  [More advanced programs <code>[1/3]</code>](#org40f85b7)
-    1.  [Functions on strings](#orgbc52fc2)
-        1.  [Simple operations on strings](#orge80fe25)
-        2.  [Exercises](#org41d1d13)
-        3.  [`find` and `substr`](#orgd6e6cf1)
-        4.  [Iterating over strings with for-loops](#orgb972a66)
-        5.  [Example: Sarcasm Case](#org6288c78)
-        6.  [Exercises](#org0a34e86)
-    2.  [Switches vs. ifs](#orgf062e8b)
-        1.  [Exercises](#org33cbcd2)
-    3.  [Writing your own functions](#org14a273d)
-        1.  [The basics of functions](#orgc36880a)
-        2.  [Exercises](#orgb2f711f)
-        3.  [Passing by reference](#org9672ec0)
-        4.  [Exercises](#org57aa2f8)
-    4.  [Arrays, again, and Pointers](#org8d0bb07)
-    5.  [Char Arrays](#org142c8dd)
-6.  [Extended example: Let's play shop](#org33ba1bf)
-    1.  [More on iteration and choices](#orgb8fe13b)
-7.  [Extended example: An Adventure Game](#org11902ec)
-8.  [Project Ideas](#orga48cc41)
-    1.  [Mini-Projects (After Major Sections)](#org410def7)
-        1.  [After Loops](#orga38edbc)
-        2.  [After Arrays](#orga218b1f)
-        3.  [After Functions](#org842ea72)
-        4.  [After Strings](#orgcf7e4ee)
-        5.  [After Data Validation](#orgab2995c)
-    2.  [Larger Projects](#org7d42fb1)
-        1.  [Store Management System](#org9d6e24d)
-        2.  [Grade Calculator System](#org2438d60)
-        3.  [Game Collection](#org035379a)
-        4.  [Data Analysis Tool](#org1b58f83)
-        5.  [Encryption Tool Suite](#orgbad01db)
-    3.  [Project Guidelines](#orga035f79)
-    4.  [Common Mistakes to Avoid](#orgdb82353)
-9.  [Sample Solutions](#org8e787b7)
-    1.  [Hello World Solutions](#org4643628)
-        1.  [Basic: Name and Joke](#org604ac74)
-        2.  [Intermediate: ASCII Art Box](#orgf0d7330)
-    2.  [String I/O Solutions](#orgba4fbea)
-        1.  [Basic: Last, First Format](#orgbfb19da)
-        2.  [Challenge: Mad Libs](#orgf8c2677)
-    3.  [Arithmetic Solutions](#org183cd2b)
-        1.  [Intermediate: Tip Calculator](#orgd31dbb3)
-        2.  [Challenge: Compound Interest](#orge824554)
-    4.  [Boolean/If-Statement Solutions](#orgfadb39f)
-        1.  [Intermediate: Grade Calculator](#org8afd589)
-        2.  [Challenge: Eligibility Checker](#org53f0964)
-    5.  [While Loop Solutions](#org956b7f0)
-        1.  [Intermediate: Password Checker](#orgd36337f)
-    6.  [Random Number Solutions](#org953c1a9)
-        1.  [Intermediate: Rock, Paper, Scissors](#org1ecd718)
-        2.  [Challenge: Coin Flip Statistics](#org194fee1)
-    7.  [For-Loop Solutions](#org160c07d)
-        1.  [Basic: Fibonacci Numbers](#org684a62a)
-        2.  [Intermediate: Triangle Pattern](#org46ce213)
-        3.  [Challenge: Prime Numbers](#orgf4cbae8)
-    8.  [Array Solutions](#org405ca72)
-        1.  [Basic: Temperature Analysis](#org7a525e6)
-        2.  [Intermediate: Array Reversal](#org8461a9a)
-    9.  [String Operation Solutions](#org456a26d)
-        1.  [Basic: Vowel Counter](#org3869ba3)
-        2.  [Intermediate: Palindrome Checker](#org4f80e27)
-    10. [Switch Statement Solutions](#org9b6ba16)
-        1.  [Intermediate: Calculator](#orgd208f4a)
-    11. [Function Solutions](#orgfd0d035)
-        1.  [Basic: Larger of Two Numbers](#orgf562ebb)
-        2.  [Intermediate: Area Calculators](#orgadeaee7)
-    12. [Pass by Reference Solutions](#orgb135e78)
-        1.  [Basic: Swap Function](#org52c50b9)
-        2.  [Intermediate: Division with Quotient and Remainder](#orgb3a7190)
-        3.  [Challenge: Array Statistics](#org194ab03)
-    13. [Data Validation Solutions](#org98bf528)
-        1.  [Challenge: Date Validator](#orge2fffa8)
-    14. [Notes on Solutions](#orgadb5ab0)
+1.  [Meta-meta, delete eventually](#org992819a)
+2.  [Meta-commentary](#orgea161cb)
+    1.  [What is this text?](#orgefcdb27)
+    2.  [Roadmap](#org8f1c037)
+3.  [Introduction](#org9baeadc)
+    1.  [Why C++?](#org002fdb6)
+    2.  [What is programming? A high-level perspective](#org1c1af3c)
+    3.  [What is programming? A low-level perspective](#org4fff861)
+    4.  [Why C++, redux](#org63b9bf4)
+    5.  [Why learn programming in the age of LLMs](#org3ee0396)
+4.  [Your First Program](#orgec01614)
+    1.  [How to run examples <code>[0/3]</code>](#org7dfb1e0)
+        1.  [In-browser](#org663f65b)
+        2.  [In onlinegdb](#orgddd73ce)
+        3.  [Locally in the terminal](#org1c58601)
+    2.  [Hello World](#org7d0e15c)
+        1.  [Exercises](#orgadba860)
+    3.  [Why semicolons?](#org5a58e41)
+5.  [More early steps <code>[10/14]</code>](#orgc2bb027)
+    1.  [Echoing text and string types](#orgf46cf7c)
+    2.  [Explore: What's in a name?](#orgb55f3b0)
+    3.  [Exercises](#orgd2760df)
+    4.  [What's in an empty variable?](#orgecd1114)
+    5.  [Advanced: What *is* a container? <code>[2/2]</code>](#org72fbd06)
+    6.  [All we ever were, just zeros and ones](#org838662e)
+    7.  [Memory and storage](#org3182ebb)
+    8.  [Comments and documentation](#orgbf23e9e)
+        1.  [Exercise about documenting a program](#orgde6e67b)
+    9.  [Arithmetic and such in C++](#orgea1ab8b)
+        1.  [Converting numbers: a word on "casting" types](#orgf9bfb00)
+        2.  [Exercises](#orge8270b1)
+    10. [Booleans, logic, and quizzes](#org8d2b998)
+        1.  [The if-statement](#org1b25fc1)
+        2.  [if, else, else-if](#orgaa7c05e)
+        3.  [An authentication quiz](#orgca982e4)
+        4.  [A quiz on languages](#org08829de)
+        5.  [The dirty truth about booleans in C++](#org88e943b)
+        6.  [Exercises](#orgb6edda8)
+    11. [Letting the compiler figure out the type](#orgbbf0d11)
+    12. [Data formatting <code>[3/3]</code>](#org78412b6)
+        1.  [Making a table](#orgb8c384d)
+        2.  [Abstracting formatting with functions](#org06faf02)
+        3.  [Formatting decimal points](#org50a2069)
+        4.  [Exercises](#orge55a11c)
+    13. [Your first while loop: a number guessing game](#orgf3d412a)
+    14. [Exercises](#org322d4f2)
+        1.  [A randomized guessing game](#orga02a9ad)
+        2.  [Adding a limited number of guesses](#org5f168b3)
+        3.  [Averaging numbers and while-loops](#orgb7af1af)
+        4.  [Exercises](#org00a46e7)
+        5.  [Exercises](#orgc5c65f5)
+    15. [For-loops (and the shape of loops to come)<code>[1/2]</code>](#org6f0055e)
+        1.  [The syntax of for-loops](#orgc7aa713)
+        2.  [Summing a bunch of numbers](#org078365d)
+        3.  [Exercises](#orgb2c043b)
+    16. [(Advanced) Arrays: the reasons for `for`](#org16c391b)
+        1.  [Exercises](#org5be4a5c)
+    17. [Menus with while-loops](#orgbd7abb6)
+    18. [Data validation, the world's most annoying idiom <code>[1/2]</code>](#org64231c5)
+        1.  [Right kind of data, but wrong option](#org25c740f)
+        2.  [The wrong kind of data (cin.fail() &c.) <code>[0/2]</code>](#org1fdf612)
+        3.  [Exercises](#org25cdd62)
+6.  [More advanced programs <code>[1/3]</code>](#org5b00bfd)
+    1.  [Functions on strings](#org794e692)
+        1.  [Simple operations on strings](#orge87e445)
+        2.  [Exercises](#orgdd23562)
+        3.  [`find` and `substr`](#orgcb13c36)
+        4.  [Iterating over strings with for-loops](#org4d9ee34)
+        5.  [Example: Sarcasm Case](#orgaf4c1f3)
+        6.  [Exercises](#orgd1174e9)
+    2.  [Switches vs. ifs](#org6542e66)
+        1.  [Exercises](#orgf10501c)
+    3.  [Writing your own functions](#org97df549)
+        1.  [Functions, reintroduced](#org45e3210)
+        2.  [Exercises](#orgf3c6302)
+    4.  [Scope and Lifetime: Where Do Variables Live?](#org40d27db)
+        1.  [Local Variables: The Building Blocks](#org11ddd53)
+        2.  [Variables in Functions](#org2b34d8f)
+        3.  [Variable Shadowing: When Names Collide](#orgaae3c3b)
+        4.  [Global Variables: Use Sparingly!](#org6be6e3d)
+        5.  [Lifetime vs. Scope: What's the Difference?](#orgadf9f24)
+        6.  [Practical Examples: Seeing Scope in Action](#org5ff396f)
+        7.  [Common Mistakes and Debugging Tips](#orged1e4f6)
+        8.  [Exercises](#org6b42418)
+        9.  [Summary: Key Takeaways](#orge43535a)
+        10. [Passing by reference](#org947205d)
+        11. [Exercises](#org9cb88f1)
+    5.  [Arrays, again, and Pointers](#org6579a89)
+        1.  [Pointer and a promise](#org18779be)
+        2.  [Dynamic arrays](#org1211424)
+    6.  [Char Arrays](#org41c3ddd)
+7.  [CS161B Preview: Looking Ahead to the Second Quarter](#org6356342)
+    1.  [What to Expect from These Preview Chapters](#org228449e)
+    2.  [Vectors: Dynamic Arrays](#org1a1ea5b)
+        1.  [Introduction to Vectors](#org301e018)
+        2.  [Creating and Initializing Vectors](#org9f37fd6)
+        3.  [Vector Operations](#org76daf08)
+        4.  [Accessing Vector Elements](#org20f5ece)
+        5.  [Iterating Through Vectors](#org2e2132b)
+        6.  [Vectors and Functions](#orgda0bc5d)
+        7.  [Common Vector Patterns](#org862670e)
+        8.  [Two-Dimensional Vectors](#org56853cb)
+        9.  [Lab Projects](#org32aad46)
+    3.  [Structs: Organizing Related Data](#orgce02e5d)
+        1.  [Introduction to Structs](#org8916081)
+        2.  [Creating and Using Struct Variables](#org73856b8)
+        3.  [Accessing Struct Members](#org846127a)
+        4.  [Structs and Functions](#org514c8af)
+        5.  [Vectors of Structs](#orgdb2ce8b)
+        6.  [Nested Structs](#orgf444dcf)
+        7.  [Lab Projects](#orga77a953)
+    4.  [File I/O: Reading and Writing Files](#org2a2c7e9)
+        1.  [Introduction to File Input/Output](#org6acd44c)
+        2.  [Reading from Files](#orga7c4c91)
+        3.  [Writing to Files](#orgb89b2db)
+        4.  [File Processing Patterns](#orgf1a47db)
+        5.  [Error Handling with Files](#org9c8a5c1)
+        6.  [Lab Projects](#org0f0a7ca)
+    5.  [Multi-File Programs](#org807243a)
+        1.  [Why Split Code into Multiple Files?](#orgbb550e6)
+        2.  [Header Files (.h)](#org0f24ed8)
+        3.  [Implementation Files (.cpp)](#orgd3e13ae)
+        4.  [Compiling Multi-File Programs](#orgda09667)
+        5.  [Organizing Code by Purpose](#org216280b)
+        6.  [Common Errors with Multi-File Programs](#orgb416dae)
+        7.  [Lab Projects](#org3dc41a6)
+    6.  [Common Algorithms & Problem Solving](#orgec16088)
+        1.  [Searching Algorithms](#org7df103d)
+        2.  [Sorting Algorithms](#orgb93cdf5)
+        3.  [String Algorithms](#org2fc86a8)
+        4.  [Numeric Algorithms](#orgad7037e)
+        5.  [Problem-Solving Strategies](#org24350cd)
+        6.  [Command-Line Arguments](#org3a05571)
+        7.  [Lab Projects](#org8ead4f7)
+8.  [Extended example: Let's play shop](#org8b6c96b)
+9.  [Extended example: An Adventure Game](#orgcefb527)
+10. [Project Ideas](#org563fb1c)
+    1.  [Mini-Projects (After Major Sections)](#orge7c4f84)
+        1.  [After Loops](#org50c149a)
+        2.  [After Arrays](#orga252fb8)
+        3.  [After Functions](#org387c37e)
+        4.  [After Strings](#org13bed4f)
+        5.  [After Data Validation](#orgc9ed528)
+    2.  [Larger Projects](#org69ce10a)
+        1.  [Store Management System](#org0f77ac2)
+        2.  [Grade Calculator System](#orgee8fdc5)
+        3.  [Game Collection](#org356ba3d)
+        4.  [Data Analysis Tool](#orgac2c121)
+        5.  [Encryption Tool Suite](#org153b675)
+    3.  [Project Guidelines](#org723b6b7)
+    4.  [Common Mistakes to Avoid](#orgd2ef056)
+11. [Sample Solutions](#orge1ff4cb)
+    1.  [Hello World Solutions](#org3d839da)
+        1.  [Basic: Name and Joke](#orgffaef87)
+        2.  [Intermediate: ASCII Art Box](#orgab6521c)
+    2.  [String I/O Solutions](#orgc10b226)
+        1.  [Basic: Last, First Format](#orgf9b1012)
+        2.  [Challenge: Mad Libs](#org5ac8818)
+    3.  [Arithmetic Solutions](#orgc76c2d0)
+        1.  [Intermediate: Tip Calculator](#orgd32ecd3)
+        2.  [Challenge: Compound Interest](#org3a1f798)
+    4.  [Boolean/If-Statement Solutions](#org3971385)
+        1.  [Intermediate: Grade Calculator](#org2dd3f81)
+        2.  [Challenge: Eligibility Checker](#orgf36bbb1)
+    5.  [While Loop Solutions](#org2835ae1)
+        1.  [Intermediate: Password Checker](#org32158f7)
+    6.  [Random Number Solutions](#orgb42cc27)
+        1.  [Intermediate: Rock, Paper, Scissors](#orgd252549)
+        2.  [Challenge: Coin Flip Statistics](#org8070764)
+    7.  [For-Loop Solutions](#org098d5fb)
+        1.  [Basic: Fibonacci Numbers](#org6798a4b)
+        2.  [Intermediate: Triangle Pattern](#orgc6fae30)
+        3.  [Challenge: Prime Numbers](#org1994aa8)
+    8.  [Array Solutions](#org02db1f5)
+        1.  [Basic: Temperature Analysis](#org9021984)
+        2.  [Intermediate: Array Reversal](#org62f0999)
+    9.  [String Operation Solutions](#orgf447881)
+        1.  [Basic: Vowel Counter](#orgd1ae4e1)
+        2.  [Intermediate: Palindrome Checker](#org851fd19)
+    10. [Switch Statement Solutions](#org6b7fa95)
+        1.  [Intermediate: Calculator](#orgd21aa88)
+    11. [Function Solutions](#org92ebf87)
+        1.  [Basic: Larger of Two Numbers](#org3a729e8)
+        2.  [Intermediate: Area Calculators](#org1c44852)
+    12. [Pass by Reference Solutions](#org32870f6)
+        1.  [Basic: Swap Function](#orgb195c8e)
+        2.  [Intermediate: Division with Quotient and Remainder](#orgf291954)
+        3.  [Challenge: Array Statistics](#orgf4a8862)
+    13. [Data Validation Solutions](#org5efcea6)
+        1.  [Challenge: Date Validator](#org6f826e6)
+    14. [Notes on Solutions](#org087bb19)
 
 
-<a id="orgde54684"></a>
+<a id="org992819a"></a>
 
 # Meta-meta, delete eventually
 
@@ -156,12 +226,12 @@ Projects I give
 -   Refactoring
 
 
-<a id="orgba31c03"></a>
+<a id="orgea161cb"></a>
 
 # Meta-commentary
 
 
-<a id="org2380692"></a>
+<a id="orgefcdb27"></a>
 
 ## What is this text?
 
@@ -170,26 +240,26 @@ This is a free and open source text on learning the C++ language that can be fre
 [instructions for the interactive version should go here]
 
 
-<a id="orgd28effe"></a>
+<a id="org8f1c037"></a>
 
 ## Roadmap
 
 Where we're headed:
 
 
-<a id="orgc773457"></a>
+<a id="org9baeadc"></a>
 
 # Introduction
 
 
-<a id="orgcfbfdfa"></a>
+<a id="org002fdb6"></a>
 
 ## Why C++?
 
 C++ is a fascinating old-ish language. It blends a combination of "high-level" and "low-level" features. Now those might sound like rather judgy descriptors, like "high-level" is better than "low-level", but they're just different ways of looking at programming that&#x2014;for our purposes&#x2014;serve as a segue into talking about what programming is.
 
 
-<a id="org6d651fe"></a>
+<a id="org1c1af3c"></a>
 
 ## What is programming? A high-level perspective
 
@@ -202,7 +272,7 @@ Programming isn't hard because programming languages are bad. Programming is har
 A good programming language is, then, a thing that lets you express instructions precisely but is still relatively easy to think-in and read.
 
 
-<a id="org3968b13"></a>
+<a id="org4fff861"></a>
 
 ## What is programming? A low-level perspective
 
@@ -221,7 +291,7 @@ Programming languages are ways of turning concepts that make more sense to us, l
 A good programming language is, then, a thing that lets you have control over how the logic of the program you want gets turned into number-crunching at the end: you control the resources the program uses and the way it runs.
 
 
-<a id="org99d81a3"></a>
+<a id="org63b9bf4"></a>
 
 ## Why C++, redux
 
@@ -232,7 +302,7 @@ That isn't to say it's perfect: no programming language is. Every single languag
 Which is something I cannot emphasize enough! Programming languages are made by people and there's no "best" language, there is&#x2014;at most&#x2014;a best language for a particular project given the people and technical goals involved.
 
 
-<a id="org4a20750"></a>
+<a id="org3ee0396"></a>
 
 ## Why learn programming in the age of LLMs
 
@@ -250,32 +320,32 @@ In other words, we will always need programmers. In fact, a personal prediction 
 By analogy, this is like how home CAD software and 3D printers didn't kill manufacturing but rather let people quickly prototype ideas that they then pay engineers to turn into production lines.
 
 
-<a id="org8d0dab5"></a>
+<a id="orgec01614"></a>
 
-# Your First Programs
+# Your First Program
 
 
-<a id="org1e94da8"></a>
+<a id="org7dfb1e0"></a>
 
 ## TODO How to run examples <code>[0/3]</code>
 
 
-<a id="org63be8d5"></a>
+<a id="org663f65b"></a>
 
 ### TODO In-browser
 
 
-<a id="org8e7abd7"></a>
+<a id="orgddd73ce"></a>
 
 ### TODO In onlinegdb
 
 
-<a id="org7ed8fbf"></a>
+<a id="org1c58601"></a>
 
 ### TODO Locally in the terminal
 
 
-<a id="org67e749f"></a>
+<a id="org7d0e15c"></a>
 
 ## DONE Hello World
 
@@ -328,12 +398,12 @@ Okay we're almost done! There's just two more lines. The first
 
     cout << "Hello, World" << endl;
 
-as you can probably guess is what actually prints the line "Hello, World". Think of `cout` as the *target* you're sending text to to be printed out. You send things to it with the `<<` symbol. The text you're sending is in quotation marks. In C++, like most programming languages, you denote text-as-data with double-quotes.<sup><a id="fnr.2.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup> The other thing we need to explain here is the `endl`, which is just the way of saying "end this line and start a new one".
+as you can probably guess is what actually prints the line "Hello, World". Think of `cout` as the *target* you're sending text to to be printed out. You send things to it with the `<<` symbol. The text you're sending is in quotation marks. In C++, like most programming languages, you denote text-as-data with double-quotes.<sup><a id="fnr.2.100" class="footref" href="#fn.2" role="doc-backlink">2</a></sup> The other thing we need to explain here is the `endl`, which is just the way of saying "end this line and start a new one".
 
 So to understand the final line of the function, `return 0;`, remember how we said that when the function ends it has to give back a whole number? Well this is the line that says that when the function ends that it's going to hand back the number 0. This is an old convention that dates back to the days of *unix*, where if everything goes well a program should return 0.
 
 
-<a id="org773bd8f"></a>
+<a id="orgadba860"></a>
 
 ### Exercises
 
@@ -343,9 +413,61 @@ So to understand the final line of the function, `return 0;`, remember how we sa
         *********
         * Hello *
         *********
+3.  **Advanced**
+    This is less of an exercise and more of a "follow the recipe" to give you a taste of something you'll need to do later.
+    
+    First, start with this code either in-browser or locally on your computer!
+    
+        #include <iostream>
+        using namespace std;
+        
+        void sayHello(){
+        }
+        
+        int main(){
+          cout << "Hello, world!" << endl;
+        
+          return 0;
+        }
+    
+    What we've done here is create a *new* function. This new function doesn't return *anything* so instead of `int` it has the word `void` in front. Now this function, this reusable bit of code, doesn't do anything yet.
+    
+    Your first step is to copy the line `cout << ...` from main into the `sayHello` function. It should look like this now:
+    
+        #include <iostream>
+        using namespace std;
+        
+        void sayHello(){
+          cout << "Hello, world!" << endl;
+        }
+        
+        int main(){
+          cout << "Hello, world!" << endl;
+        
+          return 0;
+        }
+    
+    Now, go ahead and delete the line you copied from `main` and replace it with `sayHello();`, so it looks like this:
+    
+        #include <iostream>
+        using namespace std;
+        
+        void sayHello(){
+          cout << "Hello, world!" << endl;
+        }
+        
+        int main(){
+          sayHello();
+        
+          return 0;
+        }
+
+Congratulations, you've written a *function* for the first time. This is one of the core-est of core concepts in programming: separating code into pieces that can be re-used and re-combined easily.
+
+Question: From this alone, can you write a couple of sentences about how you *think* you'll use functions in the future?
 
 
-<a id="orgf6b86b3"></a>
+<a id="org5a58e41"></a>
 
 ## DONE Why semicolons?
 
@@ -362,14 +484,14 @@ So, yes, **most** lines need semi-colons at the end. The lines that don't need a
 -   comments, which we haven't discussed yet
 
 
-<a id="orge948811"></a>
+<a id="orgc2bb027"></a>
 
-## TODO More early steps <code>[7/8]</code>
+# TODO More early steps <code>[10/14]</code>
 
 
-<a id="org437107b"></a>
+<a id="orgf46cf7c"></a>
 
-### DONE Echoing text and string types
+## DONE Echoing text and string types
 
 So we've already done a non-trivial amount of work because we've learned to compile a file, run it, and have it print something out the screen.
 
@@ -427,9 +549,9 @@ So when we want to print out the contents of `stuff` we say `cout << "You said: 
 We also end with `return 0;` because we're very good programmers and **never** forget to put this in our files.<sup><a id="fnr.6" class="footref" href="#fn.6" role="doc-backlink">6</a></sup>
 
 
-<a id="org346539e"></a>
+<a id="orgb55f3b0"></a>
 
-### Explore: What's in a name?
+## Explore: What's in a name?
 
 Try changing the name of "stuff" in the program above. Be careful that when you *rename* the variable that you rename it consistently and change every use of the name "stuff" in the program. Come back and read on after you're done.
 
@@ -440,18 +562,18 @@ That doesn't mean naming variables "hinder" or "boopsboops" is a good idea. Ther
 So be kind to your future self and user variable names that make sense!
 
 
-<a id="org5968112"></a>
+<a id="orgd2760df"></a>
 
-### Exercises
+## Exercises
 
 1.  **Basic**: Ask for first and last name separately, then print them together in the format "Last, First".
 2.  **Intermediate**: Ask for three words and print them in reverse order (if user enters "cat dog bird", print "bird dog cat").
 3.  **Challenge**: Create a Mad Libs program that asks for a noun, verb, adjective, and adverb, then inserts them into a story template like: "The [adjective] [noun] decided to [verb] [adverb]."
 
 
-<a id="org861a3d4"></a>
+<a id="orgecd1114"></a>
 
-### DONE What's in an empty variable?
+## DONE What's in an empty variable?
 
 Now, when we declare a variable we're making a container, but is there anything **in** the container at that point? Well let's see!<sup><a id="fnr.7" class="footref" href="#fn.7" role="doc-backlink">7</a></sup>
 
@@ -482,50 +604,157 @@ Well I ran this once and got "And our int holds&#x2026;779647075". Oh dear *dot 
 Okay, and now we get into the punchline. The reason why I'm specifying "on my computer" and "when I run this" is that the answers could actually change between computers and compilers! You really, really, really should **never** use an empty variable because you can guarantee exactly nothing about what it will do.
 
 
-<a id="org9fd490e"></a>
+<a id="org72fbd06"></a>
 
-### TODO Advanced: What *is* a container? <code>[0/2]</code>
+## DONE Advanced: What *is* a container? <code>[2/2]</code>
 
 At this point you might be wondering "what *are* these containers, these *variables*, anyway?". What does it really mean for the compiler to make space for data? To answer that we need to get into some more details about how data is stored in a computer.
 
-1.  TODO All we ever were, just zeros and ones
 
-    Computers, the modern digital computer we've all settled on, operates fundamentally on Os and 1s. Why? Because in the end you can think of the fundamental atom of the computer, the transistor, as an electrical on-off switch. If it's "on" it lets current flow, if it's "off" it does not. The brilliance of digital computers is in cleverly encoding *everything* we do into patterns of these ons and offs. First, to explain *that* we need to review how we write numbers in the normal way.
-    
-    When we write a number like 42367 this is shorthand for `40000 + 2000 + 300 + 60 + 7`. You may have learned to describe this as the "ones place", "the tens place", "the hundreds place", &c. We can write this even more compactly as
-    
-    `4*10^4 + 2*10^3 + 3*10^2 + 6*10^1 + 7*10^0`
-    
-    using the fact that *anything* to the zeroth power is just one.
-    
-    This is called the "base ten" representation of numbers because it's a sequence of powers of ten. We can do bases in other numbers though and you might see where we're going with this: computers work with "base two" numbers, also called *binary*.
-    
-    A binary number like 10010 is thus a way of writing `1*2^4 + 0*2^3 +0*2^2 + 1*2^1 + 0*2^0`, which is actually the number `16 + 0 + 0 + 2 + 0` or `18`.
-    
-    We're not going to go deep into how different kinds of data are represented *as* numbers, but we'll simply say that **everything** on a computer is fundamentally understood as a binary number.
+<a id="org838662e"></a>
 
-2.  TODO Memory and storage
+## DONE All we ever were, just zeros and ones
 
-    You might have heard people refer to "memory" when it comes to computers: but what is it? How does it differ from something like the storage space on your laptop or phone?
-    
-    When someone says "memory" generally what they actually mean is Random Access Memory (RAM, in the sequel), which maybe should be called "Arbitrary Access Memory" because it's not *random* like a dice roll it's that you can access any part of the memory at any time.
-    
-    Think of it like a giant wall of cubbyholes like at a gym, each square is labeled so it can be found quickly and when you need something from it you just walk to the right one and grab what you want. You don't have to, say, walk down a hallway starting at the beginning every time you want to grab something.
-    
-    That image is a little misleading, though, because it's less like a set of fixed cubbyholes and more like a huge wall with a bunch of movable dividers that can&#x2014;on the fly&#x2014;be reconfigured to fit different sizes of things. Tiny ones for a pair of running shoes. A huge one for a giant dufflebag.
-    
-    Continuing this metaphor we can explain what happens when you make a variable:
-    
-    -   the computer then finds space in the giant storage wall to put a divider,
-    -   notes down the label on that storage space
-    -   comes back and puts the value of that label into the variable name you declared
-    
-    We can help explain, too, what these type signifiers are like `int` and `string`: they're there to make it easy for the computer to know what the size of the data is, "where to put the divider" if we keep going with the metaphor.<sup><a id="fnr.8" class="footref" href="#fn.8" role="doc-backlink">8</a></sup>
+Computers, the modern digital computer we've all settled on, operates fundamentally on Os and 1s. Why? Because in the end you can think of the fundamental atom of the computer, the transistor, as an electrical on-off switch. If it's "on" it lets current flow, if it's "off" it does not. The brilliance of digital computers is in cleverly encoding *everything* we do into patterns of these ons and offs. First, to explain *that* we need to review how we write numbers in the normal way.
+
+When we write a number like 42367 this is shorthand for `40000 + 2000 + 300 + 60 + 7`. You may have learned to describe this as the "ones place", "the tens place", "the hundreds place", &c. We can write this even more compactly as
+
+`4*10^4 + 2*10^3 + 3*10^2 + 6*10^1 + 7*10^0`
+
+using the fact that *anything* to the zeroth power is just one.
+
+This is called the "base ten" representation of numbers because it's a sequence of powers of ten. We can do bases in other numbers though and you might see where we're going with this: computers work with "base two" numbers, also called *binary*.
+
+A binary number like 10010 is thus a way of writing `1*2^4 + 0*2^3 +0*2^2 + 1*2^1 + 0*2^0`, which is actually the number `16 + 0 + 0 + 2 + 0` or `18`.
+
+We're not going to go deep into how different kinds of data are represented *as* numbers, but we'll simply say that **everything** on a computer is fundamentally understood as a binary number.
 
 
-<a id="org576cfcb"></a>
+<a id="org3182ebb"></a>
 
-### DONE Arithmetic and such in C++
+## DONE Memory and storage
+
+You might have heard people refer to "memory" when it comes to computers: but what is it? How does it differ from something like the storage space on your laptop or phone?
+
+When someone says "memory" generally what they actually mean is Random Access Memory (RAM, in the sequel), which maybe should be called "Arbitrary Access Memory" because it's not *random* like a dice roll it's that you can access any part of the memory at any time.
+
+Think of it like a giant wall of cubbyholes like at a gym, each square is labeled so it can be found quickly and when you need something from it you just walk to the right one and grab what you want. You don't have to, say, walk down a hallway starting at the beginning every time you want to grab something.
+
+That image is a little misleading, though, because it's less like a set of fixed cubbyholes and more like a huge wall with a bunch of movable dividers that can&#x2014;on the fly&#x2014;be reconfigured to fit different sizes of things. Tiny ones for a pair of running shoes. A huge one for a giant dufflebag.
+
+Continuing this metaphor we can explain what happens when you make a variable:
+
+-   the computer then finds space in the giant storage wall to put a divider,
+-   notes down the label on that storage space
+-   comes back and puts the value of that label into the variable name you declared
+
+We can help explain, too, what these type signifiers are like `int` and `string`: they're there to make it easy for the computer to know what the size of the data is, "where to put the divider" if we keep going with the metaphor.<sup><a id="fnr.8" class="footref" href="#fn.8" role="doc-backlink">8</a></sup>
+
+This memory<sup><a id="fnr.9" class="footref" href="#fn.9" role="doc-backlink">9</a></sup> gets reset every time you run the program. That's because the memory of your computer isn't for long-term storage, it's the scratch paper that programs need to run and keep track of all of their calculations.
+
+The main takeaway to get out of this is that every program manages its own storage and, for all the programs you'll write in this class, the compiler figures out at compile time what the storage you need is and how to label it.
+
+
+<a id="orgbf23e9e"></a>
+
+## DONE Comments and documentation
+
+There's a line from the (absolutely amazing) old computer science textbook "Structure and Interpretation of Computer Programs" that goes
+
+> Programs must be written for people to read, and only incidentally for machines to execute.
+
+If that pithy line sounds weird think of it this way: when we write code we're solving problems. When we solve problems, we want other people to be able to understand those solutions for two reasons.
+
+The first is that we want other people to be able to check our work and see if we did it correctly! If there's a problem not with the *code* but with the *reasoning* then it needs to be clear the decisions that were made and *why* they were made.
+
+To make this really concrete, imagine that you're coding a physics simulation for a game engine. It works great for one game, a retro-style 2.5D shoot-em'-up. Now, later people want to adapt this physics engine to a remake of gamer-rage classic Getting Over It, but now with a pogo-stick. Except it doesn't work! The bouncing looks and moves completely wrong!
+
+Now, if your code is well-written, clear, and properly documented these game developers might discover the assumption that all collisions are perfectly elastic, so if something bounces once it will bounce **exactly** as high every single time. A cup of coffee's worth of coding later, they have it fixed!
+
+If your code is obtuse, poorly refactored, and has no documentation then, well, they might have to just write something new from scratch or grab a new physics engine library.
+
+To recall a point made earlier, one of the most common ways this story plays out is for both developers to be *you*: because the past is a foreign country and time makes us strangers to ourselves.
+
+All of that being said, *what* does good documentation look like? This is a subjective thing but my take would be something like:
+
+-   functions have names that tell you something
+-   variables and function parameters are clear either by descriptive names or short names with useful conventions (i.e. generic arithmetic functions have parameters like `n1` and `n2` rather than `firstNumber=/=secondNumber`
+-   the *ideas* behind the code and description of how it *should* work are explained well
+
+With that last bit, you might be wondering how we can add explanations into the code? Those are *comments*.
+
+Comments are **completely** ignored by the compiler and are text only people see in the source code, thrown away in the creation of the actual program.
+
+There are two ways to write comments: the first is to put `//` anywhere in a line of code, which means that everything to the right of the double-slash becomes a comment; the second is to have a pair `/*` and `*/` across multiple lines, which makes the entire region commented. Here's an example:
+
+    #include <iostream>
+    using namespace std;
+    
+    int main(){
+      int num = 0; // this program doesn't do anything interesting
+    
+      /* but it
+         has
+         plenty
+         of
+         comments
+    
+         explodeComputer();
+    
+         oh look this function doesn't get called, I guess
+      */
+      return num;
+    }
+
+
+<a id="orgde6e67b"></a>
+
+### DONE Exercise about documenting a program
+
+Here's a program that is uncommented and uses a number of constructs you haven't seen before.
+
+See if you can take this code and add comments to it to clarify what it does and write notes about what you don't understand. This is an exercise to practice *reading* code, which is about as important a skill as writing it in the first place!
+
+    #include <iostream>
+    #include <cmath>
+    using namespace std;
+    
+    int main() {
+        int choice;
+        double radius, length, width, area;
+    
+        cout << "Shape Area Calculator" << endl;
+        cout << "1. Circle" << endl;
+        cout << "2. Rectangle" << endl;
+        cout << "Enter your choice (1 or 2): ";
+        cin >> choice;
+    
+        if (choice == 1) {
+    	cout << "Enter radius: ";
+    	cin >> radius;
+    	area = 3.14159 * radius * radius;
+    	cout << "Area of circle: " << area << endl;
+        }
+        else if (choice == 2) {
+    	cout << "Enter length: ";
+    	cin >> length;
+    	cout << "Enter width: ";
+    	cin >> width;
+    	area = length * width;
+    	cout << "Area of rectangle: " << area << endl;
+        }
+        else {
+    	cout << "Invalid choice!" << endl;
+    	return 1;
+        }
+    
+        return 0;
+    }
+
+
+<a id="orgea1ab8b"></a>
+
+## DONE Arithmetic and such in C++
 
 Arithmetic in C++, like most programming languages, is meant to look a lot like the arithmetic operations you're used to. You can test out some basic operations with the following code. Note that this example shows us that you can use `cin` with types other than `string`.
 
@@ -557,7 +786,7 @@ Why on earth is that true? Well, because `num1` and `num2` are **whole numbers**
 
 Okay, but what if we want to deal with fractional numbers? That's when we introduce *floats* and *doubles*. These are both kinds of "floating point numbers". The term floating point sounds weird but the point (haha) is that these are numbers that allow for decimal points in them and don't have a fixed number of digits to the left or right of the decimal.
 
-Okay, so why are there two different types? Well, one is smaller than the other. No, this doesn't strictly mean it's for smaller numbers. It's also for "less precise" of numbers.<sup><a id="fnr.9" class="footref" href="#fn.9" role="doc-backlink">9</a></sup> If you need more accurate representations of non-whole numbers, you should use a `double`. Most of the time, folks recommend just defaulting to `double` instead of `float`. You might see me sometimes still use `float` for things where we know the numbers are small and precision doesn't matter.
+Okay, so why are there two different types? Well, one is smaller than the other. No, this doesn't strictly mean it's for smaller numbers. It's also for "less precise" of numbers.<sup><a id="fnr.10" class="footref" href="#fn.10" role="doc-backlink">10</a></sup> If you need more accurate representations of non-whole numbers, you should use a `double`. Most of the time, folks recommend just defaulting to `double` instead of `float`. You might see me sometimes still use `float` for things where we know the numbers are small and precision doesn't matter.
 
 So let's try this program again with `double` s instead of `int`.
 
@@ -586,12 +815,74 @@ There, that's probably more what you would have expected from division.
 
 Note that `cin` keeps working no matter what type of container we're trying to fill with it! There's definitely no possibility that is going to go wrong later in a really annoying way! Foreshadowing!
 
-1.  TODO On casting numbers
 
-    Let's imagine that you start out with integers but you do need to divide them later, you can actually "type cast" one into the other. 
+<a id="orgf9bfb00"></a>
+
+### DONE Converting numbers: a word on "casting" types
+
+Let's imagine that you start out with integers but you do need to divide them later. You could just start with doubles but that violates a basic principle of programming: you want the *type* of the variable to match what it *is*. If you wanted to, say, keep track of rock/paper/scissors wins versus the total number of games played, you wouldn't want to store that as a double because what's 0.3 games? It's has no meaningful interpretation<sup><a id="fnr.11" class="footref" href="#fn.11" role="doc-backlink">11</a></sup>, so our program shouldn't allow it even accidentally.
+
+So what do we do? We temporarily tell the C++ compiler "here, right here, treat this data like it's a different type". In programming this is called a "type cast".
+
+The general form of casts are `static_cast<NEWTYPE>(VARIABLENAME)`. 
+
+With casting in hand, we can do something like this to divide two integers without losing information:
+
+    #include <iostream>
+    using namespace std;
+    
+    int main(){
+    
+      int num1 = 5;
+      int num2 = 3;
+    
+      cout << static_cast<double>(num1)/static_cast<double>(num2) << endl;
+    
+      return 0;
+    }
+
+This is, at least in C++, the kind of cast you're going to want to do basically all the time. It's a casting method that is checked by the compiler, letting you know if you're doing something that doesn't make any sense.
+
+Like, for example, what if we wanted to treat a `string` as an `int`?
+
+    #include <iostream>
+    using namespace std;
+    
+    int main(){
+    
+      string stuff = "beepity-boops";
+    
+      cout << static_cast<int>(stuff) << endl;
+    
+      return 0;
+    }
+
+If you try to compile this code, you'll find that the compiler completely rejects it. Why? Because turning a chunk of text into a number doesn't really have an obvious meaning?
+
+You **could** do it but you need to define what it means: do you want the length? Do you want to convert each letter into a number and add them all together? It's not clear and the compiler is doing the right thing by *not* deciding for you and just rejecting the code as unclear.
+
+We can even assign the result of a cast to a new variable and it creates a *completely separate variable*! Like this:
+
+    #include <iostream>
+    using namespace std;
+    
+    int main(){
+    
+      int num1 = 9;
+    
+      double dnum1 = static_cast<double>(num1);
+    
+      dnum1 = 11;
+    
+      // note that we change dnum1 but num1 stays the same
+      cout << num1 << endl;
+    
+    
+      return 0;
+    }
 
 
-<a id="orgcabfd40"></a>
+<a id="orge8270b1"></a>
 
 ### Exercises
 
@@ -600,9 +891,14 @@ Note that `cin` keeps working no matter what type of container we're trying to f
 3.  **Challenge**: Implement a compound interest calculator that asks for principal, annual rate, time in years, and number of times compounded per year. Use the formula: A = P(1 + r/n)<sup>(nt)</sup>
 
 
-<a id="orgad87168"></a>
+<a id="org8d2b998"></a>
 
-### TODO Booleans and personality tests
+## TODO Booleans, logic, and quizzes
+
+
+<a id="org1b25fc1"></a>
+
+### The if-statement
 
 Okay, if all we could do with code was straight-line programs that just do a sequence of calculations then we'd basically just have the equivalent of a calculator but arguably more annoying.
 
@@ -706,94 +1002,283 @@ You also don't have to ask just one question at a time. You can combine question
 
 If I have questions a and b then `a && b` only returns `true` if **both** `a` and `b` are true. Similarly, `a || b` returns true if `a` is true, if `b` is true, or if both of them are true.
 
-1.  The dirty truth about booleans in C++
+This is really useful for when you need to check if, say, a number is *between* two values like so:
 
-    Beware, absolute nastiness awaits you in this section. You'll learn about horrendous, semantics breaking, decisions in the history of programming language design.
+    #include <iostream>
+    using namespace std;
     
-    So, you see dear reader, it turns out that 
+    int main(){
     
-        #include <iostream>
-        using namespace std;
-        
-        int main(){
-          if(true == 1){
-            cout << "true is the same as 1" << endl;
-          }
-        
-          if(false == 0){
-            cout << "false is the same as 0" << endl;
-          }
-        
-          int num = 1;
-          if(true == num){
-            cout << "true is 1 even if we insist that the 1 is an int" << endl;
-          }
-        }
-    
-    Compile this code and run it to confirm the horrible truth, but you'll see that booleans are really just numbers. Which is honestly a terrible decision because it means there's all sorts of wrong things that can happen.
-    
-        #include <iostream>
-        using namespace std;
-        
-        int main(){
-          int num;
-          cout << "Enter a number, promise I won't misuse it" << endl;
-          cin >> num;
-          if(num){ // whoops I meant to compare this to something but I got distracted by a dog
-            cout << "This means that num is greater than 3" << endl;
-            cout << "See? " << num << endl;
-          }
-          else{
-            cout << "num is too small" << endl;
-          }
-          return false; // what is happening here
-        }
-    
-    Look at this wretched code! `return false`? `if(num)`? This is terrible! And the compiler did *nothing* to stop it!
-    
-    Woe be upon us!
+      int input;
+      cout << "Enter a number between 1 and 10" << endl;
+      cin >> input;
+      if(input > 0 && input < 10){
+        cout << "Good work" << endl;
+      }
+      else {
+        cout << "Oh c'mon!" << endl;
+      }
+      return 0;
+    }
 
-2.  TODO An authentication quiz
-
-    META: Fix this to be an example of a personality quiz instead because that's a project I like to give early on
-    
-    Okay, let's do something silly as an example of putting some of these concepts together. A little program that runs a very special security quiz that asks you a few questions, use some variables, and then print out the results. This will determine, in a foolproof way, if the person answering the questions is definitely me.
-    
-        #include <iostream>
-        using namespace std;
-        
-        int main(){
-          string q1 = "Have you ever touched a computer before? type 1 or 0\n";
-          bool a1;
-          string q2 = "Do you prefer whiteboards to blackboards ? type 1 or 0\n";
-          bool a2;
-          string q3 = "False? type 1 or 0\n";
-          bool a3;
-          string q4 = "Is a proof a program? type 1 or 0\n";
-          bool a4;
-        
-          cout << q1;
-          cin >> a1;
-          cout << q2;
-          cin >> a2;
-          cout << q3;
-          cin >> a3;
-          cout << q4;
-          cin >> a4;
-        
-          if((a1 && !a2 && a3) || a4){
-            cout << "Oh, hi me, it's definitely you I'm talking to because no one could crack that code" << endl;
-          }
-          else{
-            cout << "You're not left_adjoint!" << endl;
-          }
-          return 0;
-        }
-    
-    Can you figure out what to enter to hack the system?
+This is a silly example but being able to make these checks will be important as we make bigger programs.
 
 
-<a id="orgacc4a8f"></a>
+<a id="orgaa7c05e"></a>
+
+### if, else, else-if
+
+If-statements can also be chained together for more complicated decision making, like in the following example:
+
+    #include <iostream>
+    using namespace std;
+    
+    int main(){
+    
+      string input;
+      cout << "Name an animal: ";
+      cin >> input;
+    
+      if(input == "dog"){
+        cout << "The dog goes woof" << endl;
+      }
+      else if(input == "cat"){
+        cout << "The cat seeks revenge" << endl;
+      }
+      else if(input == "possum"){
+        cout << "The possum faints dramatically" << endl;
+      }
+      else {
+        cout << "I...don't know what to say" << endl;
+      }
+    
+      return 0;
+    }
+
+Try the code out! If you enter "dog" you'll see the text "The dog goes woof" printed out. If you enter something, like, "Parrot", then you'll get "I&#x2026;don't know what to say".
+
+We can expand beyond a binary of choices this way, chaining as many "else-if"s before we finally get to an `else`.
+
+The `else` has to be the last thing. Try compiling the following code:
+
+    #include <iostream>
+    using namespace std;
+    
+    int main(){
+    
+      string input;
+      cout << "Name an animal: ";
+      cin >> input;
+    
+      if(input == "dog"){
+        cout << "The dog goes woof" << endl;
+      }
+      else if(input == "cat"){
+        cout << "The cat seeks revenge" << endl;
+      }
+      else {
+        cout << "I...don't know what to say" << endl;
+      }
+      else if(input == "possum"){
+        cout << "The possum faints dramatically" << endl;
+      }
+    
+      return 0;
+    }
+
+The C++ compiler just completely rejects this program as poorly defined!
+
+That is, in fact, a good thing!
+
+
+<a id="orgca982e4"></a>
+
+### DONE An authentication quiz
+
+Okay, let's do something silly as an example of putting some of these concepts together. A little program that runs a very special security quiz that asks you a few questions, use some variables, and then print out the results. This will determine, in a foolproof way, if the person answering the questions is definitely me.
+
+    #include <iostream>
+    using namespace std;
+    
+    int main(){
+      string q1 = "Have you ever touched a computer before? type 1 or 0\n";
+      bool a1;
+      string q2 = "Do you prefer whiteboards to blackboards ? type 1 or 0\n";
+      bool a2;
+      string q3 = "False? type 1 or 0\n";
+      bool a3;
+      string q4 = "Is a proof a program? type 1 or 0\n";
+      bool a4;
+    
+      cout << q1;
+      cin >> a1;
+      cout << q2;
+      cin >> a2;
+      cout << q3;
+      cin >> a3;
+      cout << q4;
+      cin >> a4;
+    
+      if((a1 && !a2 && a3) || a4){
+        cout << "Oh, hi me, it's definitely you I'm talking to because no one could crack that code" << endl;
+      }
+      else{
+        cout << "You're not left_adjoint!" << endl;
+      }
+      return 0;
+    }
+
+Can you reverse engineer what to answer for each question to hack the system? Try to parse what the condition in the final if-statement is actually saying!
+
+
+<a id="org08829de"></a>
+
+### DONE A quiz on languages
+
+This is a slightly more complicated version of the above where you accumulate a running total of how many answers they've gotten correct in order to give an appropriate response at the end.
+
+We're going to ask five questions about programming language history and if the user gets all of them right we're going to respond with something like "Hey, no CS grad students allowed here that's cheating!". If they get two to four correct then we'll say "Hey, you know a fair bit!".  If they get one correct we'll say "Well you are the start of your journey" and if they get none correct we'll say "Okay, admit it, you threw that one".
+
+Before you read ahead and see how I did it, see if you can do this yourself first with five questions you think of, then read my solution.
+
+Okay here's my version:
+
+    #include <iostream>
+    using namespace std;
+    
+    int main(){
+    
+      int numberCorrect = 0;
+    
+      string input;
+    
+      cout << "Is C++ a programming language? y/n" << endl;
+      cin >> input;
+    
+      if(input == "y"){
+        cout << "Darn right it is" << endl;
+        numberCorrect = numberCorrect + 1;
+      }
+      else {
+        cout << "You're messing with me, right?" << endl;
+      }
+    
+      cout << "Is the untyped lambda calculus a total language? y/n" << endl;
+      cin >> input;
+      if(input == "n"){
+        cout << "Wow, you know your stuff! A little suspiciously so, actually" << endl;
+        numberCorrect = numberCorrect + 1;
+      }
+      else{
+        cout << "I didn't expect you to get that one, honestly" << endl;
+      }
+    
+      cout << "Are JavaScript and Java related languages? y/n" << endl;
+      cin >> input;
+      if(input == "n"){
+        cout << "You're right! It was entirely a marketing decision to give JavaScript a similar name!" << endl;
+        numberCorrect = numberCorrect + 1;
+      }
+      else{
+        cout << "That's a common misconception!" << endl;
+      }
+    
+      cout << "Is there a fundamental difference between interpreted and compiled languages? y/n" << endl;
+      cin >> input;
+      if(input == "n"){
+        cout << "That's right. Those are ways that a language can be implemented which is a separate concern from the definition of a language itself!" << endl;
+        numberCorrect = numberCorrect + 1;
+      }
+      else{
+        cout << "That's also a common misconception!" << endl;
+      }
+    
+      cout << "Is C still worth learning if you know C++? y/n" << endl;
+      cin >> input;
+      if(input == "y"){
+        cout << "Absolutely!" << endl;
+        numberCorrect = numberCorrect + 1;
+      }
+      else{
+        cout << "It still has its place!" << endl;
+      }
+    
+      if(numberCorrect == 5){
+        cout << "Hey no CS grad students allowed here, that's cheating!" << endl;
+      }
+      else if(numberCorrect >= 2){
+        cout << "You really know your stuff!" << endl;
+      }
+      else if(numberCorrect > 0){
+        cout << "You're at the beginning of a long, fun, journey!" << endl;
+      }
+      else {
+        cout << "Oh, okay, you threw that one on purpose" << endl;
+      }
+    
+      return 0;
+    }
+
+Now if you're looking at my solution, do you notice how I used a chain of `else-if` statements? What do you think would happen if, instead, I actually had them just as `if` statements with an `else` at the very end?
+
+It won't *quite* work right, but can you see why? Hint: try getting 5 correct after turning the middle `else-if` statements into plain `if`.
+
+Now why did that happen? Well the difference between an `else-if` and a plain `if` is that the `else-if` only checks if nothing else in the chain has fired, but a plain `if` will check no matter what.
+
+You can change this `else-if` example to be based around `if` statements instead if you make the conditions more complicated, like the first one needs to become `numberCorrect >=2 && numberCorrect < 5`.
+
+
+<a id="org88e943b"></a>
+
+### The dirty truth about booleans in C++
+
+Beware, absolute nastiness awaits you in this section. You'll learn about horrendous, semantics breaking, decisions in the history of programming language design.
+
+So, you see dear reader, it turns out that 
+
+    #include <iostream>
+    using namespace std;
+    
+    int main(){
+      if(true == 1){
+        cout << "true is the same as 1" << endl;
+      }
+    
+      if(false == 0){
+        cout << "false is the same as 0" << endl;
+      }
+    
+      int num = 1;
+      if(true == num){
+        cout << "true is 1 even if we insist that the 1 is an int" << endl;
+      }
+    }
+
+Compile this code and run it to confirm the horrible truth, but you'll see that booleans are really just numbers. Which is honestly a terrible decision because it means there's all sorts of wrong things that can happen.
+
+    #include <iostream>
+    using namespace std;
+    
+    int main(){
+      int num;
+      cout << "Enter a number, promise I won't misuse it" << endl;
+      cin >> num;
+      if(num){ // whoops I meant to compare this to something but I got distracted by a dog
+        cout << "This means that num is greater than 3" << endl;
+        cout << "See? " << num << endl;
+      }
+      else{
+        cout << "num is too small" << endl;
+      }
+      return false; // what is happening here
+    }
+
+Look at this wretched code! `return false`? `if(num)`? This is terrible! And the compiler did *nothing* to stop it!
+
+Woe be upon us!
+
+
+<a id="orgb6edda8"></a>
 
 ### Exercises
 
@@ -802,9 +1287,9 @@ If I have questions a and b then `a && b` only returns `true` if **both** `a` an
 3.  **Challenge**: Build an eligibility checker that asks for age and tells the user what they can legally do (vote at 18, drink at 21, rent a car at 25, run for president at 35).
 
 
-<a id="orgb344e1b"></a>
+<a id="orgbbf0d11"></a>
 
-### TODO Letting the compiler figure out the type
+## DONE Letting the compiler figure out the type
 
 There's a fun trick you can do in C++: not even bother writing the type and, instead, just letting the compiler figure out&#x2014;in the process of compiling&#x2014;what the type is supposed to be for you! We can do that with the \`auto\` keyword.
 
@@ -822,188 +1307,293 @@ So we can actually do things like:
     
     }
 
+This is an example of something called *type inference*. There are entire programming languages built around the idea of type inference such as Haskell! This is very different than languages like Python that don't really *have* types that are checked by the compiler/interpreter.
 
-<a id="orgbf09a13"></a>
+I'd encourage you to use this sparingly when you're first learning to code but the more experienced you become, feel free to use this trick.
 
-### DONE Data formatting <code>[2/2]</code>
+
+<a id="org78412b6"></a>
+
+## DONE Data formatting <code>[3/3]</code>
 
 Now we get to a useful, but perhaps slightly tedious, set of skills to learn: how to properly format your output.
 
 Note that all of the following examples mean you also need to include the library `<iomanip>` as well by adding the line `#include <iomanip>` into your code.
 
-1.  DONE Making a table
 
-    So if we wanted to make a table in C++ we might want to do something like use some '|' as dividers like this. For this and the rest of the examples in this table I'm going to assume that we're making a table that shows information about pets: their name, species, and how old they are. If we try this in the naive way we'll try something like this:
-    
-        #include <iostream>
-        using namespace std;
-        
-        int main(){
-          cout << "|" << "Pet name"
-               << "|" << "Pet species"
-               << "|" << "Pet age"
-               << "|" << endl;
-        
-          cout << "|" << "Liese"
-               << "|" << "Cat"
-               << "|" << "24"
-               << "|" << endl;
-        
-          cout << "|" << "Dora"
-               << "|" << "Dachshund"
-               << "|" << "15"
-               << "|" << endl;
-        
-          return 0;
-        }
-    
-    Now if you try running this code you'll discover that it looks, well, **terrible**. Everything is badly misaligned. Okay, so what we need is the ability to control the spacing: to set a *width* to the a field and let the text comfortably inside that space. Thankfully, C++ already has a function to do that: `setw`, which stands for "set width". The `setw` function takes one argument, an `int`, and sets aside that much space for the next piece of text you pass to `cout`.
-    
-    We can test it out by modifying our program like this:
-    
-        #include <iostream>
-        #include <iomanip>
-        using namespace std;
-        
-        int main(){
-          cout << "|" << setw(15) << "Pet name"
-               << "|" << setw(15) << "Pet species"
-               << "|" << setw(15) << "Pet age"
-               << "|" << endl;
-        
-          cout << "|" << setw(15) << "Liese"
-               << "|" << setw(15) << "Cat"
-               << "|" << setw(15) << "24"
-               << "|" << endl;
-        
-          cout << "|" << setw(15) << "Dora"
-               << "|" << setw(15) << "Dachshund"
-               << "|" << setw(15) << "15"
-               << "|" << endl;
-        
-          return 0;
-        }
-    
-    Exercise:
-    
-    > So what we've left implicit so far is that a call to `setw` will modify the *next* thing. Try out, for yourself, what happens if you put it in front of the "|" instead.
-    
-    This is *alright* but personally I think the way the data and columns are aligned like this makes it feel hard to skim. I think it looks better to have the column names aligned the *opposite* way to the data. So C++ has an easy way of doing this: `cout << left` will make data left-aligned and `cout << right` will make the data right-aligned. Once you set an alignment it stays that way until you change it again. So we need to do something like this
-    
-        #include <iostream>
-        #include <iomanip>
-        using namespace std;
-        
-        int main(){
-          cout << left;
-          cout << "|" << setw(15) << "Pet name"
-               << "|" << setw(15) << "Pet species"
-               << "|" << setw(15) << "Pet age"
-               << "|" << endl;
-          cout << right;
-        
-          cout << "|" << setw(15) << "Liese"
-               << "|" << setw(15) << "Cat"
-               << "|" << setw(15) << "24"
-               << "|" << endl;
-        
-          cout << "|" << setw(15) << "Dora"
-               << "|" << setw(15) << "Dachshund"
-               << "|" << setw(15) << "15"
-               << "|" << endl;
-        
-          return 0;
-        }
-    
-    That's slightly easier to read, but we still have room to fuss around with this program. Rather than playing with the alignment of the column names let's try adding a visible divider. To do that we can play with `setfill`, another function that lets us replace the spaces in the padding created by `setw` with any character we want.
-    
-        #include <iostream>
-        #include <iomanip>
-        using namespace std;
-        
-        int main(){
-        
-          cout << "|" << setw(15) << "Pet name"
-               << "|" << setw(15) << "Pet species"
-               << "|" << setw(15) << "Pet age"
-               << "|" << endl;
-        
-          cout << setfill('-');
-          cout << "|" << setw(15) << ""
-               << "|" << setw(15) << ""
-               << "|" << setw(15) << ""
-               << "|" << endl;
-          cout << setfill(' ');
-        
-        
-          cout << "|" << setw(15) << "Liese"
-               << "|" << setw(15) << "Cat"
-               << "|" << setw(15) << "24"
-               << "|" << endl;
-        
-          cout << "|" << setw(15) << "Dora"
-               << "|" << setw(15) << "Dachshund"
-               << "|" << setw(15) << "15"
-               << "|" << endl;
-        
-          return 0;
-        }
+<a id="orgb8c384d"></a>
 
-2.  DONE Formatting decimal points
+### DONE Making a table
 
-    Okay the other formatting topic that we need to deal with is how to deal with decimal points. Let's look at a simple program with doubles and you can immediately see the formatting problem:
+So if we wanted to make a table in C++ we might want to do something like use some '|' as dividers like this. For this and the rest of the examples in this table I'm going to assume that we're making a table that shows information about pets: their name, species, and how old they are. If we try this in the naive way we'll try something like this:
+
+    #include <iostream>
+    using namespace std;
     
-        #include <iostream>
-        using namespace std;
-        
-        int main(){
-        
-          double cost = 100;
-        
-          cout << "Calculating tax (33%) on your bill: $" << cost / 3 << endl;
-        
-          return 0;
-        }
+    int main(){
+      cout << "|" << "Pet name"
+           << "|" << "Pet species"
+           << "|" << "Pet age"
+           << "|" << endl;
     
-    it prints out that the tax is $33.3333. Well that's not how we write cents! We actually only want to include two decimal points. We can do that with `cout << setprecision(2)` so our code becomes
+      cout << "|" << "Liese"
+           << "|" << "Cat"
+           << "|" << 24
+           << "|" << endl;
     
-        #include <iostream>
-        #include <iomanip>
-        using namespace std;
-        
-        int main(){
-        
-          double cost = 100;
-        
-          cout << setprecision(2);
-        
-          cout << "Calculating tax (33%) on your bill: $" << cost / 3 << endl;
-        
-          return 0;
-        }
+      cout << "|" << "Dora"
+           << "|" << "Dachshund"
+           << "|" << 15
+           << "|" << endl;
     
-    Wait, shoot, no that's still not right. Okay so the problem here is that `setprecision(2)` is going to keep "two digits" so if your number ends up being 0.3333 it will print as 0.33. If it's 33.3333 it will print as 33. That's not *really* what we want.
+      return 0;
+    }
+
+Now if you try running this code you'll discover that it looks, well, **terrible**. Everything is badly misaligned. Okay, so what we need is the ability to control the spacing: to set a *width* to the a field and let the text comfortably inside that space. Thankfully, C++ already has a function to do that: `setw`, which stands for "set width". The `setw` function takes one argument, an `int`, and sets aside that much space for the next piece of text you pass to `cout`.
+
+We can test it out by modifying our program like this:
+
+    #include <iostream>
+    #include <iomanip>
+    using namespace std;
     
-    So we need to *also* do `cout << fixed;` in order to make sure it *always* prints exactly two things to the right of the decimal, all the time.
+    int main(){
+      cout << "|" << setw(15) << "Pet name"
+           << "|" << setw(15) << "Pet species"
+           << "|" << setw(15) << "Pet age"
+           << "|" << endl;
     
-        #include <iostream>
-        #include <iomanip>
-        using namespace std;
-        
-        int main(){
-        
-          double cost = 100;
-        
-          cout << setprecision(2);
-          cout << fixed;
-        
-          cout << "Calculating tax (33%) on your bill: $" << cost / 3 << endl;
-        
-          return 0;
-        }
+      cout << "|" << setw(15) << "Liese"
+           << "|" << setw(15) << "Cat"
+           << "|" << setw(15) << 24
+           << "|" << endl;
+    
+      cout << "|" << setw(15) << "Dora"
+           << "|" << setw(15) << "Dachshund"
+           << "|" << setw(15) << 15
+           << "|" << endl;
+    
+      return 0;
+    }
+
+Exercise:
+
+> So what we've left implicit so far is that a call to `setw` will modify the *next* thing. Try out, for yourself, what happens if you put it in front of the "|" instead.
+
+This is *alright* but personally I think the way the data and columns are aligned like this makes it feel hard to skim. I think it looks better to have the column names aligned the *opposite* way to the data. So C++ has an easy way of doing this: `cout << left` will make data left-aligned and `cout << right` will make the data right-aligned. Once you set an alignment it stays that way until you change it again. So we need to do something like this
+
+    #include <iostream>
+    #include <iomanip>
+    using namespace std;
+    
+    int main(){
+      cout << left;
+      cout << "|" << setw(15) << "Pet name"
+           << "|" << setw(15) << "Pet species"
+           << "|" << setw(15) << "Pet age"
+           << "|" << endl;
+      cout << right;
+    
+      cout << "|" << setw(15) << "Liese"
+           << "|" << setw(15) << "Cat"
+           << "|" << setw(15) << 24
+           << "|" << endl;
+    
+      cout << "|" << setw(15) << "Dora"
+           << "|" << setw(15) << "Dachshund"
+           << "|" << setw(15) << 15
+           << "|" << endl;
+    
+      return 0;
+    }
+
+That's slightly easier to read, but we still have room to fuss around with this program. Rather than playing with the alignment of the column names let's try adding a visible divider. To do that we can play with `setfill`, another function that lets us replace the spaces in the padding created by `setw` with any character we want.
+
+    #include <iostream>
+    #include <iomanip>
+    using namespace std;
+    
+    int main(){
+    
+      cout << "|" << setw(15) << "Pet name"
+           << "|" << setw(15) << "Pet species"
+           << "|" << setw(15) << "Pet age"
+           << "|" << endl;
+    
+      cout << setfill('-');
+      cout << "|" << setw(15) << ""
+           << "|" << setw(15) << ""
+           << "|" << setw(15) << ""
+           << "|" << endl;
+      cout << setfill(' ');
+    
+    
+      cout << "|" << setw(15) << "Liese"
+           << "|" << setw(15) << "Cat"
+           << "|" << setw(15) << 24
+           << "|" << endl;
+    
+      cout << "|" << setw(15) << "Dora"
+           << "|" << setw(15) << "Dachshund"
+           << "|" << setw(15) << 15
+           << "|" << endl;
+    
+      return 0;
+    }
+
+Quick Check: What happens if the longest word is longer than the space you set aside for it? Does it truncate or does it through off the formatting? Try it and find out!
 
 
-<a id="orga6053b9"></a>
+<a id="org06faf02"></a>
+
+### DONE Abstracting formatting with functions
+
+If you've been following along and doing all the exercises, you'll have seen the concept of functions once already. Functions are ways to *encapsulate*, to package up, code for re-use later. This can let us simplify our programs by only having to implement a concept *once* and then using it again and again.
+
+For example, let's simplify our pet tables a bit!
+
+Before I *show* you how to change the code, take a second to look it over and note what is repetitious about it. What jumps out to you?
+
+It's the `cout ... setw(15) ... setw(15) ...` lines, right?
+
+So what do all these lines have in common? They all have the same pattern of `"|"` and `setw(15)`. What's different between them? The actual values passed in: the pet's name, species, and age.
+
+Let's write a new function that takes those three items as arguments and builds up the `cout << ...` line from that!
+
+    #include <iostream>
+    #include <iomanip>
+    using namespace std;
+    
+    void petRow(string name, string species, int age){
+      cout << "|" << setw(15) << name
+           << "|" << setw(15) << species
+           << "|" << setw(15) << age
+           << "|" << endl;
+    }
+    
+    int main(){
+    
+      cout << "|" << setw(15) << "Pet name"
+           << "|" << setw(15) << "Pet species"
+           << "|" << setw(15) << "Pet age"
+           << "|" << endl;
+    
+      cout << setfill('-');
+      cout << "|" << setw(15) << ""
+           << "|" << setw(15) << ""
+           << "|" << setw(15) << ""
+           << "|" << endl;
+      cout << setfill(' ');
+    
+      petRow("Liese", "Cat", 24);
+      petRow("Dora", "Dachshund", 15);
+    
+      return 0;
+    }
+
+Okay, so this is an improvement! Now if we want to add new rows it's going to be nice and easy: a single call to `petRow` each.
+
+Now, there's one annoying thing, right? We can't actually use this `petRow` function in order to also print the header of the table, because "Pet age" is a string but the actual ages are numbers!
+
+C++ does, actually, give us a way to deal with this but it's mildly annoying: we can write a second function that has the same name but different parameters, like so.
+
+    #include <iostream>
+    #include <iomanip>
+    using namespace std;
+    
+    void petRow(string header1, string header2, string header3){
+      cout << "|" << setw(15) << header1
+           << "|" << setw(15) << header2
+           << "|" << setw(15) << header3
+           << "|" << endl;
+    }
+    
+    
+    void petRow(string name, string species, int age){
+      cout << "|" << setw(15) << name
+           << "|" << setw(15) << species
+           << "|" << setw(15) << age
+           << "|" << endl;
+    }
+    
+    int main(){
+    
+      petRow("Pet name", "Pet species", "Pet age");
+    
+      cout << setfill('-');
+      petRow("","","");
+      cout << setfill(' ');
+    
+      petRow("Liese", "Cat", 24);
+      petRow("Dora", "Dachshund", 15);
+    
+      return 0;
+    }
+
+This is called "overloading" and is a trick that C++ lets you use when you need to write conceptually related functions that have slightly different arguments. 
+
+Is this a satisfying solution? That's a personal question of style, but it *is* the method that C++ gives us for handling this problem.
+
+The *good* thing is that this lets us make row after row after row with just simple calls to functions, which will be helpful very soon.
+
+
+<a id="org50a2069"></a>
+
+### DONE Formatting decimal points
+
+Okay the other formatting topic that we need to deal with is how to deal with decimal points. Let's look at a simple program with doubles and you can immediately see the formatting problem:
+
+    #include <iostream>
+    using namespace std;
+    
+    int main(){
+    
+      double cost = 100;
+    
+      cout << "Calculating tax (33%) on your bill: $" << cost / 3 << endl;
+    
+      return 0;
+    }
+
+it prints out that the tax is $33.3333. Well that's not how we write cents! We actually only want to include two decimal points. We can do that with `cout << setprecision(2)` so our code becomes
+
+    #include <iostream>
+    #include <iomanip>
+    using namespace std;
+    
+    int main(){
+    
+      double cost = 100;
+    
+      cout << setprecision(2);
+    
+      cout << "Calculating tax (33%) on your bill: $" << cost / 3 << endl;
+    
+      return 0;
+    }
+
+Wait, shoot, no that's still not right. Okay so the problem here is that `setprecision(2)` is going to keep "two digits" so if your number ends up being 0.3333 it will print as 0.33. If it's 33.3333 it will print as 33. That's not *really* what we want.
+
+So we need to *also* do `cout << fixed;` in order to make sure it *always* prints exactly two things to the right of the decimal, all the time.
+
+    #include <iostream>
+    #include <iomanip>
+    using namespace std;
+    
+    int main(){
+    
+      double cost = 100;
+    
+      cout << setprecision(2);
+      cout << fixed;
+    
+      cout << "Calculating tax (33%) on your bill: $" << cost / 3 << endl;
+    
+      return 0;
+    }
+
+
+<a id="orge55a11c"></a>
 
 ### Exercises
 
@@ -1011,12 +1601,10 @@ Note that all of the following examples mean you also need to include the librar
 2.  **Intermediate**: Display a multiplication table (1-10) with proper alignment and borders.
 3.  **Challenge**: Create a formatted invoice that includes items, quantities, unit prices, line totals, subtotal, tax (8.5%), and grand total - all properly aligned and formatted.
 
-1.  TODO Abstracting formatting with functions
 
+<a id="orgf3d412a"></a>
 
-<a id="org6ca5dff"></a>
-
-### DONE Your first while loop: a number guessing game
+## DONE Your first while loop: a number guessing game
 
 In this section we'll be covering how to do your first kind of loop in C++, the `while` loop. Conceptually, a `while` loop lets you do something over and over again until the question "should I keep going" returns false.
 
@@ -1045,18 +1633,18 @@ So, let's take the smallest silliest example we can to show the syntax: a progra
     }
 
 
-<a id="orgfed9b29"></a>
+<a id="org322d4f2"></a>
 
-### Exercises
+## Exercises
 
 1.  **Basic**: Write a countdown program that asks for a starting number and counts down to 0.
 2.  **Intermediate**: Create a password checker that keeps asking until the user enters "quit" or the correct password (you choose it).
 3.  **Challenge**: Implement a simple calculator that keeps performing operations until the user enters 0 for both numbers.
 
 
-<a id="org43cc71e"></a>
+<a id="orga02a9ad"></a>
 
-### TODO A randomized guessing game
+### DONE A randomized guessing game
 
 So a guessing game where the number is the same every time isn't very interesting. What we really want is the ability to have the program choose a new number "randomly" and then ask you to guess. Of course, it'd be a pretty unfair game if it didn't at least give you a hint so this program will also tell you whether to guess higher or lower.
 
@@ -1168,18 +1756,58 @@ Now we're finally ready to write our number guessing game
 Try to read this code through and understand the logic of what it's doing! The only thing we haven't explained to this point is the `%` operator, which is the "modulus" operator. Basically, `a % b` returns the remainder&#x2014;in the "you're learning division as a kid" sense of remainder&#x2014;of dividing `a` by `b`. Now, in terms of why we **care** about this operator it gives us a quick way to take a big range of numbers and map it to something smaller. For example, if we do `a % 20` our outputs, no matter what `a` is, will be between 0 and 19. Similarly if we say `a % 100` this will give us an output that's between 0 and 99.
 
 
-<a id="org4eab2af"></a>
+<a id="org5f168b3"></a>
 
-### Exercises
+### DONE Adding a limited number of guesses
 
-1.  **Basic**: Simulate rolling two six-sided dice and display their individual values and sum.
-2.  **Intermediate**: Create a "Rock, Paper, Scissors" game where the computer randomly chooses and you play one round.
-3.  **Challenge**: Simulate flipping a coin 1000 times and report the percentage of heads vs tails. Bonus: Allow the user to specify the number of flips.
+The last thing we need to do with our "number guessing game" is adding a limited number of guesses. To do that we're going to have to
 
-1.  TODO Adding a limited number of guesses
+-   add another number container
+-   add a second check to the while loop to make sure that the loop keeps going as long as the number of guesses is greater than zero
+
+Try doing this yourself before checking my solution below.
+
+1.  My solution
+
+        #include <iostream>
+        #include <cstdlib>
+        
+        using namespace std;
+        
+        int main(){
+          // we make a variable for our guess
+          int guess = -1;
+          int numGuesses = 3;
+          // we set the seed for our secret number
+          srand(time(0));
+          // we set our secret number, we use the % function to scale rand() to 0-99 and then add 1 to make
+          // the range 1-100
+          int secret = rand() % 100 + 1;
+        
+          while(guess != secret && numGuesses > 0){
+            numGuesses = numGuesses-1;
+            cout << "What do you think the number is?" << endl;
+            cin >> guess;
+            if(guess > secret){
+              cout << "lower!" << endl;
+            }
+            else if(guess < secret){
+              cout << "higher!" << endl;
+            }
+          }
+          if(guess == secret){
+            cout << "You guessed it!" << endl;
+          }
+          else{
+            cout << "Shoot, you ran out of guesses!" << endl;
+          }
+          return 0;
+        }
+    
+    The only truly tricky bit is the fact that you need to make sure that you actually check to see if *why* the while-loop broke at the end in order to decide what message to give, otherwise you'll congratulate them for winning when they lost!
 
 
-<a id="org8a5906b"></a>
+<a id="orgb7af1af"></a>
 
 ### DONE Averaging numbers and while-loops
 
@@ -1247,7 +1875,16 @@ That's right! You're dividing by zero! So instead we want to, at the end, replac
 Now you can see that we've safeguarded against dividing by zero!
 
 
-<a id="orga6e4b4c"></a>
+<a id="org00a46e7"></a>
+
+### Exercises
+
+1.  **Basic**: Simulate rolling two six-sided dice and display their individual values and sum.
+2.  **Intermediate**: Create a "Rock, Paper, Scissors" game where the computer randomly chooses and you play one round.
+3.  **Challenge**: Simulate flipping a coin 1000 times and report the percentage of heads vs tails. Bonus: Allow the user to specify the number of flips.
+
+
+<a id="orgc5c65f5"></a>
 
 ### Exercises
 
@@ -1256,9 +1893,14 @@ Now you can see that we've safeguarded against dividing by zero!
 3.  **Challenge**: Calculate a weighted average where the user enters value-weight pairs. Stop when weight is 0. Example: test1=85, weight=0.3; test2=90, weight=0.7; weighted average = 88.5.
 
 
-<a id="orga63a7ea"></a>
+<a id="org6f0055e"></a>
 
-## TODO For-loops (and the shape of loops to come)<sup><a id="fnr.9.9" class="footref" href="#fn.9" role="doc-backlink">9</a></sup> <code>[1/2]</code>
+## TODO For-loops (and the shape of loops to come)<sup><a id="fnr.10.100" class="footref" href="#fn.10" role="doc-backlink">10</a></sup> <code>[1/2]</code>
+
+
+<a id="orgc7aa713"></a>
+
+### The syntax of for-loops
 
 So far we've seen some examples of using `while` loops and now it's time to see the other kind of loop: the `for`-loop. Unlike `while`, which is "indefinite" iteration because it could theoretically go on forever, the `for`-loop is "definite" iteration because it should (unless there's a bug) only run for a pre-determined number of times.
 
@@ -1315,7 +1957,7 @@ You can count down like this:
 > Exercise: Try making a for-loop that prints out only even numbers. Again, you could do this by changing the `cout` statement but I want you to change the for-loop itself.
 
 
-<a id="org108cf10"></a>
+<a id="org078365d"></a>
 
 ### DONE Summing a bunch of numbers
 
@@ -1343,7 +1985,7 @@ Note that what we've done is create a new variable, `sum`, in order to hold the 
 > Exercise: Change this so that it sums the *squares* of 0 - 9.
 
 
-<a id="orgf8a116a"></a>
+<a id="orgb2c043b"></a>
 
 ### Exercises
 
@@ -1358,9 +2000,9 @@ Note that what we've done is create a new variable, `sum`, in order to hold the 
 3.  **Challenge**: Print all prime numbers between 1 and 100. Hint: For each number, check if it's divisible by any number from 2 to its square root.
 
 
-<a id="org2a086d7"></a>
+<a id="org16c391b"></a>
 
-### TODO (Advanced) Arrays: the reasons for `for`
+## TODO (Advanced) Arrays: the reasons for `for`
 
 Here's a more advanced topic that you'll be needing not just for this class but for the rest of your classes where you're doing C++: arrays.
 
@@ -1435,12 +2077,12 @@ So line by line what this program does is:
 3.  a for-loop that asks for the information for each row of the table and fills it in
 4.  a for loop that prints out each row
 
-> Exercise: Take this program and add another column for the age of the pet
+> Quick Check: Take this program and add another column for the age of the pet
 > 
 > That means you'll need to add a new array of ints to hold the age, ask for the age with cin, and also print that out appropriately.
 
 
-<a id="org29dd8b5"></a>
+<a id="org5be4a5c"></a>
 
 ### Exercises
 
@@ -1469,10 +2111,107 @@ So line by line what this program does is:
           return 0;
         }
     
-    Well when I ran this I got `1663205712` printed out to the console. If you remember from way at the beginning of this tutorial when we went over what happens when you use an uninitialized variable, you might see a similarity! Except that, in some ways, this is worse!
+    Well when I ran this I got `1663205712` printed out to the console. If you remember from way at the beginning of this tutorial when we went over what happens when you use an uninitialized variable, you might see a similarity! Except that, in some ways, this is worse.
+    
+    It *feels* like I initialized everything correctly, I told C++ how big the array should be, and yet C++ didn't stop me from going off the edge of the world!
+    
+    We'll cover, in greater depth, *why* C++ doesn't protect you from this error but for now the way you should think of it is that when you declare an array variable you're actively setting aside a contiguous set of cubbyholes in the storage wall, but that **you** need to keep track of which ones belong to which array. This is part of the reason why, in our previous example, we had a separate variable called `numPets` that kept track of how many pets were supposed to be in the database. We reproduce the example below.
+    
+        #include <iostream>
+        using namespace std;
+        
+        int main(){
+          int numPets = 5;
+        
+          string petNames[numPets];
+          string petSpecies[numPets];
+        
+          for(int i=0; i < numPets; i++){
+            cout << "Enter the name of the pet: ";
+            cin >> petNames[i];
+            cout << "Enter the pet species: ";
+            cin >> petSpecies[i];
+          }
+        
+          for(int i=0; i < numPets; i++){
+            cout << petNames[i] << " is a " << petSpecies[i] << endl;
+          }
+        
+          return 0;
+        }
+    
+    Now you might look at this and think "couldn't you accidentally change numPets?" and, yes, you could! I could write something like this:
+    
+        #include <iostream>
+        using namespace std;
+        
+        int main(){
+          int numPets = 5;
+        
+          string petNames[numPets];
+          string petSpecies[numPets];
+        
+          numPets = 10;
+        
+          for(int i=0; i < numPets; i++){
+            cout << "Enter the name of the pet: ";
+            cin >> petNames[i];
+            cout << "Enter the pet species: ";
+            cin >> petSpecies[i];
+          }
+        
+          for(int i=0; i < numPets; i++){
+            cout << petNames[i] << " is a " << petSpecies[i] << endl;
+          }
+        
+          return 0;
+        }
+    
+    This is why we have *constants* in C++, which are like variables but once they have a value that value isn't allowed to change! It's just like any other variable but you put `const` in front of the variable declaration:
+    
+        #include <iostream>
+        using namespace std;
+        
+        int main(){
+          const int numPets = 5;
+        
+          string petNames[numPets];
+          string petSpecies[numPets];
+        
+          for(int i=0; i < numPets; i++){
+            cout << "Enter the name of the pet: ";
+            cin >> petNames[i];
+            cout << "Enter the pet species: ";
+            cin >> petSpecies[i];
+          }
+        
+          for(int i=0; i < numPets; i++){
+            cout << petNames[i] << " is a " << petSpecies[i] << endl;
+          }
+        
+          return 0;
+        }
+    
+    Go ahead and try to mess it up by changing `numPets` later in the program and see what happens when you try to compile and run it?
+
+2.  TODO Faking a variable-length array
 
 
-<a id="org091f899"></a>
+<a id="orgbd7abb6"></a>
+
+## TODO Menus with while-loops
+
+Here's another idiom that we're going to use constantly: text-driven menus.
+
+The basic principle is pretty simple:
+
+-   create a variable to hold a number (an `int`, most likely) or a variable to hold text (a `char` or `string`)
+-   print out a prompt that explains the menu
+-   read in the option chosen into the variable you made
+-   use if-statements to decide what to do next
+
+
+<a id="org64231c5"></a>
 
 ## TODO Data validation, the world's most annoying idiom <code>[1/2]</code>
 
@@ -1484,7 +2223,7 @@ Here's two scenarios:
 -   The user enters an option that is the **wrong** kind of data, which means that `cin` is going to have a hiccup
 
 
-<a id="orgd597277"></a>
+<a id="org25c740f"></a>
 
 ### DONE Right kind of data, but wrong option
 
@@ -1510,7 +2249,7 @@ So what we mean here is something like you asking for "yes" or "no" from the use
     }
 
 
-<a id="orgfe27c4d"></a>
+<a id="org1fdf612"></a>
 
 ### TODO The wrong kind of data (cin.fail() &c.) <code>[0/2]</code>
 
@@ -1631,7 +2370,7 @@ Okay so from here we have some interesting issues that come down to exactly **wh
         }
 
 
-<a id="org6beb4dc"></a>
+<a id="org25cdd62"></a>
 
 ### Exercises
 
@@ -1640,17 +2379,17 @@ Okay so from here we have some interesting issues that come down to exactly **wh
 3.  **Challenge**: Create a date validator that checks valid month (1-12) and appropriate days for each month (including leap years for February).
 
 
-<a id="org40f85b7"></a>
+<a id="org5b00bfd"></a>
 
 # TODO More advanced programs <code>[1/3]</code>
 
 
-<a id="orgbc52fc2"></a>
+<a id="org794e692"></a>
 
 ## TODO Functions on strings
 
 
-<a id="orge80fe25"></a>
+<a id="orge87e445"></a>
 
 ### DONE Simple operations on strings
 
@@ -1694,7 +2433,7 @@ Okay, also we should talk about how to turn data into strings because this is go
     }
 
 
-<a id="org41d1d13"></a>
+<a id="orgdd23562"></a>
 
 ### Exercises
 
@@ -1703,7 +2442,7 @@ Okay, also we should talk about how to turn data into strings because this is go
 3.  **Challenge**: Create a word censoring program that replaces specified "bad words" with asterisks of the same length.
 
 
-<a id="orgd6e6cf1"></a>
+<a id="orgcb13c36"></a>
 
 ### TODO `find` and `substr`
 
@@ -1723,8 +2462,30 @@ Okay, so now let's talk about some convenience functions that help us take apart
       return 0;
     }
 
+It should have returned the number `10` when you ran it. Can you guess what that number represents?
 
-<a id="orgb972a66"></a>
+    t h i s _ i s _ a _  r  o  c  k
+    0 1 2 3 4 5 6 7 8 9 10 11 12 13
+
+It's the position in the string where the *substring* rock starts! Here, let's test this theory by also checking for `"is"` . What should `find` return when we run `str1.find("is")`?
+
+    #include <iostream>
+    #include <string>
+    using namespace std;
+    
+    int main(){
+    
+      string str1 = "this is a rock";
+    
+      // let's see what find does
+      cout << str1.find("is") << endl;
+      return 0;
+    }
+
+Hopefully you also saw `2`. Why `2`? Because it's not looking for *words*-per-se, it's looking for the literal characters "is", which first show up as the third and fourth letters in "this".
+
+
+<a id="org4d9ee34"></a>
 
 ### TODO Iterating over strings with for-loops
 
@@ -1754,7 +2515,7 @@ Okay so here's a wholeLower function that turns an entire string to lower case u
     }
 
 
-<a id="org6288c78"></a>
+<a id="orgaf4c1f3"></a>
 
 ### TODO Example: Sarcasm Case
 
@@ -1786,7 +2547,7 @@ Alright, here's a nice silly example for how we use for-loops with strings:
     }
 
 
-<a id="org0a34e86"></a>
+<a id="orgd1174e9"></a>
 
 ### Exercises
 
@@ -1795,7 +2556,7 @@ Alright, here's a nice silly example for how we use for-loops with strings:
 3.  **Challenge**: Implement a Caesar cipher that shifts letters by a user-specified amount. Handle wrapping (z+1 = a) and preserve case.
 
 
-<a id="orgf062e8b"></a>
+<a id="org6542e66"></a>
 
 ## DONE Switches vs. ifs
 
@@ -1964,7 +2725,7 @@ No, instead, you need to do something more like
     }
 
 
-<a id="org33cbcd2"></a>
+<a id="orgf10501c"></a>
 
 ### Exercises
 
@@ -1973,14 +2734,14 @@ No, instead, you need to do something more like
 3.  **Challenge**: Create a text-based restaurant ordering system with switch for menu categories (appetizers, mains, desserts) and nested switches for items.
 
 
-<a id="org14a273d"></a>
+<a id="org97df549"></a>
 
 ## TODO Writing your own functions
 
 
-<a id="orgc36880a"></a>
+<a id="org45e3210"></a>
 
-### TODO The basics of functions
+### TODO Functions, reintroduced
 
 So we've seen a couple of ways to define our own functions so far in this course, but we haven't **formally** talked about it.
 
@@ -2000,7 +2761,7 @@ Like, for example, consider our function for the sarcasm case up above. This fun
 
 And this tells us that we're defining a function called `sarcasmCase`, it takes a `string` as an argument that we will bind to the variable `s` for the duration of the function body, and we can see that it returns a string. That means we need to make sure that we have a `return __` where the `__` needs to be something of type string.
 
-We haven't really seen examples of it so far but you can have a bunch of function arguments. Like, consider this function that will let us make rows for a table.
+We haven't really seen examples of it so far but you can have a bunch of function arguments. Here's a variant of our functions for building tables. 
 
     #include <iostream>
     #include <iomanip>
@@ -2044,7 +2805,7 @@ We haven't really seen examples of it so far but you can have a bunch of functio
     }
 
 
-<a id="orgb2f711f"></a>
+<a id="orgf3c6302"></a>
 
 ### Exercises
 
@@ -2053,7 +2814,408 @@ We haven't really seen examples of it so far but you can have a bunch of functio
 3.  **Challenge**: Implement a function that checks if a number is prime. Then use it to find all twin primes (primes that differ by 2) up to 100.
 
 
-<a id="org9672ec0"></a>
+<a id="org40d27db"></a>
+
+## Scope and Lifetime: Where Do Variables Live?
+
+Now that you're writing functions, you've probably noticed something: variables you declare inside a function don't seem to exist outside of it. And variables you declare in `main` aren't accessible inside your functions. What's going on?
+
+This is all about **scope** and \*lifetime\*—two related but distinct concepts that control where variables can be used and how long they exist.
+
+Think of scope as "where can I see this variable?" and lifetime as "when does this variable exist?" Understanding these concepts will help you avoid confusing bugs and write cleaner, more organized code.
+
+
+<a id="org11ddd53"></a>
+
+### Local Variables: The Building Blocks
+
+Whenever you declare a variable inside a block of code (anything between `{ }`), that variable is **local** to that block. It only exists within those curly braces, and it disappears when the block ends.
+
+Let's start with a simple example:
+
+    #include <iostream>
+    using namespace std;
+    
+    int main(){
+      int x = 10;
+    
+      if(x > 5){
+        int y = 20;
+        cout << "Inside if: x = " << x << ", y = " << y << endl;
+      }
+    
+      cout << "Outside if: x = " << x << endl;
+      // cout << y << endl;  // ERROR! y doesn't exist here
+    
+      return 0;
+    }
+
+In this code, `x` is declared in `main`, so it's accessible anywhere inside `main`. But `y` is declared inside the `if` block, so it only exists there. Once we exit the `if` block, `y` is gone—it's been destroyed and its memory has been freed.
+
+If you tried to uncomment that last `cout` statement, you'd get a compiler error saying `y` was not declared in this scope.
+
+1.  Variables in Loops
+
+    This same principle applies to loops. Variables declared inside a loop only exist for that iteration of the loop:
+    
+        #include <iostream>
+        using namespace std;
+        
+        int main(){
+          for(int i = 0; i < 3; i++){
+            int loopVar = i * 10;
+            cout << "Iteration " << i << ": loopVar = " << loopVar << endl;
+          }
+        
+          // cout << loopVar << endl;  // ERROR! loopVar doesn't exist here
+          // cout << i << endl;         // ERROR! i doesn't exist here either
+        
+          return 0;
+        }
+    
+    Both `i` (the loop counter) and `loopVar` only exist inside the loop. Once the loop finishes, they're gone.
+    
+    Actually, there's something even more interesting happening here: `loopVar` is created and destroyed on **every iteration** of the loop. Each time through the loop, a fresh `loopVar` is created, used, and then destroyed. It's not the same variable being reused—it's a new one each time!
+
+
+<a id="org2b34d8f"></a>
+
+### Variables in Functions
+
+When you declare a variable inside a function, it's local to that function. Other functions can't see it, and it disappears when the function returns.
+
+    #include <iostream>
+    using namespace std;
+    
+    void calculateSomething(){
+      int result = 42;
+      cout << "Inside function: result = " << result << endl;
+    }
+    
+    int main(){
+      calculateSomething();
+    
+      // cout << result << endl;  // ERROR! result doesn't exist in main
+    
+      return 0;
+    }
+
+The variable `result` only exists inside `calculateSomething`. It's created when the function is called, and it's destroyed when the function returns. `main` has no idea that `result` even exists.
+
+1.  Function Parameters Are Local Too
+
+    Here's something that might surprise you: the parameters to a function are treated like local variables declared at the start of the function.
+    
+        #include <iostream>
+        using namespace std;
+        
+        void greet(string name){
+          // 'name' is a local variable that was initialized with the argument
+          cout << "Hello, " << name << "!" << endl;
+          name = "stranger";  // We can modify it, but...
+          cout << "Modified: " << name << endl;
+        }
+        
+        int main(){
+          string myName = "Alice";
+          greet(myName);
+        
+          cout << "Back in main: " << myName << endl;  // Still "Alice"!
+        
+          return 0;
+        }
+    
+    When we call `greet(myName)`, what happens is that a **new** local variable called `name` is created inside `greet`, and it's initialized with a **copy** of the value from `myName`. So `name` and `myName` are completely separate variables! That's why modifying `name` inside the function doesn't affect `myName` in `main`.
+    
+    This is called \*pass by value\*—we're passing the value, not the variable itself. We'll see later how to change this behavior with pass-by-reference, but first you need to understand that by default, function parameters are just local variables with initial values.
+
+
+<a id="orgaae3c3b"></a>
+
+### Variable Shadowing: When Names Collide
+
+What happens if you declare a variable with the same name in different scopes? This is called **shadowing**, and it can be confusing:
+
+    #include <iostream>
+    using namespace std;
+    
+    int main(){
+      int x = 10;
+      cout << "Outer x: " << x << endl;
+    
+      {
+        int x = 20;  // This is a DIFFERENT variable named x
+        cout << "Inner x: " << x << endl;
+      }
+    
+      cout << "Outer x again: " << x << endl;  // Back to 10
+    
+      return 0;
+    }
+
+Output:
+
+    Outer x: 10
+    Inner x: 20
+    Outer x again: 10
+
+The inner `x` "shadows" (hides) the outer `x` while the inner block is executing. Once we exit that block, the inner `x` is destroyed, and the outer `x` is visible again.
+
+This works, but it's generally considered bad practice because it's confusing. Try to give your variables distinct names to avoid shadowing.
+
+
+<a id="org6be6e3d"></a>
+
+### Global Variables: Use Sparingly!
+
+So far we've only looked at local variables. But you can also declare variables **outside** of any function, at the top level of your program. These are called **global variables**:
+
+    #include <iostream>
+    using namespace std;
+    
+    int globalCounter = 0;  // Global variable
+    
+    void incrementCounter(){
+      globalCounter++;
+    }
+    
+    void showCounter(){
+      cout << "Counter: " << globalCounter << endl;
+    }
+    
+    int main(){
+      showCounter();        // Counter: 0
+      incrementCounter();
+      incrementCounter();
+      showCounter();        // Counter: 2
+    
+      return 0;
+    }
+
+Global variables are accessible from anywhere in your program—any function can read and modify them. That might sound convenient, but it's actually a problem!
+
+1.  Why Global Variables Are Dangerous
+
+    1.  **Hard to track changes**: When any function can modify a global variable, it's hard to figure out where a bug is coming from. Which function changed the value? When?
+    
+    2.  **Hidden dependencies**: Functions that use global variables have hidden dependencies that aren't visible in their parameter lists. This makes code harder to understand and reuse.
+    
+    3.  **Naming conflicts**: As your program grows, you might accidentally use the same name for different things.
+    
+    4.  **Testing nightmare**: Functions that depend on global variables are hard to test because you have to set up the global state correctly before each test.
+
+2.  When Global Variables Are Okay
+
+    That said, there are a few legitimate uses:
+    
+    -   **Global constants**: If you use `const`, the variable can't be modified, so it's safe:
+        
+            const double PI = 3.14159265359;  // This is fine
+            const int MAX_STUDENTS = 100;     // This is fine too
+    
+    -   **Configuration that truly needs to be global**: Sometimes you have settings that really do need to be accessible everywhere (but even then, there are often better solutions you'll learn later).
+    
+    As a general rule: **prefer local variables and function parameters over global variables**. If you need to share data between functions, pass it as parameters or return it as a result.
+
+
+<a id="orgadf9f24"></a>
+
+### Lifetime vs. Scope: What's the Difference?
+
+We've been using these terms somewhat interchangeably, but they're actually different:
+
+-   **Scope**: Where in your code you can use a variable name to access the variable
+-   **Lifetime**: When the variable actually exists in memory
+
+For local variables, scope and lifetime are usually the same: the variable is created when you enter the block, and it's destroyed when you leave the block.
+
+    {
+      int x = 10;  // x is created here
+      // x's scope and lifetime both start here
+    
+      // ... do stuff with x ...
+    
+    }  // x is destroyed here (lifetime ends, scope ends)
+
+But for global variables, they're different:
+
+-   **Lifetime**: The entire execution of the program (created at startup, destroyed at shutdown)
+-   **Scope**: Anywhere in the file after the declaration (or in other files if you use certain keywords)
+
+1.  A Quick Note on Static Variables (Preview)
+
+    There's also a keyword `static` that lets you create variables with special properties, but we won't go into that in CS161A. Just know that it exists and lets you create variables with local scope but global lifetime. You'll learn more about this in CS161B when you need it.
+
+
+<a id="org5ff396f"></a>
+
+### Practical Examples: Seeing Scope in Action
+
+Let's look at a more realistic example that combines everything we've learned:
+
+    #include <iostream>
+    using namespace std;
+    
+    // Global constant (good use of global)
+    const double TAX_RATE = 0.08;
+    
+    double calculateTotal(double subtotal){
+      double tax = subtotal * TAX_RATE;  // local to this function
+      double total = subtotal + tax;     // local to this function
+      return total;
+    }
+    
+    void printReceipt(double subtotal){
+      double total = calculateTotal(subtotal);  // different 'total' than above!
+    
+      cout << "Subtotal: $" << subtotal << endl;
+      cout << "Tax:      $" << (total - subtotal) << endl;
+      cout << "Total:    $" << total << endl;
+    }
+    
+    int main(){
+      double price = 19.99;  // local to main
+    
+      printReceipt(price);
+    
+      // tax, subtotal, and total from the functions don't exist here!
+    
+      return 0;
+    }
+
+Notice how:
+
+-   `TAX_RATE` is a global constant (accessible everywhere)
+-   Each function has its own local variables
+-   `total` appears in both `calculateTotal` and `printReceipt`, but they're different variables
+-   Variables from one function don't leak into other functions
+
+
+<a id="orged1e4f6"></a>
+
+### Common Mistakes and Debugging Tips
+
+1.  Mistake 1: Assuming variables persist across function calls
+
+        void badCounter(){
+          int count = 0;  // Created fresh each time!
+          count++;
+          cout << count << endl;  // Always prints 1
+        }
+    
+    Each time you call `badCounter`, `count` is created fresh and initialized to 0. It doesn't remember its value from previous calls.
+
+2.  Mistake 2: Trying to use a variable outside its scope
+
+        if(temperature > 80){
+          string message = "It's hot!";
+        }
+        
+        cout << message << endl;  // ERROR! message doesn't exist here
+    
+    Solution: Declare `message` before the `if` statement:
+    
+        string message;
+        
+        if(temperature > 80){
+          message = "It's hot!";
+        }
+        else{
+          message = "It's nice!";
+        }
+        
+        cout << message << endl;  // Now it works!
+
+3.  Mistake 3: Accidental shadowing
+
+        int score = 100;
+        
+        for(int i = 0; i < 5; i++){
+          int score = i * 10;  // Oops! Shadows the outer score
+          cout << score << endl;  // Prints 0, 10, 20, 30, 40
+        }
+        
+        cout << score << endl;  // Still 100 (never modified)
+    
+    This compiles fine but probably isn't what you meant! Use different variable names to avoid confusion.
+
+
+<a id="org6b42418"></a>
+
+### Exercises
+
+1.  **Basic**: What will this program print? Try to figure it out without running it, then check your answer:
+    
+        #include <iostream>
+        using namespace std;
+        
+        int main(){
+          int a = 5;
+        
+          {
+            int b = 10;
+            cout << a + b << endl;
+          }
+        
+          {
+            int b = 20;
+            cout << a + b << endl;
+          }
+        
+          return 0;
+        }
+
+2.  **Basic**: Fix this code so it compiles:
+    
+        #include <iostream>
+        using namespace std;
+        
+        int main(){
+          for(int i = 0; i < 5; i++){
+            int sum = i + i;
+          }
+        
+          cout << "Sum: " << sum << endl;
+        
+          return 0;
+        }
+
+3.  **Intermediate**: Write a function `calculateAverage` that takes three test scores as parameters and returns the average. Make sure all variables are appropriately scoped and don't use any global variables (except maybe a constant).
+
+4.  **Intermediate**: Explain in your own words: Why does this function always return the same value no matter how many times you call it?
+    
+        int getNumber(){
+          int num = 7;
+          num = num + 1;
+          return num;
+        }
+
+5.  **Challenge**: Write a program that demonstrates the difference between:
+    
+    -   A variable declared in `main` and passed to a function
+    -   A variable declared inside a function
+    -   A global variable accessed by multiple functions
+    
+    Your program should clearly show which variables are accessible where, and what happens when functions try to modify them.
+
+6.  **Discussion**: Why is it generally better to pass data to functions via parameters rather than using global variables? Can you think of a situation where a global variable might be the right choice?
+
+
+<a id="orge43535a"></a>
+
+### Summary: Key Takeaways
+
+-   **Local variables** exist only within the block `{ }` where they're declared
+-   **Scope** is where you can access a variable; **lifetime** is when it exists in memory
+-   Function parameters are local variables initialized with argument values
+-   **Shadowing** happens when an inner scope declares a variable with the same name as an outer scope (avoid this!)
+-   **Global variables** are accessible everywhere but should be used sparingly (constants are okay)
+-   Variables are destroyed when their scope ends, freeing up memory
+
+Understanding scope and lifetime will save you from many confusing bugs and help you write cleaner, more maintainable code. Next, we'll see how to bend these rules slightly with pass-by-reference!
+
+
+<a id="org947205d"></a>
 
 ### TODO Passing by reference
 
@@ -2111,9 +3273,9 @@ What does that mean? So if you've ever used Python at all you might be familiar 
         total = 0
         entries = 0
         while num >= 0:
-            entries = entries + 1
-            total = total + num
-            num = int(input("Enter a number: "))
+    	entries = entries + 1
+    	total = total + num
+    	num = int(input("Enter a number: "))
         return (total, entries)
     
     print(askAndSum())
@@ -2153,7 +3315,7 @@ You **cannot** do this in C++. Instead, you have to write this program with a pa
     }
 
 
-<a id="org57aa2f8"></a>
+<a id="org9cb88f1"></a>
 
 ### Exercises
 
@@ -2162,7 +3324,7 @@ You **cannot** do this in C++. Instead, you have to write this program with a pa
 3.  **Challenge**: Build a function that finds minimum, maximum, and average of an array in a single pass. Use reference parameters for min and max.
 
 
-<a id="org8d0bb07"></a>
+<a id="org6579a89"></a>
 
 ## TODO Arrays, again, and Pointers
 
@@ -2291,7 +3453,7 @@ Let's write a little program to test this out:
     
     int main(){
     
-      int test = {10,11,12,13,14};
+      int test[] = {10,11,12,13,14};
     
       //let's prove that the [] brackets were really just playing with pointers all along!
       for(int i=0; i < 5; i++){
@@ -2302,13 +3464,1843 @@ Let's write a little program to test this out:
       return 0;
     }
 
+If you run this you should see that both methods print identical items in the array!
 
-<a id="org142c8dd"></a>
+
+<a id="org18779be"></a>
+
+### Pointer and a promise
+
+Let's take a step back now and talk about what the implications of all this actually is: arrays are "really" just pointers. Pointers have no sense of how many contiguous addresses after the pointer are valid as they're merely *addresses* for memory locations. That's why you have so many of these awkward coding idioms where you have to separately keep track of, for example, how many items you read in rather than being able to access the length of an array. That's why we can have these strange error states where we can go *beyond* the array and access random gibberish data.
+
+In modern programming, you don't use basic C/C++ style arrays that often. Even in C++ most of the time you're going to use a data structure we call a *vector*. These vectors are what most programming languages call arrays, like Python, and they're capable of doing things like
+
+-   changing in size
+-   adding and deleting elements
+-   telling you how many elements are currently in them
+-   throw an error if you access beyond the bounds of the container
+
+Very convenient!
+
+We won't really use vectors in this class and that's because we're trying to install <del>fear of</del> healthy respect for the problems that can happen if you aren't careful using arrays.
+
+
+<a id="org1211424"></a>
+
+### Dynamic arrays
+
+If we wanted to *try* and have arrays that were a little more flexible, without using the `vector` type, what might we do?
+
+One idea is that we could make an array that's a lot bigger than we really need and then only use *part* of it, marking the "effective" end with some kind of special piece of data.
+
+Let's assume that the arrays we're going to make are going to be arrays of natural numbers, so 0 and above. That means we could treat -1 as the special "this is the end of the array value".
+
+Let's try writing some functions that will let you actually use these arrays a little more conveniently. The basic trick we're going to be using is the idea of a `while` loop that keeps going until you reach a `-1` value.
+
+So if we want to calculate the "effective" length of the array that's being used we can just write a loop like the following `dynLength` function, complete with a small program to test it out.
+
+    #include <iostream>
+    using namespace std;
+    
+    int dynLength(int arr[]){
+      int i=0;
+      while(arr[i] != -1){
+        i++;
+      }
+      return i;
+    }
+    
+    int main(){
+    
+      int arr[] = {1,2,3,4,-1};
+    
+      cout << dynLength(arr) << endl;
+    
+      return 0;
+    }
+
+If you run this code you should find that it prints `4`. Go ahead and test it out by adding elements *after* the `-1` and check that the answer doesn't change! It should always stop when it hits the *first* `-1` in the array.
+
+So now we have a length function that means we can write functions that do things like "multiply every element in the array by 2" without actually needing to pass the length explicitly, like this:
+
+    #include <iostream>
+    using namespace std;
+    
+    int dynLength(int arr[]){
+      int i=0;
+      while(arr[i] != -1){
+        i++;
+      }
+      return i;
+    }
+    
+    void doubleArray(int arr[]){
+      for(int i=0;i<dynLength(arr);i++){
+        arr[i] = 2*arr[i];
+      }
+    }
+    
+    void printArray(int arr[]){
+      cout << "[";
+      for(int i=0; i<dynLength(arr); i++){
+        if( i > 0){
+          cout << ", ";
+        }
+        cout << arr[i];
+      }
+      cout << "]";
+      cout << endl;
+    }
+    
+    int main(){
+    
+      int arr[] = {1,2,3,4,-1};
+    
+      doubleArray(arr);
+      printArray(arr);
+    
+      return 0;
+    }
+
+> Exercise: here's a quick check for yourself. Why is the `printArray` function written like this? Can you puzzle it out?
+
+
+<a id="org41c3ddd"></a>
 
 ## TODO Char Arrays
 
+So far we've used strings this entire time but there's another way that strings are used in older code, especially older *C* code, and you need to get some experience with how "strings-as-character-arrays" actually work.
 
-<a id="org33ba1bf"></a>
+We haven't really done a lot with the `char` type so far other than some menuing, but you might remember earlier where we were able to treat the `string` type almost like an array of characters. As a reminder, we were able to do things like this
+
+    #include <iostream>
+    using namespace std;
+    
+    void changeChar(string& s){
+      for(int i=0; i < s.length(); i++){
+        s[i] = s[i]+1;
+      }
+    }
+    
+    int main(){
+    
+      string text = "hal";
+      changeChar(text);
+      cout << text << endl;
+    
+      return 0;
+    }
+
+Well at first all that's going to change is that we're going to make our code use an array of `char`, so we might expect that we need to pass the length in like so:
+
+    #include <iostream>
+    using namespace std;
+    
+    void changeChar(char c[], int length){
+      for(int i=0; i < length; i++){
+        c[i] = c[i] + 1;
+      }
+    }
+    
+    int main(){
+    
+      char text[] = "hal";
+      changeChar(text,3);
+      cout << text << endl;
+    
+      return 0;
+    }
+
+But what if I told you, though, that character arrays in C were a kind of *dynamic array* like we made above? But instead of the number `-1` being the terminator it's actually going to be a special character `'\0'`. This special character is the "null" character, that means literally don't print anything. That makes it really useful for signifying the "end" of a string-as-character-array.
+
+Let's go ahead and adapt some of our code from above to this new kind of dynamic array:
+
+    #include <iostream>
+    using namespace std;
+    
+    int dynLength(char arr[]){
+      int i=0;
+      while(arr[i] != '\0'){
+        i++;
+      }
+      return i;
+    }
+    
+    void changeChar(char c[]){
+      for(int i=0; i < dynLength(c); i++){
+        c[i] = c[i]+1;
+      }
+    }
+    
+    int main(){
+    
+      char text[] = "hal";
+      changeChar(text);
+      cout << text << endl;
+    
+      return 0;
+    }
+
+Notice that we no longer need the length in the `changeChar` function, so it's kind of like normal strings again!
+
+We'll do one more function with character arrays before we leave the rest of the topic to CS161B: concatenating two strings.
+
+This is going to involve a bit of work but we'll go line-by-line
+
+    #include <iostream>
+    using namespace std;
+    
+    int dynLength(char arr[]){
+      int i=0;
+      while(arr[i] != '\0'){
+        i++;
+      }
+      return i;
+    }
+    
+    void concat(char c1[], char c2[]){
+      // this function is going to attach c2 to the end of c1
+      int i = 0;
+      // first we need to make our index point to the end of string one, which means we need to find
+      // the first \0 in the string
+      while(c1[i] != '\0'){
+        i++;
+      }
+      // now i is pointing to the end
+      // alternatively, we could have just used a call to dynLength
+      // can you see why that works??
+      // so the next thing we need is the length of the second string
+      int length2 = dynLength(c2);
+      // now we need to write a for loop that goes from 0 to length2 and copies characters over from c2 to c1
+      for(int j=0; j<length2; j++){
+        c1[j+i] = c2[j];
+      }
+      // now we're *not* done because we also need to make sure we put a \0 at the new end of the string
+      c1[length2+i] = '\0';
+    }
+    
+    int main(){
+      char hello[] = "Hello";
+      char world[] = ", World!";
+    
+      concat(hello,world);
+    
+      cout << hello << endl;
+    
+      return 0;
+    }
+
+If you run this we'll see that what gets printed out is "Hello, World!", which is exactly what we'd hoped.
+
+Now, note that this means we *modified* the first string to do this concatenation. That's very different than how the `+` operator worked on the `string` type, which didn't change the arguments passed into it.
+
+This is an example of what's called a "destructive" operation, because it doesn't leave operands passed into it unscathed! This isn't inherently bad, you just have to be careful with it!
+
+There are a lot more operations on C-style character array strings that you'll see in CS 161B, so this is functioning just as a brief preview of how that kind of programming works. The good news is that you don't have to write them from scratch every time, instead you can use a library full of them. I do think, though, it's good to see how they work *at least* once.
+
+
+<a id="org6356342"></a>
+
+# CS161B Preview: Looking Ahead to the Second Quarter
+
+You've made it through the core material for CS161A—congratulations! Before we wrap up, I want to give you a preview of some topics that you'll encounter in CS161B, the second quarter of this programming sequence.
+
+Why include preview material in the CS161A textbook? A few reasons:
+
+1.  **To give you a head start**: If you have extra time or curiosity, you can start exploring these concepts early. Getting familiar with them now will make CS161B feel more manageable.
+
+2.  **To show you where we're headed**: Programming is a journey, and it helps to see the road ahead. These topics build naturally on what you've learned so far.
+
+3.  **To provide context**: Some of the things we've learned in CS161A (like arrays and pointers) will make more sense when you see the "better" alternatives that C++ provides (like vectors).
+
+4.  **To support bridge students**: If you're taking CS161A to prepare for CS161B, this material gives you a taste of what's coming and helps you assess your readiness.
+
+
+<a id="org228449e"></a>
+
+## What to Expect from These Preview Chapters
+
+The following topics will all be covered in much greater depth during CS161B:
+
+-   **Vectors**: Dynamic arrays that grow and shrink as needed
+-   **Structs**: Organizing related data into custom types
+-   **File I/O**: Reading from and writing to files
+-   **Multi-file Programs**: Breaking your code into organized modules
+-   **Algorithms**: Sorting and searching techniques
+
+****Important****: Don't feel pressured to master these topics right now. They're here as a preview, not as required CS161A material. In CS161B, you'll have much more time to practice and understand these concepts thoroughly. Think of these chapters as "coming attractions" rather than homework.
+
+That said, if you're feeling confident with the CS161A material and want to challenge yourself, by all means dive in! These are all practical, useful topics that will make you a better programmer.
+
+All right, let's take a peek at what's coming next quarter!
+
+
+<a id="org1a1ea5b"></a>
+
+## TODO Vectors: Dynamic Arrays
+
+Remember how we had to declare arrays with a fixed size, and couldn't easily change that size later? Remember how we had to manually track the size of arrays and pass it as a separate parameter to functions? Remember how going out of bounds on an array just&#x2026; caused mysterious crashes without any helpful error messages?
+
+Yeah, vectors solve all of those problems.
+
+Vectors are one of the most useful tools in C++, and you'll use them constantly in CS161B. They're like arrays, but better in almost every way. Think of them as "arrays that actually make sense."
+
+
+<a id="org301e018"></a>
+
+### TODO Introduction to Vectors
+
+1.  Why Use Vectors Over Arrays?
+
+    Vectors are part of the C++ Standard Library and provide:
+    
+    -   **Dynamic sizing**: They can grow and shrink as needed—no more guessing how big to make your array!
+    -   **Bounds checking**: With the `.at()` method, you get helpful error messages instead of mysterious crashes
+    -   **Built-in size tracking**: The vector knows how big it is, so you don't have to keep track separately
+    -   **Easier to use with functions**: You can pass vectors around without worrying about losing size information
+
+2.  Including the Vector Library
+
+        #include <iostream>
+        #include <vector>
+        using namespace std;
+
+
+<a id="org9f37fd6"></a>
+
+### TODO Creating and Initializing Vectors
+
+    // Empty vector of integers
+    vector<int> numbers;
+    
+    // Vector with initial size
+    vector<int> grades(5); // 5 elements, all initialized to 0
+    
+    // Vector with initial values
+    vector<int> temps = {65, 68, 72, 75, 73};
+    
+    // Vector of strings
+    vector<string> names = {"Alice", "Bob", "Charlie"};
+
+
+<a id="org76daf08"></a>
+
+### TODO Vector Operations
+
+1.  Adding and Removing Elements
+
+        vector<int> nums;
+        
+        // Add to end
+        nums.push_back(10);
+        nums.push_back(20);
+        nums.push_back(30);
+        // Now nums = {10, 20, 30}
+        
+        // Remove from end
+        nums.pop_back();
+        // Now nums = {10, 20}
+
+2.  Size and Empty
+
+        vector<int> values = {1, 2, 3, 4, 5};
+        
+        cout << "Size: " << values.size() << endl; // Prints 5
+        
+        if(values.empty()){
+          cout << "Vector is empty" << endl;
+        }
+        else{
+          cout << "Vector has " << values.size() << " elements" << endl;
+        }
+
+3.  Clear and Resize
+
+        vector<int> nums = {1, 2, 3, 4, 5};
+        
+        // Remove all elements
+        nums.clear();
+        cout << nums.size() << endl; // Prints 0
+        
+        // Resize to specific size
+        nums.resize(10); // Now has 10 elements (all 0)
+
+4.  Exercises
+
+    1.  **Basic**: Create a vector, add 5 numbers to it using push<sub>back</sub>, then print all elements.
+    2.  **Intermediate**: Create a program that reads numbers from the user until they enter -1, stores them in a vector, then displays them.
+
+
+<a id="org20f5ece"></a>
+
+### TODO Accessing Vector Elements
+
+1.  Using [] vs at()
+
+        vector<int> nums = {10, 20, 30, 40, 50};
+        
+        // Both access the same element
+        cout << nums[0] << endl;   // No bounds checking
+        cout << nums.at(0) << endl; // With bounds checking
+        
+        // Out of bounds
+        nums[10] = 99;   // Undefined behavior (dangerous!)
+        nums.at(10) = 99; // Throws exception (safer!)
+
+2.  Exercises
+
+    1.  **Basic**: Write a program that safely accesses vector elements using .at() with error handling.
+    2.  **Discussion**: When would you use [] vs .at()?
+
+
+<a id="org2e2132b"></a>
+
+### TODO Iterating Through Vectors
+
+1.  Index-Based Loops
+
+        vector<int> numbers = {5, 10, 15, 20, 25};
+        
+        for(int i = 0; i < numbers.size(); i++){
+          cout << numbers[i] << " ";
+        }
+        cout << endl;
+
+2.  Range-Based For Loops
+
+        vector<string> names = {"Alice", "Bob", "Charlie"};
+        
+        // Read-only access
+        for(string name : names){
+          cout << name << " ";
+        }
+        cout << endl;
+        
+        // Modify elements (use reference)
+        vector<int> values = {1, 2, 3, 4, 5};
+        for(int& val : values){
+          val = val * 2; // Double each value
+        }
+
+3.  Exercises
+
+    1.  **Basic**: Use a range-based for loop to sum all elements in a vector.
+    2.  **Intermediate**: Use a range-based for loop to convert all strings in a vector to uppercase.
+
+
+<a id="orgda0bc5d"></a>
+
+### TODO Vectors and Functions
+
+1.  Passing Vectors by Reference
+
+        // Pass by reference to avoid copying
+        void printVector(const vector<int>& v){
+          for(int num : v){
+            cout << num << " ";
+          }
+          cout << endl;
+        }
+        
+        // Modify the vector
+        void doubleValues(vector<int>& v){
+          for(int& val : v){
+            val *= 2;
+          }
+        }
+
+2.  Returning Vectors from Functions
+
+        vector<int> generateSequence(int n){
+          vector<int> result;
+          for(int i = 1; i <= n; i++){
+            result.push_back(i);
+          }
+          return result;
+        }
+        
+        int main(){
+          vector<int> nums = generateSequence(10);
+          // nums = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+          return 0;
+        }
+
+3.  Exercises
+
+    1.  **Basic**: Write a function that returns a vector of even numbers from 0 to n.
+    2.  **Intermediate**: Write a function that filters a vector, keeping only positive numbers.
+
+
+<a id="org862670e"></a>
+
+### TODO Common Vector Patterns
+
+1.  Building Lists from User Input
+
+        vector<int> readNumbers(){
+          vector<int> numbers;
+          int num;
+        
+          cout << "Enter numbers (enter -1 to stop):" << endl;
+          while(cin >> num && num != -1){
+            numbers.push_back(num);
+          }
+        
+          return numbers;
+        }
+
+2.  Filtering and Transforming Data
+
+        vector<int> filterPositive(const vector<int>& nums){
+          vector<int> result;
+          for(int num : nums){
+            if(num > 0){
+              result.push_back(num);
+            }
+          }
+          return result;
+        }
+
+3.  Exercises
+
+    1.  **Basic**: Write a function that returns only the even numbers from a vector.
+    2.  **Intermediate**: Write a function that removes duplicates from a vector.
+    3.  **Challenge**: Write a function that merges two sorted vectors into one sorted vector.
+
+
+<a id="org56853cb"></a>
+
+### TODO Two-Dimensional Vectors
+
+    // Vector of vectors (2D vector)
+    vector<vector<int>> matrix;
+    
+    // Initialize 3x4 matrix
+    matrix = {
+      {1, 2, 3, 4},
+      {5, 6, 7, 8},
+      {9, 10, 11, 12}
+    };
+    
+    // Access elements
+    cout << matrix[0][0] << endl; // Prints 1
+    
+    // Iterate
+    for(int row = 0; row < matrix.size(); row++){
+      for(int col = 0; col < matrix[row].size(); col++){
+        cout << matrix[row][col] << " ";
+      }
+      cout << endl;
+    }
+
+1.  Exercises
+
+    1.  **Intermediate**: Create a 2D vector to store a multiplication table.
+    2.  **Challenge**: Create a jagged 2D vector where each row has a different length.
+
+
+<a id="org32aad46"></a>
+
+### TODO Lab Projects
+
+1.  LAB: Dynamic Grade Book
+
+    Create a program that:
+    
+    -   Allows adding student grades dynamically
+    -   Calculates statistics (average, min, max)
+    -   Can remove the lowest grade
+    -   Displays all grades sorted
+
+2.  LAB: Shopping List Manager
+
+    Create a program with a menu that can:
+    
+    -   Add items to shopping list
+    -   Remove items
+    -   Display all items
+    -   Clear the list
+    -   Show number of items
+
+3.  LAB: High Score Tracker
+
+    Create a game score tracker that:
+    
+    -   Stores player names and scores in separate vectors
+    -   Adds new scores
+    -   Displays top 5 scores
+    -   Allows searching for a player's score
+
+
+<a id="orgce02e5d"></a>
+
+## TODO Structs: Organizing Related Data
+
+Imagine you're writing a program to manage student records. You need to store each student's name, ID number, GPA, and maybe their major. You could create separate arrays or vectors for each piece of information:
+
+    vector<string> studentNames;
+    vector<int> studentIDs;
+    vector<double> studentGPAs;
+    vector<string> studentMajors;
+
+But now you have a nightmare: you have to keep all four vectors synchronized. If you want to add a new student, you need to remember to add to all four vectors. If you want to delete a student, you need to delete from all four at the same index. If you accidentally get the indices mixed up, you'll have students with the wrong GPAs or majors. This is fragile and error-prone.
+
+Structs solve this problem by letting you bundle related data together into a single custom type. Instead of four separate vectors, you can have one vector of "Student" objects, where each student carries all their own information. It's cleaner, safer, and much more intuitive.
+
+
+<a id="org8916081"></a>
+
+### TODO Introduction to Structs
+
+1.  Why Group Related Data?
+
+    When you have related pieces of information (like a student's name, ID, and GPA), keeping them in separate variables or arrays becomes unwieldy and error-prone. Structs let you bundle related data together into a single unit, making your code more organized and easier to maintain.
+
+2.  Declaring a Struct
+
+        struct Student {
+          string name;
+          int id;
+          double gpa;
+        };
+
+
+<a id="org73856b8"></a>
+
+### TODO Creating and Using Struct Variables
+
+    struct Book {
+      string title;
+      string author;
+      int pages;
+      double price;
+    };
+    
+    int main(){
+      // Create a book
+      Book myBook;
+      myBook.title = "1984";
+      myBook.author = "George Orwell";
+      myBook.pages = 328;
+      myBook.price = 12.99;
+    
+      // Create and initialize
+      Book anotherBook = {"Dune", "Frank Herbert", 688, 18.99};
+    
+      // Access members
+      cout << myBook.title << " by " << myBook.author << endl;
+      cout << "Pages: " << myBook.pages << endl;
+    
+      return 0;
+    }
+
+1.  Exercises
+
+    1.  **Basic**: Create a struct for a Person with name, age, and height. Create a Person variable and display it.
+    2.  **Intermediate**: Create a struct for a Rectangle with width and height. Add variables to store the calculated area and perimeter.
+
+
+<a id="org846127a"></a>
+
+### TODO Accessing Struct Members
+
+Use the dot operator (`.`) to access struct members.
+
+    struct Point {
+      double x;
+      double y;
+    };
+    
+    int main(){
+      Point p1;
+      p1.x = 3.5;
+      p1.y = 7.2;
+    
+      cout << "Point: (" << p1.x << ", " << p1.y << ")" << endl;
+    
+      return 0;
+    }
+
+
+<a id="org514c8af"></a>
+
+### TODO Structs and Functions
+
+1.  Passing Structs to Functions
+
+        struct Rectangle {
+          double width;
+          double height;
+        };
+        
+        double calculateArea(Rectangle rect){
+          return rect.width * rect.height;
+        }
+        
+        void displayRectangle(const Rectangle& rect){
+          cout << "Width: " << rect.width << endl;
+          cout << "Height: " << rect.height << endl;
+          cout << "Area: " << calculateArea(rect) << endl;
+        }
+        
+        int main(){
+          Rectangle r = {5.0, 3.0};
+          displayRectangle(r);
+          return 0;
+        }
+
+2.  Returning Structs from Functions
+
+        struct Point {
+          double x;
+          double y;
+        };
+        
+        Point createPoint(double x, double y){
+          Point p;
+          p.x = x;
+          p.y = y;
+          return p;
+        }
+        
+        int main(){
+          Point p1 = createPoint(3.5, 7.2);
+          cout << "Point: (" << p1.x << ", " << p1.y << ")" << endl;
+          return 0;
+        }
+
+3.  Exercises
+
+    1.  **Basic**: Write a function that takes two Point structs and calculates the distance between them.
+    2.  **Intermediate**: Write a function that takes a Rectangle and returns true if it's a square.
+
+
+<a id="orgdb2ce8b"></a>
+
+### TODO Vectors of Structs
+
+This is where structs become really powerful - creating databases of records.
+
+    struct Student {
+      string name;
+      int id;
+      double gpa;
+    };
+    
+    int main(){
+      vector<Student> students;
+    
+      // Add students
+      Student s1 = {"Alice", 1001, 3.8};
+      Student s2 = {"Bob", 1002, 3.5};
+      Student s3 = {"Charlie", 1003, 3.9};
+    
+      students.push_back(s1);
+      students.push_back(s2);
+      students.push_back(s3);
+    
+      // Display all students
+      for(const Student& s : students){
+        cout << s.name << " (ID: " << s.id << "): "
+    	 << s.gpa << endl;
+      }
+    
+      return 0;
+    }
+
+1.  Example: Student Records System
+
+        struct Student {
+          string name;
+          int id;
+          double gpa;
+        };
+        
+        void displayStudent(const Student& s){
+          cout << s.name << " (ID: " << s.id << "): GPA " << s.gpa << endl;
+        }
+        
+        Student findTopStudent(const vector<Student>& students){
+          Student top = students[0];
+          for(const Student& s : students){
+            if(s.gpa > top.gpa){
+              top = s;
+            }
+          }
+          return top;
+        }
+        
+        int main(){
+          vector<Student> students = {
+            {"Alice", 1001, 3.8},
+            {"Bob", 1002, 3.5},
+            {"Charlie", 1003, 3.9}
+          };
+        
+          cout << "All students:" << endl;
+          for(const Student& s : students){
+            displayStudent(s);
+          }
+        
+          cout << "\nTop student:" << endl;
+          displayStudent(findTopStudent(students));
+        
+          return 0;
+        }
+
+2.  Exercises
+
+    1.  **Basic**: Create a vector of Book structs and display them all.
+    2.  **Intermediate**: Write a function to find the most expensive book in a vector of Books.
+    3.  **Challenge**: Create a simple contact management system with add, search, and display functions.
+
+
+<a id="orgf444dcf"></a>
+
+### TODO Nested Structs
+
+Structs can contain other structs as members.
+
+    struct Date {
+      int month;
+      int day;
+      int year;
+    };
+    
+    struct Person {
+      string name;
+      Date birthday;
+      string email;
+    };
+    
+    int main(){
+      Person p;
+      p.name = "Alice";
+      p.birthday.month = 5;
+      p.birthday.day = 15;
+      p.birthday.year = 1995;
+      p.email = "alice@example.com";
+    
+      cout << p.name << " was born on "
+           << p.birthday.month << "/"
+           << p.birthday.day << "/"
+           << p.birthday.year << endl;
+    
+      return 0;
+    }
+
+1.  Exercises
+
+    1.  **Intermediate**: Create an Address struct and a Person struct that contains an Address.
+    2.  **Challenge**: Create a School struct that contains a vector of Student structs.
+
+
+<a id="orga77a953"></a>
+
+### TODO Lab Projects
+
+1.  LAB: Student Record System
+
+    Create a complete student management system:
+    
+    -   Add new students
+    -   Display all students
+    -   Find student by ID
+    -   Calculate class average GPA
+    -   Find honor roll students (GPA >= 3.5)
+
+2.  LAB: Product Inventory
+
+    Create an inventory system with Product structs:
+    
+    -   Track name, SKU, quantity, price
+    -   Add new products
+    -   Update quantities
+    -   Display all products
+    -   Calculate total inventory value
+
+3.  LAB: Contact Management System
+
+    Create a contact manager:
+    
+    -   Store name, phone, email, birthday
+    -   Add/remove contacts
+    -   Search contacts by name
+    -   Display all contacts sorted by name
+    -   Show upcoming birthdays
+
+
+<a id="org2a2c7e9"></a>
+
+## TODO File I/O: Reading and Writing Files
+
+So far, all of our programs have been ephemeral—when they end, any data they worked with disappears. If you run a program that asks for user input, processes it, and displays results, that's great&#x2026; but as soon as the program ends, everything is gone. If you want to use that data again, you have to re-enter it all over again.
+
+This is where files come in.
+
+Files let your programs save data permanently to disk, read data that was saved earlier, and share information between different programs. Want to save high scores in a game? Files. Want to process a spreadsheet of student grades? Files. Want to create a log of what your program did? Files.
+
+File I/O (Input/Output) is one of the most practical programming skills you'll learn. Nearly every real-world program needs to read from or write to files at some point. The good news is that once you understand `cin` and `cout`, file I/O will feel very familiar—it uses almost the same syntax!
+
+
+<a id="org6acd44c"></a>
+
+### TODO Introduction to File Input/Output
+
+1.  Why Use Files?
+
+    Files give your programs the ability to:
+    
+    -   **Permanent storage**: Data persists after the program ends—no more re-entering the same information!
+    -   **Process large amounts of data**: Work with thousands of records that would be impractical to type in manually
+    -   **Share data between programs**: One program writes a file, another program reads it
+    -   **Create logs and reports**: Track what your program does over time or generate output for users
+
+2.  Text Files vs Binary Files
+
+    In this course, we focus on text files (human-readable). Binary files are more efficient but harder to work with.
+
+
+<a id="orga7c4c91"></a>
+
+### TODO Reading from Files
+
+1.  Opening Files with ifstream
+
+        #include <iostream>
+        #include <fstream>
+        #include <string>
+        using namespace std;
+        
+        int main(){
+          ifstream inFile;
+          inFile.open("data.txt");
+        
+          // Always check if file opened successfully
+          if(!inFile.is_open()){
+            cout << "Error opening file!" << endl;
+            return 1;
+          }
+        
+          // Read and process file here...
+        
+          inFile.close();
+          return 0;
+        }
+
+2.  Reading Line by Line
+
+        #include <iostream>
+        #include <fstream>
+        #include <string>
+        using namespace std;
+        
+        int main(){
+          ifstream inFile("data.txt");
+        
+          if(!inFile.is_open()){
+            cout << "Error opening file!" << endl;
+            return 1;
+          }
+        
+          string line;
+          while(getline(inFile, line)){
+            cout << line << endl;
+          }
+        
+          inFile.close();
+          return 0;
+        }
+
+3.  Reading Word by Word
+
+        ifstream inFile("words.txt");
+        string word;
+        
+        while(inFile >> word){
+          cout << word << endl;
+        }
+        
+        inFile.close();
+
+4.  Checking for File Open Errors
+
+        ifstream inFile("data.txt");
+        
+        if(inFile.fail()){
+          cout << "Could not open file!" << endl;
+          return 1;
+        }
+        
+        // Alternative: check with is_open()
+        if(!inFile.is_open()){
+          cout << "Could not open file!" << endl;
+          return 1;
+        }
+
+5.  Exercises
+
+    1.  **Basic**: Write a program that reads and displays the contents of a text file.
+    2.  **Intermediate**: Write a program that counts the number of lines in a file.
+    3.  **Challenge**: Write a program that counts the number of words in a file.
+
+
+<a id="orgb89b2db"></a>
+
+### TODO Writing to Files
+
+1.  Opening Files with ofstream
+
+        #include <iostream>
+        #include <fstream>
+        using namespace std;
+        
+        int main(){
+          ofstream outFile("output.txt");
+        
+          if(!outFile.is_open()){
+            cout << "Error creating file!" << endl;
+            return 1;
+          }
+        
+          outFile << "Hello, file!" << endl;
+          outFile << "This is line 2" << endl;
+        
+          outFile.close();
+          return 0;
+        }
+
+2.  Writing Formatted Output
+
+        ofstream outFile("grades.txt");
+        
+        outFile << "Name\tGrade" << endl;
+        outFile << "Alice\t95" << endl;
+        outFile << "Bob\t87" << endl;
+        outFile << "Charlie\t92" << endl;
+        
+        outFile.close();
+
+3.  Append Mode vs Overwrite Mode
+
+        // Overwrite mode (default)
+        ofstream outFile1("file.txt");
+        outFile1 << "This replaces file contents" << endl;
+        outFile1.close();
+        
+        // Append mode
+        ofstream outFile2("file.txt", ios::app);
+        outFile2 << "This is added to the end" << endl;
+        outFile2.close();
+
+4.  Exercises
+
+    1.  **Basic**: Write a program that asks for user's name and age, then saves it to a file.
+    2.  **Intermediate**: Create a simple diary program that appends entries to a file with timestamps.
+
+
+<a id="orgf1a47db"></a>
+
+### TODO File Processing Patterns
+
+1.  Processing Until End of File
+
+        #include <iostream>
+        #include <fstream>
+        using namespace std;
+        
+        int main(){
+          ifstream inFile("numbers.txt");
+          int num;
+          int sum = 0;
+          int count = 0;
+        
+          while(inFile >> num){
+            sum += num;
+            count++;
+          }
+        
+          if(count > 0){
+            cout << "Average: " << (double)sum / count << endl;
+          }
+        
+          inFile.close();
+          return 0;
+        }
+
+2.  Counting Lines, Words, Characters
+
+        ifstream inFile("document.txt");
+        string line;
+        int lineCount = 0;
+        int wordCount = 0;
+        int charCount = 0;
+        
+        while(getline(inFile, line)){
+          lineCount++;
+          charCount += line.length();
+        
+          // Count words (simple approach)
+          string word;
+          for(char c : line){
+            if(c == ' '){
+              if(!word.empty()){
+        	wordCount++;
+        	word = "";
+              }
+            }
+            else{
+              word += c;
+            }
+          }
+          if(!word.empty()) wordCount++;
+        }
+        
+        cout << "Lines: " << lineCount << endl;
+        cout << "Words: " << wordCount << endl;
+        cout << "Characters: " << charCount << endl;
+        
+        inFile.close();
+
+3.  Processing CSV Files
+
+        #include <iostream>
+        #include <fstream>
+        #include <sstream>
+        #include <vector>
+        using namespace std;
+        
+        struct Student {
+          string name;
+          int id;
+          double gpa;
+        };
+        
+        int main(){
+          ifstream inFile("students.csv");
+          string line;
+          vector<Student> students;
+        
+          // Skip header line
+          getline(inFile, line);
+        
+          while(getline(inFile, line)){
+            Student s;
+            stringstream ss(line);
+            string token;
+        
+            getline(ss, s.name, ',');
+            getline(ss, token, ',');
+            s.id = stoi(token);
+            getline(ss, token, ',');
+            s.gpa = stod(token);
+        
+            students.push_back(s);
+          }
+        
+          // Process students...
+          for(const Student& s : students){
+            cout << s.name << ": " << s.gpa << endl;
+          }
+        
+          inFile.close();
+          return 0;
+        }
+
+4.  Exercises
+
+    1.  **Basic**: Read a file of numbers and find the maximum value.
+    2.  **Intermediate**: Read a CSV file of names and ages, then display those over 18.
+    3.  **Challenge**: Create a program that reads student records from a file and generates a report file with statistics.
+
+
+<a id="org9c8a5c1"></a>
+
+### TODO Error Handling with Files
+
+1.  Checking if File Exists
+
+        #include <iostream>
+        #include <fstream>
+        using namespace std;
+        
+        bool fileExists(const string& filename){
+          ifstream file(filename);
+          return file.good();
+        }
+        
+        int main(){
+          string filename;
+          cout << "Enter filename: ";
+          cin >> filename;
+        
+          if(fileExists(filename)){
+            cout << "File exists!" << endl;
+          }
+          else{
+            cout << "File not found!" << endl;
+          }
+        
+          return 0;
+        }
+
+2.  Handling Read/Write Errors
+
+        ifstream inFile("data.txt");
+        
+        if(!inFile){
+          cerr << "ERROR: Cannot open file for reading" << endl;
+          return 1;
+        }
+        
+        // Check for errors during reading
+        while(inFile >> data){
+          // Process data
+        }
+        
+        if(inFile.bad()){
+          cerr << "ERROR: Problem reading file" << endl;
+        }
+        else if(inFile.fail() && !inFile.eof()){
+          cerr << "ERROR: Data format error" << endl;
+        }
+        
+        inFile.close();
+
+
+<a id="org0f0a7ca"></a>
+
+### TODO Lab Projects
+
+1.  LAB: Grade File Processor
+
+    Create a program that:
+    
+    -   Reads student names and grades from a file
+    -   Calculates class average
+    -   Writes a report file with:
+        -   All students and grades
+        -   Class average
+        -   Highest/lowest grades
+        -   List of students who passed/failed
+
+2.  LAB: Log File Analyzer
+
+    Create a program that:
+    
+    -   Reads a log file with timestamps and messages
+    -   Counts total entries
+    -   Counts entries by type (ERROR, WARNING, INFO)
+    -   Generates a summary report
+
+3.  LAB: Simple Database (Save/Load Data)
+
+    Create a contact management system that:
+    
+    -   Stores contacts in memory (vector of structs)
+    -   Saves all contacts to a file
+    -   Loads contacts from file on startup
+    -   Allows add/edit/delete/search operations
+    -   Preserves data between program runs
+
+
+<a id="org807243a"></a>
+
+## TODO Multi-File Programs
+
+Up until now, you've probably been writing all your code in a single file—maybe `main.cpp` or something similar. For small programs, that's perfectly fine. But as your programs grow larger and more complex, putting everything in one file becomes a problem.
+
+Imagine trying to find one specific function among 2,000 lines of code in a single file. Or imagine wanting to reuse your grade-calculation functions in three different programs—are you going to copy-paste the same code into three different files? What happens when you find a bug in that code? Do you have to fix it in three places?
+
+This is where multi-file programs come in. Breaking your code into multiple files makes it more organized, reusable, and maintainable. It's like organizing your closet: instead of throwing everything in one big pile, you sort things into drawers and sections so you can actually find what you need.
+
+In CS161B, you'll work on projects that are too large to fit comfortably in one file, so learning how to organize code across multiple files is essential. The key concepts are header files (`.h`) and implementation files (`.cpp`), and they work together to keep your code modular and clean.
+
+
+<a id="orgbb550e6"></a>
+
+### TODO Why Split Code into Multiple Files?
+
+Breaking code into multiple files provides several important benefits:
+
+-   **Organization**: Group related functions together (all math functions in one file, all file I/O functions in another)
+-   **Reusability**: Write a function once, use it in multiple programs without copy-pasting
+-   **Maintainability**: Find and fix bugs more easily when code is organized logically
+-   **Collaboration**: Multiple people can work on different files without conflicts
+-   **Compilation speed**: Only recompile the files that changed, not your entire program
+
+
+<a id="org0f24ed8"></a>
+
+### TODO Header Files (.h)
+
+1.  Creating Header Files
+
+    Header files contain declarations (what exists) but not usually implementations (how it works).
+    
+    `math_utils.h`:
+    
+        #ifndef MATH_UTILS_H
+        #define MATH_UTILS_H
+        
+        // Function declarations
+        double calculateArea(double width, double height);
+        double calculateCircleArea(double radius);
+        int factorial(int n);
+        
+        #endif
+
+2.  Include Guards
+
+    The `#ifndef`, `#define`, `#endif` pattern prevents the header from being included multiple times, which would cause errors.
+
+3.  Function Declarations vs Definitions
+
+    -   ****Declaration****: Tells the compiler a function exists (in .h file)
+    -   ****Definition****: The actual implementation (in .cpp file)
+
+
+<a id="orgd3e13ae"></a>
+
+### TODO Implementation Files (.cpp)
+
+`math_utils.cpp`:
+
+    #include "math_utils.h"
+    #include <cmath>
+    
+    double calculateArea(double width, double height){
+      return width * height;
+    }
+    
+    double calculateCircleArea(double radius){
+      return 3.14159 * radius * radius;
+    }
+    
+    int factorial(int n){
+      if(n <= 1) return 1;
+      return n * factorial(n - 1);
+    }
+
+`main.cpp`:
+
+    #include <iostream>
+    #include "math_utils.h"
+    using namespace std;
+    
+    int main(){
+      double area = calculateArea(5.0, 3.0);
+      cout << "Area: " << area << endl;
+    
+      double circleArea = calculateCircleArea(2.5);
+      cout << "Circle area: " << circleArea << endl;
+    
+      return 0;
+    }
+
+
+<a id="orgda09667"></a>
+
+### TODO Compiling Multi-File Programs
+
+1.  Command-Line Compilation
+
+        # Compile all files together
+        g++ main.cpp math_utils.cpp -o program
+        
+        # Or compile separately (faster for large projects)
+        g++ -c math_utils.cpp   # Creates math_utils.o
+        g++ -c main.cpp         # Creates main.o
+        g++ math_utils.o main.o -o program  # Links them together
+
+2.  Makefiles (Basic Introduction)
+
+    A Makefile automates the compilation process.
+    
+    `Makefile`:
+    
+        program: main.o math_utils.o
+        	g++ main.o math_utils.o -o program
+        
+        main.o: main.cpp math_utils.h
+        	g++ -c main.cpp
+        
+        math_utils.o: math_utils.cpp math_utils.h
+        	g++ -c math_utils.cpp
+        
+        clean:
+        	rm -f *.o program
+    
+    Usage:
+    
+        make          # Builds the program
+        make clean    # Removes compiled files
+
+
+<a id="org216280b"></a>
+
+### TODO Organizing Code by Purpose
+
+1.  Utility Functions
+
+    `string_utils.h` / `string_utils.cpp`: Common string operations
+
+2.  Input/Output Functions
+
+    `io.h` / `io.cpp`: User input validation, file operations
+
+3.  Business Logic Functions
+
+    `calculator.h` / `calculator.cpp`: Core application logic
+    
+    Example project structure:
+    
+        project/
+          ├── main.cpp
+          ├── string_utils.h
+          ├── string_utils.cpp
+          ├── io.h
+          ├── io.cpp
+          ├── calculator.h
+          ├── calculator.cpp
+          └── Makefile
+
+
+<a id="orgb416dae"></a>
+
+### TODO Common Errors with Multi-File Programs
+
+1.  Multiple Definition Errors
+
+    ****\*Problem****: Including a .cpp file instead of .h, or defining functions in .h files
+    
+    ****\*Solution****: Only put declarations in .h files, definitions in .cpp files
+
+2.  Undefined Reference Errors
+
+    ****\*Problem****: Forgot to compile a .cpp file, or misspelled function name
+    
+    ****\*Solution****: Make sure all .cpp files are compiled and linked
+
+3.  Exercises
+
+    1.  **Discussion**: What's the difference between `#include <iostream>` and `#include "myfile.h"`?
+    2.  **Basic**: Create a header file with function declarations and an implementation file with definitions.
+
+
+<a id="org3dc41a6"></a>
+
+### TODO Lab Projects
+
+1.  LAB: Refactor Single-File Program
+
+    Take a previous lab (like the student record system) and split it into:
+    
+    -   `student.h` / `student.cpp` (struct and related functions)
+    -   `io.h` / `io.cpp` (input/output functions)
+    -   `main.cpp` (menu and main program logic)
+
+2.  LAB: Build a Calculator Library
+
+    Create a multi-file calculator:
+    
+    -   `basic_ops.h/.cpp` (add, subtract, multiply, divide)
+    -   `advanced_ops.h/.cpp` (power, factorial, square root)
+    -   `calculator.h/.cpp` (menu-driven calculator)
+    -   `main.cpp` (program entry point)
+
+
+<a id="orgec16088"></a>
+
+## TODO Common Algorithms & Problem Solving
+
+So you know how to write programs that do specific things: calculate grades, play guessing games, manage a list of names. But what about solving more general problems that come up over and over again in programming?
+
+For example: "How do I find a specific item in a list?" or "How do I sort a list of items in order?" These are such common problems that computer scientists have developed standard solutions for them, called **algorithms**.
+
+An algorithm is just a step-by-step procedure for solving a problem. The algorithms we'll look at here—searching and sorting—are fundamental to computer science. You'll use them constantly in real programs, and understanding how they work will help you become a better problem solver.
+
+In CS161B, you'll study algorithms in much more depth, learning about their efficiency (how fast they run) and when to use one algorithm versus another. For now, we'll introduce a few classic algorithms to give you a taste of algorithmic thinking.
+
+Don't worry if these seem abstract at first—that's normal! The key is to understand the logic of each algorithm, trace through how it works step-by-step, and recognize when you might need to use one in your own programs.
+
+
+<a id="org7df103d"></a>
+
+### TODO Searching Algorithms
+
+1.  Linear Search
+
+    This is the simplest search algorithm: just look through an array one element at a time until you find what you're looking for (or reach the end without finding it).
+    
+        int linearSearch(int arr[], int size, int target){
+          for(int i = 0; i < size; i++){
+            if(arr[i] == target){
+              return i; // Found at index i
+            }
+          }
+          return -1; // Not found
+        }
+    
+    Time complexity: O(n) - might need to check every element
+
+2.  Binary Search (On Sorted Data)
+
+    Much faster than linear search, but only works on sorted arrays.
+    
+        int binarySearch(int arr[], int size, int target){
+          int left = 0;
+          int right = size - 1;
+        
+          while(left <= right){
+            int mid = left + (right - left) / 2;
+        
+            if(arr[mid] == target){
+              return mid; // Found!
+            }
+            else if(arr[mid] < target){
+              left = mid + 1; // Search right half
+            }
+            else{
+              right = mid - 1; // Search left half
+            }
+          }
+        
+          return -1; // Not found
+        }
+    
+    Time complexity: O(log n) - much faster for large arrays
+
+3.  Exercises
+
+    1.  **Basic**: Implement linear search for a vector of strings.
+    2.  **Intermediate**: Modify binary search to return the index where an element should be inserted if not found.
+    3.  **Challenge**: Implement a search function that works on a vector of structs, searching by a specific field.
+
+
+<a id="orgb93cdf5"></a>
+
+### TODO Sorting Algorithms
+
+1.  Selection Sort
+
+    Find the minimum element and move it to the front, repeat for the rest.
+    
+        void selectionSort(int arr[], int size){
+          for(int i = 0; i < size - 1; i++){
+            int minIndex = i;
+        
+            // Find minimum in remaining array
+            for(int j = i + 1; j < size; j++){
+              if(arr[j] < arr[minIndex]){
+        	minIndex = j;
+              }
+            }
+        
+            // Swap minimum to position i
+            int temp = arr[i];
+            arr[i] = arr[minIndex];
+            arr[minIndex] = temp;
+          }
+        }
+
+2.  Bubble Sort
+
+    Repeatedly swap adjacent elements if they're in the wrong order.
+    
+        void bubbleSort(int arr[], int size){
+          for(int i = 0; i < size - 1; i++){
+            for(int j = 0; j < size - i - 1; j++){
+              if(arr[j] > arr[j + 1]){
+        	// Swap
+        	int temp = arr[j];
+        	arr[j] = arr[j + 1];
+        	arr[j + 1] = temp;
+              }
+            }
+          }
+        }
+
+3.  Using Built-in Sort (Preview)
+
+    C++ provides a highly optimized sort function.
+    
+        #include <algorithm>
+        #include <vector>
+        using namespace std;
+        
+        int main(){
+          vector<int> nums = {5, 2, 8, 1, 9};
+        
+          sort(nums.begin(), nums.end());
+          // nums is now {1, 2, 5, 8, 9}
+        
+          return 0;
+        }
+
+4.  Exercises
+
+    1.  **Basic**: Implement selection sort for a vector.
+    2.  **Intermediate**: Modify bubble sort to stop early if the array becomes sorted.
+    3.  **Challenge**: Sort a vector of structs by a specific field (e.g., sort students by GPA).
+
+
+<a id="org2fc86a8"></a>
+
+### TODO String Algorithms
+
+1.  Reversing Strings
+
+        string reverseString(string s){
+          string result = "";
+          for(int i = s.length() - 1; i >= 0; i--){
+            result += s[i];
+          }
+          return result;
+        }
+        
+        // In-place reversal
+        void reverseInPlace(string& s){
+          int left = 0;
+          int right = s.length() - 1;
+        
+          while(left < right){
+            char temp = s[left];
+            s[left] = s[right];
+            s[right] = temp;
+            left++;
+            right--;
+          }
+        }
+
+2.  Checking for Palindromes
+
+        bool isPalindrome(const string& s){
+          int left = 0;
+          int right = s.length() - 1;
+        
+          while(left < right){
+            if(s[left] != s[right]){
+              return false;
+            }
+            left++;
+            right--;
+          }
+        
+          return true;
+        }
+
+3.  Finding Patterns in Text
+
+        int countOccurrences(const string& text, const string& pattern){
+          int count = 0;
+          size_t pos = 0;
+        
+          while((pos = text.find(pattern, pos)) != string::npos){
+            count++;
+            pos += pattern.length();
+          }
+        
+          return count;
+        }
+
+4.  Exercises
+
+    1.  **Basic**: Write a function that removes all spaces from a string.
+    2.  **Intermediate**: Write a function that checks if two strings are anagrams.
+    3.  **Challenge**: Implement a simple spell checker that finds the closest matching word.
+
+
+<a id="orgad7037e"></a>
+
+### TODO Numeric Algorithms
+
+1.  Finding GCD (Greatest Common Divisor)
+
+        int gcd(int a, int b){
+          while(b != 0){
+            int temp = b;
+            b = a % b;
+            a = temp;
+          }
+          return a;
+        }
+
+2.  Finding LCM (Least Common Multiple)
+
+        int lcm(int a, int b){
+          return (a * b) / gcd(a, b);
+        }
+
+3.  Prime Number Testing
+
+        bool isPrime(int n){
+          if(n <= 1) return false;
+          if(n <= 3) return true;
+          if(n % 2 == 0 || n % 3 == 0) return false;
+        
+          for(int i = 5; i * i <= n; i += 6){
+            if(n % i == 0 || n % (i + 2) == 0){
+              return false;
+            }
+          }
+        
+          return true;
+        }
+
+4.  Fibonacci Sequences
+
+        // Iterative approach (efficient)
+        int fibonacci(int n){
+          if(n <= 1) return n;
+        
+          int a = 0, b = 1;
+          for(int i = 2; i <= n; i++){
+            int temp = a + b;
+            a = b;
+            b = temp;
+          }
+        
+          return b;
+        }
+
+5.  Exercises
+
+    1.  **Basic**: Write a function that generates the first n prime numbers.
+    2.  **Intermediate**: Write a function that finds the prime factorization of a number.
+    3.  **Challenge**: Implement the Sieve of Eratosthenes to find all primes up to n.
+
+
+<a id="org24350cd"></a>
+
+### TODO Problem-Solving Strategies
+
+1.  Breaking Down Complex Problems
+
+    1.  ****Understand the problem****: Read carefully, identify inputs/outputs
+    2.  ****Plan****: Break into smaller steps, consider edge cases
+    3.  ****Implement****: Write code for each step
+    4.  ****Test****: Try different inputs, including edge cases
+    5.  ****Refine****: Optimize, improve readability
+
+2.  Test-Driven Development Basics
+
+    Write tests before writing the actual function.
+    
+        // Test function
+        void testFactorial(){
+          assert(factorial(0) == 1);
+          assert(factorial(1) == 1);
+          assert(factorial(5) == 120);
+          cout << "All tests passed!" << endl;
+        }
+        
+        // Then implement factorial to pass the tests
+        int factorial(int n){
+          if(n <= 1) return 1;
+          return n * factorial(n - 1);
+        }
+
+3.  Debugging Systematic Approaches
+
+    1.  ****Read error messages carefully****
+    2.  ****Use print statements**** to track variable values
+    3.  ****Test small pieces**** of code separately
+    4.  ****Check assumptions**** (array sizes, input format, etc.)
+    5.  ****Use a debugger**** (gdb, IDE debugger)
+    6.  ****Rubber duck debugging****: Explain the code out loud
+
+
+<a id="org3a05571"></a>
+
+### TODO Command-Line Arguments
+
+1.  argc and argv
+
+    Programs can accept arguments from the command line.
+    
+        #include <iostream>
+        using namespace std;
+        
+        int main(int argc, char* argv[]){
+          cout << "Number of arguments: " << argc << endl;
+        
+          for(int i = 0; i < argc; i++){
+            cout << "Argument " << i << ": " << argv[i] << endl;
+          }
+        
+          return 0;
+        }
+    
+    Running: `./program hello world` would output:
+    
+        Number of arguments: 3
+        Argument 0: ./program
+        Argument 1: hello
+        Argument 2: world
+
+2.  Processing Command-Line Parameters
+
+        #include <iostream>
+        #include <cstdlib>
+        using namespace std;
+        
+        int main(int argc, char* argv[]){
+          if(argc != 3){
+            cout << "Usage: " << argv[0] << " <num1> <num2>" << endl;
+            return 1;
+          }
+        
+          int num1 = atoi(argv[1]);
+          int num2 = atoi(argv[2]);
+        
+          cout << num1 << " + " << num2 << " = " << (num1 + num2) << endl;
+        
+          return 0;
+        }
+
+3.  Exercises
+
+    1.  **Basic**: Write a program that takes a name as a command-line argument and prints a greeting.
+    2.  **Intermediate**: Create a program that takes a filename as an argument and displays its contents.
+    3.  **Challenge**: Create a command-line calculator that takes an operation (+, -, \*, /) and two numbers.
+
+
+<a id="org8ead4f7"></a>
+
+### TODO Lab Projects
+
+1.  LAB: Implement Search and Sort
+
+    Create a program that:
+    
+    -   Reads numbers from a file into a vector
+    -   Implements both linear and binary search
+    -   Implements selection sort
+    -   Allows user to search for values
+    -   Displays sorted results
+
+2.  LAB: String Analysis Tool
+
+    Create a comprehensive string analyzer that:
+    
+    -   Reads a text file
+    -   Counts words, lines, characters
+    -   Finds most common words
+    -   Checks for palindromes
+    -   Generates statistics report
+
+3.  LAB: Command-Line Calculator
+
+    Create a calculator that works from command line:
+    
+        ./calc add 5 3      # Outputs: 8
+        ./calc multiply 4 7 # Outputs: 28
+        ./calc power 2 8    # Outputs: 256
+        ./calc factorial 5  # Outputs: 120
+
+
+<a id="org8b6c96b"></a>
 
 # TODO Extended example: Let's play shop
 
@@ -2317,31 +5309,26 @@ In this example we'll be writing a small program that prints out a menu, let's y
 We'll do this program "the hard way" at first, which isn't very flexible, but we'll end up showing some more features of C++ that will let us simplify and refactor this code.
 
 
-<a id="orgb8fe13b"></a>
-
-## More on iteration and choices
-
-
-<a id="org11902ec"></a>
+<a id="orgcefb527"></a>
 
 # TODO Extended example: An Adventure Game
 
 In this example we're going to look at how to make an old-school text-adventure game in C++. 
 
 
-<a id="orga48cc41"></a>
+<a id="org563fb1c"></a>
 
 # Project Ideas
 
 
-<a id="org410def7"></a>
+<a id="orge7c4f84"></a>
 
 ## Mini-Projects (After Major Sections)
 
 These projects are designed to be completed after finishing specific sections of the course. Each should take 1-3 hours to complete.
 
 
-<a id="orga38edbc"></a>
+<a id="org50c149a"></a>
 
 ### After Loops
 
@@ -2349,7 +5336,7 @@ These projects are designed to be completed after finishing specific sections of
 -   **Password Strength Checker**: Check passwords for length, uppercase, lowercase, numbers, and special characters. Give a strength score.
 
 
-<a id="orga218b1f"></a>
+<a id="orga252fb8"></a>
 
 ### After Arrays
 
@@ -2357,7 +5344,7 @@ These projects are designed to be completed after finishing specific sections of
 -   **Simple Statistics Calculator**: Input a dataset and calculate mean, median, mode, and standard deviation.
 
 
-<a id="org842ea72"></a>
+<a id="org387c37e"></a>
 
 ### After Functions
 
@@ -2365,7 +5352,7 @@ These projects are designed to be completed after finishing specific sections of
 -   **Geometry Calculator**: Calculate areas, perimeters, and volumes for various shapes using dedicated functions.
 
 
-<a id="orgcf7e4ee"></a>
+<a id="org13bed4f"></a>
 
 ### After Strings
 
@@ -2373,7 +5360,7 @@ These projects are designed to be completed after finishing specific sections of
 -   **Simple Text Editor Commands**: Implement find/replace, word count, and case conversion operations.
 
 
-<a id="orgab2995c"></a>
+<a id="orgc9ed528"></a>
 
 ### After Data Validation
 
@@ -2381,14 +5368,14 @@ These projects are designed to be completed after finishing specific sections of
 -   **Date Calculator**: Calculate days between dates, add days to dates, handle leap years properly.
 
 
-<a id="org7d42fb1"></a>
+<a id="org69ce10a"></a>
 
 ## Larger Projects
 
 These are comprehensive projects that integrate multiple concepts. Each should take 5-10 hours to complete.
 
 
-<a id="org9d6e24d"></a>
+<a id="org0f77ac2"></a>
 
 ### Store Management System
 
@@ -2403,7 +5390,7 @@ Create an inventory management system with the following features:
 Skills practiced: Arrays, functions, data validation, formatting
 
 
-<a id="org2438d60"></a>
+<a id="orgee8fdc5"></a>
 
 ### Grade Calculator System
 
@@ -2418,7 +5405,7 @@ Build a complete gradebook application:
 Skills practiced: 2D arrays, functions with references, data formatting
 
 
-<a id="org035379a"></a>
+<a id="org356ba3d"></a>
 
 ### Game Collection
 
@@ -2432,7 +5419,7 @@ Include a main menu, score tracking, and play-again options
 Skills practiced: Arrays, string manipulation, game logic, input validation
 
 
-<a id="org1b58f83"></a>
+<a id="orgac2c121"></a>
 
 ### Data Analysis Tool
 
@@ -2447,7 +5434,7 @@ Create a program that reads survey or experimental data:
 Skills practiced: File I/O concepts, arrays, mathematical functions, error handling
 
 
-<a id="orgbad01db"></a>
+<a id="org153b675"></a>
 
 ### Encryption Tool Suite
 
@@ -2462,7 +5449,7 @@ Build a collection of encryption/decryption methods:
 Skills practiced: String manipulation, algorithms, modular programming
 
 
-<a id="orga035f79"></a>
+<a id="org723b6b7"></a>
 
 ## Project Guidelines
 
@@ -2477,7 +5464,7 @@ For each project, students should:
 7.  Consider adding extra features for bonus points
 
 
-<a id="orgdb82353"></a>
+<a id="orgd2ef056"></a>
 
 ## Common Mistakes to Avoid
 
@@ -2490,19 +5477,19 @@ For each project, students should:
 -   Forgetting break statements in switch cases
 
 
-<a id="org8e787b7"></a>
+<a id="orge1ff4cb"></a>
 
 # Sample Solutions
 
 This chapter provides sample solutions for selected exercises from each section. Remember that there are often multiple correct ways to solve a problem in programming!
 
 
-<a id="org4643628"></a>
+<a id="org3d839da"></a>
 
 ## Hello World Solutions
 
 
-<a id="org604ac74"></a>
+<a id="orgffaef87"></a>
 
 ### Basic: Name and Joke
 
@@ -2517,7 +5504,7 @@ This chapter provides sample solutions for selected exercises from each section.
     }
 
 
-<a id="orgf0d7330"></a>
+<a id="orgab6521c"></a>
 
 ### Intermediate: ASCII Art Box
 
@@ -2532,12 +5519,12 @@ This chapter provides sample solutions for selected exercises from each section.
     }
 
 
-<a id="orgba4fbea"></a>
+<a id="orgc10b226"></a>
 
 ## String I/O Solutions
 
 
-<a id="orgbfb19da"></a>
+<a id="orgf9b1012"></a>
 
 ### Basic: Last, First Format
 
@@ -2557,7 +5544,7 @@ This chapter provides sample solutions for selected exercises from each section.
     }
 
 
-<a id="orgf8c2677"></a>
+<a id="org5ac8818"></a>
 
 ### Challenge: Mad Libs
 
@@ -2585,12 +5572,12 @@ This chapter provides sample solutions for selected exercises from each section.
     }
 
 
-<a id="org183cd2b"></a>
+<a id="orgc76c2d0"></a>
 
 ## Arithmetic Solutions
 
 
-<a id="orgd31dbb3"></a>
+<a id="orgd32ecd3"></a>
 
 ### Intermediate: Tip Calculator
 
@@ -2618,7 +5605,7 @@ This chapter provides sample solutions for selected exercises from each section.
     }
 
 
-<a id="orge824554"></a>
+<a id="org3a1f798"></a>
 
 ### Challenge: Compound Interest
 
@@ -2653,12 +5640,12 @@ This chapter provides sample solutions for selected exercises from each section.
     }
 
 
-<a id="orgfadb39f"></a>
+<a id="org3971385"></a>
 
 ## Boolean/If-Statement Solutions
 
 
-<a id="org8afd589"></a>
+<a id="org2dd3f81"></a>
 
 ### Intermediate: Grade Calculator
 
@@ -2691,7 +5678,7 @@ This chapter provides sample solutions for selected exercises from each section.
     }
 
 
-<a id="org53f0964"></a>
+<a id="orgf36bbb1"></a>
 
 ### Challenge: Eligibility Checker
 
@@ -2725,19 +5712,19 @@ This chapter provides sample solutions for selected exercises from each section.
     
       if(age < 16){
         cout << "Sorry, you'll need to wait " << 16 - age 
-             << " years before you can drive!" << endl;
+    	 << " years before you can drive!" << endl;
       }
     
       return 0;
     }
 
 
-<a id="org956b7f0"></a>
+<a id="org2835ae1"></a>
 
 ## While Loop Solutions
 
 
-<a id="orgd36337f"></a>
+<a id="org32158f7"></a>
 
 ### Intermediate: Password Checker
 
@@ -2770,12 +5757,12 @@ This chapter provides sample solutions for selected exercises from each section.
     }
 
 
-<a id="org953c1a9"></a>
+<a id="orgb42cc27"></a>
 
 ## Random Number Solutions
 
 
-<a id="org1ecd718"></a>
+<a id="orgd252549"></a>
 
 ### Intermediate: Rock, Paper, Scissors
 
@@ -2802,8 +5789,8 @@ This chapter provides sample solutions for selected exercises from each section.
         cout << "It's a tie!" << endl;
       }
       else if((userChoice == "rock" && computerChoice == "scissors") ||
-              (userChoice == "paper" && computerChoice == "rock") ||
-              (userChoice == "scissors" && computerChoice == "paper")){
+    	  (userChoice == "paper" && computerChoice == "rock") ||
+    	  (userChoice == "scissors" && computerChoice == "paper")){
         cout << "You win!" << endl;
       }
       else{
@@ -2814,7 +5801,7 @@ This chapter provides sample solutions for selected exercises from each section.
     }
 
 
-<a id="org194fee1"></a>
+<a id="org8070764"></a>
 
 ### Challenge: Coin Flip Statistics
 
@@ -2854,12 +5841,12 @@ This chapter provides sample solutions for selected exercises from each section.
     }
 
 
-<a id="org160c07d"></a>
+<a id="org098d5fb"></a>
 
 ## For-Loop Solutions
 
 
-<a id="org684a62a"></a>
+<a id="org6798a4b"></a>
 
 ### Basic: Fibonacci Numbers
 
@@ -2884,7 +5871,7 @@ This chapter provides sample solutions for selected exercises from each section.
     }
 
 
-<a id="org46ce213"></a>
+<a id="orgc6fae30"></a>
 
 ### Intermediate: Triangle Pattern
 
@@ -2908,7 +5895,7 @@ This chapter provides sample solutions for selected exercises from each section.
     }
 
 
-<a id="orgf4cbae8"></a>
+<a id="org1994aa8"></a>
 
 ### Challenge: Prime Numbers
 
@@ -2941,12 +5928,12 @@ This chapter provides sample solutions for selected exercises from each section.
     }
 
 
-<a id="org405ca72"></a>
+<a id="org02db1f5"></a>
 
 ## Array Solutions
 
 
-<a id="org7a525e6"></a>
+<a id="org9021984"></a>
 
 ### Basic: Temperature Analysis
 
@@ -2983,7 +5970,7 @@ This chapter provides sample solutions for selected exercises from each section.
     }
 
 
-<a id="org8461a9a"></a>
+<a id="org62f0999"></a>
 
 ### Intermediate: Array Reversal
 
@@ -3016,12 +6003,12 @@ This chapter provides sample solutions for selected exercises from each section.
     }
 
 
-<a id="org456a26d"></a>
+<a id="orgf447881"></a>
 
 ## String Operation Solutions
 
 
-<a id="org3869ba3"></a>
+<a id="orgd1ae4e1"></a>
 
 ### Basic: Vowel Counter
 
@@ -3049,7 +6036,7 @@ This chapter provides sample solutions for selected exercises from each section.
     }
 
 
-<a id="org4f80e27"></a>
+<a id="org851fd19"></a>
 
 ### Intermediate: Palindrome Checker
 
@@ -3083,12 +6070,12 @@ This chapter provides sample solutions for selected exercises from each section.
     }
 
 
-<a id="org9b6ba16"></a>
+<a id="org6b7fa95"></a>
 
 ## Switch Statement Solutions
 
 
-<a id="orgd208f4a"></a>
+<a id="orgd21aa88"></a>
 
 ### Intermediate: Calculator
 
@@ -3118,10 +6105,10 @@ This chapter provides sample solutions for selected exercises from each section.
           break;
         case '/':
           if(num2 != 0){
-            cout << num1 << " / " << num2 << " = " << num1 / num2 << endl;
+    	cout << num1 << " / " << num2 << " = " << num1 / num2 << endl;
           }
           else{
-            cout << "Error: Division by zero!" << endl;
+    	cout << "Error: Division by zero!" << endl;
           }
           break;
         default:
@@ -3132,12 +6119,12 @@ This chapter provides sample solutions for selected exercises from each section.
     }
 
 
-<a id="orgfd0d035"></a>
+<a id="org92ebf87"></a>
 
 ## Function Solutions
 
 
-<a id="orgf562ebb"></a>
+<a id="org3a729e8"></a>
 
 ### Basic: Larger of Two Numbers
 
@@ -3166,7 +6153,7 @@ This chapter provides sample solutions for selected exercises from each section.
     }
 
 
-<a id="orgadeaee7"></a>
+<a id="org1c44852"></a>
 
 ### Intermediate: Area Calculators
 
@@ -3230,12 +6217,12 @@ This chapter provides sample solutions for selected exercises from each section.
     }
 
 
-<a id="orgb135e78"></a>
+<a id="org32870f6"></a>
 
 ## Pass by Reference Solutions
 
 
-<a id="org52c50b9"></a>
+<a id="orgb195c8e"></a>
 
 ### Basic: Swap Function
 
@@ -3259,7 +6246,7 @@ This chapter provides sample solutions for selected exercises from each section.
     }
 
 
-<a id="orgb3a7190"></a>
+<a id="orgf291954"></a>
 
 ### Intermediate: Division with Quotient and Remainder
 
@@ -3283,7 +6270,7 @@ This chapter provides sample solutions for selected exercises from each section.
       if(num2 != 0){
         int quotient = divide(num1, num2, remainder);
         cout << num1 << " / " << num2 << " = " << quotient 
-             << " with remainder " << remainder << endl;
+    	 << " with remainder " << remainder << endl;
       }
       else{
         cout << "Error: Cannot divide by zero!" << endl;
@@ -3293,7 +6280,7 @@ This chapter provides sample solutions for selected exercises from each section.
     }
 
 
-<a id="org194ab03"></a>
+<a id="orgf4a8862"></a>
 
 ### Challenge: Array Statistics
 
@@ -3335,12 +6322,12 @@ This chapter provides sample solutions for selected exercises from each section.
     }
 
 
-<a id="org98bf528"></a>
+<a id="org5efcea6"></a>
 
 ## Data Validation Solutions
 
 
-<a id="orge2fffa8"></a>
+<a id="org6f826e6"></a>
 
 ### Challenge: Date Validator
 
@@ -3385,16 +6372,16 @@ This chapter provides sample solutions for selected exercises from each section.
         else{
           cout << "Invalid date! ";
           if(month < 1 || month > 12){
-            cout << "Month must be 1-12." << endl;
+    	cout << "Month must be 1-12." << endl;
           }
           else if(month == 2 && day > 29){
-            cout << "February cannot have more than 29 days." << endl;
+    	cout << "February cannot have more than 29 days." << endl;
           }
           else if(month == 2 && day == 29 && !isLeapYear(year)){
-            cout << year << " is not a leap year." << endl;
+    	cout << year << " is not a leap year." << endl;
           }
           else{
-            cout << "Day is invalid for this month." << endl;
+    	cout << "Day is invalid for this month." << endl;
           }
         }
         cout << "Enter a date (MM DD YYYY): ";
@@ -3407,7 +6394,7 @@ This chapter provides sample solutions for selected exercises from each section.
     }
 
 
-<a id="orgadb5ab0"></a>
+<a id="org087bb19"></a>
 
 ## Notes on Solutions
 
@@ -3441,4 +6428,8 @@ Remember: The best solution is one that works correctly, is readable, and can be
 
 <sup><a id="fn.8" href="#fnr.8">8</a></sup> Okay type systems, in general, can actually do so much more than this but in C/C++ this is one of the primary reasons. If you take a systems programming class, you'll learn more about *why* C/C++ work this way.
 
-<sup><a id="fn.9" href="#fnr.9">9</a></sup> Okay, what on earth does "less precise" mean in this context? Okay, let's talk about sizes of infinity. No, really, I promise that this isn't a tangent. So the whole numbers, the integers, are infinite. You can start counting in either direction&#x2014;positive or negative&#x2014;and you'll never reach the end. This is the smallest infinity though. The numbers that have decimals, which are the "real numbers", are much bigger than the whole numbers. There are more real numbers between 0 and 1 than the entirety of the integers. The reason for this is, in a sense, is because a real number can have an infinite number of digits to the right of the decimal point. The problem for us, as computer scientists, is that there's no way to represent "an infinite number of digits" in a way that can fit in a finite amount of memory. So, instead, we have to compromise and instead of representing **all** possible real numbers we represent **some** of them. How well we can represent a number is the "precision". The higher the precision, the more fine-grained of distinctions we can make between representing two real numbers.
+<sup><a id="fn.9" href="#fnr.9">9</a></sup> This is only true for memory allocated, allocated being the technical term for setting up the dividers on the storage wall and putting the labels on the cubbyhole, *on the stack*. All the memory you're allocating in this class&#x2014;every variable you create, every array you make&#x2014;will be on the stack. There is *another* way to allocate memory that is more flexible but also harder to manage that can persist even after the program is closed. That's not a neat feature though, that's called a "memory leak" and is the reason why Chrome and Firefox seem to swell up to 20GB of RAM if you leave them open long enough. It still can't be used for long-term storage!
+
+<sup><a id="fn.10" href="#fnr.10">10</a></sup> Okay, what on earth does "less precise" mean in this context? Okay, let's talk about sizes of infinity. No, really, I promise that this isn't a tangent. So the whole numbers, the integers, are infinite. You can start counting in either direction&#x2014;positive or negative&#x2014;and you'll never reach the end. This is the smallest infinity though. The numbers that have decimals, which are the "real numbers", are much bigger than the whole numbers. There are more real numbers between 0 and 1 than the entirety of the integers. The reason for this is, in a sense, is because a real number can have an infinite number of digits to the right of the decimal point. The problem for us, as computer scientists, is that there's no way to represent "an infinite number of digits" in a way that can fit in a finite amount of memory. So, instead, we have to compromise and instead of representing **all** possible real numbers we represent **some** of them. How well we can represent a number is the "precision". The higher the precision, the more fine-grained of distinctions we can make between representing two real numbers.
+
+<sup><a id="fn.11" href="#fnr.11">11</a></sup> Computer scientists, when talking about the "meaning" of things in programming borrow a word from the linguistics community and we talk about the *semantics* of a program. So the *semantics* of "the number of wins" should be a whole number, an integer, because there's no such thing as "a partial win". So our point can be rephrased as saying that "the type of the data should fit the *semantics* of the data".
