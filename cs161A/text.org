@@ -211,7 +211,7 @@ So, yes, *most* lines need semi-colons at the end. The lines that don't need a s
  + lines that end with ={= or =}= (with one annoying exception we'll get to)
  + lines that start with #
  + comments, which we haven't discussed yet
-* TODO More early steps [10/14]
+* DONE More early steps
 ** DONE Echoing text and string types
 So we've already done a non-trivial amount of work because we've learned to compile a file, run it, and have it print something out the screen.
 
@@ -571,7 +571,7 @@ Note that =cin= keeps working no matter what type of container we're trying to f
 1. *Basic*: Calculate the area and perimeter of a rectangle from user input (length and width).
 2. *Intermediate*: Create a tip calculator that asks for bill amount and tip percentage, then shows the tip amount and total.
 3. *Challenge*: Implement a compound interest calculator that asks for principal, annual rate, time in years, and number of times compounded per year. Use the formula: A = P(1 + r/n)^(nt)
-** TODO Booleans, logic, and quizzes
+** DONE Booleans, logic, and quizzes
 *** The if-statement
 Okay, if all we could do with code was straight-line programs that just do a sequence of calculations then we'd basically just have the equivalent of a calculator but arguably more annoying.
 
@@ -1562,7 +1562,7 @@ Now you can see that we've safeguarded against dividing by zero!
 2. *Intermediate*: Find the minimum, maximum, and average of numbers entered (stop on -1).
 3. *Challenge*: Calculate a weighted average where the user enters value-weight pairs. Stop when weight is 0. Example: test1=85, weight=0.3; test2=90, weight=0.7; weighted average = 88.5.
 
-** TODO For-loops (and the shape of loops to come)[fn:8] [1/2]
+** DONE For-loops (and the shape of loops to come)[fn:8]
 *** The syntax of for-loops
 So far we've seen some examples of using =while= loops and now it's time to see the other kind of loop: the =for=-loop. Unlike =while=, which is "indefinite" iteration because it could theoretically go on forever, the =for=-loop is "definite" iteration because it should (unless there's a bug) only run for a pre-determined number of times.
 
@@ -1789,7 +1789,7 @@ Another common use of nested loops is creating multiplication tables:
 2. *Intermediate*: Create an inverted pyramid (wide at top, narrow at bottom).
 3. *Challenge*: Create a diamond pattern by combining an upright pyramid and an inverted pyramid.
 
-** TODO (Advanced) Arrays: the reasons for =for=
+** DONE (Advanced) Arrays: the reasons for =for=
 Here's a more advanced topic that you'll be needing not just for this class but for the rest of your classes where you're doing C++: arrays.
 
 We're covering arrays here because they are, in a sense, the reason for using =for= loops. If, in the previous sections, you felt like "okay so a =for= is like a while, but more restricted?" that impression isn't /wrong/ per se. =while= is the more general concept that lets us do all sorts of things but =for= is best when you're dealing with finite collections of /stuff/.
@@ -1873,7 +1873,7 @@ That means you'll need to add a new array of ints to hold the age, ask for the a
 1. *Basic*: Create an array of 7 daily temperatures and find the warmest and coldest days.
 2. *Intermediate*: Reverse the contents of an array in-place (without creating a new array).
 3. *Challenge*: Implement a simple grade book that stores 5 students with 3 test scores each. Calculate and display each student's average.
-**** TODO What happens if you access outside the bounds of an array?
+**** DONE What happens if you access outside the bounds of an array?
 There's one last topic we need to address: what happens if you access outside the bounds of the array? Now in many programming languages this will end in an *error*. For example, if you run the following Python program it will crash which is *a good thing*.
 
 #+begin_src python :tangle codesnips/badArray.py
@@ -2211,7 +2211,7 @@ This pattern of "keep looping while choice is not the exit option" is very commo
 2. *Intermediate*: Create a temperature converter menu with options to convert between Fahrenheit, Celsius, and Kelvin. Include an option to exit.
 3. *Challenge*: Create a text-adventure game with multiple locations. Each location has a menu of places you can go next.
  
-** TODO Data validation, the world's most annoying idiom [1/2]
+** DONE Data validation, the world's most annoying idiom
 So we've been playing fast and loose for awhile about how to read in data from the user. But, in reality, you should be checking what the user has entered and asking them to re-enter their response if it's not something you expect. This is actually a really annoying topic because there's no easy way to do this in base C++, which is why I'm going to introduce this topic early. 
 
 Here's two scenarios:
@@ -2240,9 +2240,9 @@ So what we mean here is something like you asking for "yes" or "no" from the use
     cout << "You chose: " << opt << endl;
   }
 #+end_src
-*** TODO The wrong kind of data (cin.fail() &c.) [0/2]
+*** DONE The wrong kind of data (cin.fail() &c.)
 Okay so from here we have some interesting issues that come down to exactly *what* =cin= and =>>= are doing together.
-**** TODO What ever happened to baby cin?
+**** DONE What ever happened to baby cin?
 First off, consider the following program.
 
 #+begin_src cpp :tangle codesnips/badcin1.cpp
@@ -2316,7 +2316,7 @@ So now in the following program we'll ask for two numbers and, then, if there's 
 Run this and test it out and you'll find that if you write something that can't be read as a number then it'll print out "Hey, buddy, that's not cool" rather than print out a badly formed sum. 
 
 Okay so we can /avoid/ running our program if something has gone wrong but we also want to potentially ask for new input over and over until correct data is entered.
-**** TODO Recovering from an error
+**** DONE Recovering from an error
 So this next part is another application of our old friend the /while/ loop.
 
 
@@ -2367,7 +2367,7 @@ So /why/ doesn't this work? You'll see that it leads to an infinite loop of prin
 2. *Intermediate*: Validate email format - must contain exactly one @ and at least one . after the @.
 3. *Challenge*: Create a date validator that checks valid month (1-12) and appropriate days for each month (including leap years for February).
 
-* TODO More advanced programs [1/3]
+* DONE More advanced programs
 ** Functions on strings
 
 *** Reading Full Lines with =getline()=
@@ -2958,7 +2958,7 @@ Notice how we created our own helper function =isVowel()= that returns a =bool=.
 2. *Intermediate*: Create a function that checks if a password is strong (at least 8 characters, contains both letters and digits).
 3. *Challenge*: Write a program that extracts all the numbers from a string and adds them up. For example, "I have 3 cats and 2 dogs" should output 5.
 
-*** TODO Example: Sarcasm Case
+*** DONE Example: Sarcasm Case
  Alright, here's a nice silly example for how we use for-loops with strings:
 #+begin_src cpp :tangle codesnips/sarcasm.cpp
   #include <iostream>
@@ -3199,8 +3199,8 @@ No, instead, you need to do something more like
 1. *Basic*: Create a days-of-week printer using switch (1=Monday, 2=Tuesday, etc.).
 2. *Intermediate*: Build a simple calculator using switch for operations (+, -, *, /). Handle division by zero.
 3. *Challenge*: Create a text-based restaurant ordering system with switch for menu categories (appetizers, mains, desserts) and nested switches for items.
-** TODO Writing your own functions
-*** TODO Functions, reintroduced
+** DONE Writing your own functions
+*** DONE Functions, reintroduced
 So we've seen a couple of ways to define our own functions so far in this course, but we haven't *formally* talked about it.
 
 Our very first function we've defined was in our "hello world" program! =main= is a function and we're defining it. It's kind of a weird function because it has to be the same every time:
@@ -3914,7 +3914,7 @@ This compiles fine but probably isn't what you meant! Use different variable nam
 
 Understanding scope and lifetime will save you from many confusing bugs and help you write cleaner, more maintainable code. Next, we'll see how to bend these rules slightly with pass-by-reference!
 
-*** TODO Passing by reference
+*** DONE Passing by reference
 Now here's a weird little feature of C++. So let's look at how arguments to functions differ from normal variables with a simple example:
 
 #+begin_src cpp :tangle codesnips/cantAssignArgs.cpp
@@ -4018,7 +4018,7 @@ You *cannot* do this in C++. Instead, you have to write this program with a pass
 1. *Basic*: Write a swap function that exchanges the values of two variables using pass by reference.
 2. *Intermediate*: Create a function that returns both quotient and remainder of division (use reference parameters for one of them).
 3. *Challenge*: Build a function that finds minimum, maximum, and average of an array in a single pass. Use reference parameters for min and max.
-** TODO Arrays, again, and Pointers
+** DONE Arrays, again, and Pointers
 So we've covered the concept of arrays once already, to show you the basics of how they're used in C++. Now we're circling back around to cover the topic /again/. Remember how we could print all the items in an array? We did it like this:
 
 #+begin_src cpp :tangle codesnips/arrayPrintRedux.cpp
@@ -4259,7 +4259,7 @@ So now we have a length function that means we can write functions that do thing
 Exercise: here's a quick check for yourself. Why is the =printArray= function written like this? Can you puzzle it out?
 #+end_quote
 
-** TODO Char Arrays
+** DONE Char Arrays
 So far we've used strings this entire time but there's another way that strings are used in older code, especially older /C/ code, and you need to get some experience with how "strings-as-character-arrays" actually work.
 
 We haven't really done a lot with the =char= type so far other than some menuing, but you might remember earlier where we were able to treat the =string= type almost like an array of characters. As a reminder, we were able to do things like this
@@ -4424,7 +4424,7 @@ That said, if you're feeling confident with the CS161A material and want to chal
 
 All right, let's take a peek at what's coming next quarter!
 
-** TODO Vectors: Dynamic Arrays
+** DONE Vectors: Dynamic Arrays
 
 Remember how we had to declare arrays with a fixed size, and couldn't easily change that size later? Remember how we had to manually track the size of arrays and pass it as a separate parameter to functions? Remember how going out of bounds on an array just... caused mysterious crashes without any helpful error messages?
 
@@ -4432,7 +4432,7 @@ Yeah, vectors solve all of those problems.
 
 Vectors are one of the most useful tools in C++, and you'll use them constantly in CS161B. They're like arrays, but better in almost every way. Think of them as "arrays that actually make sense."
 
-*** TODO Introduction to Vectors
+*** DONE Introduction to Vectors
 **** Why Use Vectors Over Arrays?
 
 Vectors are part of the C++ Standard Library and provide:
@@ -4448,7 +4448,7 @@ Vectors are part of the C++ Standard Library and provide:
 using namespace std;
 #+end_src
 
-*** TODO Creating and Initializing Vectors
+*** DONE Creating and Initializing Vectors
 #+begin_src cpp
 // Empty vector of integers
 vector<int> numbers;
@@ -4463,7 +4463,7 @@ vector<int> temps = {65, 68, 72, 75, 73};
 vector<string> names = {"Alice", "Bob", "Charlie"};
 #+end_src
 
-*** TODO Vector Operations
+*** DONE Vector Operations
 **** Adding and Removing Elements
 #+begin_src cpp
 vector<int> nums;
@@ -4509,7 +4509,7 @@ nums.resize(10); // Now has 10 elements (all 0)
 1. *Basic*: Create a vector, add 5 numbers to it using push_back, then print all elements.
 2. *Intermediate*: Create a program that reads numbers from the user until they enter -1, stores them in a vector, then displays them.
 
-*** TODO Accessing Vector Elements
+*** DONE Accessing Vector Elements
 **** Using [] vs at()
 #+begin_src cpp
 vector<int> nums = {10, 20, 30, 40, 50};
@@ -4527,7 +4527,7 @@ nums.at(10) = 99; // Throws exception (safer!)
 1. *Basic*: Write a program that safely accesses vector elements using .at() with error handling.
 2. *Discussion*: When would you use [] vs .at()?
 
-*** TODO Iterating Through Vectors
+*** DONE Iterating Through Vectors
 **** Index-Based Loops
 #+begin_src cpp
 vector<int> numbers = {5, 10, 15, 20, 25};
@@ -4559,7 +4559,7 @@ for(int& val : values){
 1. *Basic*: Use a range-based for loop to sum all elements in a vector.
 2. *Intermediate*: Use a range-based for loop to convert all strings in a vector to uppercase.
 
-*** TODO Vectors and Functions
+*** DONE Vectors and Functions
 **** Passing Vectors by Reference
 #+begin_src cpp
 // Pass by reference to avoid copying
@@ -4599,7 +4599,7 @@ int main(){
 1. *Basic*: Write a function that returns a vector of even numbers from 0 to n.
 2. *Intermediate*: Write a function that filters a vector, keeping only positive numbers.
 
-*** TODO Common Vector Patterns
+*** DONE Common Vector Patterns
 **** Building Lists from User Input
 #+begin_src cpp
 vector<int> readNumbers(){
@@ -4633,7 +4633,7 @@ vector<int> filterPositive(const vector<int>& nums){
 2. *Intermediate*: Write a function that removes duplicates from a vector.
 3. *Challenge*: Write a function that merges two sorted vectors into one sorted vector.
 
-*** TODO Two-Dimensional Vectors
+*** DONE Two-Dimensional Vectors
 #+begin_src cpp
 // Vector of vectors (2D vector)
 vector<vector<int>> matrix;
@@ -4661,7 +4661,7 @@ for(int row = 0; row < matrix.size(); row++){
 1. *Intermediate*: Create a 2D vector to store a multiplication table.
 2. *Challenge*: Create a jagged 2D vector where each row has a different length.
 
-*** TODO Lab Projects
+*** DONE Lab Projects
 **** LAB: Dynamic Grade Book
 Create a program that:
 - Allows adding student grades dynamically
@@ -4684,7 +4684,7 @@ Create a game score tracker that:
 - Displays top 5 scores
 - Allows searching for a player's score
 
-** TODO Structs: Organizing Related Data
+** DONE Structs: Organizing Related Data
 
 Imagine you're writing a program to manage student records. You need to store each student's name, ID number, GPA, and maybe their major. You could create separate arrays or vectors for each piece of information:
 
@@ -4699,7 +4699,7 @@ But now you have a nightmare: you have to keep all four vectors synchronized. If
 
 Structs solve this problem by letting you bundle related data together into a single custom type. Instead of four separate vectors, you can have one vector of "Student" objects, where each student carries all their own information. It's cleaner, safer, and much more intuitive.
 
-*** TODO Introduction to Structs
+*** DONE Introduction to Structs
 **** Why Group Related Data?
 
 When you have related pieces of information (like a student's name, ID, and GPA), keeping them in separate variables or arrays becomes unwieldy and error-prone. Structs let you bundle related data together into a single unit, making your code more organized and easier to maintain.
@@ -4713,7 +4713,7 @@ struct Student {
 };
 #+end_src
 
-*** TODO Creating and Using Struct Variables
+*** DONE Creating and Using Struct Variables
 #+begin_src cpp
 struct Book {
   string title;
@@ -4745,7 +4745,7 @@ int main(){
 1. *Basic*: Create a struct for a Person with name, age, and height. Create a Person variable and display it.
 2. *Intermediate*: Create a struct for a Rectangle with width and height. Add variables to store the calculated area and perimeter.
 
-*** TODO Accessing Struct Members
+*** DONE Accessing Struct Members
 Use the dot operator (=.=) to access struct members.
 
 #+begin_src cpp
@@ -4765,7 +4765,7 @@ int main(){
 }
 #+end_src
 
-*** TODO Structs and Functions
+*** DONE Structs and Functions
 **** Passing Structs to Functions
 #+begin_src cpp
 struct Rectangle {
@@ -4815,7 +4815,7 @@ int main(){
 1. *Basic*: Write a function that takes two Point structs and calculates the distance between them.
 2. *Intermediate*: Write a function that takes a Rectangle and returns true if it's a square.
 
-*** TODO Vectors of Structs
+*** DONE Vectors of Structs
 This is where structs become really powerful - creating databases of records.
 
 #+begin_src cpp
@@ -4893,7 +4893,7 @@ int main(){
 2. *Intermediate*: Write a function to find the most expensive book in a vector of Books.
 3. *Challenge*: Create a simple contact management system with add, search, and display functions.
 
-*** TODO Nested Structs
+*** DONE Nested Structs
 Structs can contain other structs as members.
 
 #+begin_src cpp
@@ -4930,7 +4930,7 @@ int main(){
 1. *Intermediate*: Create an Address struct and a Person struct that contains an Address.
 2. *Challenge*: Create a School struct that contains a vector of Student structs.
 
-*** TODO Lab Projects
+*** DONE Lab Projects
 **** LAB: Student Record System
 Create a complete student management system:
 - Add new students
@@ -4955,7 +4955,7 @@ Create a contact manager:
 - Display all contacts sorted by name
 - Show upcoming birthdays
 
-** TODO File I/O: Reading and Writing Files
+** DONE File I/O: Reading and Writing Files
 
 So far, all of our programs have been ephemeral—when they end, any data they worked with disappears. If you run a program that asks for user input, processes it, and displays results, that's great... but as soon as the program ends, everything is gone. If you want to use that data again, you have to re-enter it all over again.
 
@@ -4965,7 +4965,7 @@ Files let your programs save data permanently to disk, read data that was saved 
 
 File I/O (Input/Output) is one of the most practical programming skills you'll learn. Nearly every real-world program needs to read from or write to files at some point. The good news is that once you understand =cin= and =cout=, file I/O will feel very familiar—it uses almost the same syntax!
 
-*** TODO Introduction to File Input/Output
+*** DONE Introduction to File Input/Output
 **** Why Use Files?
 
 Files give your programs the ability to:
@@ -4977,7 +4977,7 @@ Files give your programs the ability to:
 **** Text Files vs Binary Files
 In this course, we focus on text files (human-readable). Binary files are more efficient but harder to work with.
 
-*** TODO Reading from Files
+*** DONE Reading from Files
 **** Opening Files with ifstream
 #+begin_src cpp
 #include <iostream>
@@ -5060,7 +5060,7 @@ if(!inFile.is_open()){
 2. *Intermediate*: Write a program that counts the number of lines in a file.
 3. *Challenge*: Write a program that counts the number of words in a file.
 
-*** TODO Writing to Files
+*** DONE Writing to Files
 **** Opening Files with ofstream
 #+begin_src cpp
 #include <iostream>
@@ -5112,7 +5112,7 @@ outFile2.close();
 1. *Basic*: Write a program that asks for user's name and age, then saves it to a file.
 2. *Intermediate*: Create a simple diary program that appends entries to a file with timestamps.
 
-*** TODO File Processing Patterns
+*** DONE File Processing Patterns
 **** Processing Until End of File
 #+begin_src cpp
 #include <iostream>
@@ -5225,7 +5225,7 @@ int main(){
 2. *Intermediate*: Read a CSV file of names and ages, then display those over 18.
 3. *Challenge*: Create a program that reads student records from a file and generates a report file with statistics.
 
-*** TODO Error Handling with Files
+*** DONE Error Handling with Files
 **** Checking if File Exists
 #+begin_src cpp
 #include <iostream>
@@ -5277,7 +5277,7 @@ else if(inFile.fail() && !inFile.eof()){
 inFile.close();
 #+end_src
 
-*** TODO Lab Projects
+*** DONE Lab Projects
 **** LAB: Grade File Processor
 Create a program that:
 - Reads student names and grades from a file
@@ -5303,7 +5303,7 @@ Create a contact management system that:
 - Allows add/edit/delete/search operations
 - Preserves data between program runs
 
-** TODO Multi-File Programs
+** DONE Multi-File Programs
 
 Up until now, you've probably been writing all your code in a single file—maybe =main.cpp= or something similar. For small programs, that's perfectly fine. But as your programs grow larger and more complex, putting everything in one file becomes a problem.
 
@@ -5313,7 +5313,7 @@ This is where multi-file programs come in. Breaking your code into multiple file
 
 In CS161B, you'll work on projects that are too large to fit comfortably in one file, so learning how to organize code across multiple files is essential. The key concepts are header files (=.h=) and implementation files (=.cpp=), and they work together to keep your code modular and clean.
 
-*** TODO Why Split Code into Multiple Files?
+*** DONE Why Split Code into Multiple Files?
 
 Breaking code into multiple files provides several important benefits:
 - *Organization*: Group related functions together (all math functions in one file, all file I/O functions in another)
@@ -5322,7 +5322,7 @@ Breaking code into multiple files provides several important benefits:
 - *Collaboration*: Multiple people can work on different files without conflicts
 - *Compilation speed*: Only recompile the files that changed, not your entire program
 
-*** TODO Header Files (.h)
+*** DONE Header Files (.h)
 **** Creating Header Files
 Header files contain declarations (what exists) but not usually implementations (how it works).
 
@@ -5346,7 +5346,7 @@ The =#ifndef=, =#define=, =#endif= pattern prevents the header from being includ
 - **Declaration**: Tells the compiler a function exists (in .h file)
 - **Definition**: The actual implementation (in .cpp file)
 
-*** TODO Implementation Files (.cpp)
+*** DONE Implementation Files (.cpp)
 =math_utils.cpp=:
 #+begin_src cpp
 #include "math_utils.h"
@@ -5383,7 +5383,7 @@ int main(){
 }
 #+end_src
 
-*** TODO Compiling Multi-File Programs
+*** DONE Compiling Multi-File Programs
 **** Command-Line Compilation
 #+begin_example
 # Compile all files together
@@ -5419,7 +5419,7 @@ make          # Builds the program
 make clean    # Removes compiled files
 #+end_example
 
-*** TODO Organizing Code by Purpose
+*** DONE Organizing Code by Purpose
 **** Utility Functions
 =string_utils.h= / =string_utils.cpp=: Common string operations
 
@@ -5442,7 +5442,7 @@ project/
   └── Makefile
 #+end_example
 
-*** TODO Common Errors with Multi-File Programs
+*** DONE Common Errors with Multi-File Programs
 **** Multiple Definition Errors
 ***Problem**: Including a .cpp file instead of .h, or defining functions in .h files
 
@@ -5457,7 +5457,7 @@ project/
 1. *Discussion*: What's the difference between =#include <iostream>= and =#include "myfile.h"=?
 2. *Basic*: Create a header file with function declarations and an implementation file with definitions.
 
-*** TODO Lab Projects
+*** DONE Lab Projects
 **** LAB: Refactor Single-File Program
 Take a previous lab (like the student record system) and split it into:
 - =student.h= / =student.cpp= (struct and related functions)
@@ -5471,7 +5471,7 @@ Create a multi-file calculator:
 - =calculator.h/.cpp= (menu-driven calculator)
 - =main.cpp= (program entry point)
 
-** TODO Common Algorithms & Problem Solving
+** DONE Common Algorithms & Problem Solving
 
 So you know how to write programs that do specific things: calculate grades, play guessing games, manage a list of names. But what about solving more general problems that come up over and over again in programming?
 
@@ -5483,7 +5483,7 @@ In CS161B, you'll study algorithms in much more depth, learning about their effi
 
 Don't worry if these seem abstract at first—that's normal! The key is to understand the logic of each algorithm, trace through how it works step-by-step, and recognize when you might need to use one in your own programs.
 
-*** TODO Searching Algorithms
+*** DONE Searching Algorithms
 **** Linear Search
 
 This is the simplest search algorithm: just look through an array one element at a time until you find what you're looking for (or reach the end without finding it).
@@ -5534,7 +5534,7 @@ Time complexity: O(log n) - much faster for large arrays
 2. *Intermediate*: Modify binary search to return the index where an element should be inserted if not found.
 3. *Challenge*: Implement a search function that works on a vector of structs, searching by a specific field.
 
-*** TODO Sorting Algorithms
+*** DONE Sorting Algorithms
 **** Selection Sort
 Find the minimum element and move it to the front, repeat for the rest.
 
@@ -5599,7 +5599,7 @@ int main(){
 2. *Intermediate*: Modify bubble sort to stop early if the array becomes sorted.
 3. *Challenge*: Sort a vector of structs by a specific field (e.g., sort students by GPA).
 
-*** TODO String Algorithms
+*** DONE String Algorithms
 **** Reversing Strings
 #+begin_src cpp
 string reverseString(string s){
@@ -5663,7 +5663,7 @@ int countOccurrences(const string& text, const string& pattern){
 2. *Intermediate*: Write a function that checks if two strings are anagrams.
 3. *Challenge*: Implement a simple spell checker that finds the closest matching word.
 
-*** TODO Numeric Algorithms
+*** DONE Numeric Algorithms
 **** Finding GCD (Greatest Common Divisor)
 #+begin_src cpp
 int gcd(int a, int b){
@@ -5722,7 +5722,7 @@ int fibonacci(int n){
 2. *Intermediate*: Write a function that finds the prime factorization of a number.
 3. *Challenge*: Implement the Sieve of Eratosthenes to find all primes up to n.
 
-*** TODO Problem-Solving Strategies
+*** DONE Problem-Solving Strategies
 **** Breaking Down Complex Problems
 1. **Understand the problem**: Read carefully, identify inputs/outputs
 2. **Plan**: Break into smaller steps, consider edge cases
@@ -5757,7 +5757,7 @@ int factorial(int n){
 5. **Use a debugger** (gdb, IDE debugger)
 6. **Rubber duck debugging**: Explain the code out loud
 
-*** TODO Command-Line Arguments
+*** DONE Command-Line Arguments
 **** argc and argv
 Programs can accept arguments from the command line.
 
@@ -5810,7 +5810,7 @@ int main(int argc, char* argv[]){
 2. *Intermediate*: Create a program that takes a filename as an argument and displays its contents.
 3. *Challenge*: Create a command-line calculator that takes an operation (+, -, *, /) and two numbers.
 
-*** TODO Lab Projects
+*** DONE Lab Projects
 **** LAB: Implement Search and Sort
 Create a program that:
 - Reads numbers from a file into a vector
