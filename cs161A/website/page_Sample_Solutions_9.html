@@ -20,15 +20,15 @@
 <br>
 <div class="code-block">
     <div class="code-toolbar">
-        <button class="run-code-btn" data-editor-id="editor-page31-0">▶ Run Code</button>
-        <button class="reset-code-btn" data-editor-id="editor-page31-0">↻ Reset</button>
+        <button class="run-code-btn" data-editor-id="editor-page51-0">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page51-0">↻ Reset</button>
     </div>
-    <div id="editor-page31-0" class="code-editor"></div>
+    <div id="editor-page51-0" class="code-editor"></div>
     <script>
         (function() {
             const code = "#include <iostream>\nusing namespace std;\n\nint main(){\n  double num1, num2;\n  char operation;\n  \n  cout << \"Enter first number: \";\n  cin >> num1;\n  cout << \"Enter operation (+, -, *, /): \";\n  cin >> operation;\n  cout << \"Enter second number: \";\n  cin >> num2;\n  \n  switch(operation){\n    case '+':\n      cout << num1 << \" + \" << num2 << \" = \" << num1 + num2 << endl;\n      break;\n    case '-':\n      cout << num1 << \" - \" << num2 << \" = \" << num1 - num2 << endl;\n      break;\n    case '*':\n      cout << num1 << \" * \" << num2 << \" = \" << num1 * num2 << endl;\n      break;\n    case '/':\n      if(num2 != 0){\n        cout << num1 << \" / \" << num2 << \" = \" << num1 / num2 << endl;\n      }\n      else{\n        cout << \"Error: Division by zero!\" << endl;\n      }\n      break;\n    default:\n      cout << \"Invalid operation!\" << endl;\n  }\n  \n  return 0;\n}";
             if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
-            codeBlocks['editor-page31-0'] = {
+            codeBlocks['editor-page51-0'] = {
                 original: code,
                 current: code
             };

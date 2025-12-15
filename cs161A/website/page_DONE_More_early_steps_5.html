@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>DONE All we ever were, just zeros and ones - CS161A Interactive Text</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> /
+                <span class="chapter">DONE More early steps</span>
+            </div>
+            <h1>DONE All we ever were, just zeros and ones</h1>
+        </header>
+
+        <main class="content">
+            <p>Computers, the modern digital computer we've all settled on, operates fundamentally on Os and 1s. Why? Because in the end you can think of the fundamental atom of the computer, the transistor, as an electrical on-off switch. If it's "on" it lets current flow, if it's "off" it does not. The brilliance of digital computers is in cleverly encoding <em>everything</em> we do into patterns of these ons and offs. First, to explain <em>that</em> we need to review how we write numbers in the normal way.</p>
+<br>
+<p>When we write a number like 42367 this is shorthand for <code>40000 + 2000 + 300 + 60 + 7</code>. You may have learned to describe this as the "ones place", "the tens place", "the hundreds place", &c. We can write this even more compactly as</p>
+<br>
+<p><code>4*10^4 + 2*10^3 + 3*10^2 + 6*10^1 + 7*10^0</code></p>
+<br>
+<p>using the fact that <em>anything</em> to the zeroth power is just one.</p>
+<br>
+<p>This is called the "base ten" representation of numbers because it's a sequence of powers of ten. We can do bases in other numbers though and you might see where we're going with this: computers work with "base two" numbers, also called <em>binary</em>.</p>
+<br>
+<p>A binary number like 10010 is thus a way of writing <code>1*2^4 + 0*2^3 +0*2^2 + 1*2^1 + 0*2^0</code>, which is actually the number <code>16 + 0 + 0 + 2 + 0</code> or <code>18</code>.</p>
+<br>
+<p>We're not going to go deep into how different kinds of data are represented <em>as</em> numbers, but we'll simply say that <strong>everything</strong> on a computer is fundamentally understood as a binary number.</p>
+<br>
+        </main>
+
+        <nav class="page-nav">
+            <a href="page_DONE_More_early_steps_4.html" class="nav-btn prev">← DONE Advanced: What /is/ a container? [2/2]</a>
+            <a href="page_DONE_More_early_steps_6.html" class="nav-btn next">DONE Memory and storage →</a>
+        </nav>
+    </div>
+
+    <!-- Terminal for running code -->
+    <div id="terminal-overlay" class="hidden">
+        <div class="terminal-container">
+            <div class="terminal-header">
+                <span>Program Output</span>
+                <button id="close-terminal-btn">✕</button>
+            </div>
+            <div id="terminal-output"></div>
+            <div id="input-area" class="hidden">
+                <span class="prompt">→</span>
+                <input type="text" id="user-input" autocomplete="off" placeholder="Enter input...">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.48.0/min/vs/loader.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

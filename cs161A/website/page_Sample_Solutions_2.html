@@ -20,15 +20,15 @@
 <br>
 <div class="code-block">
     <div class="code-toolbar">
-        <button class="run-code-btn" data-editor-id="editor-page24-0">▶ Run Code</button>
-        <button class="reset-code-btn" data-editor-id="editor-page24-0">↻ Reset</button>
+        <button class="run-code-btn" data-editor-id="editor-page44-0">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page44-0">↻ Reset</button>
     </div>
-    <div id="editor-page24-0" class="code-editor"></div>
+    <div id="editor-page44-0" class="code-editor"></div>
     <script>
         (function() {
             const code = "#include <iostream>\n#include <iomanip>\nusing namespace std;\n\nint main(){\n  double billAmount, tipPercent;\n  \n  cout << \"Enter the bill amount: $\";\n  cin >> billAmount;\n  cout << \"Enter tip percentage (e.g., 15 for 15%): \";\n  cin >> tipPercent;\n  \n  double tipAmount = billAmount * (tipPercent / 100);\n  double total = billAmount + tipAmount;\n  \n  cout << fixed << setprecision(2);\n  cout << \"Bill: $\" << billAmount << endl;\n  cout << \"Tip:  $\" << tipAmount << endl;\n  cout << \"Total: $\" << total << endl;\n  \n  return 0;\n}";
             if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
-            codeBlocks['editor-page24-0'] = {
+            codeBlocks['editor-page44-0'] = {
                 original: code,
                 current: code
             };
@@ -41,15 +41,15 @@
 <br>
 <div class="code-block">
     <div class="code-toolbar">
-        <button class="run-code-btn" data-editor-id="editor-page24-1">▶ Run Code</button>
-        <button class="reset-code-btn" data-editor-id="editor-page24-1">↻ Reset</button>
+        <button class="run-code-btn" data-editor-id="editor-page44-1">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page44-1">↻ Reset</button>
     </div>
-    <div id="editor-page24-1" class="code-editor"></div>
+    <div id="editor-page44-1" class="code-editor"></div>
     <script>
         (function() {
             const code = "#include <iostream>\n#include <iomanip>\n#include <cmath>\nusing namespace std;\n\nint main(){\n  double principal, rate, time, n;\n  \n  cout << \"Enter principal amount: $\";\n  cin >> principal;\n  cout << \"Enter annual interest rate (as percentage): \";\n  cin >> rate;\n  cout << \"Enter time in years: \";\n  cin >> time;\n  cout << \"Enter number of times compounded per year: \";\n  cin >> n;\n  \n  // Convert percentage to decimal\n  rate = rate / 100;\n  \n  // Formula: A = P(1 + r/n)^(nt)\n  double amount = principal * pow(1 + rate/n, n*time);\n  \n  cout << fixed << setprecision(2);\n  cout << \"Final amount: $\" << amount << endl;\n  cout << \"Interest earned: $\" << amount - principal << endl;\n  \n  return 0;\n}";
             if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
-            codeBlocks['editor-page24-1'] = {
+            codeBlocks['editor-page44-1'] = {
                 original: code,
                 current: code
             };

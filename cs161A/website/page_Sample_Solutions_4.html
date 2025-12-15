@@ -20,15 +20,15 @@
 <br>
 <div class="code-block">
     <div class="code-toolbar">
-        <button class="run-code-btn" data-editor-id="editor-page26-0">▶ Run Code</button>
-        <button class="reset-code-btn" data-editor-id="editor-page26-0">↻ Reset</button>
+        <button class="run-code-btn" data-editor-id="editor-page46-0">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page46-0">↻ Reset</button>
     </div>
-    <div id="editor-page26-0" class="code-editor"></div>
+    <div id="editor-page46-0" class="code-editor"></div>
     <script>
         (function() {
             const code = "#include <iostream>\nusing namespace std;\n\nint main(){\n  string password = \"secret123\";  // The correct password\n  string userInput;\n  int attempts = 0;\n  \n  while(userInput != password && userInput != \"quit\"){\n    cout << \"Enter password (or 'quit' to exit): \";\n    cin >> userInput;\n    attempts++;\n    \n    if(userInput == password){\n      cout << \"Access granted! It took you \" << attempts << \" attempts.\" << endl;\n    }\n    else if(userInput != \"quit\"){\n      cout << \"Incorrect password. Try again.\" << endl;\n    }\n  }\n  \n  if(userInput == \"quit\"){\n    cout << \"Goodbye!\" << endl;\n  }\n  \n  return 0;\n}";
             if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
-            codeBlocks['editor-page26-0'] = {
+            codeBlocks['editor-page46-0'] = {
                 original: code,
                 current: code
             };

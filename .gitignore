@@ -4,8 +4,9 @@
 a.out
 cs161A/build/
 
-# Website compiler assets (too large - must be copied locally)
+# Website compiler assets (too large - must be downloaded separately)
 cs161A/website/assets/
+test1/assets/
 
 # Python cache
 __pycache__/

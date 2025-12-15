@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Functions on strings - CS161A Interactive Text</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> /
+                <span class="chapter">DONE More advanced programs</span>
+            </div>
+            <h1>Functions on strings</h1>
+        </header>
+
+        <main class="content">
+            <br>
+<h3>Reading Full Lines with =getline()=</h3>
+<p>Before we dive into string functions, we need to talk about a common problem: how do you read a full sentence from the user?</p>
+<br>
+<p>So far we've been using <code>cin >></code> to read user input, but there's a problem: <code>cin >></code> stops reading at the first whitespace (space, tab, or newline). This means if you ask the user for their full name and they type "John Smith", you'll only get "John"!</p>
+<br>
+<p>Try this program:</p>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page26-0">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page26-0">↻ Reset</button>
+    </div>
+    <div id="editor-page26-0" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n    string name;\n\n    cout << \"Enter your full name: \";\n    cin >> name;  // This only gets the first word!\n\n    cout << \"Hello, \" << name << endl;\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page26-0'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>If you type "John Smith", it will only print "Hello, John".</p>
+<br>
+<p>To read an <em>entire line</em> including spaces, we use <code>getline()</code>:</p>
+<br>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page26-1">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page26-1">↻ Reset</button>
+    </div>
+    <div id="editor-page26-1" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include <string>\n  using namespace std;\n\n  int main(){\n    string fullName;\n\n    cout << \"Enter your full name: \";\n    getline(cin, fullName);  // Reads the entire line!\n\n    cout << \"Hello, \" << fullName << endl;\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page26-1'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>The syntax for <code>getline()</code> is a bit different: <code>getline(cin, variableName)</code>. It reads from <code>cin</code> until it hits a newline character (when the user presses Enter), and stores everything in the variable.</p>
+<br>
+<h3>Common Pitfall: Mixing =cin >>= and =getline()=</h3>
+<p>If you use <code>cin >></code> before <code>getline()</code>, you can run into a problem. Watch out for this:</p>
+<br>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page26-2">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page26-2">↻ Reset</button>
+    </div>
+    <div id="editor-page26-2" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include <string>\n  using namespace std;\n\n  int main(){\n    int age;\n    string favoriteFood;\n\n    cout << \"Enter your age: \";\n    cin >> age;  // This leaves a newline in the input buffer!\n\n    cout << \"Enter your favorite food: \";\n    getline(cin, favoriteFood);  // This immediately reads the leftover newline!\n\n    cout << \"You are \" << age << \" and you like \" << favoriteFood << endl;\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page26-2'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>This program has a bug! When you type your age and press Enter, <code>cin >></code> reads the number but <em>leaves the newline character in the buffer</em>. Then <code>getline()</code> immediately reads that newline and thinks you entered an empty string!</p>
+<br>
+<p>The fix is to add <code>cin.ignore()</code> after using <code>cin >></code>:</p>
+<br>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page26-3">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page26-3">↻ Reset</button>
+    </div>
+    <div id="editor-page26-3" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include <string>\n  using namespace std;\n\n  int main(){\n    int age;\n    string favoriteFood;\n\n    cout << \"Enter your age: \";\n    cin >> age;\n    cin.ignore();  // Clear the newline from the buffer\n\n    cout << \"Enter your favorite food: \";\n    getline(cin, favoriteFood);\n\n    cout << \"You are \" << age << \" and you like \" << favoriteFood << endl;\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page26-3'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>Now it works correctly!</p>
+<br>
+<p>***When to Use <code>getline()</code> vs <code>cin >></code></p>
+<ul>
+<li>Use <code>cin >></code> when you want a single word or number</li>
+<li>Use <code>getline()</code> when you want an entire line that might contain spaces</li>
+<li>Remember to use <code>cin.ignore()</code> if you mix them!</li>
+</ul>
+<br>
+<h3>DONE Simple operations on strings</h3>
+<p>So there's a few things you can do with strings. The first, is the ability to glue strings together, also called "concatentation". So far we've been implicitly gluing strings together using the syntax of <code>cout</code> and <code><<</code>, but you can <strong>actually</strong> stick two strings to each other with <code>+</code>, just like adding two numbers.</p>
+<br>
+<p>Like this program:</p>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page26-4">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page26-4">↻ Reset</button>
+    </div>
+    <div id="editor-page26-4" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n\n    string str1;\n    string str2;\n\n    cout << \"Enter some things: \";\n    cin >> str1;\n    cin >> str2;\n\n    cout << \"Okay gluing those together you said: \" << str1 + str2 << endl;\n  \n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page26-4'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>This is an example of something kinda neat in C++, called "operator overloading". Basically, you can reuse things like  <code><<</code> and <code>+</code> in all sorts of different contexts at different <strong>types</strong>. That's the key part. The different uses have to be for different types or else there will be confusion. <code>+</code> can mean something for two ints, for an int and a string (check that one out yourself, by the way), for two strings, for two doubles, &c. But it can't mean two different things if you're just writing <code>1 + 2</code> where 1 and 2 are both ints.</p>
+<br>
+<p>Okay, also we should talk about how to turn data into strings because this is going to be useful! Basically, there's just a function in the <code><string></code> library that you can use called <code>to_string</code> that will convert any other data to being a string. This works with basically everything, like in this program:</p>
+<br>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page26-5">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page26-5">↻ Reset</button>
+    </div>
+    <div id="editor-page26-5" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include <string>\n  using namespace std;\n\n  int main(){\n    int num1 = 1;\n    bool b = true;\n    char c = 'd';\n    double d = 1.23456;\n\n    cout << to_string(num1) + to_string(b) + to_string(c) + to_string(d) << endl;\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page26-5'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<h3>Exercises</h3>
+<p>1. <strong>Basic</strong>: Count the number of vowels (a, e, i, o, u) in a string entered by the user.</p>
+<p>2. <strong>Intermediate</strong>: Check if a string is a palindrome (reads the same forwards and backwards).</p>
+<p>3. <strong>Challenge</strong>: Create a word censoring program that replaces specified "bad words" with asterisks of the same length.</p>
+<h3>DONE =find= and =substr=</h3>
+<p>Okay, so now let's talk about some convenience functions that help us take apart and manipulate strings. The first is the ability to <em>find</em> an occurence of one string inside another:</p>
+<br>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page26-6">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page26-6">↻ Reset</button>
+    </div>
+    <div id="editor-page26-6" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include <string>\n  using namespace std;\n\n  int main(){\n\n    string str1 = \"this is a rock\";\n    string str2 = \"rock\";\n\n    // let's see what find does\n    cout << str1.find(str2) << endl;\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page26-6'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<p>It should have returned the number <code>10</code> when you ran it. Can you guess what that number represents?</p>
+<br>
+<p>#+begin_example</p>
+<p>t h i s _ i s _ a _  r  o  c  k</p>
+<p>0 1 2 3 4 5 6 7 8 9 10 11 12 13</p>
+<p>#+end_example</p>
+<br>
+<p>It's the position in the string where the <em>substring</em> rock starts! Here, let's test this theory by also checking for <code>"is"</code> . What should <code>find</code> return when we run <code>str1.find("is")</code>?</p>
+<br>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page26-7">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page26-7">↻ Reset</button>
+    </div>
+    <div id="editor-page26-7" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include <string>\n  using namespace std;\n\n  int main(){\n\n    string str1 = \"this is a rock\";\n\n    // let's see what find does\n    cout << str1.find(\"is\") << endl;\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page26-7'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>So if you run this you should get <code>2</code>, because the first occurrence of "is" appears at position 2 (remember we count from 0!). Now you might be wondering: "wait, isn't 'is' <em>also</em> at position 5?" And yes! Yes it is! But <code>find</code> only returns the <em>first</em> occurrence. If you want to find all occurrences you'd need to use <code>find</code> in a loop, but we'll save that for later.</p>
+<br>
+<p>Okay, so here's the really important question: what happens if you search for something that <em>isn't</em> in the string?</p>
+<br>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page26-8">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page26-8">↻ Reset</button>
+    </div>
+    <div id="editor-page26-8" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include <string>\n  using namespace std;\n\n  int main(){\n    string str1 = \"this is a rock\";\n\n    cout << str1.find(\"banana\") << endl;\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page26-8'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>When I run this on my machine, I get a really big number printed out: <code>18446744073709551615</code>. That's not a position in our string—that number is way bigger than the length of our string!</p>
+<br>
+<p>This is actually a special value called <code>string::npos</code> (which stands for "no position"). It's basically C++'s way of saying "hey, I didn't find that." The actual value is the largest number that can be stored in the type C++ uses for string positions[fn:npos], but the important thing is that you can check if <code>find</code> failed by comparing the result to <code>string::npos</code>.</p>
+<br>
+<h4>A Clever Shorthand: Using =-1= Instead of =string::npos=</h4>
+<br>
+<p>Now here's something interesting: many C++ programmers use <code>-1</code> as a shorthand instead of writing <code>string::npos</code>. You might see code like this:</p>
+<br>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page26-9">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page26-9">↻ Reset</button>
+    </div>
+    <div id="editor-page26-9" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  if(str.find(\"something\") == -1){\n    cout << \"Not found!\" << endl;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page26-9'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>Wait, what? How can <code>-1</code> and <code>18446744073709551615</code> be the same thing?</p>
+<br>
+<p>This is actually a really cool bit of computer science that's worth understanding! Here's what's happening:</p>
+<br>
+<p>The <code>find</code> function returns a value of type <code>size_t</code>, which is an <em>unsigned</em> integer type (meaning it can only hold positive numbers, or zero). However, <code>-1</code> is obviously a negative number. So what happens when we write <code>-1</code> but C++ tries to interpret it as an unsigned number?</p>
+<br>
+<p>In C++, integers are stored in memory using something called <em>two's complement</em> representation. Without getting too deep into the binary details, here's the key insight: the bit pattern that represents <code>-1</code> as a <em>signed</em> number is <em>exactly the same</em> bit pattern that represents the <em>largest possible value</em> when interpreted as an <em>unsigned</em> number!</p>
+<br>
+<p>Think of it like this: imagine you have an odometer that only goes from 0 to 999. If you're at 0 and you try to go backwards by 1, you'd wrap around to 999. That's essentially what's happening here—<code>-1</code> in the unsigned world wraps around to the maximum value, which is exactly what <code>string::npos</code> is defined to be!</p>
+<br>
+<p>So when you write:</p>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page26-10">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page26-10">↻ Reset</button>
+    </div>
+    <div id="editor-page26-10" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  if(str.find(\"test\") == -1)";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page26-10'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>The <code>-1</code> gets converted to <code>size_t</code>, which turns it into that giant number <code>18446744073709551615</code> (on most modern systems), which is the same value as <code>string::npos</code>!</p>
+<br>
+<p>While this shorthand works, it's worth noting that using <code>string::npos</code> explicitly is often considered clearer and more readable, because it makes the intent obvious. But now you'll understand what's going on when you see <code>-1</code> being used in string operations!</p>
+<br>
+<p>Here's a more practical example:</p>
+<br>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page26-11">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page26-11">↻ Reset</button>
+    </div>
+    <div id="editor-page26-11" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include <string>\n  using namespace std;\n\n  int main(){\n    string email;\n\n    cout << \"Enter your email address: \";\n    cin >> email;\n\n    if(email.find(\"@\") == string::npos){\n      cout << \"That doesn't look like a valid email - there's no @ sign!\" << endl;\n    }\n    else{\n      cout << \"Found an @ sign at position \" << email.find(\"@\") << endl;\n    }\n\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page26-11'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>Now that we understand <code>find</code>, let's talk about its best friend: <code>substr</code>. Short for "substring", this function lets you extract a portion of a string.</p>
+<br>
+<p>The syntax is: <code>str.substr(start_position, length)</code></p>
+<br>
+<p>Here's a simple example:</p>
+<br>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page26-12">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page26-12">↻ Reset</button>
+    </div>
+    <div id="editor-page26-12" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include <string>\n  using namespace std;\n\n  int main(){\n    string str = \"Hello, World!\";\n\n    string piece = str.substr(0, 5);  // start at position 0, take 5 characters\n    cout << piece << endl;  // prints \"Hello\"\n\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page26-12'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>If you run this, it prints <code>Hello</code> because we're starting at position 0 and grabbing 5 characters.</p>
+<br>
+<p>Now here's where things get interesting: what if you <em>only</em> give <code>substr</code> one argument? Like <code>str.substr(7)</code>? In that case, it grabs everything from that position to the end of the string!</p>
+<br>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page26-13">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page26-13">↻ Reset</button>
+    </div>
+    <div id="editor-page26-13" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include <string>\n  using namespace std;\n\n  int main(){\n    string str = \"Hello, World!\";\n\n    cout << str.substr(7) << endl;  // prints \"World!\"\n\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page26-13'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<h4>Combining =find= and =substr=: The Power Couple</h4>
+<br>
+<p>Here's where things get really useful. You can use <code>find</code> to locate something in a string, then use <code>substr</code> to extract the parts you care about.</p>
+<br>
+<p>Let's say you're parsing email addresses and you want to extract the username (the part before the @) and the domain (the part after the @):</p>
+<br>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page26-14">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page26-14">↻ Reset</button>
+    </div>
+    <div id="editor-page26-14" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include <string>\n  using namespace std;\n\n  int main(){\n    string email;\n\n    cout << \"Enter your email: \";\n    cin >> email;\n\n    // Find the @ symbol\n    int atPosition = email.find(\"@\");\n\n    if(atPosition == string::npos){\n      cout << \"That's not a valid email!\" << endl;\n    }\n    else{\n      // Extract username (everything before @)\n      string username = email.substr(0, atPosition);\n\n      // Extract domain (everything after @)\n      string domain = email.substr(atPosition + 1);\n\n      cout << \"Username: \" << username << endl;\n      cout << \"Domain: \" << domain << endl;\n    }\n\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page26-14'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>Notice how we used <code>atPosition + 1</code> for the domain? That's because we don't want to include the @ symbol itself—we want to start <em>after</em> it.</p>
+<br>
+<p>Here's another practical example—extracting a file extension:</p>
+<br>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page26-15">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page26-15">↻ Reset</button>
+    </div>
+    <div id="editor-page26-15" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include <string>\n  using namespace std;\n\n  int main(){\n    string filename;\n\n    cout << \"Enter a filename: \";\n    cin >> filename;\n\n    // Find the last period\n    int dotPosition = filename.find(\".\");\n\n    if(dotPosition == string::npos){\n      cout << \"No file extension found!\" << endl;\n    }\n    else{\n      string extension = filename.substr(dotPosition + 1);\n      cout << \"File extension: \" << extension << endl;\n\n      // We can also get the filename without the extension\n      string nameOnly = filename.substr(0, dotPosition);\n      cout << \"Filename without extension: \" << nameOnly << endl;\n    }\n\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page26-15'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<h4>A Quick Note About =find= With Multiple Occurrences</h4>
+<br>
+<p>Earlier I mentioned that <code>find</code> only returns the <em>first</em> occurrence. But what if you need to find all of them? You can use <code>find</code> with a second parameter to tell it where to start searching!</p>
+<br>
+<p>The syntax is: <code>str.find(searchString, startPosition)</code></p>
+<br>
+<p>Here's how you'd find all occurrences of a substring:</p>
+<br>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page26-16">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page26-16">↻ Reset</button>
+    </div>
+    <div id="editor-page26-16" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include <string>\n  using namespace std;\n\n  int main(){\n    string text = \"the cat in the hat sat on the mat\";\n    string searchFor = \"at\";\n\n    int position = text.find(searchFor);\n\n    while(position != string::npos){\n      cout << \"Found 'at' at position \" << position << endl;\n\n      // Start searching from the position after this match\n      position = text.find(searchFor, position + 1);\n    }\n\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page26-16'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>This will find all the "at" substrings: the one in "cat", the one in "hat", the one in "sat", and the one in "mat".</p>
+<br>
+<h4>Practical Example: A Simple Text Replacer</h4>
+<br>
+<p>Let's put it all together with a program that finds and replaces text in a string:</p>
+<br>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page26-17">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page26-17">↻ Reset</button>
+    </div>
+    <div id="editor-page26-17" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include <string>\n  using namespace std;\n\n  int main(){\n    string text = \"I love cats! Cats are the best. My cat is named Whiskers.\";\n    string findWord = \"cat\";\n    string replaceWord = \"dog\";\n\n    cout << \"Original: \" << text << endl;\n\n    // Find the first occurrence\n    int pos = text.find(findWord);\n\n    if(pos != string::npos){\n      // Build a new string: everything before + replacement + everything after\n      string newText = text.substr(0, pos) + replaceWord + text.substr(pos + findWord.length());\n\n      cout << \"Modified: \" << newText << endl;\n    }\n    else{\n      cout << \"Word not found!\" << endl;\n    }\n\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page26-17'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>This only replaces the first occurrence. To replace all of them, you'd use a loop similar to the "find all" example above. We'll leave that as an exercise![fn:replaceall]</p>
+<br>
+<h3>Exercises</h3>
+<p>1. <strong>Basic</strong>: Write a program that asks for a sentence and a word, then prints the position of that word in the sentence (or a message if it's not found).</p>
+<br>
+<p>2. <strong>Intermediate</strong>: Create a program that takes a full name (first and last, separated by a space) and prints the first name and last name separately. Use <code>find</code> to locate the space.</p>
+<br>
+<p>3. <strong>Intermediate</strong>: Write a program that checks if a filename has a valid image extension (.jpg, .png, or .gif). Use <code>substr</code> to extract the extension and compare it.</p>
+<br>
+<p>4. <strong>Challenge</strong>: Implement a function that takes a string and a substring, and returns how many times the substring appears in the string. For example, counting "the" in "the cat in the hat" should return 2.</p>
+<br>
+<p>5. <strong>Challenge</strong>: Create a "redaction" program that finds a specified word in a sentence and replaces it with asterisks of the same length. For example, "the secret code" with "secret" redacted becomes "the ****** code".</p>
+<br>
+<br>
+<br>
+<h3>Iterating over strings with for-loops</h3>
+<p>Now remember how I showed you a bit about how arrays work and the fact that for-loops were made to work with them? Okay, so part of why I needed to show you that is while <strong>technically</strong> you're not using arrays in this class it's useful to understand the idea behind them because you can treat strings "like" arrays for operating on them.</p>
+<br>
+<p>The general idiom is that you can get the length of the string like this <code>s.length()</code> for a string <code>s</code>, then you can put that as the bounds of the for-loop and you can use array syntax (e.g. the square brackets) in order access the characters inside the string one by one.</p>
+<br>
+<p>Okay so here's a wholeLower function that turns an entire string to lower case using the per-character function <code>tolower()</code>:</p>
+<br>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page26-18">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page26-18">↻ Reset</button>
+    </div>
+    <div id="editor-page26-18" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include <string>\n  using namespace std;\n\n  string wholeLower(string s){\n\n    for(int i = 0; i < s.length(); i++){\n      s[i] = tolower(s[i]);\n    }\n\n    return s;\n  }\n\n  int main(){\n    string str = \"YELLING\";\n\n    cout << wholeLower(str) << endl;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page26-18'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<h3>Character Classification Functions</h3>
+<p>When working with strings character by character, you often need to check what <em>kind</em> of character you're dealing with. Is it a letter? A digit? Whitespace? C++ provides a set of handy functions in the <code><cctype></code> library for this.</p>
+<br>
+<p>Here are the most useful ones:</p>
+<ul>
+<li><code>isalpha(ch)</code> - returns true if <code>ch</code> is a letter (a-z or A-Z)</li>
+<li><code>isdigit(ch)</code> - returns true if <code>ch</code> is a digit (0-9)</li>
+<li><code>isspace(ch)</code> - returns true if <code>ch</code> is whitespace (space, tab, newline)</li>
+<li><code>isupper(ch)</code> - returns true if <code>ch</code> is an uppercase letter</li>
+<li><code>islower(ch)</code> - returns true if <code>ch</code> is a lowercase letter</li>
+<li><code>isalnum(ch)</code> - returns true if <code>ch</code> is alphanumeric (letter or digit)</li>
+</ul>
+<br>
+<p>Here's an example that counts different types of characters in a string:</p>
+<br>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page26-19">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page26-19">↻ Reset</button>
+    </div>
+    <div id="editor-page26-19" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include <string>\n  #include <cctype>\n  using namespace std;\n\n  int main(){\n    string text;\n    int letters = 0;\n    int digits = 0;\n    int spaces = 0;\n    int others = 0;\n\n    cout << \"Enter some text: \";\n    getline(cin, text);\n\n    for(int i = 0; i < text.length(); i++){\n      if(isalpha(text[i])){\n        letters++;\n      }\n      else if(isdigit(text[i])){\n        digits++;\n      }\n      else if(isspace(text[i])){\n        spaces++;\n      }\n      else{\n        others++;\n      }\n    }\n\n    cout << \"Letters: \" << letters << endl;\n    cout << \"Digits: \" << digits << endl;\n    cout << \"Spaces: \" << spaces << endl;\n    cout << \"Other characters: \" << others << endl;\n\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page26-19'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>If you run this with input like "Hello World 123!", you'll get:</p>
+<p>#+begin_example</p>
+<p>Letters: 10</p>
+<p>Digits: 3</p>
+<p>Spaces: 2</p>
+<p>Other characters: 1</p>
+<p>#+end_example</p>
+<br>
+<h3>Counting Vowels and Consonants</h3>
+<p>A common task is to count vowels versus consonants in text. Here's how you can do it:</p>
+<br>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page26-20">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page26-20">↻ Reset</button>
+    </div>
+    <div id="editor-page26-20" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include <string>\n  #include <cctype>\n  using namespace std;\n\n  bool isVowel(char ch){\n    // Convert to lowercase for easier checking\n    ch = tolower(ch);\n    return (ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u');\n  }\n\n  int main(){\n    string text;\n    int vowels = 0;\n    int consonants = 0;\n\n    cout << \"Enter a sentence: \";\n    getline(cin, text);\n\n    for(int i = 0; i < text.length(); i++){\n      if(isalpha(text[i])){  // Only count letters\n        if(isVowel(text[i])){\n          vowels++;\n        }\n        else{\n          consonants++;\n        }\n      }\n    }\n\n    cout << \"Vowels: \" << vowels << endl;\n    cout << \"Consonants: \" << consonants << endl;\n\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page26-20'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>Notice how we created our own helper function <code>isVowel()</code> that returns a <code>bool</code>. This makes the code in <code>main()</code> much cleaner and easier to read!</p>
+<br>
+<h3>Exercises on Character Classification</h3>
+<p>1. <strong>Basic</strong>: Write a program that counts how many uppercase vs lowercase letters are in a string.</p>
+<p>2. <strong>Intermediate</strong>: Create a function that checks if a password is strong (at least 8 characters, contains both letters and digits).</p>
+<p>3. <strong>Challenge</strong>: Write a program that extracts all the numbers from a string and adds them up. For example, "I have 3 cats and 2 dogs" should output 5.</p>
+<br>
+<h3>DONE Example: Sarcasm Case</h3>
+<p> Alright, here's a nice silly example for how we use for-loops with strings:</p>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page26-21">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page26-21">↻ Reset</button>
+    </div>
+    <div id="editor-page26-21" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include <string>\n  #include <cstdlib>\n  using namespace std;\n\n  string sarcasmCase(string s){\n    string s2 = s;\n    for(int i = 0; i < s2.length(); i++){\n      if(rand() % 2 == 0){\n        s2[i] = tolower(s[i]);\n      }\n      else{\n        s2[i] = toupper(s[i]);\n      }\n    }\n    return s2;\n  }\n\n  int main(){\n    srand(time(0));\n    string str = \"you can't do that!\";\n\n    cout << sarcasmCase(str) << endl;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page26-21'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<h3>Caesar Cipher Concept</h3>
+<p>A Caesar cipher is one of the oldest encryption techniques. It works by shifting each letter in the alphabet by a fixed number of positions. For example, with a shift of 3:</p>
+<ul>
+<li>A becomes D</li>
+<li>B becomes E</li>
+<li>Z wraps around to C</li>
+</ul>
+<br>
+<p>The interesting challenges in implementing this are:</p>
+<p>1. **Wraparound**: What happens when you shift 'Z' forward?</p>
+<p>2. **Case preservation**: Keep uppercase letters uppercase, lowercase letters lowercase</p>
+<p>3. **Non-letters**: Don't encrypt spaces, punctuation, numbers</p>
+<br>
+<p>**The Wraparound Problem:**</p>
+<p>When you shift a letter past 'Z' or 'z', it should wrap back to 'A' or 'a'. The modulo operator (<code>%)</code> is perfect for this!</p>
+<br>
+<p>Think about it: if we convert letters to numbers (A<code>0, B</code>1, ... Z=25), then shifting becomes addition with wraparound:</p>
+<ul>
+<li><code>(position + shift) % 26</code> gives us the new position</li>
+<li>The <code>% 26</code> makes 26 wrap to 0, 27 wrap to 1, etc.</li>
+</ul>
+<br>
+<p>**Case Preservation:**</p>
+<p>You need to handle uppercase and lowercase separately:</p>
+<ul>
+<li>For uppercase: work with the range 'A' to 'Z'</li>
+<li>For lowercase: work with the range 'a' to 'z'</li>
+<li>You can use <code>isupper()</code> and <code>islower()</code> to check</li>
+</ul>
+<br>
+<p>**Converting Between Letters and Numbers:**</p>
+<ul>
+<li>To convert a letter to a number: <code>ch - 'A'</code> (for uppercase) or <code>ch - 'a'</code> (for lowercase)</li>
+<li>To convert a number back to a letter: <code>number + 'A'</code> (for uppercase) or <code>number + 'a'</code> (for lowercase)</li>
+</ul>
+<br>
+<p>**Example of shifting one character:**</p>
+<p>If you want to shift 'C' by 3:</p>
+<p>1. Convert to number: 'C' - 'A' = 2</p>
+<p>2. Add shift: 2 + 3 = 5</p>
+<p>3. Apply modulo for wraparound: 5 % 26 = 5</p>
+<p>4. Convert back: 5 + 'A' = 'F'</p>
+<br>
+<p>For a complete Caesar cipher, you'd apply this logic to each letter in a string using a loop!</p>
+<br>
+        </main>
+
+        <nav class="page-nav">
+            <a href="page_DONE_More_early_steps_17.html" class="nav-btn prev">← DONE Data validation, the world's most annoying idiom</a>
+            <a href="page_DONE_More_advanced_programs_1.html" class="nav-btn next">DONE Switches vs. ifs →</a>
+        </nav>
+    </div>
+
+    <!-- Terminal for running code -->
+    <div id="terminal-overlay" class="hidden">
+        <div class="terminal-container">
+            <div class="terminal-header">
+                <span>Program Output</span>
+                <button id="close-terminal-btn">✕</button>
+            </div>
+            <div id="terminal-output"></div>
+            <div id="input-area" class="hidden">
+                <span class="prompt">→</span>
+                <input type="text" id="user-input" autocomplete="off" placeholder="Enter input...">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.48.0/min/vs/loader.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

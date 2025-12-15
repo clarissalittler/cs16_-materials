@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>DONE For-loops (and the shape of loops to come)[fn:8] - CS161A Interactive Text</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> /
+                <span class="chapter">DONE More early steps</span>
+            </div>
+            <h1>DONE For-loops (and the shape of loops to come)[fn:8]</h1>
+        </header>
+
+        <main class="content">
+            <h3>The syntax of for-loops</h3>
+<p>So far we've seen some examples of using <code>while</code> loops and now it's time to see the other kind of loop: the <code>for</code>-loop. Unlike <code>while</code>, which is "indefinite" iteration because it could theoretically go on forever, the <code>for</code>-loop is "definite" iteration because it should (unless there's a bug) only run for a pre-determined number of times.</p>
+<br>
+<p>If <code>while</code> can be thought of us "keep going until something changes", then <code>for</code> should be thought of as "do this X times".</p>
+<br>
+<p>The simplest possible for-statement we can write looks like</p>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page22-0">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page22-0">↻ Reset</button>
+    </div>
+    <div id="editor-page22-0" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n    for(int i=0; i < 20; i = i +1){\n      cout << \"We're on the \" << i  << \"th loop\" << endl;\n    }\n    \n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page22-0'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>Okay so let's break down the syntax of this a bit because it's more complicated than the syntax of a <code>while</code> loop:</p>
+<p>you start with <code>for</code>, then the next part declares a whole number (<code>int</code>) valued counter that you can use inside the loop. Then you after the <code>;</code> you have the condition for when the loop continues: in this case the loop should continue as long as the variable <code>i</code> is less than 20. Then the last bit is what happens to the counter at the end of the next loop, which in this case says "increase <code>i</code> by 1". In fact, there's a special operator <code>i++</code> that just means <code>i </code>i+1= so in the future we'll use that.</p>
+<br>
+<p>Another thing you might have noticed is that we're starting to count <em>from</em> 0 and <em>going up to</em> 19. How many times does that mean the loop is executing in total? The answer is 20! Count it yourself if that doesn't feel intuitive.</p>
+<br>
+<p>Let's make another loop quick but this time I want you to write out, for yourself, what it should print out before you even compile and run it.</p>
+<br>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page22-1">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page22-1">↻ Reset</button>
+    </div>
+    <div id="editor-page22-1" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n    for(int i=0; i < 5; i++){\n      cout << \"The \" << i << \"th number squared is: \" << i*i << endl;\n    }\n  \n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page22-1'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>#+begin_quote</p>
+<p>Exercise: Change this loop so that it instead runs from 1 through 5 rather than 0 through 4. You <em>could</em> do this by changing the <code>cout</code> statement but I want you to change the for-loop setup itself.</p>
+<p>#+end_quote</p>
+<br>
+<p>Now you don't <em>just</em> have to count up by one, even though that's probably the most common use for reasons we'll see in a couple of sections from now.</p>
+<br>
+<p>You can count down like this:</p>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page22-2">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page22-2">↻ Reset</button>
+    </div>
+    <div id="editor-page22-2" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n    for(int i=4; i >= 0; i = i - 1){\n      cout << \"The \" << i << \"th number squared is: \" << i*i << endl;\n    }\n\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page22-2'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>#+begin_quote</p>
+<p>Exercise: Try making a for-loop that prints out only even numbers. Again, you could do this by changing the <code>cout</code> statement but I want you to change the for-loop itself.</p>
+<p>#+end_quote</p>
+<br>
+<h3>DONE Summing a bunch of numbers</h3>
+<p>Here's an example of another common idiom in programming: you use a for-loop to <em>accumulate</em> results of a calculation.</p>
+<br>
+<p>So here's how to add a bunch of numbers together:</p>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page22-3">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page22-3">↻ Reset</button>
+    </div>
+    <div id="editor-page22-3" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n\n    int sum = 0;\n\n    for(int i=0; i < 10; i++){\n      sum = sum + i;\n    }\n\n    cout << \"The sum is: \" << sum << endl;\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page22-3'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>Note that what we've done is create a new variable, <code>sum</code>, in order to hold the sum of all the numbers from 0 through 9 and each step of the for-loop we add <code>i</code> to <code>sum</code>. The formula for this is, in general, <code>n*(n+1)/2</code> and we can see that running this code prints 45, which is exactly what we'd expect from this formula. Change the numbers a few times in the limits of the for-loop and check that it stays fitting this formula.</p>
+<br>
+<p>#+begin_quote</p>
+<p>Exercise: Change this so that it sums the <em>squares</em> of 0 - 9.</p>
+<p>#+end_quote</p>
+<h3>Exercises</h3>
+<p>1. <strong>Basic</strong>: Print the first 20 Fibonacci numbers using a for-loop.</p>
+<p>2. <strong>Challenge</strong>: Print all prime numbers between 1 and 100. Hint: For each number, check if it's divisible by any number from 2 to its square root.</p>
+<br>
+<h3>Nested Loops and Patterns</h3>
+<p>One of the most common uses of for-loops is to create patterns, and for more complex patterns you often need loops <em>inside</em> of loops. These are called <em>nested loops</em>.</p>
+<br>
+<p>The key insight with nested loops is that the inner loop runs <em>completely</em> for each iteration of the outer loop. Let's start with a simple example:</p>
+<br>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page22-4">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page22-4">↻ Reset</button>
+    </div>
+    <div id="editor-page22-4" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n    for(int row = 0; row < 3; row++){\n      for(int col = 0; col < 5; col++){\n        cout << \"*\";\n      }\n      cout << endl;  // new line after each row\n    }\n\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page22-4'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>This prints:</p>
+<p>#+begin_example</p>
+<p>*****</p>
+<p>*****</p>
+<p>*****</p>
+<p>#+end_example</p>
+<br>
+<p>Notice how the inner loop (the <code>col</code> loop) runs 5 times for <em>each</em> iteration of the outer loop (the <code>row</code> loop). So we get 3 rows, each with 5 stars.</p>
+<br>
+<h3>Building a Right Triangle</h3>
+<p>Now let's make something more interesting: a right triangle where each row has one more star than the previous row:</p>
+<br>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page22-5">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page22-5">↻ Reset</button>
+    </div>
+    <div id="editor-page22-5" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n    int height = 5;\n\n    for(int row = 1; row <= height; row++){\n      for(int col = 1; col <= row; col++){\n        cout << \"*\";\n      }\n      cout << endl;\n    }\n\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page22-5'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>This prints:</p>
+<p>#+begin_example</p>
+<p>*</p>
+<p>**</p>
+<p><strong>*</strong></p>
+<p>****</p>
+<p>*****</p>
+<p>#+end_example</p>
+<br>
+<p>The trick here is that the inner loop runs from 1 to <code>row</code>, so on row 1 it prints 1 star, on row 2 it prints 2 stars, and so on.</p>
+<br>
+<h3>Patterns with Spaces</h3>
+<p>You can also create patterns that use spaces. The key is to have multiple inner loops - one for spaces, one for the content.</p>
+<br>
+<p>Here's a simple example that right-aligns a triangle by printing spaces first:</p>
+<br>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page22-6">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page22-6">↻ Reset</button>
+    </div>
+    <div id="editor-page22-6" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n    int height = 5;\n\n    for(int row = 1; row <= height; row++){\n      // Print spaces to push the stars to the right\n      for(int space = 1; space <= height - row; space++){\n        cout << \" \";\n      }\n\n      // Print stars\n      for(int star = 1; star <= row; star++){\n        cout << \"*\";\n      }\n\n      cout << endl;\n    }\n\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page22-6'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>This prints:</p>
+<p>#+begin_example</p>
+<p>    *</p>
+<p>   **</p>
+<p>  <strong>*</strong></p>
+<p> ****</p>
+<p>*****</p>
+<p>#+end_example</p>
+<br>
+<p>Notice how we use <code>height - row</code> for the number of spaces. As the row number increases, the number of spaces decreases!</p>
+<br>
+<p>You can extend this pattern to create all sorts of interesting shapes by changing the formulas for how many spaces and characters to print on each row.</p>
+<br>
+<h3>Multiplication Tables</h3>
+<p>Another common use of nested loops is creating multiplication tables:</p>
+<br>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page22-7">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page22-7">↻ Reset</button>
+    </div>
+    <div id="editor-page22-7" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include <iomanip>\n  using namespace std;\n\n  int main(){\n    // Print multiplication table for 1-10\n    for(int i = 1; i <= 10; i++){\n      for(int j = 1; j <= 10; j++){\n        cout << setw(4) << i * j;\n      }\n      cout << endl;\n    }\n\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page22-7'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<h3>Exercises on Nested Loops</h3>
+<p>1. <strong>Basic</strong>: Write a program that creates a right triangle but with the numbers 1-5 instead of stars. Each row shows numbers from 1 up to the row number.</p>
+<p>2. <strong>Intermediate</strong>: Create an inverted pyramid (wide at top, narrow at bottom).</p>
+<p>3. <strong>Challenge</strong>: Create a diamond pattern by combining an upright pyramid and an inverted pyramid.</p>
+<br>
+        </main>
+
+        <nav class="page-nav">
+            <a href="page_DONE_More_early_steps_13.html" class="nav-btn prev">← Exercises</a>
+            <a href="page_DONE_More_early_steps_15.html" class="nav-btn next">DONE (Advanced) Arrays: the reasons for =for= →</a>
+        </nav>
+    </div>
+
+    <!-- Terminal for running code -->
+    <div id="terminal-overlay" class="hidden">
+        <div class="terminal-container">
+            <div class="terminal-header">
+                <span>Program Output</span>
+                <button id="close-terminal-btn">✕</button>
+            </div>
+            <div id="terminal-output"></div>
+            <div id="input-area" class="hidden">
+                <span class="prompt">→</span>
+                <input type="text" id="user-input" autocomplete="off" placeholder="Enter input...">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.48.0/min/vs/loader.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

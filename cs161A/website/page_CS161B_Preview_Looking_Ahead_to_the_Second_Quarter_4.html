@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>DONE Multi-File Programs - CS161A Interactive Text</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> /
+                <span class="chapter">CS161B Preview: Looking Ahead to the Second Quarter</span>
+            </div>
+            <h1>DONE Multi-File Programs</h1>
+        </header>
+
+        <main class="content">
+            <br>
+<p>Up until now, you've probably been writing all your code in a single file—maybe <code>main.cpp</code> or something similar. For small programs, that's perfectly fine. But as your programs grow larger and more complex, putting everything in one file becomes a problem.</p>
+<br>
+<p>Imagine trying to find one specific function among 2,000 lines of code in a single file. Or imagine wanting to reuse your grade-calculation functions in three different programs—are you going to copy-paste the same code into three different files? What happens when you find a bug in that code? Do you have to fix it in three places?</p>
+<br>
+<p>This is where multi-file programs come in. Breaking your code into multiple files makes it more organized, reusable, and maintainable. It's like organizing your closet: instead of throwing everything in one big pile, you sort things into drawers and sections so you can actually find what you need.</p>
+<br>
+<p>In CS161B, you'll work on projects that are too large to fit comfortably in one file, so learning how to organize code across multiple files is essential. The key concepts are header files (<code>.h</code>) and implementation files (<code>.cpp</code>), and they work together to keep your code modular and clean.</p>
+<br>
+<h3>DONE Why Split Code into Multiple Files?</h3>
+<br>
+<p>Breaking code into multiple files provides several important benefits:</p>
+<ul>
+<li><strong>Organization</strong>: Group related functions together (all math functions in one file, all file I/O functions in another)</li>
+<li><strong>Reusability</strong>: Write a function once, use it in multiple programs without copy-pasting</li>
+<li><strong>Maintainability</strong>: Find and fix bugs more easily when code is organized logically</li>
+<li><strong>Collaboration</strong>: Multiple people can work on different files without conflicts</li>
+<li><strong>Compilation speed</strong>: Only recompile the files that changed, not your entire program</li>
+</ul>
+<br>
+<h3>DONE Header Files (.h)</h3>
+<h4>Creating Header Files</h4>
+<p>Header files contain declarations (what exists) but not usually implementations (how it works).</p>
+<br>
+<p><code>math_utils.h</code>:</p>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page36-0">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page36-0">↻ Reset</button>
+    </div>
+    <div id="editor-page36-0" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "#ifndef MATH_UTILS_H\n#define MATH_UTILS_H\n\n// Function declarations\ndouble calculateArea(double width, double height);\ndouble calculateCircleArea(double radius);\nint factorial(int n);\n\n#endif";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page36-0'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<h4>Include Guards</h4>
+<p>The <code>#ifndef</code>, <code>#define</code>, <code>#endif</code> pattern prevents the header from being included multiple times, which would cause errors.</p>
+<br>
+<h4>Function Declarations vs Definitions</h4>
+<ul>
+<li>**Declaration**: Tells the compiler a function exists (in .h file)</li>
+<li>**Definition**: The actual implementation (in .cpp file)</li>
+</ul>
+<br>
+<h3>DONE Implementation Files (.cpp)</h3>
+<p><code>math_utils.cpp</code>:</p>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page36-1">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page36-1">↻ Reset</button>
+    </div>
+    <div id="editor-page36-1" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "#include \"math_utils.h\"\n#include <cmath>\n\ndouble calculateArea(double width, double height){\n  return width * height;\n}\n\ndouble calculateCircleArea(double radius){\n  return 3.14159 * radius * radius;\n}\n\nint factorial(int n){\n  if(n <= 1) return 1;\n  return n * factorial(n - 1);\n}";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page36-1'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p><code>main.cpp</code>:</p>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page36-2">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page36-2">↻ Reset</button>
+    </div>
+    <div id="editor-page36-2" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "#include <iostream>\n#include \"math_utils.h\"\nusing namespace std;\n\nint main(){\n  double area = calculateArea(5.0, 3.0);\n  cout << \"Area: \" << area << endl;\n\n  double circleArea = calculateCircleArea(2.5);\n  cout << \"Circle area: \" << circleArea << endl;\n\n  return 0;\n}";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page36-2'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<h3>DONE Compiling Multi-File Programs</h3>
+<h4>Command-Line Compilation</h4>
+<p>#+begin_example</p>
+<p># Compile all files together</p>
+<p>g++ main.cpp math_utils.cpp -o program</p>
+<br>
+<p># Or compile separately (faster for large projects)</p>
+<p>g++ -c math_utils.cpp   # Creates math_utils.o</p>
+<p>g++ -c main.cpp         # Creates main.o</p>
+<p>g++ math_utils.o main.o -o program  # Links them together</p>
+<p>#+end_example</p>
+<br>
+<h4>Makefiles (Basic Introduction)</h4>
+<p>A Makefile automates the compilation process.</p>
+<br>
+<p><code>Makefile</code>:</p>
+<p>#+begin_example</p>
+<p>program: main.o math_utils.o</p>
+<p>	g++ main.o math_utils.o -o program</p>
+<br>
+<p>main.o: main.cpp math_utils.h</p>
+<p>	g++ -c main.cpp</p>
+<br>
+<p>math_utils.o: math_utils.cpp math_utils.h</p>
+<p>	g++ -c math_utils.cpp</p>
+<br>
+<p>clean:</p>
+<p>	rm -f *.o program</p>
+<p>#+end_example</p>
+<br>
+<p>Usage:</p>
+<p>#+begin_example</p>
+<p>make          # Builds the program</p>
+<p>make clean    # Removes compiled files</p>
+<p>#+end_example</p>
+<br>
+<h3>DONE Organizing Code by Purpose</h3>
+<h4>Utility Functions</h4>
+<p><code>string_utils.h</code> / <code>string_utils.cpp</code>: Common string operations</p>
+<br>
+<h4>Input/Output Functions</h4>
+<p><code>io.h</code> / <code>io.cpp</code>: User input validation, file operations</p>
+<br>
+<h4>Business Logic Functions</h4>
+<p><code>calculator.h</code> / <code>calculator.cpp</code>: Core application logic</p>
+<br>
+<p>Example project structure:</p>
+<p>#+begin_example</p>
+<p>project/</p>
+<p>  ├── main.cpp</p>
+<p>  ├── string_utils.h</p>
+<p>  ├── string_utils.cpp</p>
+<p>  ├── io.h</p>
+<p>  ├── io.cpp</p>
+<p>  ├── calculator.h</p>
+<p>  ├── calculator.cpp</p>
+<p>  └── Makefile</p>
+<p>#+end_example</p>
+<br>
+<h3>DONE Common Errors with Multi-File Programs</h3>
+<h4>Multiple Definition Errors</h4>
+<p>***Problem**: Including a .cpp file instead of .h, or defining functions in .h files</p>
+<br>
+<p>***Solution**: Only put declarations in .h files, definitions in .cpp files</p>
+<br>
+<h4>Undefined Reference Errors</h4>
+<p>***Problem**: Forgot to compile a .cpp file, or misspelled function name</p>
+<br>
+<p>***Solution**: Make sure all .cpp files are compiled and linked</p>
+<br>
+<h4>Exercises</h4>
+<p>1. <strong>Discussion</strong>: What's the difference between <code>#include <iostream></code> and <code>#include "myfile.h"</code>?</p>
+<p>2. <strong>Basic</strong>: Create a header file with function declarations and an implementation file with definitions.</p>
+<br>
+<h3>DONE Lab Projects</h3>
+<h4>LAB: Refactor Single-File Program</h4>
+<p>Take a previous lab (like the student record system) and split it into:</p>
+<ul>
+<li><code>student.h</code> / <code>student.cpp</code> (struct and related functions)</li>
+<li><code>io.h</code> / <code>io.cpp</code> (input/output functions)</li>
+<li><code>main.cpp</code> (menu and main program logic)</li>
+</ul>
+<br>
+<h4>LAB: Build a Calculator Library</h4>
+<p>Create a multi-file calculator:</p>
+<ul>
+<li><code>basic_ops.h/.cpp</code> (add, subtract, multiply, divide)</li>
+<li><code>advanced_ops.h/.cpp</code> (power, factorial, square root)</li>
+<li><code>calculator.h/.cpp</code> (menu-driven calculator)</li>
+<li><code>main.cpp</code> (program entry point)</li>
+</ul>
+<br>
+        </main>
+
+        <nav class="page-nav">
+            <a href="page_CS161B_Preview_Looking_Ahead_to_the_Second_Quarter_3.html" class="nav-btn prev">← DONE File I/O: Reading and Writing Files</a>
+            <a href="page_CS161B_Preview_Looking_Ahead_to_the_Second_Quarter_5.html" class="nav-btn next">DONE Common Algorithms & Problem Solving →</a>
+        </nav>
+    </div>
+
+    <!-- Terminal for running code -->
+    <div id="terminal-overlay" class="hidden">
+        <div class="terminal-container">
+            <div class="terminal-header">
+                <span>Program Output</span>
+                <button id="close-terminal-btn">✕</button>
+            </div>
+            <div id="terminal-output"></div>
+            <div id="input-area" class="hidden">
+                <span class="prompt">→</span>
+                <input type="text" id="user-input" autocomplete="off" placeholder="Enter input...">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.48.0/min/vs/loader.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
