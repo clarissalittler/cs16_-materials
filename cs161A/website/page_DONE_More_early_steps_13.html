@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Exercises - CS161A Interactive Text</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> /
+                <span class="chapter">DONE More early steps</span>
+            </div>
+            <h1>Exercises</h1>
+        </header>
+
+        <main class="content">
+            <p>1. <strong>Basic</strong>: Write a countdown program that asks for a starting number and counts down to 0.</p>
+<p>2. <strong>Intermediate</strong>: Create a password checker that keeps asking until the user enters "quit" or the correct password (you choose it).</p>
+<p>3. <strong>Challenge</strong>: Implement a simple calculator that keeps performing operations until the user enters 0 for both numbers.</p>
+<h3>DONE A randomized guessing game</h3>
+<p>So a guessing game where the number is the same every time isn't very interesting. What we really want is the ability to have the program choose a new number "randomly" and then ask you to guess. Of course, it'd be a pretty unfair game if it didn't at least give you a hint so this program will also tell you whether to guess higher or lower.</p>
+<br>
+<p>So first, here's a really simple example of how to generate random numbers in C++. Note that we also have to include a thing thing at the top of the file: <code>#include <cstdlib></code>, because that's where the functions we need for random numbers live. </p>
+<br>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page21-0">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page21-0">↻ Reset</button>
+    </div>
+    <div id="editor-page21-0" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include <cstdlib>\n  using namespace std;\n\n  int main(){\n    int num = rand();\n\n    cout << \"Our number is: \" << num << endl;\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page21-0'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>Now, if I run this I get</p>
+<p>#+begin_example</p>
+<p>Our number is: 1804289383</p>
+<p>#+end_example</p>
+<p>Okay, that's a really huge number and not really what we want but we'll deal with that in a second. It's definitely not a number I expected so that's good! Let me try running it again and---</p>
+<p>#+begin_example</p>
+<p>Our number is: 1804289383</p>
+<p>#+end_example</p>
+<p>Oh, huh, that's weird. Let's try again and</p>
+<p>#+begin_example</p>
+<p>Our number is: 1804289383</p>
+<p>#+end_example</p>
+<br>
+<p>So what's going on here? Yes it's a "random" number but it's the same "random" number every time. It might be illuminating to try the following:</p>
+<br>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page21-1">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page21-1">↻ Reset</button>
+    </div>
+    <div id="editor-page21-1" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include <cstdlib>\n  using namespace std;\n\n  int main(){\n    cout << \"Let's try to print out a bunch of random numbers\" << endl;\n    cout << rand() << endl;\n    cout << rand() << endl;\n    cout << rand() << endl;\n    cout << rand() << endl;\n    cout << rand() << endl;\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page21-1'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>And now I get an output of</p>
+<p>#+begin_example</p>
+<p>Let's try to print out a bunch of random numbers</p>
+<p>1804289383</p>
+<p>846930886</p>
+<p>1681692777</p>
+<p>1714636915</p>
+<p>1957747793</p>
+<p>#+end_example</p>
+<p>So each time we use <code>rand()</code> it is giving a different number but each time we run the program it's the same sequence of random numbers. This is where we need to explain seeds.</p>
+<br>
+<p>Seeds are what makes pseudo-random number generation so different than actual randomness. Computers can't <em>really</em> do true randomness, but they can fake it well by performing a series of calculations where the output looks random unless you know the very first input that starts the calculations. This very first input is the "seed" for the random number generator.</p>
+<br>
+<p>For a given seed, <code>rand</code> will always produce the same sequence of outputs. The trick, then, is that we need to choose a different seed every time we run the program. The traditional choice is to use another function called <code>time</code>. If you write <code>time(0)</code> what you'll get back is the number of seconds since midnight January 1st 1970. Since this is a number that will be different every time you run the program, it will be a good choice of different seeds for every time we run our code.</p>
+<br>
+<p>Let's test this out quick</p>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page21-2">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page21-2">↻ Reset</button>
+    </div>
+    <div id="editor-page21-2" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include <cstdlib>\n  using namespace std;\n\n  int main(){\n    srand(time(0));\n  \n    cout << \"Let's try to print out a bunch of random numbers\" << endl;\n    cout << rand() << endl;\n    cout << rand() << endl;\n    cout << rand() << endl;\n    cout << rand() << endl;\n    cout << rand() << endl;\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page21-2'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>Now we're finally ready to write our number guessing game</p>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page21-3">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page21-3">↻ Reset</button>
+    </div>
+    <div id="editor-page21-3" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include <cstdlib>\n\n  using namespace std;\n\n  int main(){\n    // we make a variable for our guess\n    int guess = -1;\n    // we set the seed for our secret number\n    srand(time(0));\n    // we set our secret number, we use the % function to scale rand() to 0-99 and then add 1 to make\n    // the range 1-100\n    int secret = rand() % 100 + 1;\n\n    while(guess != secret){\n      cout << \"What do you think the number is?\" << endl;\n      cin >> guess;\n      if(guess > secret){\n        cout << \"lower!\" << endl;\n      }\n      else if(guess < secret){\n        cout << \"higher!\" << endl;\n      }\n    }\n\n    cout << \"You guessed it!\" << endl;\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page21-3'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>Try to read this code through and understand the logic of what it's doing! The only thing we haven't explained to this point is the <code>%</code> operator, which is the "modulus" operator. Basically, <code>a % b</code> returns the remainder---in the "you're learning division as a kid" sense of remainder---of dividing <code>a</code> by <code>b</code>. Now, in terms of why we <strong>care</strong> about this operator it gives us a quick way to take a big range of numbers and map it to something smaller. For example, if we do <code>a % 20</code> our outputs, no matter what <code>a</code> is, will be between 0 and 19. Similarly if we say <code>a % 100</code> this will give us an output that's between 0 and 99.</p>
+<h3>Using =abs()= for Distance Checking</h3>
+<p>Sometimes you want to check if two numbers are "close" to each other. The <em>absolute value</em> function <code>abs()</code> is perfect for this. It's available in C++ by including <code><cmath></code>.</p>
+<br>
+<p>The absolute value gives you the distance between two numbers:</p>
+<ul>
+<li><code>abs(10 - 7)</code> is 3</li>
+<li><code>abs(7 - 10)</code> is also 3 (absolute value is always positive)</li>
+<li><code>abs(-5)</code> is 5</li>
+</ul>
+<br>
+<p>Here's an example that checks if a guess is within a certain range of a target:</p>
+<br>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page21-4">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page21-4">↻ Reset</button>
+    </div>
+    <div id="editor-page21-4" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include <cmath>\n  using namespace std;\n\n  int main(){\n    int target = 50;\n    int guess;\n\n    cout << \"Guess a number: \";\n    cin >> guess;\n\n    int distance = abs(target - guess);\n\n    if(guess == target){\n      cout << \"Exactly right!\" << endl;\n    }\n    else if(distance <= 10){\n      cout << \"You're close! (off by \" << distance << \")\" << endl;\n    }\n    else{\n      cout << \"Not very close. (off by \" << distance << \")\" << endl;\n    }\n\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page21-4'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>You can use this pattern to give hints based on how close someone is to a target value. Just check different distance thresholds!</p>
+<br>
+<h3>DONE Adding a limited number of guesses</h3>
+<p>The last thing we need to do with our "number guessing game" is adding a limited number of guesses. To do that we're going to have to</p>
+<ul>
+<li>add another number container</li>
+<li>add a second check to the while loop to make sure that the loop keeps going as long as the number of guesses is greater than zero</li>
+</ul>
+<br>
+<p> Try doing this yourself before checking my solution below.</p>
+<br>
+<h4>My solution</h4>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page21-5">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page21-5">↻ Reset</button>
+    </div>
+    <div id="editor-page21-5" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include <cstdlib>\n\n  using namespace std;\n\n  int main(){\n    // we make a variable for our guess\n    int guess = -1;\n    int numGuesses = 3;\n    // we set the seed for our secret number\n    srand(time(0));\n    // we set our secret number, we use the % function to scale rand() to 0-99 and then add 1 to make\n    // the range 1-100\n    int secret = rand() % 100 + 1;\n\n    while(guess != secret && numGuesses > 0){\n      numGuesses = numGuesses-1;\n      cout << \"What do you think the number is?\" << endl;\n      cin >> guess;\n      if(guess > secret){\n        cout << \"lower!\" << endl;\n      }\n      else if(guess < secret){\n        cout << \"higher!\" << endl;\n      }\n    }\n    if(guess == secret){\n      cout << \"You guessed it!\" << endl;\n    }\n    else{\n      cout << \"Shoot, you ran out of guesses!\" << endl;\n    }\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page21-5'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>The only truly tricky bit is the fact that you need to make sure that you actually check to see if <em>why</em> the while-loop broke at the end in order to decide what message to give, otherwise you'll congratulate them for winning when they lost!</p>
+<br>
+<h3>DONE Averaging numbers and while-loops</h3>
+<p>Here's another idiom that will help us get practice with while-loops: how do you average an <strong>arbitrary</strong> number of numbers?</p>
+<br>
+<p>So this is a fun exercise because it means we need to keep track of how many things have been entered and then divide by that at the end. So I'm going to just assume we're adding up <code>double</code> s here because it makes everything fundamentally similar. How does one quit out of this loop? Well there's two ways we could do this. One is to have a special number that means "we're done". Something like "-1". That's the approach we're going to do first. After that, we'll see how to  </p>
+<br>
+<p>Our steps are</p>
+<p> 1. Ask for a number, if that number is <code>-1</code> then stop asking and go to the end</p>
+<p> 2. If it's <strong>not</strong> <code>-1</code> then you need to increment a variable that counts how many numbers you've read in and also add the number that was read in to the total</p>
+<p> 3. When you get to the end of the program go ahead and divide the total by the number of things added together to get the average</p>
+<br>
+<p>We're going to do the simplest version like this:</p>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page21-6">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page21-6">↻ Reset</button>
+    </div>
+    <div id="editor-page21-6" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n    int numItems = 0;\n    double sum = 0;\n    double numEntered = 0;\n\n    cout << \"Enter a number greater or equal to 0: \";\n    cin >> numEntered;\n    while(numEntered >= 0){\n      numItems = numItems + 1;\n      sum = sum + numEntered;\n      cout << \"Enter a number greater or equal to 0: \";\n      cin >> numEntered;\n    }\n\n    cout << \"The average of the numbers you entered is: \" << sum / numItems << endl;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page21-6'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>Okay, so there's still a problem with our code: do you see it? If you don't I'll give you a hint: what happens if you don't enter <strong>any</strong> valid numbers at all?</p>
+<br>
+<p>That's right! You're dividing by zero! So instead we want to, at the end, replace our final <code>cout</code> with an if-statement that checks to make sure you didn't enter nothing at all:</p>
+<br>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page21-7">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page21-7">↻ Reset</button>
+    </div>
+    <div id="editor-page21-7" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n    int numItems = 0;\n    double sum = 0;\n    double numEntered = 0;\n  \n    cout << \"Enter a number greater or equal to 0: \";\n    cin >> numEntered;\n    while(numEntered >= 0){\n      numItems = numItems + 1;\n      sum = sum + numEntered;\n      cout << \"Enter a number greater or equal to 0: \";\n      cin >> numEntered;\n    }\n  \n    if(numItems >0){\n      cout << \"The average of the numbers you entered is: \" << sum / numItems << endl;\n    }\n    else{\n      cout << \"Did you change your mind?\" << endl;\n    }\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page21-7'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>Now you can see that we've safeguarded against dividing by zero!</p>
+<h3>Exercises</h3>
+<p>1. <strong>Basic</strong>: Simulate rolling two six-sided dice and display their individual values and sum.</p>
+<p>2. <strong>Intermediate</strong>: Create a "Rock, Paper, Scissors" game where the computer randomly chooses and you play one round.</p>
+<p>3. <strong>Challenge</strong>: Simulate flipping a coin 1000 times and report the percentage of heads vs tails. Bonus: Allow the user to specify the number of flips.</p>
+<h3>Exercises</h3>
+<p>1. <strong>Basic</strong>: Calculate the average of exactly 5 test scores entered by the user.</p>
+<p>2. <strong>Intermediate</strong>: Find the minimum, maximum, and average of numbers entered (stop on -1).</p>
+<p>3. <strong>Challenge</strong>: Calculate a weighted average where the user enters value-weight pairs. Stop when weight is 0. Example: test1<code>85, weight</code>0.3; test2<code>90, weight</code>0.7; weighted average = 88.5.</p>
+<br>
+        </main>
+
+        <nav class="page-nav">
+            <a href="page_DONE_More_early_steps_12.html" class="nav-btn prev">← DONE Your first while loop: a number guessing game</a>
+            <a href="page_DONE_More_early_steps_14.html" class="nav-btn next">DONE For-loops (and the shape of loops to come)[fn:8] →</a>
+        </nav>
+    </div>
+
+    <!-- Terminal for running code -->
+    <div id="terminal-overlay" class="hidden">
+        <div class="terminal-container">
+            <div class="terminal-header">
+                <span>Program Output</span>
+                <button id="close-terminal-btn">✕</button>
+            </div>
+            <div id="terminal-output"></div>
+            <div id="input-area" class="hidden">
+                <span class="prompt">→</span>
+                <input type="text" id="user-input" autocomplete="off" placeholder="Enter input...">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.48.0/min/vs/loader.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

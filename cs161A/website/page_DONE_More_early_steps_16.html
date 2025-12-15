@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Menu-Driven Programs - CS161A Interactive Text</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> /
+                <span class="chapter">DONE More early steps</span>
+            </div>
+            <h1>Menu-Driven Programs</h1>
+        </header>
+
+        <main class="content">
+            <p>One of the most common patterns in interactive programs is the menu: you display a list of options, ask the user to choose one, and then perform the corresponding action. This is such a common pattern that you'll use it in almost every program you write.</p>
+<br>
+<h3>Basic Menu Pattern</h3>
+<p>The basic principle is pretty simple:</p>
+<ul>
+<li>create a variable to hold a number (an <code>int</code>, most likely) or a variable to hold text (a <code>char</code> or <code>string</code>)</li>
+<li>print out a prompt that explains the menu</li>
+<li>read in the option chosen into the variable you made</li>
+<li>use if-statements or switch to decide what to do next</li>
+</ul>
+<br>
+<p>Here's a simple example:</p>
+<br>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page24-0">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page24-0">↻ Reset</button>
+    </div>
+    <div id="editor-page24-0" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n    int choice;\n\n    cout << \"Welcome to the Calculator!\" << endl;\n    cout << \"1. Add two numbers\" << endl;\n    cout << \"2. Subtract two numbers\" << endl;\n    cout << \"3. Multiply two numbers\" << endl;\n    cout << \"4. Exit\" << endl;\n    cout << \"Enter your choice (1-4): \";\n    cin >> choice;\n\n    if(choice == 1){\n      cout << \"You chose addition!\" << endl;\n    }\n    else if(choice == 2){\n      cout << \"You chose subtraction!\" << endl;\n    }\n    else if(choice == 3){\n      cout << \"You chose multiplication!\" << endl;\n    }\n    else if(choice == 4){\n      cout << \"Goodbye!\" << endl;\n    }\n    else{\n      cout << \"Invalid choice!\" << endl;\n    }\n\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page24-0'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<h3>Menu with Switch Statements</h3>
+<p>You can also use a <code>switch</code> statement for menus, which is often cleaner:</p>
+<br>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page24-1">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page24-1">↻ Reset</button>
+    </div>
+    <div id="editor-page24-1" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n    int choice;\n    double num1, num2;\n\n    cout << \"Calculator Menu\" << endl;\n    cout << \"1. Add\" << endl;\n    cout << \"2. Subtract\" << endl;\n    cout << \"3. Multiply\" << endl;\n    cout << \"4. Divide\" << endl;\n    cout << \"Enter choice: \";\n    cin >> choice;\n\n    if(choice >= 1 && choice <= 4){\n      cout << \"Enter first number: \";\n      cin >> num1;\n      cout << \"Enter second number: \";\n      cin >> num2;\n    }\n\n    switch(choice){\n      case 1:\n        cout << \"Result: \" << num1 + num2 << endl;\n        break;\n      case 2:\n        cout << \"Result: \" << num1 - num2 << endl;\n        break;\n      case 3:\n        cout << \"Result: \" << num1 * num2 << endl;\n        break;\n      case 4:\n        if(num2 != 0){\n          cout << \"Result: \" << num1 / num2 << endl;\n        }\n        else{\n          cout << \"Error: Division by zero!\" << endl;\n        }\n        break;\n      default:\n        cout << \"Invalid choice!\" << endl;\n    }\n\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page24-1'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<h3>Looping Menus</h3>
+<p>Often you want the menu to keep running until the user chooses to exit. You can do this with a while-loop:</p>
+<br>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page24-2">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page24-2">↻ Reset</button>
+    </div>
+    <div id="editor-page24-2" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n    int choice = 0;\n\n    while(choice != 4){\n      cout << \"\\n=== Main Menu ===\" << endl;\n      cout << \"1. Play game\" << endl;\n      cout << \"2. View high scores\" << endl;\n      cout << \"3. Settings\" << endl;\n      cout << \"4. Exit\" << endl;\n      cout << \"Choice: \";\n      cin >> choice;\n\n      switch(choice){\n        case 1:\n          cout << \"Starting game...\" << endl;\n          break;\n        case 2:\n          cout << \"High Scores: 1000, 950, 800\" << endl;\n          break;\n        case 3:\n          cout << \"Settings menu would go here\" << endl;\n          break;\n        case 4:\n          cout << \"Thanks for playing!\" << endl;\n          break;\n        default:\n          cout << \"Invalid choice! Try again.\" << endl;\n      }\n    }\n\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page24-2'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<p>This pattern of "keep looping while choice is not the exit option" is very common in menu-driven programs.</p>
+<br>
+<h3>Exercises</h3>
+<p>1. <strong>Basic</strong>: Create a menu for a restaurant that displays 5 food items and their prices, then displays the price of whichever item the user selects.</p>
+<p>2. <strong>Intermediate</strong>: Create a temperature converter menu with options to convert between Fahrenheit, Celsius, and Kelvin. Include an option to exit.</p>
+<p>3. <strong>Challenge</strong>: Create a text-adventure game with multiple locations. Each location has a menu of places you can go next.</p>
+<br>
+        </main>
+
+        <nav class="page-nav">
+            <a href="page_DONE_More_early_steps_15.html" class="nav-btn prev">← DONE (Advanced) Arrays: the reasons for =for=</a>
+            <a href="page_DONE_More_early_steps_17.html" class="nav-btn next">DONE Data validation, the world's most annoying idiom →</a>
+        </nav>
+    </div>
+
+    <!-- Terminal for running code -->
+    <div id="terminal-overlay" class="hidden">
+        <div class="terminal-container">
+            <div class="terminal-header">
+                <span>Program Output</span>
+                <button id="close-terminal-btn">✕</button>
+            </div>
+            <div id="terminal-output"></div>
+            <div id="input-area" class="hidden">
+                <span class="prompt">→</span>
+                <input type="text" id="user-input" autocomplete="off" placeholder="Enter input...">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.48.0/min/vs/loader.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

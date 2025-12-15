@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>DONE Memory and storage - CS161A Interactive Text</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> /
+                <span class="chapter">DONE More early steps</span>
+            </div>
+            <h1>DONE Memory and storage</h1>
+        </header>
+
+        <main class="content">
+            <p>You might have heard people refer to "memory" when it comes to computers: but what is it? How does it differ from something like the storage space on your laptop or phone?</p>
+<br>
+<p>When someone says "memory" generally what they actually mean is Random Access Memory (RAM, in the sequel), which maybe should be called "Arbitrary Access Memory" because it's not <em>random</em> like a dice roll it's that you can access any part of the memory at any time.</p>
+<br>
+<p>Think of it like a giant wall of cubbyholes like at a gym, each square is labeled so it can be found quickly and when you need something from it you just walk to the right one and grab what you want. You don't have to, say, walk down a hallway starting at the beginning every time you want to grab something.</p>
+<br>
+<p>That image is a little misleading, though, because it's less like a set of fixed cubbyholes and more like a huge wall with a bunch of movable dividers that can---on the fly---be reconfigured to fit different sizes of things. Tiny ones for a pair of running shoes. A huge one for a giant dufflebag.</p>
+<br>
+<p>Continuing this metaphor we can explain what happens when you make a variable:</p>
+<ul>
+<li>the computer then finds space in the giant storage wall to put a divider,</li>
+<li>notes down the label on that storage space</li>
+<li>comes back and puts the value of that label into the variable name you declared</li>
+</ul>
+<br>
+<p>We can help explain, too, what these type signifiers are like <code>int</code> and <code>string</code>: they're there to make it easy for the computer to know what the size of the data is, "where to put the divider" if we keep going with the metaphor.[fn:15]</p>
+<br>
+<p>This memory[fn:9] gets reset every time you run the program. That's because the memory of your computer isn't for long-term storage, it's the scratch paper that programs need to run and keep track of all of their calculations.</p>
+<br>
+<p>The main takeaway to get out of this is that every program manages its own storage and, for all the programs you'll write in this class, the compiler figures out at compile time what the storage you need is and how to label it.</p>
+        </main>
+
+        <nav class="page-nav">
+            <a href="page_DONE_More_early_steps_5.html" class="nav-btn prev">← DONE All we ever were, just zeros and ones</a>
+            <a href="page_DONE_More_early_steps_7.html" class="nav-btn next">DONE Comments and documentation →</a>
+        </nav>
+    </div>
+
+    <!-- Terminal for running code -->
+    <div id="terminal-overlay" class="hidden">
+        <div class="terminal-container">
+            <div class="terminal-header">
+                <span>Program Output</span>
+                <button id="close-terminal-btn">✕</button>
+            </div>
+            <div id="terminal-output"></div>
+            <div id="input-area" class="hidden">
+                <span class="prompt">→</span>
+                <input type="text" id="user-input" autocomplete="off" placeholder="Enter input...">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.48.0/min/vs/loader.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

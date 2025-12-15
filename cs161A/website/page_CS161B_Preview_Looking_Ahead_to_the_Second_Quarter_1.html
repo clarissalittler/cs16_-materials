@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>DONE Vectors: Dynamic Arrays - CS161A Interactive Text</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> /
+                <span class="chapter">CS161B Preview: Looking Ahead to the Second Quarter</span>
+            </div>
+            <h1>DONE Vectors: Dynamic Arrays</h1>
+        </header>
+
+        <main class="content">
+            <br>
+<p>Remember how we had to declare arrays with a fixed size, and couldn't easily change that size later? Remember how we had to manually track the size of arrays and pass it as a separate parameter to functions? Remember how going out of bounds on an array just... caused mysterious crashes without any helpful error messages?</p>
+<br>
+<p>Yeah, vectors solve all of those problems.</p>
+<br>
+<p>Vectors are one of the most useful tools in C++, and you'll use them constantly in CS161B. They're like arrays, but better in almost every way. Think of them as "arrays that actually make sense."</p>
+<br>
+<h3>DONE Introduction to Vectors</h3>
+<h4>Why Use Vectors Over Arrays?</h4>
+<br>
+<p>Vectors are part of the C++ Standard Library and provide:</p>
+<ul>
+<li><strong>Dynamic sizing</strong>: They can grow and shrink as needed—no more guessing how big to make your array!</li>
+<li><strong>Bounds checking</strong>: With the <code>.at()</code> method, you get helpful error messages instead of mysterious crashes</li>
+<li><strong>Built-in size tracking</strong>: The vector knows how big it is, so you don't have to keep track separately</li>
+<li><strong>Easier to use with functions</strong>: You can pass vectors around without worrying about losing size information</li>
+</ul>
+<br>
+<h4>Including the Vector Library</h4>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page33-0">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page33-0">↻ Reset</button>
+    </div>
+    <div id="editor-page33-0" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "#include <iostream>\n#include <vector>\nusing namespace std;";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page33-0'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<h3>DONE Creating and Initializing Vectors</h3>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page33-1">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page33-1">↻ Reset</button>
+    </div>
+    <div id="editor-page33-1" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "// Empty vector of integers\nvector<int> numbers;\n\n// Vector with initial size\nvector<int> grades(5); // 5 elements, all initialized to 0\n\n// Vector with initial values\nvector<int> temps = {65, 68, 72, 75, 73};\n\n// Vector of strings\nvector<string> names = {\"Alice\", \"Bob\", \"Charlie\"};";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page33-1'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<h3>DONE Vector Operations</h3>
+<h4>Adding and Removing Elements</h4>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page33-2">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page33-2">↻ Reset</button>
+    </div>
+    <div id="editor-page33-2" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "vector<int> nums;\n\n// Add to end\nnums.push_back(10);\nnums.push_back(20);\nnums.push_back(30);\n// Now nums = {10, 20, 30}\n\n// Remove from end\nnums.pop_back();\n// Now nums = {10, 20}";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page33-2'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<h4>Size and Empty</h4>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page33-3">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page33-3">↻ Reset</button>
+    </div>
+    <div id="editor-page33-3" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "vector<int> values = {1, 2, 3, 4, 5};\n\ncout << \"Size: \" << values.size() << endl; // Prints 5\n\nif(values.empty()){\n  cout << \"Vector is empty\" << endl;\n}\nelse{\n  cout << \"Vector has \" << values.size() << \" elements\" << endl;\n}";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page33-3'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<h4>Clear and Resize</h4>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page33-4">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page33-4">↻ Reset</button>
+    </div>
+    <div id="editor-page33-4" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "vector<int> nums = {1, 2, 3, 4, 5};\n\n// Remove all elements\nnums.clear();\ncout << nums.size() << endl; // Prints 0\n\n// Resize to specific size\nnums.resize(10); // Now has 10 elements (all 0)";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page33-4'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<h4>Exercises</h4>
+<p>1. <strong>Basic</strong>: Create a vector, add 5 numbers to it using push_back, then print all elements.</p>
+<p>2. <strong>Intermediate</strong>: Create a program that reads numbers from the user until they enter -1, stores them in a vector, then displays them.</p>
+<br>
+<h3>DONE Accessing Vector Elements</h3>
+<h4>Using [] vs at()</h4>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page33-5">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page33-5">↻ Reset</button>
+    </div>
+    <div id="editor-page33-5" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "vector<int> nums = {10, 20, 30, 40, 50};\n\n// Both access the same element\ncout << nums[0] << endl;   // No bounds checking\ncout << nums.at(0) << endl; // With bounds checking\n\n// Out of bounds\nnums[10] = 99;   // Undefined behavior (dangerous!)\nnums.at(10) = 99; // Throws exception (safer!)";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page33-5'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<h4>Exercises</h4>
+<p>1. <strong>Basic</strong>: Write a program that safely accesses vector elements using .at() with error handling.</p>
+<p>2. <strong>Discussion</strong>: When would you use [] vs .at()?</p>
+<br>
+<h3>DONE Iterating Through Vectors</h3>
+<h4>Index-Based Loops</h4>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page33-6">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page33-6">↻ Reset</button>
+    </div>
+    <div id="editor-page33-6" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "vector<int> numbers = {5, 10, 15, 20, 25};\n\nfor(int i = 0; i < numbers.size(); i++){\n  cout << numbers[i] << \" \";\n}\ncout << endl;";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page33-6'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<h4>Range-Based For Loops</h4>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page33-7">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page33-7">↻ Reset</button>
+    </div>
+    <div id="editor-page33-7" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "vector<string> names = {\"Alice\", \"Bob\", \"Charlie\"};\n\n// Read-only access\nfor(string name : names){\n  cout << name << \" \";\n}\ncout << endl;\n\n// Modify elements (use reference)\nvector<int> values = {1, 2, 3, 4, 5};\nfor(int& val : values){\n  val = val * 2; // Double each value\n}";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page33-7'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<h4>Exercises</h4>
+<p>1. <strong>Basic</strong>: Use a range-based for loop to sum all elements in a vector.</p>
+<p>2. <strong>Intermediate</strong>: Use a range-based for loop to convert all strings in a vector to uppercase.</p>
+<br>
+<h3>DONE Vectors and Functions</h3>
+<h4>Passing Vectors by Reference</h4>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page33-8">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page33-8">↻ Reset</button>
+    </div>
+    <div id="editor-page33-8" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "// Pass by reference to avoid copying\nvoid printVector(const vector<int>& v){\n  for(int num : v){\n    cout << num << \" \";\n  }\n  cout << endl;\n}\n\n// Modify the vector\nvoid doubleValues(vector<int>& v){\n  for(int& val : v){\n    val *= 2;\n  }\n}";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page33-8'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<h4>Returning Vectors from Functions</h4>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page33-9">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page33-9">↻ Reset</button>
+    </div>
+    <div id="editor-page33-9" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "vector<int> generateSequence(int n){\n  vector<int> result;\n  for(int i = 1; i <= n; i++){\n    result.push_back(i);\n  }\n  return result;\n}\n\nint main(){\n  vector<int> nums = generateSequence(10);\n  // nums = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}\n  return 0;\n}";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page33-9'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<h4>Exercises</h4>
+<p>1. <strong>Basic</strong>: Write a function that returns a vector of even numbers from 0 to n.</p>
+<p>2. <strong>Intermediate</strong>: Write a function that filters a vector, keeping only positive numbers.</p>
+<br>
+<h3>DONE Common Vector Patterns</h3>
+<h4>Building Lists from User Input</h4>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page33-10">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page33-10">↻ Reset</button>
+    </div>
+    <div id="editor-page33-10" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "vector<int> readNumbers(){\n  vector<int> numbers;\n  int num;\n\n  cout << \"Enter numbers (enter -1 to stop):\" << endl;\n  while(cin >> num && num != -1){\n    numbers.push_back(num);\n  }\n\n  return numbers;\n}";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page33-10'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<h4>Filtering and Transforming Data</h4>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page33-11">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page33-11">↻ Reset</button>
+    </div>
+    <div id="editor-page33-11" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "vector<int> filterPositive(const vector<int>& nums){\n  vector<int> result;\n  for(int num : nums){\n    if(num > 0){\n      result.push_back(num);\n    }\n  }\n  return result;\n}";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page33-11'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<h4>Exercises</h4>
+<p>1. <strong>Basic</strong>: Write a function that returns only the even numbers from a vector.</p>
+<p>2. <strong>Intermediate</strong>: Write a function that removes duplicates from a vector.</p>
+<p>3. <strong>Challenge</strong>: Write a function that merges two sorted vectors into one sorted vector.</p>
+<br>
+<h3>DONE Two-Dimensional Vectors</h3>
+<br>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page33-12">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page33-12">↻ Reset</button>
+    </div>
+    <div id="editor-page33-12" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "// Vector of vectors (2D vector)\nvector<vector<int>> matrix;\n\n// Initialize 3x4 matrix\nmatrix = {\n  {1, 2, 3, 4},\n  {5, 6, 7, 8},\n  {9, 10, 11, 12}\n};\n\n// Access elements\ncout << matrix[0][0] << endl; // Prints 1\n\n// Iterate\nfor(int row = 0; row < matrix.size(); row++){\n  for(int col = 0; col < matrix[row].size(); col++){\n    cout << matrix[row][col] << \" \";\n  }\n  cout << endl;\n}";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page33-12'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<br>
+<br>
+<h4>Exercises</h4>
+<p>1. <strong>Intermediate</strong>: Create a 2D vector to store a multiplication table.</p>
+<p>2. <strong>Challenge</strong>: Create a jagged 2D vector where each row has a different length.</p>
+<br>
+<h3>DONE Lab Projects</h3>
+<h4>LAB: Dynamic Grade Book</h4>
+<p>Create a program that:</p>
+<ul>
+<li>Allows adding student grades dynamically</li>
+<li>Calculates statistics (average, min, max)</li>
+<li>Can remove the lowest grade</li>
+<li>Displays all grades sorted</li>
+</ul>
+<br>
+<h4>LAB: Shopping List Manager</h4>
+<p>Create a program with a menu that can:</p>
+<ul>
+<li>Add items to shopping list</li>
+<li>Remove items</li>
+<li>Display all items</li>
+<li>Clear the list</li>
+<li>Show number of items</li>
+</ul>
+<br>
+<h4>LAB: High Score Tracker</h4>
+<p>Create a game score tracker that:</p>
+<ul>
+<li>Stores player names and scores in separate vectors</li>
+<li>Adds new scores</li>
+<li>Displays top 5 scores</li>
+<li>Allows searching for a player's score</li>
+</ul>
+<br>
+        </main>
+
+        <nav class="page-nav">
+            <a href="page_CS161B_Preview_Looking_Ahead_to_the_Second_Quarter_0.html" class="nav-btn prev">← What to Expect from These Preview Chapters</a>
+            <a href="page_CS161B_Preview_Looking_Ahead_to_the_Second_Quarter_2.html" class="nav-btn next">DONE Structs: Organizing Related Data →</a>
+        </nav>
+    </div>
+
+    <!-- Terminal for running code -->
+    <div id="terminal-overlay" class="hidden">
+        <div class="terminal-container">
+            <div class="terminal-header">
+                <span>Program Output</span>
+                <button id="close-terminal-btn">✕</button>
+            </div>
+            <div id="terminal-output"></div>
+            <div id="input-area" class="hidden">
+                <span class="prompt">→</span>
+                <input type="text" id="user-input" autocomplete="off" placeholder="Enter input...">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.48.0/min/vs/loader.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
