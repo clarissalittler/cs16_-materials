@@ -1,5 +1,59 @@
 * Preface
 This is a free and open source text on learning the C++ language that can be freely shared with attribution under a CC-BY license. It comes in both a basic and interactive form. If you want to borrow from it, please do!
+** How to Run the Examples
+There are two straightforward ways to try the code in this text:
+
+ + use an online compiler in your browser
+ + compile the code locally with =g++=
+
+*** Using OnlineGDB
+As of April 1, 2026, the basic workflow on =https://www.onlinegdb.com/= is:
+
+ 1. Open the site.
+ 2. Make sure the language is set to C++.
+ 3. Replace the default contents of =main.cpp= with the example from this text.
+ 4. Click =Run= (or press =F9=).
+ 5. Read the program output in the =stdout= pane.
+
+If your program uses =cin= to read input, put that input into the =Standard Input= area before you run the program. If you want to type input interactively while the program is running, use the interactive console option when it is available.
+
+If the program does not compile, check the =stderr= pane. That's where OnlineGDB will show compiler errors.
+
+*** Using =g++=
+If you have a terminal and the GNU C++ compiler installed, you can compile and run examples locally.
+
+Suppose you save a program in a file called =hello.cpp=. The basic pattern is
+
+#+begin_example
+g++ hello.cpp -o hello
+./hello
+#+end_example
+
+Here's what those commands mean:
+
+ + =g++ hello.cpp= tells the compiler to compile the source file
+ + =-o hello= says that the finished program should be named =hello=
+ + =./hello= runs the compiled program on macOS or Linux
+
+If you are on Windows, the program will usually be named =hello.exe= instead.
+
+If the program uses =cin=, just run it and type your input when it prompts you.
+
+As you learn more C++, a very useful version of the compile command is
+
+#+begin_example
+g++ -std=c++17 -Wall hello.cpp -o hello
+#+end_example
+
+The =-std=c++17= part tells =g++= which version of C++ to use, and =-Wall= turns on many helpful warnings.
+
+If you later work with multiple source files, the same idea still applies:
+
+#+begin_example
+g++ main.cpp math_utils.cpp -o program
+./program
+#+end_example
+
 * Introduction
 ** Why C++?
 C++ is a fascinating old-ish language. It blends a combination of "high-level" and "low-level" features. Now those might sound like rather judgy descriptors, like "high-level" is better than "low-level", but they're just different ways of looking at programming that---for our purposes---serve as a segue into talking about what programming is.
