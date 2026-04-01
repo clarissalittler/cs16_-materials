@@ -1,36 +1,5 @@
-* Meta-meta, delete eventually
- Video series that this is loosely based on has the progression of:
- + basic I/O, variables, string type
- + int/float/double types and arithmetic
- + if-statements and booleans
- + table formatting
- + first functions, abstracting table formatting to make it better and less cluttered
- + first while loops
- + if-statements again with && and ||, &c.
- + guessing game
- + arrays and for-loops
- + error handling with cin
-   + how to make a better pets database
- + substr, find, and iterating through strings
- + switch/case
- + arrays again, pointer-and-a-promise
- + revisiting petDB one more time with structs
- + char arrays
-
- Projects I give
- + Write tiny programs
- + Personality quiz
- + Rock paper scissors
- + Store-front
- + Refactoring
-* Meta-commentary
-** What is this text?
-This is a free and open source text on learning the C++ language that can be freely shared with attribution under a CC-BY license. It comes in both a basic and interactive form. If you want to borrow from it, please do! 
-
-[instructions for the interactive version should go here]
-** Roadmap
- Where we're headed:
- 
+* Preface
+This is a free and open source text on learning the C++ language that can be freely shared with attribution under a CC-BY license. It comes in both a basic and interactive form. If you want to borrow from it, please do!
 * Introduction
 ** Why C++?
 C++ is a fascinating old-ish language. It blends a combination of "high-level" and "low-level" features. Now those might sound like rather judgy descriptors, like "high-level" is better than "low-level", but they're just different ways of looking at programming that---for our purposes---serve as a segue into talking about what programming is.
@@ -76,13 +45,9 @@ so that there are people who can guide the AI, override the AI, or decide that t
 In other words, we will always need programmers. In fact, a personal prediction of the author is that the average programmer will have to be better than ever: a master of the /high/ and /low/ levels of programming. In a world where non-programmers can "vibe code" simple proofs of concept, there may well be even more need for competent programmers to take those simple programs and turn them into robust products.
 
 By analogy, this is like how home CAD software and 3D printers didn't kill manufacturing but rather let people quickly prototype ideas that they then pay engineers to turn into production lines.
-* Your First Program
-** TODO How to run examples [0/3]
-*** TODO In-browser
-*** TODO In onlinegdb
-*** TODO Locally in the terminal
-** DONE Hello World
-So the origins of making a program that says "Hello, World" as your first program started with Kernigan and Ritchie in their introduction to the C programming language. The basic idea was that if you can get a simple program to compile[fn:7] that prints something out to the screen then you're already over the worst hurdles of learning a programming language.
+* First Programs
+** Hello World
+So the origins of making a program that says "Hello, World" as your first program started with Kernighan and Ritchie in their introduction to the C programming language. The basic idea was that if you can get a simple program to compile[fn:7] that prints something out to the screen then you're already over the worst hurdles of learning a programming language.
 
 This might seem like an odd perspective, right, because you've just barely begun learning the language but it makes a lot of sense if you're a pre-internet 1970s programmer who doesn't have any obvious references for how to run this stupid compiler thing or even what a program is supposed to look like.
 
@@ -104,13 +69,13 @@ Let's break down the first few lines:
   using namespace std;
 #+end_src
 
-These first two lines, unfortunately, will seem like the worst kind of magic for a bit. But, basically, what's happening is that the ability to even print things out in C++ is not a part of the "core" language but a library that is always included as part of the C++ compiler, a "StandarD Library" if you will (a-ha! that must be what "std" is short for here). To understand why things that seem so critical are not "in the language" by default, it helps to know that C++ (like C before it) is a language that's used for coding things like operating systems or programming little tiny computers called microcontrollers that have a millionth of the memory on your phone.
+These first two lines, unfortunately, will seem like the worst kind of magic for a bit. But, basically, what's happening is that the ability to even print things out in C++ is not a part of the "core" language but a library that comes with the C++ toolchain, a "standard library" if you will (a-ha! that must be what "std" is short for here). To understand why things that seem so critical are not "in the language" by default, it helps to know that C++ (like C before it) is a language that's used for coding things like operating systems or programming little tiny computers called microcontrollers that have a millionth of the memory on your phone.
 
 When programming under these conditions you really need to be able to control what goes into the compiled code, because maybe you want to keep your final program as tiny as possible and you don't want allll the code that goes into the seemingly unremarkable ability to print to a screen to get included. Because that's part of what the compiler does: it takes all the supporting code that's needed and includes it (oh, hey, that word again). It's kind of like if you're writing a paper and you want to make sure that someone can understand everything you're saying and all the references you're citing without access to a library or internet. Then instead of just having citations you also need to include all the other things you cite along with the paper as appendices so that someone can read it without having to track anything else down. That's what the compiler is doing.
 
 So the first line here is /including/ the code for printing and the second line is saying "oh, hey, we're going to be using the standard library a lot, so we want to just refer to things *from* the standard library as simply as possible". If you /don't/ have this line you have to take every standard library function and put =std::= in front of it. It's annoying! We don't like doing this!
 
-Okay, with that digression aside now we get into heart of the program
+Okay, with that digression aside now we get into the heart of the program
 #+begin_src cpp
   int main(){
     cout << "Hello, World" << endl;
@@ -165,7 +130,7 @@ So to understand the final line of the function, =return 0;=, remember how we sa
    What we've done here is create a /new/ function. This new function doesn't return /anything/ so instead of =int= it has the word =void= in front. Now this function, this reusable bit of code, doesn't do anything yet.
 
    Your first step is to copy the line =cout << ...= from main into the =sayHello= function. It should look like this now:
-   #+begin_src cpp 
+   #+begin_src cpp
      #include <iostream>
      using namespace std;
 
@@ -181,7 +146,7 @@ So to understand the final line of the function, =return 0;=, remember how we sa
    #+end_src
 
    Now, go ahead and delete the line you copied from =main= and replace it with =sayHello();=, so it looks like this:
-   #+begin_src cpp :tangle helloFuncSol.cpp
+   #+begin_src cpp :tangle codesnips/helloFuncSol.cpp
      #include <iostream>
      using namespace std;
 
@@ -195,24 +160,24 @@ So to understand the final line of the function, =return 0;=, remember how we sa
        return 0;
      }
 
-   #+end_src 
+   #+end_src
 
-Congratulations, you've written a /function/ for the first time. This is one of the core-est of core concepts in programming: separating code into pieces that can be re-used and re-combined easily.
+Congratulations, you've written a /function/ for the first time. This is one of the core concepts in programming: separating code into pieces that can be re-used and re-combined easily.
 
 Question: From this alone, can you write a couple of sentences about how you /think/ you'll use functions in the future?
-** DONE Why semicolons?
+** Why semicolons?
 Already, you've probably noticed all the semicolons (the ";" symbols) in this code and this might be one of the first times in your life you've really needed to use them! It's reasonable to be asking "why, though?" now.
 
 The answer is that C++ is an old language, that also borrows the syntax of /even older/ languages. Part of being "an old language" means that it has weird bits that come from a time we were both a lot worse at making compilers and computers were also much much much [&c.] much slower. So the semicolons are a way to note, for the compiler, "hi this is end of a line of code". This is not an essential feature of all programming languages and, indeed, more modern languages have much more elegant ways to denote the end of one line and the start of another.
 
-But once a language, like C++, exists and starts being wildly used you can't do things like "change fundamental features of the syntax"
+But once a language, like C++, exists and starts being wildly used you can't do things like "change fundamental features of the syntax".
 
-So, yes, *most* lines need semi-colons at the end. The lines that don't need a semicolon are
+So, yes, *most* lines need semicolons at the end. The lines that don't need a semicolon are
  + lines that end with ={= or =}= (with one annoying exception we'll get to)
  + lines that start with #
  + comments, which we haven't discussed yet
-* DONE More early steps
-** DONE Echoing text and string types
+* Foundations
+** Echoing text and string types
 So we've already done a non-trivial amount of work because we've learned to compile a file, run it, and have it print something out the screen.
 
 Now here's our first program that we're going to use to explain
@@ -220,9 +185,9 @@ Now here's our first program that we're going to use to explain
  + our first data type, string
  + how to read data in from the command line
 
-Go ahead and first compile and run this code. You should get a command prompt that lets you type something, hit enter, and then get what you typed printed back onto the screen. 
+ Go ahead and first compile and run this code. You should get a command prompt that lets you type something, hit enter, and then get what you typed printed back onto the screen.
  
- #+begin_src cpp 
+ #+begin_src cpp
    #include <iostream>
    using namespace std;
 
@@ -274,12 +239,12 @@ We also end with =return 0;= because we're very good programmers and *never* for
 
  That doesn't mean naming variables "hinder" or "boopsboops" is a good idea. There's an old saying that you need to write your code so it's understandable by a total stranger, because that stranger is likely to be *you* in a few months.
 
- So be kind to your future self and user variable names that make sense!
+ So be kind to your future self and use variable names that make sense!
 ** Exercises
 1. *Basic*: Ask for first and last name separately, then print them together in the format "Last, First".
 2. *Intermediate*: Ask for three words and print them in reverse order (if user enters "cat dog bird", print "bird dog cat").
 3. *Challenge*: Create a Mad Libs program that asks for a noun, verb, adjective, and adverb, then inserts them into a story template like: "The [adjective] [noun] decided to [verb] [adverb]."
-** DONE What's in an empty variable?
+** What's in an empty variable?
 Now, when we declare a variable we're making a container, but is there anything *in* the container at that point? Well let's see![fn:5]
 
 #+begin_src cpp :tangle codesnips/noStringInit.cpp
@@ -311,9 +276,9 @@ What about if we instead make an empty int?
 Well I ran this once and got "And our int holds...779647075". Oh dear /dot dot dot/ that seems like a very *not* great thing to have as a default value!
 
 Okay, and now we get into the punchline. The reason why I'm specifying "on my computer" and "when I run this" is that the answers could actually change between computers and compilers! You really, really, really should *never* use an empty variable because you can guarantee exactly nothing about what it will do.
-** DONE Advanced: What /is/ a container? [2/2]
+** Advanced: What /is/ a container?
 At this point you might be wondering "what /are/ these containers, these /variables/, anyway?". What does it really mean for the compiler to make space for data? To answer that we need to get into some more details about how data is stored in a computer.
-** DONE All we ever were, just zeros and ones
+** All we ever were, just zeros and ones
 Computers, the modern digital computer we've all settled on, operates fundamentally on Os and 1s. Why? Because in the end you can think of the fundamental atom of the computer, the transistor, as an electrical on-off switch. If it's "on" it lets current flow, if it's "off" it does not. The brilliance of digital computers is in cleverly encoding /everything/ we do into patterns of these ons and offs. First, to explain /that/ we need to review how we write numbers in the normal way.
 
 When we write a number like 42367 this is shorthand for =40000 + 2000 + 300 + 60 + 7=. You may have learned to describe this as the "ones place", "the tens place", "the hundreds place", &c. We can write this even more compactly as
@@ -328,7 +293,7 @@ A binary number like 10010 is thus a way of writing =1*2^4 + 0*2^3 +0*2^2 + 1*2^
 
 We're not going to go deep into how different kinds of data are represented /as/ numbers, but we'll simply say that *everything* on a computer is fundamentally understood as a binary number.
 
-** DONE Memory and storage
+** Memory and storage
 You might have heard people refer to "memory" when it comes to computers: but what is it? How does it differ from something like the storage space on your laptop or phone?
 
 When someone says "memory" generally what they actually mean is Random Access Memory (RAM, in the sequel), which maybe should be called "Arbitrary Access Memory" because it's not /random/ like a dice roll it's that you can access any part of the memory at any time.
@@ -347,7 +312,7 @@ We can help explain, too, what these type signifiers are like =int= and =string=
 This memory[fn:9] gets reset every time you run the program. That's because the memory of your computer isn't for long-term storage, it's the scratch paper that programs need to run and keep track of all of their calculations.
 
 The main takeaway to get out of this is that every program manages its own storage and, for all the programs you'll write in this class, the compiler figures out at compile time what the storage you need is and how to label it.
-** DONE Comments and documentation
+** Comments and documentation
 There's a line from the (absolutely amazing) old computer science textbook "Structure and Interpretation of Computer Programs" that goes
 
 #+begin_quote
@@ -399,7 +364,7 @@ There are two ways to write comments: the first is to put =//= anywhere in a lin
   }
 #+end_src
 
-*** DONE Exercise about documenting a program
+*** Exercise about documenting a program
 Here's a program that is uncommented and uses a number of constructs you haven't seen before.
 
 See if you can take this code and add comments to it to clarify what it does and write notes about what you don't understand. This is an exercise to practice /reading/ code, which is about as important a skill as writing it in the first place!
@@ -442,7 +407,7 @@ See if you can take this code and add comments to it to clarify what it does and
   }
 #+end_src
 
-** DONE Arithmetic and such in C++
+** Arithmetic and such in C++
 Arithmetic in C++, like most programming languages, is meant to look a lot like the arithmetic operations you're used to. You can test out some basic operations with the following code. Note that this example shows us that you can use =cin= with types other than =string=.
 
 #+begin_src cpp :tangle codesnips/arith1.cpp
@@ -502,12 +467,12 @@ So let's try this program again with =double= s instead of =int=.
 There, that's probably more what you would have expected from division.
 
 Note that =cin= keeps working no matter what type of container we're trying to fill with it! There's definitely no possibility that is going to go wrong later in a really annoying way! Foreshadowing!
-*** DONE Converting numbers: a word on "casting" types
- Let's imagine that you start out with integers but you do need to divide them later. You could just start with doubles but that violates a basic principle of programming: you want the /type/ of the variable to match what it /is/. If you wanted to, say, keep track of rock/paper/scissors wins versus the total number of games played, you wouldn't want to store that as a double because what's 0.3 games? It's has no meaningful interpretation[fn:10], so our program shouldn't allow it even accidentally.
+*** Converting numbers: a word on "casting" types
+ Let's imagine that you start out with integers but you do need to divide them later. You could just start with doubles but that violates a basic principle of programming: you want the /type/ of the variable to match what it /is/. If you wanted to, say, keep track of rock/paper/scissors wins versus the total number of games played, you wouldn't want to store that as a double because what's 0.3 games? It has no meaningful interpretation[fn:10], so our program shouldn't allow it even accidentally.
 
  So what do we do? We temporarily tell the C++ compiler "here, right here, treat this data like it's a different type". In programming this is called a "type cast".
 
- The general form of casts are =static_cast<NEWTYPE>(VARIABLENAME)=. 
+ The general form of a cast is =static_cast<NEWTYPE>(VARIABLENAME)=.
 
  With casting in hand, we can do something like this to divide two integers without losing information:
 
@@ -571,7 +536,7 @@ Note that =cin= keeps working no matter what type of container we're trying to f
 1. *Basic*: Calculate the area and perimeter of a rectangle from user input (length and width).
 2. *Intermediate*: Create a tip calculator that asks for bill amount and tip percentage, then shows the tip amount and total.
 3. *Challenge*: Implement a compound interest calculator that asks for principal, annual rate, time in years, and number of times compounded per year. Use the formula: A = P(1 + r/n)^(nt)
-** DONE Booleans, logic, and quizzes
+** Booleans, logic, and quizzes
 *** The if-statement
 Okay, if all we could do with code was straight-line programs that just do a sequence of calculations then we'd basically just have the equivalent of a calculator but arguably more annoying.
 
@@ -764,7 +729,7 @@ The =else= has to be the last thing. Try compiling the following code:
 The C++ compiler just completely rejects this program as poorly defined!
 
 That is, in fact, a good thing!
-*** DONE An authentication quiz
+*** An authentication quiz
 Okay, let's do something silly as an example of putting some of these concepts together. A little program that runs a very special security quiz that asks you a few questions, use some variables, and then print out the results. This will determine, in a foolproof way, if the person answering the questions is definitely me.
 
 #+begin_src cpp :tangle codesnips/securityQuiz.cpp
@@ -800,7 +765,7 @@ Okay, let's do something silly as an example of putting some of these concepts t
   }
 #+end_src
 Can you reverse engineer what to answer for each question to hack the system? Try to parse what the condition in the final if-statement is actually saying!
-*** DONE A quiz on languages
+*** A quiz on languages
 This is a slightly more complicated version of the above where you accumulate a running total of how many answers they've gotten correct in order to give an appropriate response at the end.
 
 We're going to ask five questions about programming language history and if the user gets all of them right we're going to respond with something like "Hey, no CS grad students allowed here that's cheating!". If they get two to four correct then we'll say "Hey, you know a fair bit!".  If they get one correct we'll say "Well you are the start of your journey" and if they get none correct we'll say "Okay, admit it, you threw that one".
@@ -948,7 +913,7 @@ Woe be upon us!
 1. *Basic*: Check if a number is positive, negative, or zero and print an appropriate message.
 2. *Intermediate*: Create a simple grade calculator that takes a numeric score and outputs a letter grade (90+=A, 80+=B, 70+=C, 60+=D, <60=F).
 3. *Challenge*: Build an eligibility checker that asks for age and tells the user what they can legally do (vote at 18, drink at 21, rent a car at 25, run for president at 35).
-** DONE Letting the compiler figure out the type
+** Letting the compiler figure out the type
  There's a fun trick you can do in C++: not even bother writing the type and, instead, just letting the compiler figure out---in the process of compiling---what the type is supposed to be for you! We can do that with the `auto` keyword.
 
  So we can actually do things like:
@@ -969,12 +934,12 @@ Woe be upon us!
  This is an example of something called /type inference/. There are entire programming languages built around the idea of type inference such as Haskell! This is very different than languages like Python that don't really /have/ types that are checked by the compiler/interpreter.
 
  I'd encourage you to use this sparingly when you're first learning to code but the more experienced you become, feel free to use this trick.
-** DONE Data formatting [3/3]
+** Data formatting
 Now we get to a useful, but perhaps slightly tedious, set of skills to learn: how to properly format your output.
 
 Note that all of the following examples mean you also need to include the library =<iomanip>= as well by adding the line =#include <iomanip>= into your code.
 
-*** DONE Making a table
+*** Making a table
 So if we wanted to make a table in C++ we might want to do something like use some '|' as dividers like this. For this and the rest of the examples in this table I'm going to assume that we're making a table that shows information about pets: their name, species, and how old they are. If we try this in the naive way we'll try something like this:
 #+begin_src cpp :tangle codesnips/petTable1.cpp
   #include <iostream>
@@ -1099,7 +1064,7 @@ That's slightly easier to read, but we still have room to fuss around with this 
 
 Quick Check: What happens if the longest word is longer than the space you set aside for it? Does it truncate or does it through off the formatting? Try it and find out!
 
-*** DONE Abstracting formatting with functions
+*** Abstracting formatting with functions
 If you've been following along and doing all the exercises, you'll have seen the concept of functions once already. Functions are ways to /encapsulate/, to package up, code for re-use later. This can let us simplify our programs by only having to implement a concept /once/ and then using it again and again.
 
 For example, let's simplify our pet tables a bit!
@@ -1191,7 +1156,7 @@ Is this a satisfying solution? That's a personal question of style, but it /is/ 
 
 The /good/ thing is that this lets us make row after row after row with just simple calls to functions, which will be helpful very soon.
 
-*** DONE Formatting decimal points
+*** Formatting decimal points
 Okay the other formatting topic that we need to deal with is how to deal with decimal points. Let's look at a simple program with doubles and you can immediately see the formatting problem:
 
 #+begin_src cpp :tangle codesnips/badmoney.cpp
@@ -1253,7 +1218,7 @@ So we need to /also/ do =cout << fixed;= in order to make sure it /always/ print
 2. *Intermediate*: Display a multiplication table (1-10) with proper alignment and borders.
 3. *Challenge*: Create a formatted invoice that includes items, quantities, unit prices, line totals, subtotal, tax (8.5%), and grand total - all properly aligned and formatted.
 
-** DONE Your first while loop: a number guessing game
+** Your first while loop: a number guessing game
 In this section we'll be covering how to do your first kind of loop in C++, the =while= loop. Conceptually, a =while= loop lets you do something over and over again until the question "should I keep going" returns false.
 
 So, let's take the smallest silliest example we can to show the syntax: a program that keeps running and asking you to enter a number until you enter =0=.
@@ -1284,10 +1249,10 @@ So, let's take the smallest silliest example we can to show the syntax: a progra
 1. *Basic*: Write a countdown program that asks for a starting number and counts down to 0.
 2. *Intermediate*: Create a password checker that keeps asking until the user enters "quit" or the correct password (you choose it).
 3. *Challenge*: Implement a simple calculator that keeps performing operations until the user enters 0 for both numbers.
-*** DONE A randomized guessing game
+*** A randomized guessing game
 So a guessing game where the number is the same every time isn't very interesting. What we really want is the ability to have the program choose a new number "randomly" and then ask you to guess. Of course, it'd be a pretty unfair game if it didn't at least give you a hint so this program will also tell you whether to guess higher or lower.
 
-So first, here's a really simple example of how to generate random numbers in C++. Note that we also have to include a thing thing at the top of the file: =#include <cstdlib>=, because that's where the functions we need for random numbers live. 
+So first, here's a really simple example of how to generate random numbers in C++. Note that we also have to include a thing at the top of the file: =#include <cstdlib>=, because that's where the functions we need for random numbers live.
 
 #+begin_src cpp :tangle codesnips/badrand.cpp
   #include <iostream>
@@ -1441,7 +1406,7 @@ Here's an example that checks if a guess is within a certain range of a target:
 
 You can use this pattern to give hints based on how close someone is to a target value. Just check different distance thresholds!
 
-*** DONE Adding a limited number of guesses
+*** Adding a limited number of guesses
 The last thing we need to do with our "number guessing game" is adding a limited number of guesses. To do that we're going to have to
  + add another number container
  + add a second check to the while loop to make sure that the loop keeps going as long as the number of guesses is greater than zero
@@ -1486,12 +1451,17 @@ The last thing we need to do with our "number guessing game" is adding a limited
   }
 #+end_src
 
-The only truly tricky bit is the fact that you need to make sure that you actually check to see if /why/ the while-loop broke at the end in order to decide what message to give, otherwise you'll congratulate them for winning when they lost!
+The only truly tricky bit is the fact that you need to make sure that you actually check to see /why/ the while-loop broke at the end in order to decide what message to give, otherwise you'll congratulate them for winning when they lost!
 
-*** DONE Averaging numbers and while-loops
+*** Exercises on Randomized Programs
+1. *Basic*: Simulate rolling two six-sided dice and display their individual values and sum.
+2. *Intermediate*: Create a "Rock, Paper, Scissors" game where the computer randomly chooses and you play one round.
+3. *Challenge*: Simulate flipping a coin 1000 times and report the percentage of heads vs tails. Bonus: Allow the user to specify the number of flips.
+
+*** Averaging numbers and while-loops
 Here's another idiom that will help us get practice with while-loops: how do you average an *arbitrary* number of numbers?
 
-So this is a fun exercise because it means we need to keep track of how many things have been entered and then divide by that at the end. So I'm going to just assume we're adding up =double= s here because it makes everything fundamentally similar. How does one quit out of this loop? Well there's two ways we could do this. One is to have a special number that means "we're done". Something like "-1". That's the approach we're going to do first. After that, we'll see how to  
+So this is a fun exercise because it means we need to keep track of how many things have been entered and then divide by that at the end. So I'm going to just assume we're adding up double values here because it makes everything fundamentally similar. How does one quit out of this loop? Well there's two ways we could do this. One is to have a special number that means "we're done". Something like "-1". That's the approach we're going to do first. After that, we'll see how to safeguard against dividing by zero.
 
 Our steps are
  1. Ask for a number, if that number is =-1= then stop asking and go to the end
@@ -1523,9 +1493,9 @@ We're going to do the simplest version like this:
 
 Okay, so there's still a problem with our code: do you see it? If you don't I'll give you a hint: what happens if you don't enter *any* valid numbers at all?
 
-That's right! You're dividing by zero! So instead we want to, at the end, replace our final =cout= with an if-statement that checks to make sure you didn't enter nothing at all:
+That's right! You're dividing by zero! So instead we want to, at the end, replace our final =cout= with an if-statement that checks to make sure you didn't enter anything at all:
 
-#+begin_src cpp :tangle codesnips/whileAverag2.cpp
+#+begin_src cpp :tangle codesnips/whileAverage2.cpp
   #include <iostream>
   using namespace std;
 
@@ -1553,20 +1523,16 @@ That's right! You're dividing by zero! So instead we want to, at the end, replac
 #+end_src
 
 Now you can see that we've safeguarded against dividing by zero!
-*** Exercises
-1. *Basic*: Simulate rolling two six-sided dice and display their individual values and sum.
-2. *Intermediate*: Create a "Rock, Paper, Scissors" game where the computer randomly chooses and you play one round.
-3. *Challenge*: Simulate flipping a coin 1000 times and report the percentage of heads vs tails. Bonus: Allow the user to specify the number of flips.
-*** Exercises
+*** Exercises on Averaging Numbers
 1. *Basic*: Calculate the average of exactly 5 test scores entered by the user.
 2. *Intermediate*: Find the minimum, maximum, and average of numbers entered (stop on -1).
 3. *Challenge*: Calculate a weighted average where the user enters value-weight pairs. Stop when weight is 0. Example: test1=85, weight=0.3; test2=90, weight=0.7; weighted average = 88.5.
 
-** DONE For-loops (and the shape of loops to come)[fn:8]
+** For-loops (and the shape of loops to come)
 *** The syntax of for-loops
 So far we've seen some examples of using =while= loops and now it's time to see the other kind of loop: the =for=-loop. Unlike =while=, which is "indefinite" iteration because it could theoretically go on forever, the =for=-loop is "definite" iteration because it should (unless there's a bug) only run for a pre-determined number of times.
 
-If =while= can be thought of us "keep going until something changes", then =for= should be thought of as "do this X times".
+If =while= can be thought of as "keep going until something changes", then =for= should be thought of as "do this X times".
 
 The simplest possible for-statement we can write looks like
 #+begin_src cpp :tangle codesnips/for1.cpp
@@ -1628,7 +1594,7 @@ You can count down like this:
 Exercise: Try making a for-loop that prints out only even numbers. Again, you could do this by changing the =cout= statement but I want you to change the for-loop itself.
 #+end_quote
 
-*** DONE Summing a bunch of numbers
+*** Summing a bunch of numbers
 Here's an example of another common idiom in programming: you use a for-loop to /accumulate/ results of a calculation.
 
 So here's how to add a bunch of numbers together:
@@ -1763,6 +1729,66 @@ Notice how we use =height - row= for the number of spaces. As the row number inc
 
 You can extend this pattern to create all sorts of interesting shapes by changing the formulas for how many spaces and characters to print on each row.
 
+*** Building a Centered Pyramid
+Okay, now we're at the point where people start making the face that means "I understood the first two examples and now you have absolutely lost me."
+
+That's normal. The centered pyramid is the moment where nested loops stop feeling like "oh, cute little star patterns" and start feeling like actual /logic/.
+
+Here's the basic idea:
+ + each row needs some spaces first
+ + then each row needs some stars
+ + the number of spaces goes /down/ as the row number goes up
+ + the number of stars goes /up/ by 2 each row: 1, 3, 5, 7, &c.
+
+So for a pyramid of height 5:
+ + row 1 needs 4 spaces and 1 star
+ + row 2 needs 3 spaces and 3 stars
+ + row 3 needs 2 spaces and 5 stars
+
+That means we can use these formulas:
+ + spaces = =height - row=
+ + stars = =2 * row - 1=
+
+#+begin_src cpp :tangle codesnips/centeredPyramid.cpp
+  #include <iostream>
+  using namespace std;
+
+  int main(){
+    int height = 5;
+
+    for(int row = 1; row <= height; row++){
+      for(int space = 1; space <= height - row; space++){
+        cout << " ";
+      }
+
+      for(int star = 1; star <= 2 * row - 1; star++){
+        cout << "*";
+      }
+
+      cout << endl;
+    }
+
+    return 0;
+  }
+#+end_src
+
+This prints:
+#+begin_example
+    *
+   ***
+  *****
+ *******
+*********
+#+end_example
+
+If you're staring at the =2 * row - 1= and thinking "why that?", the short answer is that odd numbers are exactly what you need if you want a single centered middle star on top and then equal growth out to the left and right.
+
+And this is one of those places where you really do want to trace the program row by row on paper. For =row = 4=, for example:
+ + spaces = =5 - 4=, so you print 1 space
+ + stars = =2 * 4 - 1=, so you print 7 stars
+
+That's the whole pyramid trick. It looks fancy, but it's really just two little arithmetic formulas glued to two loops.
+
 *** Multiplication Tables
 Another common use of nested loops is creating multiplication tables:
 
@@ -1789,7 +1815,7 @@ Another common use of nested loops is creating multiplication tables:
 2. *Intermediate*: Create an inverted pyramid (wide at top, narrow at bottom).
 3. *Challenge*: Create a diamond pattern by combining an upright pyramid and an inverted pyramid.
 
-** DONE (Advanced) Arrays: the reasons for =for=
+** (Advanced) Arrays: the reasons for =for=
 Here's a more advanced topic that you'll be needing not just for this class but for the rest of your classes where you're doing C++: arrays.
 
 We're covering arrays here because they are, in a sense, the reason for using =for= loops. If, in the previous sections, you felt like "okay so a =for= is like a while, but more restricted?" that impression isn't /wrong/ per se. =while= is the more general concept that lets us do all sorts of things but =for= is best when you're dealing with finite collections of /stuff/.
@@ -1873,7 +1899,7 @@ That means you'll need to add a new array of ints to hold the age, ask for the a
 1. *Basic*: Create an array of 7 daily temperatures and find the warmest and coldest days.
 2. *Intermediate*: Reverse the contents of an array in-place (without creating a new array).
 3. *Challenge*: Implement a simple grade book that stores 5 students with 3 test scores each. Calculate and display each student's average.
-**** DONE What happens if you access outside the bounds of an array?
+**** What happens if you access outside the bounds of an array?
 There's one last topic we need to address: what happens if you access outside the bounds of the array? Now in many programming languages this will end in an *error*. For example, if you run the following Python program it will crash which is *a good thing*.
 
 #+begin_src python :tangle codesnips/badArray.py
@@ -2037,6 +2063,66 @@ The pattern is always the same:
 3. For each data point, increment the appropriate array element
 4. Loop through the array to display or analyze the results
 
+*** Counting the Sums of Two Dice
+Now let's make this a little more like an actual assignment problem.
+
+If you roll /two/ dice, the possible sums go from 2 to 12. That means the sum itself can be used as the index into the counts array.
+
+This is the kind of trick that feels a little weird the first time you see it and then afterwards becomes one of your favorite moves.
+
+#+begin_src cpp :tangle codesnips/diceSumFreq.cpp
+  #include <iostream>
+  #include <iomanip>
+  #include <cstdlib>
+  #include <ctime>
+  using namespace std;
+
+  int main(){
+    srand(time(0));
+
+    const int NUM_ROLLS = 100;
+    int sumCounts[13] = {0};  // We'll use indices 2-12
+
+    for(int i = 0; i < NUM_ROLLS; i++){
+      int die1 = rand() % 6 + 1;
+      int die2 = rand() % 6 + 1;
+      int sum = die1 + die2;
+
+      sumCounts[sum]++;
+    }
+
+    int mostCommon = 2;
+    int leastCommon = 2;
+
+    for(int sum = 2; sum <= 12; sum++){
+      cout << "Sum " << sum << ": " << sumCounts[sum] << endl;
+
+      if(sumCounts[sum] > sumCounts[mostCommon]){
+        mostCommon = sum;
+      }
+
+      if(sumCounts[sum] < sumCounts[leastCommon]){
+        leastCommon = sum;
+      }
+    }
+
+    cout << fixed << setprecision(2);
+    cout << "Most common sum: " << mostCommon << endl;
+    cout << "Least common sum: " << leastCommon << endl;
+    cout << "Percentage of 7s: " << (sumCounts[7] * 100.0 / NUM_ROLLS) << "%" << endl;
+
+    return 0;
+  }
+#+end_src
+
+The nice thing here is that we don't need some giant pile of =if= statements asking "was it a 2? was it a 3? was it a 4?" Instead, we just compute the sum and do
+
+#+begin_src cpp
+  sumCounts[sum]++;
+#+end_src
+
+which is wonderfully direct.
+
 *** Array Rotation Concept
 Array rotation means shifting all elements to the right (or left) by some number of positions, with elements that "fall off" the end wrapping around to the beginning.
 
@@ -2062,7 +2148,50 @@ The =%size= part makes positions wrap around. If you're at position 7 in an arra
 
 This is a classic array manipulation problem that combines loops, indexing, and modular arithmetic!
 
-**** TODO Faking a variable-length array
+Here's a complete worked example using a temporary array:
+
+#+begin_src cpp :tangle codesnips/arrayRotate.cpp
+  #include <iostream>
+  using namespace std;
+
+  int main(){
+    const int SIZE = 8;
+    int values[SIZE] = {1, 2, 3, 4, 5, 6, 7, 8};
+    int rotated[SIZE];
+    int shift = 3;
+
+    for(int i = 0; i < SIZE; i++){
+      int newPosition = (i + shift) % SIZE;
+      rotated[newPosition] = values[i];
+    }
+
+    for(int i = 0; i < SIZE; i++){
+      values[i] = rotated[i];
+    }
+
+    cout << "Rotated array: ";
+    for(int i = 0; i < SIZE; i++){
+      cout << values[i] << " ";
+    }
+    cout << endl;
+
+    return 0;
+  }
+#+end_src
+
+The thing to really notice is this line:
+
+#+begin_src cpp
+  rotated[newPosition] = values[i];
+#+end_src
+
+We're not asking "what should go /into/ slot 0?" first. We're asking "where should the thing currently in slot =i= end up?" That change in perspective is the whole problem.
+
+So if =values[0]= is 1 and we rotate right by 3, then it should land in slot 3.
+
+If =values[6]= is 7, then it should land in slot =(6 + 3) % 8 = 1=.
+
+That's the wraparound. That's the whole game.
 
 ** Menu-Driven Programs
 One of the most common patterns in interactive programs is the menu: you display a list of options, ask the user to choose one, and then perform the corresponding action. This is such a common pattern that you'll use it in almost every program you write.
@@ -2211,13 +2340,13 @@ This pattern of "keep looping while choice is not the exit option" is very commo
 2. *Intermediate*: Create a temperature converter menu with options to convert between Fahrenheit, Celsius, and Kelvin. Include an option to exit.
 3. *Challenge*: Create a text-adventure game with multiple locations. Each location has a menu of places you can go next.
  
-** DONE Data validation, the world's most annoying idiom
-So we've been playing fast and loose for awhile about how to read in data from the user. But, in reality, you should be checking what the user has entered and asking them to re-enter their response if it's not something you expect. This is actually a really annoying topic because there's no easy way to do this in base C++, which is why I'm going to introduce this topic early. 
+** Data validation, the world's most annoying idiom
+So we've been playing fast and loose for a while about how to read in data from the user. But, in reality, you should be checking what the user has entered and asking them to re-enter their response if it's not something you expect. This is actually a really annoying topic because there's no easy way to do this in base C++, which is why I'm going to introduce this topic early.
 
-Here's two scenarios:
+Here are two scenarios:
  + The user enters an option that is the right kind of data but that you didn't expect and you need to ask again
  + The user enters an option that is the *wrong* kind of data, which means that =cin= is going to have a hiccup
-*** DONE Right kind of data, but wrong option
+*** Right kind of data, but wrong option
 So what we mean here is something like you asking for "yes" or "no" from the user and they, in their infinite snarkiness, enter "chicken". You will not let this chicken stand and, instead, will stop and make them answer again until they give a response that's useful. This is the easier scenario and we can solve the problem with a simple while-loop like this
 
 #+begin_src cpp :tangle codesnips/validation1.cpp
@@ -2240,9 +2369,9 @@ So what we mean here is something like you asking for "yes" or "no" from the use
     cout << "You chose: " << opt << endl;
   }
 #+end_src
-*** DONE The wrong kind of data (cin.fail() &c.)
+*** The wrong kind of data (cin.fail() &c.)
 Okay so from here we have some interesting issues that come down to exactly *what* =cin= and =>>= are doing together.
-**** DONE What ever happened to baby cin?
+**** Whatever happened to baby cin?
 First off, consider the following program.
 
 #+begin_src cpp :tangle codesnips/badcin1.cpp
@@ -2316,7 +2445,7 @@ So now in the following program we'll ask for two numbers and, then, if there's 
 Run this and test it out and you'll find that if you write something that can't be read as a number then it'll print out "Hey, buddy, that's not cool" rather than print out a badly formed sum. 
 
 Okay so we can /avoid/ running our program if something has gone wrong but we also want to potentially ask for new input over and over until correct data is entered.
-**** DONE Recovering from an error
+**** Recovering from an error
 So this next part is another application of our old friend the /while/ loop.
 
 
@@ -2367,7 +2496,7 @@ So /why/ doesn't this work? You'll see that it leads to an infinite loop of prin
 2. *Intermediate*: Validate email format - must contain exactly one @ and at least one . after the @.
 3. *Challenge*: Create a date validator that checks valid month (1-12) and appropriate days for each month (including leap years for February).
 
-* DONE More advanced programs
+* Strings and Functions
 ** Functions on strings
 
 *** Reading Full Lines with =getline()=
@@ -2463,13 +2592,13 @@ The fix is to add =cin.ignore()= after using =cin >>=:
 
 Now it works correctly!
 
-***When to Use =getline()= vs =cin >>=
+*** When to Use =getline()= vs =cin >>=
 - Use =cin >>= when you want a single word or number
 - Use =getline()= when you want an entire line that might contain spaces
 - Remember to use =cin.ignore()= if you mix them!
 
-*** DONE Simple operations on strings
-So there's a few things you can do with strings. The first, is the ability to glue strings together, also called "concatentation". So far we've been implicitly gluing strings together using the syntax of =cout= and =<<=, but you can *actually* stick two strings to each other with =+=, just like adding two numbers.
+*** Simple operations on strings
+So there's a few things you can do with strings. The first is the ability to glue strings together, also called "concatenation". So far we've been implicitly gluing strings together using the syntax of =cout= and =<<=, but you can *actually* stick two strings to each other with =+=, just like adding two numbers.
 
 Like this program:
 #+begin_src cpp :tangle codesnips/stringConcat.cpp
@@ -2514,7 +2643,7 @@ Okay, also we should talk about how to turn data into strings because this is go
 1. *Basic*: Count the number of vowels (a, e, i, o, u) in a string entered by the user.
 2. *Intermediate*: Check if a string is a palindrome (reads the same forwards and backwards).
 3. *Challenge*: Create a word censoring program that replaces specified "bad words" with asterisks of the same length.
-*** DONE =find= and =substr=
+*** =find= and =substr=
 Okay, so now let's talk about some convenience functions that help us take apart and manipulate strings. The first is the ability to /find/ an occurence of one string inside another:
 
 #+begin_src cpp :tangle codesnips/find1.cpp
@@ -2958,7 +3087,7 @@ Notice how we created our own helper function =isVowel()= that returns a =bool=.
 2. *Intermediate*: Create a function that checks if a password is strong (at least 8 characters, contains both letters and digits).
 3. *Challenge*: Write a program that extracts all the numbers from a string and adds them up. For example, "I have 3 cats and 2 dogs" should output 5.
 
-*** DONE Example: Sarcasm Case
+*** Example: Sarcasm Case
  Alright, here's a nice silly example for how we use for-loops with strings:
 #+begin_src cpp :tangle codesnips/sarcasm.cpp
   #include <iostream>
@@ -2993,28 +3122,28 @@ A Caesar cipher is one of the oldest encryption techniques. It works by shifting
 - Z wraps around to C
 
 The interesting challenges in implementing this are:
-1. **Wraparound**: What happens when you shift 'Z' forward?
-2. **Case preservation**: Keep uppercase letters uppercase, lowercase letters lowercase
-3. **Non-letters**: Don't encrypt spaces, punctuation, numbers
+1. *Wraparound*: What happens when you shift 'Z' forward?
+2. *Case preservation*: Keep uppercase letters uppercase, lowercase letters lowercase
+3. *Non-letters*: Don't encrypt spaces, punctuation, numbers
 
-**The Wraparound Problem:**
+**** The Wraparound Problem
 When you shift a letter past 'Z' or 'z', it should wrap back to 'A' or 'a'. The modulo operator (=%)= is perfect for this!
 
 Think about it: if we convert letters to numbers (A=0, B=1, ... Z=25), then shifting becomes addition with wraparound:
 - =(position + shift) % 26= gives us the new position
 - The =% 26= makes 26 wrap to 0, 27 wrap to 1, etc.
 
-**Case Preservation:**
+**** Case Preservation
 You need to handle uppercase and lowercase separately:
 - For uppercase: work with the range 'A' to 'Z'
 - For lowercase: work with the range 'a' to 'z'
 - You can use =isupper()= and =islower()= to check
 
-**Converting Between Letters and Numbers:**
+**** Converting Between Letters and Numbers
 - To convert a letter to a number: =ch - 'A'= (for uppercase) or =ch - 'a'= (for lowercase)
 - To convert a number back to a letter: =number + 'A'= (for uppercase) or =number + 'a'= (for lowercase)
 
-**Example of shifting one character:**
+**** Example of Shifting One Character
 If you want to shift 'C' by 3:
 1. Convert to number: 'C' - 'A' = 2
 2. Add shift: 2 + 3 = 5
@@ -3023,7 +3152,101 @@ If you want to shift 'C' by 3:
 
 For a complete Caesar cipher, you'd apply this logic to each letter in a string using a loop!
 
-** DONE Switches vs. ifs
+*** A Complete Caesar Cipher Program
+All right, let's stop talking around it and actually write the thing.
+
+There are really two sub-problems here:
+ + given /one character/, shift it if it's a letter
+ + given /a whole string/, do that to every character in the string
+
+That suggests a helper function for a single character and another helper for the whole message:
+
+#+begin_src cpp :tangle codesnips/caesarCipher.cpp
+  #include <iostream>
+  #include <string>
+  #include <cctype>
+  using namespace std;
+
+  char shiftChar(char ch, int shift){
+    if(!isalpha(ch)){
+      return ch;
+    }
+
+    char base;
+    if(isupper(ch)){
+      base = 'A';
+    }
+    else{
+      base = 'a';
+    }
+
+    int letterNumber = ch - base;
+    int shiftedNumber = (letterNumber + shift + 26) % 26;
+
+    return shiftedNumber + base;
+  }
+
+  string caesarCipher(string text, int shift){
+    for(int i = 0; i < text.length(); i++){
+      text[i] = shiftChar(text[i], shift);
+    }
+
+    return text;
+  }
+
+  int main(){
+    char mode;
+    int shift;
+    string message;
+
+    cout << "Encode or decode? (e/d): ";
+    cin >> mode;
+
+    cout << "Enter shift amount: ";
+    cin >> shift;
+
+    cin.ignore(10000, '\n');
+
+    cout << "Enter message: ";
+    getline(cin, message);
+
+    shift = shift % 26;
+
+    if(tolower(mode) == 'd'){
+      shift = -shift;
+    }
+
+    cout << caesarCipher(message, shift) << endl;
+
+    return 0;
+  }
+#+end_src
+
+There are a few nice little moves hidden in here.
+
+First, this line:
+
+#+begin_src cpp
+  if(!isalpha(ch)){
+    return ch;
+  }
+#+end_src
+
+means punctuation, spaces, digits, and all the rest just stay exactly as they are. That's /very/ convenient.
+
+Second, we pick a different base letter depending on whether the character is uppercase or lowercase. That lets us preserve the case without writing two completely separate versions of the logic.
+
+Third, yes, we really did need this:
+
+#+begin_src cpp
+  cin.ignore(10000, '\n');
+#+end_src
+
+because we're mixing =cin >>= with =getline()= again. C++ will absolutely bite you here if you let it.
+
+And finally, decoding is just encoding with a negative shift. That's the kind of trick that makes you feel clever, which is one of the few free joys in programming, so you should take it when you can get it.
+
+** Switches vs. ifs
 Switch statements are actually pretty simple and can, essentially, be thought of as "compiling" down to a more verbose if-elseif-else statement, except that rather than being able to ask *any* question you're just asking the question is /this/ equal to /this/.
 
 Okay, concrete example time:
@@ -3199,8 +3422,8 @@ No, instead, you need to do something more like
 1. *Basic*: Create a days-of-week printer using switch (1=Monday, 2=Tuesday, etc.).
 2. *Intermediate*: Build a simple calculator using switch for operations (+, -, *, /). Handle division by zero.
 3. *Challenge*: Create a text-based restaurant ordering system with switch for menu categories (appetizers, mains, desserts) and nested switches for items.
-** DONE Writing your own functions
-*** DONE Functions, reintroduced
+** Writing your own functions
+*** Functions, reintroduced
 So we've seen a couple of ways to define our own functions so far in this course, but we haven't *formally* talked about it.
 
 Our very first function we've defined was in our "hello world" program! =main= is a function and we're defining it. It's kind of a weird function because it has to be the same every time:
@@ -3914,7 +4137,7 @@ This compiles fine but probably isn't what you meant! Use different variable nam
 
 Understanding scope and lifetime will save you from many confusing bugs and help you write cleaner, more maintainable code. Next, we'll see how to bend these rules slightly with pass-by-reference!
 
-*** DONE Passing by reference
+*** Passing by reference
 Now here's a weird little feature of C++. So let's look at how arguments to functions differ from normal variables with a simple example:
 
 #+begin_src cpp :tangle codesnips/cantAssignArgs.cpp
@@ -4018,7 +4241,7 @@ You *cannot* do this in C++. Instead, you have to write this program with a pass
 1. *Basic*: Write a swap function that exchanges the values of two variables using pass by reference.
 2. *Intermediate*: Create a function that returns both quotient and remainder of division (use reference parameters for one of them).
 3. *Challenge*: Build a function that finds minimum, maximum, and average of an array in a single pass. Use reference parameters for min and max.
-** DONE Arrays, again, and Pointers
+** Arrays, again, and Pointers
 So we've covered the concept of arrays once already, to show you the basics of how they're used in C++. Now we're circling back around to cover the topic /again/. Remember how we could print all the items in an array? We did it like this:
 
 #+begin_src cpp :tangle codesnips/arrayPrintRedux.cpp
@@ -4259,7 +4482,7 @@ So now we have a length function that means we can write functions that do thing
 Exercise: here's a quick check for yourself. Why is the =printArray= function written like this? Can you puzzle it out?
 #+end_quote
 
-** DONE Char Arrays
+** Char Arrays
 So far we've used strings this entire time but there's another way that strings are used in older code, especially older /C/ code, and you need to get some experience with how "strings-as-character-arrays" actually work.
 
 We haven't really done a lot with the =char= type so far other than some menuing, but you might remember earlier where we were able to treat the =string= type almost like an array of characters. As a reminder, we were able to do things like this
@@ -4393,38 +4616,38 @@ Now, note that this means we /modified/ the first string to do this concatenatio
 
 This is an example of what's called a "destructive" operation, because it doesn't leave operands passed into it unscathed! This isn't inherently bad, you just have to be careful with it!
 
-There are a lot more operations on C-style character array strings that you'll see in CS 161B, so this is functioning just as a brief preview of how that kind of programming works. The good news is that you don't have to write them from scratch every time, instead you can use a library full of them. I do think, though, it's good to see how they work /at least/ once.
+There are a lot more operations on C-style character array strings than we'll cover here. We'll revisit them in CS161B, but it's still worth seeing how they work /at least/ once in CS161A.
 
-* CS161B Preview: Looking Ahead to the Second Quarter
+* Extended Topics
 
-You've made it through the core material for CS161A—congratulations! Before we wrap up, I want to give you a preview of some topics that you'll encounter in CS161B, the second quarter of this programming sequence.
+You've made it through the earlier CS161A material. In this slower-paced sequence, we intentionally keep some overlap with CS161B by introducing a first pass at a few thornier topics here.
 
-Why include preview material in the CS161A textbook? A few reasons:
+Why include these later topics in CS161A? A few reasons:
 
-1. *To give you a head start*: If you have extra time or curiosity, you can start exploring these concepts early. Getting familiar with them now will make CS161B feel more manageable.
+1. *To slow down the first encounter*: Some topics benefit from being introduced gently here and then revisited with more depth later.
 
-2. *To show you where we're headed*: Programming is a journey, and it helps to see the road ahead. These topics build naturally on what you've learned so far.
+2. *To show how the early material grows*: Arrays, strings, functions, and references all lead naturally into the topics below.
 
-3. *To provide context*: Some of the things we've learned in CS161A (like arrays and pointers) will make more sense when you see the "better" alternatives that C++ provides (like vectors).
+3. *To provide overlap on thorny concepts*: Vectors, file I/O, and program organization are easier to absorb when they appear more than once across the sequence.
 
-4. *To support bridge students*: If you're taking CS161A to prepare for CS161B, this material gives you a taste of what's coming and helps you assess your readiness.
+4. *To support bridge students*: If you're taking CS161A to prepare for CS161B, this overlap gives you a useful runway.
 
-** What to Expect from These Preview Chapters
+** Why These Topics Are Here
 
-The following topics will all be covered in much greater depth during CS161B:
+The following topics are part of this extended CS161A pass and will also be covered in much greater depth during CS161B:
 - *Vectors*: Dynamic arrays that grow and shrink as needed
 - *Structs*: Organizing related data into custom types
 - *File I/O*: Reading from and writing to files
 - *Multi-file Programs*: Breaking your code into organized modules
 - *Algorithms*: Sorting and searching techniques
 
-**Important**: Don't feel pressured to master these topics right now. They're here as a preview, not as required CS161A material. In CS161B, you'll have much more time to practice and understand these concepts thoroughly. Think of these chapters as "coming attractions" rather than homework.
+Important: Don't feel pressured to master these topics on the first pass. They are part of CS161A in this sequence, but CS161B will revisit them with more depth, more practice, and more demanding assignments.
 
-That said, if you're feeling confident with the CS161A material and want to challenge yourself, by all means dive in! These are all practical, useful topics that will make you a better programmer.
+That said, if you're feeling confident with the earlier CS161A material, by all means dive in. These are all practical, useful topics that will make you a better programmer.
 
-All right, let's take a peek at what's coming next quarter!
+Think of this as an intentional bridge: enough exposure to make the second pass more meaningful later.
 
-** DONE Vectors: Dynamic Arrays
+** Vectors: Dynamic Arrays
 
 Remember how we had to declare arrays with a fixed size, and couldn't easily change that size later? Remember how we had to manually track the size of arrays and pass it as a separate parameter to functions? Remember how going out of bounds on an array just... caused mysterious crashes without any helpful error messages?
 
@@ -4432,7 +4655,7 @@ Yeah, vectors solve all of those problems.
 
 Vectors are one of the most useful tools in C++, and you'll use them constantly in CS161B. They're like arrays, but better in almost every way. Think of them as "arrays that actually make sense."
 
-*** DONE Introduction to Vectors
+*** Introduction to Vectors
 **** Why Use Vectors Over Arrays?
 
 Vectors are part of the C++ Standard Library and provide:
@@ -4448,7 +4671,7 @@ Vectors are part of the C++ Standard Library and provide:
 using namespace std;
 #+end_src
 
-*** DONE Creating and Initializing Vectors
+*** Creating and Initializing Vectors
 #+begin_src cpp
 // Empty vector of integers
 vector<int> numbers;
@@ -4463,7 +4686,7 @@ vector<int> temps = {65, 68, 72, 75, 73};
 vector<string> names = {"Alice", "Bob", "Charlie"};
 #+end_src
 
-*** DONE Vector Operations
+*** Vector Operations
 **** Adding and Removing Elements
 #+begin_src cpp
 vector<int> nums;
@@ -4509,7 +4732,7 @@ nums.resize(10); // Now has 10 elements (all 0)
 1. *Basic*: Create a vector, add 5 numbers to it using push_back, then print all elements.
 2. *Intermediate*: Create a program that reads numbers from the user until they enter -1, stores them in a vector, then displays them.
 
-*** DONE Accessing Vector Elements
+*** Accessing Vector Elements
 **** Using [] vs at()
 #+begin_src cpp
 vector<int> nums = {10, 20, 30, 40, 50};
@@ -4527,7 +4750,7 @@ nums.at(10) = 99; // Throws exception (safer!)
 1. *Basic*: Write a program that safely accesses vector elements using .at() with error handling.
 2. *Discussion*: When would you use [] vs .at()?
 
-*** DONE Iterating Through Vectors
+*** Iterating Through Vectors
 **** Index-Based Loops
 #+begin_src cpp
 vector<int> numbers = {5, 10, 15, 20, 25};
@@ -4559,7 +4782,7 @@ for(int& val : values){
 1. *Basic*: Use a range-based for loop to sum all elements in a vector.
 2. *Intermediate*: Use a range-based for loop to convert all strings in a vector to uppercase.
 
-*** DONE Vectors and Functions
+*** Vectors and Functions
 **** Passing Vectors by Reference
 #+begin_src cpp
 // Pass by reference to avoid copying
@@ -4599,7 +4822,7 @@ int main(){
 1. *Basic*: Write a function that returns a vector of even numbers from 0 to n.
 2. *Intermediate*: Write a function that filters a vector, keeping only positive numbers.
 
-*** DONE Common Vector Patterns
+*** Common Vector Patterns
 **** Building Lists from User Input
 #+begin_src cpp
 vector<int> readNumbers(){
@@ -4633,7 +4856,7 @@ vector<int> filterPositive(const vector<int>& nums){
 2. *Intermediate*: Write a function that removes duplicates from a vector.
 3. *Challenge*: Write a function that merges two sorted vectors into one sorted vector.
 
-*** DONE Two-Dimensional Vectors
+*** Two-Dimensional Vectors
 #+begin_src cpp
 // Vector of vectors (2D vector)
 vector<vector<int>> matrix;
@@ -4661,7 +4884,7 @@ for(int row = 0; row < matrix.size(); row++){
 1. *Intermediate*: Create a 2D vector to store a multiplication table.
 2. *Challenge*: Create a jagged 2D vector where each row has a different length.
 
-*** DONE Lab Projects
+*** Lab Projects
 **** LAB: Dynamic Grade Book
 Create a program that:
 - Allows adding student grades dynamically
@@ -4684,7 +4907,7 @@ Create a game score tracker that:
 - Displays top 5 scores
 - Allows searching for a player's score
 
-** DONE Structs: Organizing Related Data
+** Structs: Organizing Related Data
 
 Imagine you're writing a program to manage student records. You need to store each student's name, ID number, GPA, and maybe their major. You could create separate arrays or vectors for each piece of information:
 
@@ -4699,7 +4922,7 @@ But now you have a nightmare: you have to keep all four vectors synchronized. If
 
 Structs solve this problem by letting you bundle related data together into a single custom type. Instead of four separate vectors, you can have one vector of "Student" objects, where each student carries all their own information. It's cleaner, safer, and much more intuitive.
 
-*** DONE Introduction to Structs
+*** Introduction to Structs
 **** Why Group Related Data?
 
 When you have related pieces of information (like a student's name, ID, and GPA), keeping them in separate variables or arrays becomes unwieldy and error-prone. Structs let you bundle related data together into a single unit, making your code more organized and easier to maintain.
@@ -4713,7 +4936,7 @@ struct Student {
 };
 #+end_src
 
-*** DONE Creating and Using Struct Variables
+*** Creating and Using Struct Variables
 #+begin_src cpp
 struct Book {
   string title;
@@ -4745,7 +4968,7 @@ int main(){
 1. *Basic*: Create a struct for a Person with name, age, and height. Create a Person variable and display it.
 2. *Intermediate*: Create a struct for a Rectangle with width and height. Add variables to store the calculated area and perimeter.
 
-*** DONE Accessing Struct Members
+*** Accessing Struct Members
 Use the dot operator (=.=) to access struct members.
 
 #+begin_src cpp
@@ -4765,7 +4988,7 @@ int main(){
 }
 #+end_src
 
-*** DONE Structs and Functions
+*** Structs and Functions
 **** Passing Structs to Functions
 #+begin_src cpp
 struct Rectangle {
@@ -4815,7 +5038,7 @@ int main(){
 1. *Basic*: Write a function that takes two Point structs and calculates the distance between them.
 2. *Intermediate*: Write a function that takes a Rectangle and returns true if it's a square.
 
-*** DONE Vectors of Structs
+*** Vectors of Structs
 This is where structs become really powerful - creating databases of records.
 
 #+begin_src cpp
@@ -4893,7 +5116,7 @@ int main(){
 2. *Intermediate*: Write a function to find the most expensive book in a vector of Books.
 3. *Challenge*: Create a simple contact management system with add, search, and display functions.
 
-*** DONE Nested Structs
+*** Nested Structs
 Structs can contain other structs as members.
 
 #+begin_src cpp
@@ -4930,7 +5153,7 @@ int main(){
 1. *Intermediate*: Create an Address struct and a Person struct that contains an Address.
 2. *Challenge*: Create a School struct that contains a vector of Student structs.
 
-*** DONE Lab Projects
+*** Lab Projects
 **** LAB: Student Record System
 Create a complete student management system:
 - Add new students
@@ -4955,7 +5178,7 @@ Create a contact manager:
 - Display all contacts sorted by name
 - Show upcoming birthdays
 
-** DONE File I/O: Reading and Writing Files
+** File I/O: Reading and Writing Files
 
 So far, all of our programs have been ephemeral—when they end, any data they worked with disappears. If you run a program that asks for user input, processes it, and displays results, that's great... but as soon as the program ends, everything is gone. If you want to use that data again, you have to re-enter it all over again.
 
@@ -4965,7 +5188,7 @@ Files let your programs save data permanently to disk, read data that was saved 
 
 File I/O (Input/Output) is one of the most practical programming skills you'll learn. Nearly every real-world program needs to read from or write to files at some point. The good news is that once you understand =cin= and =cout=, file I/O will feel very familiar—it uses almost the same syntax!
 
-*** DONE Introduction to File Input/Output
+*** Introduction to File Input/Output
 **** Why Use Files?
 
 Files give your programs the ability to:
@@ -4977,7 +5200,7 @@ Files give your programs the ability to:
 **** Text Files vs Binary Files
 In this course, we focus on text files (human-readable). Binary files are more efficient but harder to work with.
 
-*** DONE Reading from Files
+*** Reading from Files
 **** Opening Files with ifstream
 #+begin_src cpp
 #include <iostream>
@@ -5060,7 +5283,7 @@ if(!inFile.is_open()){
 2. *Intermediate*: Write a program that counts the number of lines in a file.
 3. *Challenge*: Write a program that counts the number of words in a file.
 
-*** DONE Writing to Files
+*** Writing to Files
 **** Opening Files with ofstream
 #+begin_src cpp
 #include <iostream>
@@ -5112,7 +5335,7 @@ outFile2.close();
 1. *Basic*: Write a program that asks for user's name and age, then saves it to a file.
 2. *Intermediate*: Create a simple diary program that appends entries to a file with timestamps.
 
-*** DONE File Processing Patterns
+*** File Processing Patterns
 **** Processing Until End of File
 #+begin_src cpp
 #include <iostream>
@@ -5225,7 +5448,7 @@ int main(){
 2. *Intermediate*: Read a CSV file of names and ages, then display those over 18.
 3. *Challenge*: Create a program that reads student records from a file and generates a report file with statistics.
 
-*** DONE Error Handling with Files
+*** Error Handling with Files
 **** Checking if File Exists
 #+begin_src cpp
 #include <iostream>
@@ -5277,7 +5500,7 @@ else if(inFile.fail() && !inFile.eof()){
 inFile.close();
 #+end_src
 
-*** DONE Lab Projects
+*** Lab Projects
 **** LAB: Grade File Processor
 Create a program that:
 - Reads student names and grades from a file
@@ -5303,7 +5526,7 @@ Create a contact management system that:
 - Allows add/edit/delete/search operations
 - Preserves data between program runs
 
-** DONE Multi-File Programs
+** Multi-File Programs
 
 Up until now, you've probably been writing all your code in a single file—maybe =main.cpp= or something similar. For small programs, that's perfectly fine. But as your programs grow larger and more complex, putting everything in one file becomes a problem.
 
@@ -5313,7 +5536,7 @@ This is where multi-file programs come in. Breaking your code into multiple file
 
 In CS161B, you'll work on projects that are too large to fit comfortably in one file, so learning how to organize code across multiple files is essential. The key concepts are header files (=.h=) and implementation files (=.cpp=), and they work together to keep your code modular and clean.
 
-*** DONE Why Split Code into Multiple Files?
+*** Why Split Code into Multiple Files?
 
 Breaking code into multiple files provides several important benefits:
 - *Organization*: Group related functions together (all math functions in one file, all file I/O functions in another)
@@ -5322,7 +5545,7 @@ Breaking code into multiple files provides several important benefits:
 - *Collaboration*: Multiple people can work on different files without conflicts
 - *Compilation speed*: Only recompile the files that changed, not your entire program
 
-*** DONE Header Files (.h)
+*** Header Files (.h)
 **** Creating Header Files
 Header files contain declarations (what exists) but not usually implementations (how it works).
 
@@ -5346,7 +5569,7 @@ The =#ifndef=, =#define=, =#endif= pattern prevents the header from being includ
 - **Declaration**: Tells the compiler a function exists (in .h file)
 - **Definition**: The actual implementation (in .cpp file)
 
-*** DONE Implementation Files (.cpp)
+*** Implementation Files (.cpp)
 =math_utils.cpp=:
 #+begin_src cpp
 #include "math_utils.h"
@@ -5383,7 +5606,7 @@ int main(){
 }
 #+end_src
 
-*** DONE Compiling Multi-File Programs
+*** Compiling Multi-File Programs
 **** Command-Line Compilation
 #+begin_example
 # Compile all files together
@@ -5419,7 +5642,7 @@ make          # Builds the program
 make clean    # Removes compiled files
 #+end_example
 
-*** DONE Organizing Code by Purpose
+*** Organizing Code by Purpose
 **** Utility Functions
 =string_utils.h= / =string_utils.cpp=: Common string operations
 
@@ -5442,22 +5665,22 @@ project/
   └── Makefile
 #+end_example
 
-*** DONE Common Errors with Multi-File Programs
+*** Common Errors with Multi-File Programs
 **** Multiple Definition Errors
-***Problem**: Including a .cpp file instead of .h, or defining functions in .h files
+- *Problem*: Including a .cpp file instead of .h, or defining functions in .h files
 
-***Solution**: Only put declarations in .h files, definitions in .cpp files
+- *Solution*: Only put declarations in .h files, definitions in .cpp files
 
 **** Undefined Reference Errors
-***Problem**: Forgot to compile a .cpp file, or misspelled function name
+- *Problem*: Forgot to compile a .cpp file, or misspelled function name
 
-***Solution**: Make sure all .cpp files are compiled and linked
+- *Solution*: Make sure all .cpp files are compiled and linked
 
 **** Exercises
 1. *Discussion*: What's the difference between =#include <iostream>= and =#include "myfile.h"=?
 2. *Basic*: Create a header file with function declarations and an implementation file with definitions.
 
-*** DONE Lab Projects
+*** Lab Projects
 **** LAB: Refactor Single-File Program
 Take a previous lab (like the student record system) and split it into:
 - =student.h= / =student.cpp= (struct and related functions)
@@ -5471,7 +5694,7 @@ Create a multi-file calculator:
 - =calculator.h/.cpp= (menu-driven calculator)
 - =main.cpp= (program entry point)
 
-** DONE Common Algorithms & Problem Solving
+** Common Algorithms & Problem Solving
 
 So you know how to write programs that do specific things: calculate grades, play guessing games, manage a list of names. But what about solving more general problems that come up over and over again in programming?
 
@@ -5483,7 +5706,7 @@ In CS161B, you'll study algorithms in much more depth, learning about their effi
 
 Don't worry if these seem abstract at first—that's normal! The key is to understand the logic of each algorithm, trace through how it works step-by-step, and recognize when you might need to use one in your own programs.
 
-*** DONE Searching Algorithms
+*** Searching Algorithms
 **** Linear Search
 
 This is the simplest search algorithm: just look through an array one element at a time until you find what you're looking for (or reach the end without finding it).
@@ -5534,7 +5757,7 @@ Time complexity: O(log n) - much faster for large arrays
 2. *Intermediate*: Modify binary search to return the index where an element should be inserted if not found.
 3. *Challenge*: Implement a search function that works on a vector of structs, searching by a specific field.
 
-*** DONE Sorting Algorithms
+*** Sorting Algorithms
 **** Selection Sort
 Find the minimum element and move it to the front, repeat for the rest.
 
@@ -5599,7 +5822,7 @@ int main(){
 2. *Intermediate*: Modify bubble sort to stop early if the array becomes sorted.
 3. *Challenge*: Sort a vector of structs by a specific field (e.g., sort students by GPA).
 
-*** DONE String Algorithms
+*** String Algorithms
 **** Reversing Strings
 #+begin_src cpp
 string reverseString(string s){
@@ -5663,7 +5886,7 @@ int countOccurrences(const string& text, const string& pattern){
 2. *Intermediate*: Write a function that checks if two strings are anagrams.
 3. *Challenge*: Implement a simple spell checker that finds the closest matching word.
 
-*** DONE Numeric Algorithms
+*** Numeric Algorithms
 **** Finding GCD (Greatest Common Divisor)
 #+begin_src cpp
 int gcd(int a, int b){
@@ -5722,7 +5945,7 @@ int fibonacci(int n){
 2. *Intermediate*: Write a function that finds the prime factorization of a number.
 3. *Challenge*: Implement the Sieve of Eratosthenes to find all primes up to n.
 
-*** DONE Problem-Solving Strategies
+*** Problem-Solving Strategies
 **** Breaking Down Complex Problems
 1. **Understand the problem**: Read carefully, identify inputs/outputs
 2. **Plan**: Break into smaller steps, consider edge cases
@@ -5757,7 +5980,7 @@ int factorial(int n){
 5. **Use a debugger** (gdb, IDE debugger)
 6. **Rubber duck debugging**: Explain the code out loud
 
-*** DONE Command-Line Arguments
+*** Command-Line Arguments
 **** argc and argv
 Programs can accept arguments from the command line.
 
@@ -5810,7 +6033,7 @@ int main(int argc, char* argv[]){
 2. *Intermediate*: Create a program that takes a filename as an argument and displays its contents.
 3. *Challenge*: Create a command-line calculator that takes an operation (+, -, *, /) and two numbers.
 
-*** DONE Lab Projects
+*** Lab Projects
 **** LAB: Implement Search and Sort
 Create a program that:
 - Reads numbers from a file into a vector
@@ -5836,12 +6059,6 @@ Create a calculator that works from command line:
 ./calc factorial 5  # Outputs: 120
 #+end_example
 
-* TODO Extended example: Let's play shop
-In this example we'll be writing a small program that prints out a menu, let's you select items and quantities to purchase, and prints out your total at the end.
-
-We'll do this program "the hard way" at first, which isn't very flexible, but we'll end up showing some more features of C++ that will let us simplify and refactor this code.
-* TODO Extended example: An Adventure Game
-In this example we're going to look at how to make an old-school text-adventure game in C++. 
 * Project Ideas
 ** Mini-Projects (After Major Sections)
 These projects are designed to be completed after finishing specific sections of the course. Each should take 1-3 hours to complete.
@@ -5850,7 +6067,7 @@ These projects are designed to be completed after finishing specific sections of
 - *Multiplication Quiz Game*: Create a timed quiz that asks multiplication problems, keeps score, and gives feedback. Include difficulty levels.
 - *Password Strength Checker*: Check passwords for length, uppercase, lowercase, numbers, and special characters. Give a strength score.
 
-*** After Arrays  
+*** After Arrays
 - *Class Attendance Tracker*: Track attendance for a class of students over multiple days. Calculate attendance percentages.
 - *Simple Statistics Calculator*: Input a dataset and calculate mean, median, mode, and standard deviation.
 
@@ -6758,7 +6975,7 @@ Remember: The best solution is one that works correctly, is readable, and can be
 * Footnotes
 
 [fn:10] Computer scientists, when talking about the "meaning" of things in programming borrow a word from the linguistics community and we talk about the /semantics/ of a program. So the /semantics/ of "the number of wins" should be a whole number, an integer, because there's no such thing as "a partial win". So our point can be rephrased as saying that "the type of the data should fit the /semantics/ of the data". 
-[fn:9] This is only true for memory allocated, allocated being the technical term for setting up the dividers on the storage wall and putting the labels on the cubbyhole, /on the stack/. All the memory you're allocating in this class---every variable you create, every array you make---will be on the stack. There is /another/ way to allocate memory that is more flexible but also harder to manage that can persist even after the program is closed. That's not a neat feature though, that's called a "memory leak" and is the reason why Chrome and Firefox seem to swell up to 20GB of RAM if you leave them open long enough. It still can't be used for long-term storage!
+[fn:9] This is only true for memory allocated, allocated being the technical term for setting up the dividers on the storage wall and putting the labels on the cubbyhole, /on the stack/. All the memory you're allocating in this class---every variable you create, every array you make---will be on the stack. There is /another/ way to allocate memory that is more flexible but also harder to manage, usually called "the heap", but it still only lasts as long as the program is running. If you forget to clean it up, that's called a "memory leak": the memory stays in use until the program ends, which is one reason programs like Chrome and Firefox can seem to swell up to absurd amounts of RAM if you leave them open long enough.
 
 [fn:15] Okay type systems, in general, can actually do so much more than this but in C/C++ this is one of the primary reasons. If you take a systems programming class, you'll learn more about /why/ C/C++ work this way. 
 [fn:8] Okay, what on earth does "less precise" mean in this context? Okay, let's talk about sizes of infinity. No, really, I promise that this isn't a tangent. So the whole numbers, the integers, are infinite. You can start counting in either direction---positive or negative---and you'll never reach the end. This is the smallest infinity though. The numbers that have decimals, which are the "real numbers", are much bigger than the whole numbers. There are more real numbers between 0 and 1 than the entirety of the integers. The reason for this is, in a sense, is because a real number can have an infinite number of digits to the right of the decimal point. The problem for us, as computer scientists, is that there's no way to represent "an infinite number of digits" in a way that can fit in a finite amount of memory. So, instead, we have to compromise and instead of representing *all* possible real numbers we represent *some* of them. How well we can represent a number is the "precision". The higher the precision, the more fine-grained of distinctions we can make between representing two real numbers.
@@ -6766,13 +6983,13 @@ Remember: The best solution is one that works correctly, is readable, and can be
 
 [fn:6] I literally forget constantly and have to go back and fix my examples. If you've had me for in-person lecture you have definitely seen this happen. 
 
-[fn:7] A compiler is a thing that takes source code and turns it into a stand alone program. The act of turning the code into the stand alone program is called "compiling". If you dealt with Python or JavaScript or even something like Scratch before you were probably interacting with "interpreters", which are programs that take the code and run it. Now, some people talk about "compiled" or "interpreted" languages. This is wrong. A language per se isn't compiled or interpreted. A language is a language and can be run---albeit slowly---with a pencil and paper and no compiler or interpreter in sight. 
+[fn:7] A compiler is a thing that takes source code and turns it into a stand-alone program. The act of turning the code into the stand-alone program is called "compiling". If you dealt with Python or JavaScript or even something like Scratch before you were probably interacting with "interpreters", which are programs that take the code and run it. Now, some people talk about "compiled" or "interpreted" languages. This is wrong. A language per se isn't compiled or interpreted. A language is a language and can be run---albeit slowly---with a pencil and paper and no compiler or interpreter in sight.
 
-[fn:5]Okay, so I do actually encourage you to---whenever possible---try to answer questions you have about how code works by trying to make a program that tests out the idea. This will get easier as you learn more about coding, but it's just a good habit to get into and you'd be surprised by how many people never learn to think this way: coding is not a passive enterprise but an active art practice. Learn by trying things! 
+[fn:5] Okay, so I do actually encourage you to---whenever possible---try to answer questions you have about how code works by trying to make a program that tests out the idea. This will get easier as you learn more about coding, but it's just a good habit to get into and you'd be surprised by how many people never learn to think this way: coding is not a passive enterprise but an active art practice. Learn by trying things!
 
-[fn:4]Oh look a footnote in a footnote: I say "typed" and "untyped" rather than "static" and "dynamic". This is more technically correct and I will not be taking questions at this time.
+[fn:4] Oh look a footnote in a footnote: I say "typed" and "untyped" rather than "static" and "dynamic". This is more technically correct and I will not be taking questions at this time.
 
-[fn:3] Oh boy, are types actually a huge topic. Way bigger than you'd think. Okay, so in C++ types are very weak. They prevent fairly limited kinds of errors. They won't let you treat an int as a string or visa versa. But! As we'll see in a bit they let you still do some pretty weird things like conflate 0,1, =true=, and =false=. The types in C++ also don't prevent errors like blasting past the end of a list of items and grabbing random chunks of the computer's memory. You can break C++ code in so many ways it honestly makes you wonder what the point of types at all, are, if this is what people tell you typed languages are like[fn:4]. A-ha! But, in reality, types in programming languages can be terrifyingly powerful. Rust uses types to guarantee memory safety. Haskell uses types to ensure that the compiler can do absolutely wild optimizations, including writing programs that involve generating "infinite data". Languages like Agda and Coq use types to bridge the gap between how mathematicians work and how programmers work, making the act of writing theorems and proofs a kind of programming! It's a great topic. Feel free to ask me about it. 
+[fn:3] Oh boy, are types actually a huge topic. Way bigger than you'd think. Okay, so in C++ types are very weak. They prevent fairly limited kinds of errors. They won't let you treat an int as a string or vice versa. But! As we'll see in a bit they let you still do some pretty weird things like conflate 0, 1, =true=, and =false=. The types in C++ also don't prevent errors like blasting past the end of a list of items and grabbing random chunks of the computer's memory. You can break C++ code in so many ways it honestly makes you wonder what the point of types at all is, if this is what people tell you typed languages are like[fn:4]. A-ha! But, in reality, types in programming languages can be terrifyingly powerful. Rust uses types to guarantee memory safety. Haskell uses types to ensure that the compiler can do absolutely wild optimizations, including writing programs that involve generating "infinite data". Languages like Agda and Coq use types to bridge the gap between how mathematicians work and how programmers work, making the act of writing theorems and proofs a kind of programming! It's a great topic. Feel free to ask me about it.
 
 
 [fn:2] Is that too specific? Is the author of this portion telling on themselves?
@@ -6782,5 +6999,3 @@ Remember: The best solution is one that works correctly, is readable, and can be
 [fn:npos] The type is actually =size_t=, which is an unsigned integer type that's used for sizes and indices. Being unsigned means it can't be negative, and =npos= is defined as the maximum value this type can hold. On most modern systems, that's =18446744073709551615=, which is 2^64 - 1. The important thing for you is just to know that if =find= doesn't find anything, it returns =string::npos=, and you can check for that.
 
 [fn:replaceall] If you want to tackle this as a challenge: you'll need a loop that keeps finding and replacing until there are no more occurrences. The tricky part is that after each replacement, the string changes length, so you need to be careful about where you start searching next. Also, be careful about infinite loops—if you replace "cat" with "caterpillar", you'll keep finding "cat" inside "caterpillar" forever! One solution is to start searching /after/ the replacement text. 
-
-
