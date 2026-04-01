@@ -34,11 +34,11 @@ python3 generate_website.py
 
 This creates/updates `website/` directory with:
 - `index.html` - Table of contents
-- `page_*.html` - Individual pages for each section (36 pages)
+- `page_*.html` - Individual pages for each `**` section in `text.org`
 - `style.css` - Stylesheet
 - `app.js` - JavaScript for Monaco and code execution
 
-**Note:** The generator will NOT overwrite `website/assets/` - that stays in place.
+**Note:** The generator removes stale generated files (`index.html`, `style.css`, `app.js`, `page_*.html`) before rebuilding, but it preserves `website/assets/`, `test.html`, and `TROUBLESHOOTING.md`.
 
 ### View the Website
 
@@ -107,7 +107,7 @@ cs161A/
 
 ### Styling
 
-Edit the CSS in `generate_css()` function in the script, or modify `website/style.css` after generation.
+Edit the CSS in `generate_css()` in the script. Do not hand-edit `website/style.css`; it is regenerated.
 
 ### Code Execution
 
@@ -198,7 +198,7 @@ To update the website after editing `text.org`:
 python3 generate_website.py
 ```
 
-This will overwrite the `website/` directory. Any manual changes to generated files will be lost.
+This will overwrite the generated website files in `website/`. Any manual changes to generated files will be lost.
 
 **Tip:** Keep customizations in the script, not in generated files.
 

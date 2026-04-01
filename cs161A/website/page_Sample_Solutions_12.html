@@ -20,15 +20,15 @@
 <br>
 <div class="code-block">
     <div class="code-toolbar">
-        <button class="run-code-btn" data-editor-id="editor-page54-0">▶ Run Code</button>
-        <button class="reset-code-btn" data-editor-id="editor-page54-0">↻ Reset</button>
+        <button class="run-code-btn" data-editor-id="editor-page53-0">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page53-0">↻ Reset</button>
     </div>
-    <div id="editor-page54-0" class="code-editor"></div>
+    <div id="editor-page53-0" class="code-editor"></div>
     <script>
         (function() {
             const code = "#include <iostream>\nusing namespace std;\n\nbool isLeapYear(int year){\n  return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);\n}\n\nbool isValidDate(int month, int day, int year){\n  if(year < 1 || year > 9999) return false;\n  if(month < 1 || month > 12) return false;\n  \n  int daysInMonth;\n  switch(month){\n    case 2:\n      daysInMonth = isLeapYear(year) ? 29 : 28;\n      break;\n    case 4: case 6: case 9: case 11:\n      daysInMonth = 30;\n      break;\n    default:\n      daysInMonth = 31;\n  }\n  \n  return day >= 1 && day <= daysInMonth;\n}\n\nint main(){\n  int month, day, year;\n  \n  cout << \"Enter a date (MM DD YYYY): \";\n  cin >> month >> day >> year;\n  \n  while(cin.fail() || !isValidDate(month, day, year)){\n    if(cin.fail()){\n      cin.clear();\n      cin.ignore(256, '\\n');\n      cout << \"Invalid input! Please enter numbers only.\" << endl;\n    }\n    else{\n      cout << \"Invalid date! \";\n      if(month < 1 || month > 12){\n        cout << \"Month must be 1-12.\" << endl;\n      }\n      else if(month == 2 && day > 29){\n        cout << \"February cannot have more than 29 days.\" << endl;\n      }\n      else if(month == 2 && day == 29 && !isLeapYear(year)){\n        cout << year << \" is not a leap year.\" << endl;\n      }\n      else{\n        cout << \"Day is invalid for this month.\" << endl;\n      }\n    }\n    cout << \"Enter a date (MM DD YYYY): \";\n    cin >> month >> day >> year;\n  }\n  \n  cout << \"Valid date: \" << month << \"/\" << day << \"/\" << year << endl;\n  \n  return 0;\n}";
             if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
-            codeBlocks['editor-page54-0'] = {
+            codeBlocks['editor-page53-0'] = {
                 original: code,
                 current: code
             };

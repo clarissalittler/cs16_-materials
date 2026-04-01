@@ -111,11 +111,11 @@ python3 generate_website.py
 
 This creates/updates the `website/` directory with:
 - `index.html` - Table of contents
-- `page_*.html` - Individual content pages (36 pages)
+- `page_*.html` - Individual content pages generated from each `**` section in `text.org`
 - `style.css` - Stylesheet
 - `app.js` - Monaco editor and code execution logic
 
-**Note**: This does NOT overwrite `website/assets/` - your compiler files stay intact.
+**Note**: This does NOT overwrite `website/assets/`. It does remove stale generated website files before rebuilding.
 
 ### Step 4: Verify Installation
 
@@ -127,8 +127,8 @@ ls -la website/assets/
 # Should show: clang, lld, memfs, sysroot.tar, shared.js, etc.
 
 # Check website was generated
-ls website/*.html | wc -l
-# Should show 37 (index.html + 36 page files)
+find website -maxdepth 1 -name 'page_*.html' | wc -l
+# Should show one page per `**` section in text.org
 ```
 
 ## Verification
@@ -301,6 +301,7 @@ cs16_-materials/
 │
 └── cs161A/
     ├── text.org          # Source content (org-mode)
+    ├── outline.md        # Secondary outline / planning view
     ├── generate_website.py
     ├── INSTALL.md        # This file
     ├── install.sh        # Installation script

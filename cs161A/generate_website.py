@@ -5,7 +5,6 @@ Each ** heading becomes a page, code blocks become editable in Monaco.
 """
 
 import re
-import os
 import json
 from pathlib import Path
 from html import escape
@@ -81,6 +80,23 @@ def parse_org_file(filepath):
         chapters.append(current_chapter)
 
     return chapters
+
+
+def clean_generated_output(output_dir):
+    """Remove generated website files so stale pages do not linger."""
+    removed = 0
+
+    for name in ('index.html', 'style.css', 'app.js'):
+        path = output_dir / name
+        if path.exists():
+            path.unlink()
+            removed += 1
+
+    for path in output_dir.glob('page_*.html'):
+        path.unlink()
+        removed += 1
+
+    return removed
 
 def extract_code_blocks(content):
     """Extract C++ code blocks from org content."""
@@ -931,6 +947,10 @@ def main():
 
     # Create output directory
     output_dir.mkdir(exist_ok=True)
+
+    removed = clean_generated_output(output_dir)
+    if removed:
+        print(f"Removed {removed} stale generated files")
 
     # Generate index
     print("Generating index.html...")

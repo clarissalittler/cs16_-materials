@@ -1,24 +1,35 @@
 # CS 16* Course Materials
 
-Open-source educational materials for a sequence of introductory C++ programming courses (CS161A, CS161B, CS162). This repository includes course textbooks, an interactive web-based C++ playground, automated grading tools, and extensive code examples.
+Open-source educational materials for a sequence of introductory C++ programming courses (CS161A, CS161B, CS162). This repository includes course texts, an interactive web-based C++ playground, automated grading tools, and code examples.
 
 ## Repository Structure
 
 ```
 cs16_-materials/
-├── cs161A/          # First quarter - Introduction to C++
-├── cs161B/          # Second quarter - Advanced fundamentals
-├── cs162/           # Third quarter - OOP and data structures
-├── test1/           # WebAssembly compiler infrastructure (proof of concept)
-├── LICENSE          # MIT License
-└── README.md
+├── cs161A/             # First quarter - most-developed course package
+├── cs161B/             # Second quarter - draft text plus outline
+├── cs162/              # Third quarter - outline-first course scaffold
+├── test1/              # Experimental WebAssembly compiler infrastructure
+├── LICENSE             # MIT License
+├── README.md
+└── REPOSITORY_GUIDE.md
 ```
+
+## Canonical Course Sources
+
+Each course's `text.org` file is the source of truth:
+
+- `cs161A/text.org`
+- `cs161B/text.org`
+- `cs162/text.org`
+
+Other files such as `outline.md`, generated website pages, and Markdown mirrors are secondary.
 
 ## Course Content
 
 ### CS161A - Introduction to C++
 
-The most developed course, covering C++ fundamentals across 15 chapters:
+The most developed course in the repository, covering C++ fundamentals across 15 chapters:
 
 | Chapter | Topic |
 |---------|-------|
@@ -35,8 +46,10 @@ The most developed course, covering C++ fundamentals across 15 chapters:
 | 14 | Multi-file programs |
 | 15 | Common algorithms and problem solving |
 
-**Key resources in cs161A/:**
-- `text.org` / `text.md` - Full course textbook (~6,800 lines)
+**Key resources in `cs161A/`:**
+- `text.org` - Canonical course text
+- `outline.md` - Condensed outline of the course structure
+- `text.md` - Derived Markdown mirror of the course text
 - `codesnips/` - 60+ C++ code examples
 - `labs/` - 30+ lab exercises
 - `exercises/` - Practice problems
@@ -44,6 +57,8 @@ The most developed course, covering C++ fundamentals across 15 chapters:
 - `website/` - Generated interactive website
 
 ### CS161B - Advanced Fundamentals
+
+Currently a draft text plus a larger outline. The canonical source is `cs161B/text.org`; `cs161B/outline.md` is a planning outline.
 
 Covers intermediate topics including:
 - Character arrays and C-strings
@@ -54,6 +69,8 @@ Covers intermediate topics including:
 - Debugging techniques
 
 ### CS162 - Object-Oriented Programming
+
+Currently scaffolded from an outline-first draft. The canonical source is `cs162/text.org`; `cs162/outline.md` remains a condensed outline.
 
 Covers advanced topics including:
 - Classes and object-oriented design
@@ -83,7 +100,7 @@ cd cs161A
 python3 generate_website.py
 ```
 
-This generates HTML pages in `cs161A/website/` from the `text.org` source file.
+This generates HTML pages in `cs161A/website/` from the canonical `cs161A/text.org` source file.
 
 ### Running the Website Locally
 
@@ -184,12 +201,13 @@ See [test1/HOW_IT_WORKS.md](test1/HOW_IT_WORKS.md) for technical details.
 
 ## Contributing
 
-Contributions are welcome. The course content is written in Org-mode format (`text.org` files), which is then converted to HTML for the interactive website.
+Contributions are welcome. The canonical course content is written in Org-mode format (`text.org` files), which is then converted into other forms as needed.
 
 To modify course content:
-1. Edit the relevant `text.org` file
-2. Run `python3 generate_website.py` to regenerate the website
-3. Test locally before submitting changes
+1. Edit the relevant `text.org` file.
+2. Regenerate any derived output, such as the CS161A website.
+3. Avoid hand-editing generated files.
+4. Test locally before submitting changes.
 
 ## License
 

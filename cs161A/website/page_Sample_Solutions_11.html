@@ -20,15 +20,15 @@
 <br>
 <div class="code-block">
     <div class="code-toolbar">
-        <button class="run-code-btn" data-editor-id="editor-page53-0">▶ Run Code</button>
-        <button class="reset-code-btn" data-editor-id="editor-page53-0">↻ Reset</button>
+        <button class="run-code-btn" data-editor-id="editor-page52-0">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page52-0">↻ Reset</button>
     </div>
-    <div id="editor-page53-0" class="code-editor"></div>
+    <div id="editor-page52-0" class="code-editor"></div>
     <script>
         (function() {
             const code = "#include <iostream>\nusing namespace std;\n\nvoid swap(int &a, int &b){\n  int temp = a;\n  a = b;\n  b = temp;\n}\n\nint main(){\n  int x = 5, y = 10;\n  \n  cout << \"Before swap: x = \" << x << \", y = \" << y << endl;\n  swap(x, y);\n  cout << \"After swap: x = \" << x << \", y = \" << y << endl;\n  \n  return 0;\n}";
             if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
-            codeBlocks['editor-page53-0'] = {
+            codeBlocks['editor-page52-0'] = {
                 original: code,
                 current: code
             };
@@ -41,15 +41,15 @@
 <br>
 <div class="code-block">
     <div class="code-toolbar">
-        <button class="run-code-btn" data-editor-id="editor-page53-1">▶ Run Code</button>
-        <button class="reset-code-btn" data-editor-id="editor-page53-1">↻ Reset</button>
+        <button class="run-code-btn" data-editor-id="editor-page52-1">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page52-1">↻ Reset</button>
     </div>
-    <div id="editor-page53-1" class="code-editor"></div>
+    <div id="editor-page52-1" class="code-editor"></div>
     <script>
         (function() {
             const code = "#include <iostream>\nusing namespace std;\n\nint divide(int dividend, int divisor, int &remainder){\n  remainder = dividend % divisor;\n  return dividend / divisor;\n}\n\nint main(){\n  int num1, num2;\n  int remainder;\n  \n  cout << \"Enter dividend: \";\n  cin >> num1;\n  cout << \"Enter divisor: \";\n  cin >> num2;\n  \n  if(num2 != 0){\n    int quotient = divide(num1, num2, remainder);\n    cout << num1 << \" / \" << num2 << \" = \" << quotient \n         << \" with remainder \" << remainder << endl;\n  }\n  else{\n    cout << \"Error: Cannot divide by zero!\" << endl;\n  }\n  \n  return 0;\n}";
             if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
-            codeBlocks['editor-page53-1'] = {
+            codeBlocks['editor-page52-1'] = {
                 original: code,
                 current: code
             };
@@ -62,15 +62,15 @@
 <br>
 <div class="code-block">
     <div class="code-toolbar">
-        <button class="run-code-btn" data-editor-id="editor-page53-2">▶ Run Code</button>
-        <button class="reset-code-btn" data-editor-id="editor-page53-2">↻ Reset</button>
+        <button class="run-code-btn" data-editor-id="editor-page52-2">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page52-2">↻ Reset</button>
     </div>
-    <div id="editor-page53-2" class="code-editor"></div>
+    <div id="editor-page52-2" class="code-editor"></div>
     <script>
         (function() {
             const code = "#include <iostream>\nusing namespace std;\n\ndouble analyzeArray(int arr[], int size, int &min, int &max){\n  min = arr[0];\n  max = arr[0];\n  double sum = arr[0];\n  \n  for(int i = 1; i < size; i++){\n    if(arr[i] < min) min = arr[i];\n    if(arr[i] > max) max = arr[i];\n    sum += arr[i];\n  }\n  \n  return sum / size;  // Return average\n}\n\nint main(){\n  int numbers[10];\n  int min, max;\n  \n  cout << \"Enter 10 numbers:\" << endl;\n  for(int i = 0; i < 10; i++){\n    cout << \"Number \" << i+1 << \": \";\n    cin >> numbers[i];\n  }\n  \n  double avg = analyzeArray(numbers, 10, min, max);\n  \n  cout << \"\\nStatistics:\" << endl;\n  cout << \"Minimum: \" << min << endl;\n  cout << \"Maximum: \" << max << endl;\n  cout << \"Average: \" << avg << endl;\n  \n  return 0;\n}";
             if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
-            codeBlocks['editor-page53-2'] = {
+            codeBlocks['editor-page52-2'] = {
                 original: code,
                 current: code
             };
