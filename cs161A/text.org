@@ -1365,12 +1365,13 @@ So each time we use =rand()= it is giving a different number but each time we ru
 
 Seeds are what makes pseudo-random number generation so different than actual randomness. Computers can't /really/ do true randomness, but they can fake it well by performing a series of calculations where the output looks random unless you know the very first input that starts the calculations. This very first input is the "seed" for the random number generator.
 
-For a given seed, =rand= will always produce the same sequence of outputs. The trick, then, is that we need to choose a different seed every time we run the program. The traditional choice is to use another function called =time=. If you write =time(0)= what you'll get back is the number of seconds since midnight January 1st 1970. Since this is a number that will be different every time you run the program, it will be a good choice of different seeds for every time we run our code.
+For a given seed, =rand= will always produce the same sequence of outputs. The trick, then, is that we need to choose a different seed every time we run the program. The traditional choice is to use another function called =time= from =<ctime>=. If you write =time(0)= what you'll get back is the number of seconds since midnight January 1st 1970. Since this is a number that will be different every time you run the program, it will be a good choice of different seeds for every time we run our code.
 
 Let's test this out quick
 #+begin_src cpp :tangle codesnips/betterrand.cpp
   #include <iostream>
   #include <cstdlib>
+  #include <ctime>
   using namespace std;
 
   int main(){
@@ -1391,6 +1392,7 @@ Now we're finally ready to write our number guessing game
 #+begin_src cpp :tangle codesnips/guessy.cpp
   #include <iostream>
   #include <cstdlib>
+  #include <ctime>
 
   using namespace std;
 
@@ -1471,6 +1473,7 @@ The last thing we need to do with our "number guessing game" is adding a limited
 #+begin_src cpp :tangle codesnips/guessy2.cpp
   #include <iostream>
   #include <cstdlib>
+  #include <ctime>
 
   using namespace std;
 
@@ -3147,6 +3150,7 @@ Notice how we created our own helper function =isVowel()= that returns a =bool=.
   #include <iostream>
   #include <string>
   #include <cstdlib>
+  #include <ctime>
   using namespace std;
 
   string sarcasmCase(string s){
@@ -3392,6 +3396,7 @@ Now that just seems inconvenient here but there are times that it's actually a b
 #+begin_src cpp :tangle codesnips/diceRoll.cpp
   #include <iostream>
   #include <cstdlib>
+  #include <ctime>
   using namespace std;
 
   int main(){
@@ -3425,6 +3430,7 @@ If you were to naively convert this to if-statements you might do something like
 #+begin_src cpp :tangle codesnips/diceRollIf.cpp
   #include <iostream>
   #include <cstdlib>
+  #include <ctime>
   using namespace std;
 
   // this is a translation of the dice roll program from switches to ifs but
@@ -3452,6 +3458,7 @@ No, instead, you need to do something more like
 #+begin_src cpp 
   #include <iostream>
   #include <cstdlib>
+  #include <ctime>
   using namespace std;
 
   // this is a translation of the dice roll program from switches to ifs, problems fixed
@@ -6065,6 +6072,7 @@ Argument 2: world
 #+begin_src cpp
 #include <iostream>
 #include <cstdlib>
+#include <ctime>
 using namespace std;
 
 int main(int argc, char* argv[]){
@@ -6484,6 +6492,7 @@ int main(){
 #include <iostream>
 #include <cstdlib>
 #include <iomanip>
+#include <ctime>
 using namespace std;
 
 int main(){
