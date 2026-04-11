@@ -42,10 +42,10 @@ If the program uses =cin=, just run it and type your input when it prompts you.
 As you learn more C++, a very useful version of the compile command is
 
 #+begin_example
-g++ -std=c++17 -Wall hello.cpp -o hello
+g++ -std=c++17 -Wall -Wextra -pedantic hello.cpp -o hello
 #+end_example
 
-The =-std=c++17= part tells =g++= which version of C++ to use, and =-Wall= turns on many helpful warnings.
+The =-std=c++17= part tells =g++= which version of C++ to use. The =-Wall= and =-Wextra= parts turn on many helpful warnings, and =-pedantic= is useful for catching code that your compiler accepts as an extension but that is not actually standard C++.
 
 If you later work with multiple source files, the same idea still applies:
 
@@ -98,7 +98,7 @@ so that there are people who can guide the AI, override the AI, or decide that t
 
 In other words, we will always need programmers. In fact, a personal prediction of the author is that the average programmer will have to be better than ever: a master of the /high/ and /low/ levels of programming. In a world where non-programmers can "vibe code" simple proofs of concept, there may well be even more need for competent programmers to take those simple programs and turn them into robust products.
 
-By analogy, this is like how home CAD software and 3D printers didn't kill manufacturing but rather let people quickly prototype ideas that they then pay engineers to turn into production lines.
+By analogy, this is like how home CAD software and 3D printers didn't kill manufacturing but rather let people quickly prototype ideas that they then pay engineers to turn into production lines. Indeed, there has been an /increase/ in demand for software engineers as of early 2026!
 * First Programs
 ** Hello World
 So the origins of making a program that says "Hello, World" as your first program started with Kernighan and Ritchie in their introduction to the C programming language. The basic idea was that if you can get a simple program to compile[fn:7] that prints something out to the screen then you're already over the worst hurdles of learning a programming language.
@@ -915,7 +915,7 @@ Now why did that happen? Well the difference between an =else-if= and a plain =i
 You can change this =else-if= example to be based around =if= statements instead if you make the conditions more complicated, like the first one needs to become =numberCorrect >=2 && numberCorrect < 5=.
 
 *** The dirty truth about booleans in C++
- Beware, absolute nastiness awaits you in this section. You'll learn about horrendous, semantics breaking, decisions in the history of programming language design.
+ Beware, a mildly cursed corner of C++ awaits you in this section. The key thing to understand is not that booleans are "secretly ints" in every possible sense, but that C++ allows a lot of implicit conversion between =bool= and integer types.
 
  So, you see dear reader, it turns out that 
  
@@ -939,7 +939,7 @@ You can change this =else-if= example to be based around =if= statements instead
    }
  #+end_src
 
-Compile this code and run it to confirm the horrible truth, but you'll see that booleans are really just numbers. Which is honestly a terrible decision because it means there's all sorts of wrong things that can happen.
+Compile this code and run it and you'll see the important fact: C++ will freely convert between =bool= and integers in many situations. In particular, =true= converts to =1= and =false= converts to =0= when an integer is needed, and integers convert back to =bool= when C++ needs a truth value.
 
 #+begin_src cpp :tangle codesnips/truth3.cpp
   #include <iostream>
@@ -960,9 +960,13 @@ Compile this code and run it to confirm the horrible truth, but you'll see that 
   }
 #+end_src
 
-Look at this wretched code! =return false=? =if(num)=? This is terrible! And the compiler did /nothing/ to stop it!
+Look at this code carefully. =if(num)= does /not/ mean "if num is greater than 3". It means "convert =num= to a boolean and test that". Zero becomes =false=. Any nonzero value becomes =true=.
 
-Woe be upon us!
+Similarly, =return false;= in =main= works because =main= returns an =int=, and =false= is converted to =0=. So the compiler isn't ignoring the types here. It's following a conversion rule.
+
+That flexibility is one reason experienced C++ programmers try to write conditions clearly and avoid leaning too hard on implicit conversions.
+
+Annoying? Yes. Important to know about? Also yes.
 *** Exercises
 1. *Basic*: Check if a number is positive, negative, or zero and print an appropriate message.
 2. *Intermediate*: Create a simple grade calculator that takes a numeric score and outputs a letter grade (90+=A, 80+=B, 70+=C, 60+=D, <60=F).
@@ -1921,7 +1925,7 @@ An example program would be something like this:
   using namespace std;
 
   int main(){
-    int numPets = 5;
+    const int numPets = 5;
   
     string petNames[numPets];
     string petSpecies[numPets];
@@ -1941,10 +1945,20 @@ An example program would be something like this:
   }
 #+end_src
 So line by line what this program does is:
-1. make a variable to hold the number of pets in the pet-information table, so that we can change it in just one place
+1. make a constant to hold the number of pets in the pet-information table, so that we can change it in just one place
 2. two arrays for the names of pets and the species of pet
 3. a for-loop that asks for the information for each row of the table and fills it in
 4. a for loop that prints out each row
+
+That =const= is important. In standard C++, the size of a built-in array like this should be known at compile time. Some compilers will let you get away with writing
+
+#+begin_src cpp
+  int numPets = 5;
+  // Some compilers allow this, but it is not standard C++
+  string petNames[numPets];
+#+end_src
+
+but that's a compiler extension, not standard C++. For this class, when we write fixed-size arrays, we'll use constants for the sizes.
 
 #+begin_quote
 Quick Check: Take this program and add another column for the age of the pet
@@ -1983,14 +1997,14 @@ Well when I ran this I got =1663205712= printed out to the console. If you remem
 
 It /feels/ like I initialized everything correctly, I told C++ how big the array should be, and yet C++ didn't stop me from going off the edge of the world!
 
-We'll cover, in greater depth, /why/ C++ doesn't protect you from this error but for now the way you should think of it is that when you declare an array variable you're actively setting aside a contiguous set of cubbyholes in the storage wall, but that *you* need to keep track of which ones belong to which array. This is part of the reason why, in our previous example, we had a separate variable called =numPets= that kept track of how many pets were supposed to be in the database. We reproduce the example below.
+We'll cover, in greater depth, /why/ C++ doesn't protect you from this error but for now the way you should think of it is that when you declare an array variable you're actively setting aside a contiguous set of cubbyholes in the storage wall, but that *you* need to keep track of which ones belong to which array. This is part of the reason why, in our previous example, we had a separate constant called =numPets= that kept track of how many pets were supposed to be in the database. We reproduce the example below.
 
 #+begin_src cpp 
   #include <iostream>
   using namespace std;
 
   int main(){
-    int numPets = 5;
+    const int numPets = 5;
   
     string petNames[numPets];
     string petSpecies[numPets];
@@ -2010,35 +2024,7 @@ We'll cover, in greater depth, /why/ C++ doesn't protect you from this error but
   }
 #+end_src
 
-Now you might look at this and think "couldn't you accidentally change numPets?" and, yes, you could! I could write something like this:
-#+begin_src cpp 
-  #include <iostream>
-  using namespace std;
-
-  int main(){
-    int numPets = 5;
-
-    string petNames[numPets];
-    string petSpecies[numPets];
-
-    numPets = 10;
-
-    for(int i=0; i < numPets; i++){
-      cout << "Enter the name of the pet: ";
-      cin >> petNames[i];
-      cout << "Enter the pet species: ";
-      cin >> petSpecies[i];
-    }
-
-    for(int i=0; i < numPets; i++){
-      cout << petNames[i] << " is a " << petSpecies[i] << endl;
-    }
-
-    return 0;
-  }
-#+end_src
-
-This is why we have /constants/ in C++, which are like variables but once they have a value that value isn't allowed to change! It's just like any other variable but you put =const= in front of the variable declaration:
+This is why we like /constants/ in C++, which are like variables but once they have a value that value isn't allowed to change! It's just like any other variable but you put =const= in front of the variable declaration:
 
 #+begin_src cpp  :tangle codesnips/petDBConst.cpp
   #include <iostream>
@@ -2436,8 +2422,8 @@ First off, consider the following program.
   using namespace std;
 
   int main(){
-    int num1;
-    int num2;
+    int num1 = 0;
+    int num2 = 0;
 
     cout << "Enter two numbers" << endl;
     cin >> num1;
@@ -2469,7 +2455,9 @@ Let's run the program above one more time but now with the following input
 #+begin_example
 1 dog[hit the enter key]
 #+end_example
-What you'll get printed out is "The sum of these numbers was: 1". Why? Because it failed to read a number into =num2= and, so, just gave it a value of 0 rather than stop the program and fail.
+What you'll get printed out is "The sum of these numbers was: 1". Why? Because the attempt to read =dog= into =num2= fails, so =cin= goes into an error state and =num2= keeps the value it already had. In this version of the program, we initialized =num2= to 0, so the sum winds up being 1.
+
+That detail matters. =cin >>= does /not/ magically invent a safe fallback value for you. If =num2= had been left uninitialized, then we'd be using garbage data instead.
 
 We're going to introduce a new function called =cin.fail()= that lets us ask the question "did the last time we tried to read from =cin= go wrong?"
 
@@ -2481,8 +2469,8 @@ So now in the following program we'll ask for two numbers and, then, if there's 
 
   int main(){
 
-    int num1;
-    int num2;
+    int num1 = 0;
+    int num2 = 0;
 
     cout << "Enter two numbers" << endl;
     cin >> num1;
@@ -2526,10 +2514,13 @@ We'll start with the obvious thing to do from the pieces we've seen so far (and 
   }
 #+end_src
 
-So /why/ doesn't this work? You'll see that it leads to an infinite loop of printing "No, buddy, enter a *number*" after just one bad input. So the behavior of =cin= is that once it sees a single error it gets into a state of not accepting any more input until it gets fixed. You can do that by calling a function =cin.clear()=. We're not done yet, though, because if you remember the "pipeline" analogy for how =cin= works we haven't actually gotten rid of what's in the pipeline that was causing the error. In order to throw it away we need to write =cin.ignore(256,'\n')=. So putting this all together we've got
+So /why/ doesn't this work? You'll see that it leads to an infinite loop of printing "No, buddy, enter a *number*" after just one bad input. So the behavior of =cin= is that once it sees a single error it gets into a state of not accepting any more input until it gets fixed. You can do that by calling a function =cin.clear()=. We're not done yet, though, because if you remember the "pipeline" analogy for how =cin= works we haven't actually gotten rid of what's in the pipeline that was causing the error.
+
+The usual robust move is to ignore everything up to and including the next newline. So putting this all together we've got
 
 #+begin_src cpp :tangle codesnips/cinfail2.cpp
   #include <iostream>
+  #include <limits>
   using namespace std;
 
   int main(){
@@ -2541,7 +2532,7 @@ So /why/ doesn't this work? You'll see that it leads to an infinite loop of prin
     while(cin.fail()){
       cout << "No, buddy, enter a *number*: " << endl;
       cin.clear();
-      cin.ignore(256,'\n');
+      cin.ignore(numeric_limits<streamsize>::max(), '\n');
       cin >> num1;
     }
 
@@ -2677,7 +2668,7 @@ Like this program:
   }
 #+end_src
 
-This is an example of something kinda neat in C++, called "operator overloading". Basically, you can reuse things like  =<<= and =+= in all sorts of different contexts at different *types*. That's the key part. The different uses have to be for different types or else there will be confusion. =+= can mean something for two ints, for an int and a string (check that one out yourself, by the way), for two strings, for two doubles, &c. But it can't mean two different things if you're just writing =1 + 2= where 1 and 2 are both ints.
+This is an example of something kinda neat in C++, called "operator overloading". Basically, you can reuse things like =<<= and =+= in different contexts for different *types*. That's the key part. =+= can mean integer addition for two ints, floating-point addition for two doubles, or concatenation for two strings. But that doesn't mean C++ lets you mix arbitrary things together however you want: if you want to combine a string with a number, you usually need to convert the number first.
 
 Okay, also we should talk about how to turn data into strings because this is going to be useful! Basically, there's just a function in the =<string>= library that you can use called =to_string= that will convert any other data to being a string. This works with basically everything, like in this program:
 
@@ -2763,9 +2754,9 @@ When I run this on my machine, I get a really big number printed out: =184467440
 
 This is actually a special value called =string::npos= (which stands for "no position"). It's basically C++'s way of saying "hey, I didn't find that." The actual value is the largest number that can be stored in the type C++ uses for string positions[fn:npos], but the important thing is that you can check if =find= failed by comparing the result to =string::npos=.
 
-**** A Clever Shorthand: Using =-1= Instead of =string::npos=
+**** Why You Sometimes See =-1=, And Why You Should Still Write =string::npos=
 
-Now here's something interesting: many C++ programmers use =-1= as a shorthand instead of writing =string::npos=. You might see code like this:
+Now here's something interesting: you /might/ see older C++ code use =-1= as a shorthand instead of writing =string::npos=. You might see code like this:
 
 #+begin_src cpp
   if(str.find("something") == -1){
@@ -2777,7 +2768,7 @@ Wait, what? How can =-1= and =18446744073709551615= be the same thing?
 
 This is actually a really cool bit of computer science that's worth understanding! Here's what's happening:
 
-The =find= function returns a value of type =size_t=, which is an /unsigned/ integer type (meaning it can only hold positive numbers, or zero). However, =-1= is obviously a negative number. So what happens when we write =-1= but C++ tries to interpret it as an unsigned number?
+The =find= function returns a value in an /unsigned/ index type (meaning it can only hold positive numbers, or zero). However, =-1= is obviously a negative number. So what happens when we write =-1= but C++ tries to interpret it as that unsigned position type?
 
 In C++, integers are stored in memory using something called /two's complement/ representation. Without getting too deep into the binary details, here's the key insight: the bit pattern that represents =-1= as a /signed/ number is /exactly the same/ bit pattern that represents the /largest possible value/ when interpreted as an /unsigned/ number!
 
@@ -2788,9 +2779,15 @@ So when you write:
   if(str.find("test") == -1)
 #+end_src
 
-The =-1= gets converted to =size_t=, which turns it into that giant number =18446744073709551615= (on most modern systems), which is the same value as =string::npos=!
+The =-1= gets converted to that unsigned index type, which turns it into that giant number =18446744073709551615= (on most modern systems), which is the same value as =string::npos=!
 
-While this shorthand works, it's worth noting that using =string::npos= explicitly is often considered clearer and more readable, because it makes the intent obvious. But now you'll understand what's going on when you see =-1= being used in string operations!
+So this shorthand /works/, but it's still worse style than writing what you mean directly. In this text, prefer
+
+#+begin_src cpp
+  if(str.find("test") == string::npos)
+#+end_src
+
+because it is clearer and doesn't make the reader remember a signed/unsigned conversion trick.
 
 Here's a more practical example:
 
@@ -4221,7 +4218,7 @@ Now here's a weird little feature of C++. So let's look at how arguments to func
   }
 #+end_src
 
-Now if you run this code you'll see that the function returns =10= but that the value of =ourNum= at the end is =30=. How is this possible? Afterall, we set =num = 10= inside the function and return =num= and that's 10! Why doesn't the assignment stick? Well, because the variable =num= inside the function =sillyFun= is not /actually/ the same as =ourNum= it's just a variable that lives inside a function and it is initialized with the same /value/ as the ourNum when it's passed in.
+Now if you run this code you'll see that the function returns =10= but that the value of =ourNum= at the end is =30=. How is this possible? Afterall, we set =num = 10= inside the function and return =num= and that's 10! Why doesn't the assignment stick? Well, because the variable =num= inside the function =sillyFun= is not /actually/ the same as =ourNum= it's just a variable that lives inside a function and it is initialized with the same /value/ as =ourNum= when it's passed in.
 
 Okay, why am I telling you this? Because there is a different way to write functions in C++ where you don't take in the value of the argument, you are giving the function the variable itself!
 
@@ -4246,7 +4243,7 @@ For example, consider this
 #+end_src
 The only difference between these programs is the little =&= symbol in front of the name of the variable. This signifies that it's an argument that is "passed by reference", or in other words it's literally passing in the variable as a thing that can be manipulated, assigned, &c. instead of just handing the function the value inside the variable.
 
-Why use this? That's probably the obvious question to ask. So there are a few reasons. The first is that it lets you do something that C++ can't normally do: return multiple arguments!
+Why use this? That's probably the obvious question to ask. So there are a few reasons. One common beginner-level reason is that it gives us a simple way to get more than one piece of information back out of a function.
 
 What does that mean? So if you've ever used Python at all you might be familiar with the ability to do something like this
 
@@ -4266,7 +4263,7 @@ What does that mean? So if you've ever used Python at all you might be familiar 
 
 This program mimics things we've seen in this class: you run a loop that keeps asking for numbers until it gets a negative entry and then it returns the sum of all the numbers *and* how many numbers got added together!
 
-You *cannot* do this in C++. Instead, you have to write this program with a pass-by-reference argument like this:
+You /can/ do this in C++, but we haven't yet covered the other common ways, like returning a struct or a pair. At this stage in the class, pass-by-reference is the simplest tool we have for the job, so we'll write the program like this:
 #+begin_src cpp :tangle codesnips/byRef2.cpp
   #include <iostream>
   using namespace std;
@@ -4344,7 +4341,7 @@ However, when you see a big hex number in programming it's usually a memory /add
 
 Do you remember earlier in this text when we talked about the storage wall with the labeled dividers? Well these addresses are what those labels *really* are.
 
-And this means that when you use the name of the array by itself, without the =[]=, you're getting the address of where the array starts! An array isn't one big storage chunk, but a contiguous region of dividers on the wall-of-storage. So this address is the label on the /first/ cubbyhole that makes up the array.
+And this means that when you use the name of the array by itself, without the =[]=, in a context like this, C++ /converts/ it into the address of where the array starts. That's an important subtlety: an array is not literally the same thing as a pointer, but in many expressions it "decays" into a pointer to its first element.
 
 Now you might wonder if there's a way to get the label, the address, of any variable. There is! It's the "&" operator.
 
@@ -4411,7 +4408,7 @@ If we can pull an address out, can we also store the /address/ as data? Yes! Tha
   }
 #+end_src
 
-Now we can get back to arrays! So I often tell people that in C/C++ an array is "a pointer and a promise", let's see why. First, we're going to try to follow the address of an array.
+Now we can get back to arrays! I often tell people that in C/C++ an array is "a pointer and a promise" as a /metaphor/. Strictly speaking, an array is its own kind of object, but it behaves pointer-like often enough that the metaphor is useful. First, we're going to try to follow the address of an array.
 #+begin_src cpp :tangle codesnips/pointerArray.cpp
   #include <iostream>
   using namespace std;
@@ -4449,23 +4446,25 @@ Let's write a little program to test this out:
 
 If you run this you should see that both methods print identical items in the array!
 *** Pointer and a promise
-Let's take a step back now and talk about what the implications of all this actually is: arrays are "really" just pointers. Pointers have no sense of how many contiguous addresses after the pointer are valid as they're merely /addresses/ for memory locations. That's why you have so many of these awkward coding idioms where you have to separately keep track of, for example, how many items you read in rather than being able to access the length of an array. That's why we can have these strange error states where we can go /beyond/ the array and access random gibberish data.
+Let's take a step back now and talk about what the implications of all this actually is: arrays /often behave like/ pointers to their first element. Pointers have no sense of how many contiguous addresses after the pointer are valid as they're merely /addresses/ for memory locations. That's why you have so many of these awkward coding idioms where you have to separately keep track of, for example, how many items you read in rather than being able to access the length of an array. That's why we can have these strange error states where we can go /beyond/ the array and access random gibberish data.
 
 In modern programming, you don't use basic C/C++ style arrays that often. Even in C++ most of the time you're going to use a data structure we call a /vector/. These vectors are what most programming languages call arrays, like Python, and they're capable of doing things like
 + changing in size
 + adding and deleting elements
 + telling you how many elements are currently in them
-+ throw an error if you access beyond the bounds of the container
++ let you ask for bounds-checked access with =.at()=
 
 Very convenient!
 
 We won't really use vectors in this class and that's because we're trying to install +fear of+ healthy respect for the problems that can happen if you aren't careful using arrays.
-*** Dynamic arrays
-If we wanted to /try/ and have arrays that were a little more flexible, without using the =vector= type, what might we do?
+*** Sentinel-terminated arrays
+If we wanted to /approximate/ arrays that were a little more flexible, without using the =vector= type or real dynamic allocation, what might we do?
 
 One idea is that we could make an array that's a lot bigger than we really need and then only use /part/ of it, marking the "effective" end with some kind of special piece of data.
 
-Let's assume that the arrays we're going to make are going to be arrays of natural numbers, so 0 and above. That means we could treat -1 as the special "this is the end of the array value".
+Let's assume that the arrays we're going to make are going to be arrays of natural numbers, so 0 and above. That means we could treat =-1= as the special "this is the end of the used portion" value. This =-1= is called a /sentinel/.
+
+This is /not/ the same thing as a true dynamically sized array. The actual array size is still fixed. We're just storing an extra convention inside it.
 
 Let's try writing some functions that will let you actually use these arrays a little more conveniently. The basic trick we're going to be using is the idea of a =while= loop that keeps going until you reach a =-1= value.
 
@@ -4681,17 +4680,11 @@ There are a lot more operations on C-style character array strings than we'll co
 
 * Extended Topics
 
-You've made it through the earlier CS161A material. In this slower-paced sequence, we intentionally keep some overlap with CS161B by introducing a first pass at a few thornier topics here.
+You've made it through the earlier CS161A material, which means we can now do something a little sneaky: peek over the fence at a few topics that usually feel more at home in CS161B.
 
-Why include these later topics in CS161A? A few reasons:
+That overlap is there on purpose. Some ideas are simply much nicer the second time you meet them than the first. If your first encounter with vectors, files, and program organization happens here in a slower, lower-stakes way, then the later pass in CS161B has something to attach itself to.
 
-1. *To slow down the first encounter*: Some topics benefit from being introduced gently here and then revisited with more depth later.
-
-2. *To show how the early material grows*: Arrays, strings, functions, and references all lead naturally into the topics below.
-
-3. *To provide overlap on thorny concepts*: Vectors, file I/O, and program organization are easier to absorb when they appear more than once across the sequence.
-
-4. *To support bridge students*: If you're taking CS161A to prepare for CS161B, this overlap gives you a useful runway.
+The goal of this section is to make the first encounter less weird, show how the earlier material naturally grows into bigger tools, and give bridge students a little more runway.
 
 ** Why These Topics Are Here
 
@@ -4702,26 +4695,75 @@ The following topics are part of this extended CS161A pass and will also be cove
 - *Multi-file Programs*: Breaking your code into organized modules
 - *Algorithms*: Sorting and searching techniques
 
-Important: Don't feel pressured to master these topics on the first pass. They are part of CS161A in this sequence, but CS161B will revisit them with more depth, more practice, and more demanding assignments.
+Do not put pressure on yourself to become a wizard at all of this on the first pass. CS161B will come back to these ideas with more depth, more practice, and more demanding assignments.
 
-That said, if you're feeling confident with the earlier CS161A material, by all means dive in. These are all practical, useful topics that will make you a better programmer.
+These are real, useful tools, and if you're feeling steady with the earlier material, they are worth learning now.
 
-Think of this as an intentional bridge: enough exposure to make the second pass more meaningful later.
+This section is a bridge. A little exposure now makes the second pass later feel familiar.
+
+And because the earlier chapters worked better when they started from complete programs, the next few sections will do the same thing: first a worked example, then the patterns and smaller snippets that fall out of it.
 
 ** Vectors: Dynamic Arrays
 
-Remember how we had to declare arrays with a fixed size, and couldn't easily change that size later? Remember how we had to manually track the size of arrays and pass it as a separate parameter to functions? Remember how going out of bounds on an array just... caused mysterious crashes without any helpful error messages?
+Remember all the little annoyances of arrays? Fixed size. Separate size bookkeeping. Passing the array and the length around together every single time. Out-of-bounds mistakes turning into chaos with no useful signal.
 
-Yeah, vectors solve all of those problems.
+That whole list of annoyances is exactly why vectors exist. They handle most of the problems beginners keep slamming into with built-in arrays.
 
-Vectors are one of the most useful tools in C++, and you'll use them constantly in CS161B. They're like arrays, but better in almost every way. Think of them as "arrays that actually make sense."
+You'll use vectors constantly. They give you a container that tracks its own size, grows when you need more room, and works much more smoothly with functions. They are one of the first places where C++ starts feeling like it has decent tools built in.
+
+*** A first vector program
+Let's start the slow way with a complete program, because that's the style that tends to make new material stick.
+
+#+begin_src cpp :tangle codesnips/vectorIntro.cpp
+  #include <iostream>
+  #include <vector>
+  using namespace std;
+
+  int main(){
+    vector<int> numbers;
+    int input;
+
+    cout << "Enter numbers, -1 to stop: ";
+    cin >> input;
+
+    while(input != -1){
+      numbers.push_back(input);
+      cout << "Enter numbers, -1 to stop: ";
+      cin >> input;
+    }
+
+    cout << "You entered " << numbers.size() << " numbers: ";
+    for(int num : numbers){
+      cout << num << " ";
+    }
+    cout << endl;
+
+    return 0;
+  }
+#+end_src
+
+There are only three genuinely new ideas here.
+
+First, =vector<int> numbers;= declares an /empty/ vector of integers. We did not have to guess a size up front.
+
+Second, =numbers.push_back(input);= grows the vector by one element and stores =input= at the end. That's the core move you use when you're collecting an unknown amount of data.
+
+Third, =numbers.size()= asks the vector how many elements it currently has. With basic arrays, keeping track of that count was our job. With vectors, the container keeps track of its own size for us.
+
+The range-based loop at the end
+
+#+begin_src cpp
+  for(int num : numbers){
+#+end_src
+
+means "for each number currently stored in the vector, bind it to =num= and run the loop body." That's a very natural fit for vectors because vectors are built to be traversed this way.
 
 *** Introduction to Vectors
 **** Why Use Vectors Over Arrays?
 
 Vectors are part of the C++ Standard Library and provide:
 - *Dynamic sizing*: They can grow and shrink as needed—no more guessing how big to make your array!
-- *Bounds checking*: With the =.at()= method, you get helpful error messages instead of mysterious crashes
+- *Bounds checking*: The =.at()= method checks the index and notices bad accesses
 - *Built-in size tracking*: The vector knows how big it is, so you don't have to keep track separately
 - *Easier to use with functions*: You can pass vectors around without worrying about losing size information
 
@@ -4807,6 +4849,12 @@ nums[10] = 99;   // Undefined behavior (dangerous!)
 nums.at(10) = 99; // Throws exception (safer!)
 #+end_src
 
+When you're in bounds, these look almost identical. The difference only shows up when something goes wrong.
+
+The =[]= operator behaves like old-school array indexing: fast, concise, and trusting. If you make a mistake, C++ does not protect you.
+
+The =.at()= function asks the vector to check the index first. If the index is invalid, the program fails clearly. Early on, that tradeoff is often worth it.
+
 **** Exercises
 1. *Basic*: Write a program that safely accesses vector elements using .at() with error handling.
 2. *Discussion*: When would you use [] vs .at()?
@@ -4838,6 +4886,12 @@ for(int& val : values){
   val = val * 2; // Double each value
 }
 #+end_src
+
+These two loop styles are useful for different jobs.
+
+Use an index-based loop when the /position/ matters: maybe you need to print the index, compare =numbers[i]= to =numbers[i + 1]=, or update one specific slot.
+
+Use a range-based loop when you simply want to visit every element. In beginner code, that is often the clearer choice because it lets you talk directly about the /values/.
 
 **** Exercises
 1. *Basic*: Use a range-based for loop to sum all elements in a vector.
@@ -4879,6 +4933,68 @@ int main(){
 }
 #+end_src
 
+Notice the two different uses of references in this section.
+
+In =printVector(const vector<int>& v)=, the =&= means "use the original vector," and the =const= means "I promise not to change it."
+
+In =doubleValues(vector<int>& v)=, the reference is still there, but now the missing =const= is the whole point: the function is allowed to modify the caller's vector directly.
+
+This is one of the places where vectors feel much nicer than built-in arrays. A function can simply /return/ a vector by value, and the caller gets a real container back with its size and contents intact. We don't have to separately pass a length, and we don't have to play pointer games just to move a list of numbers around.
+
+**** A complete example with vector functions
+#+begin_src cpp :tangle codesnips/vectorFunctionDemo.cpp
+  #include <iostream>
+  #include <vector>
+  using namespace std;
+
+  vector<int> readNumbers(){
+    vector<int> values;
+    int input;
+
+    cout << "Enter numbers (-1 to stop): ";
+    while(cin >> input && input != -1){
+      values.push_back(input);
+    }
+
+    return values;
+  }
+
+  int sumVector(const vector<int>& values){
+    int total = 0;
+    for(int value : values){
+      total += value;
+    }
+    return total;
+  }
+
+  void printVector(const vector<int>& values){
+    for(int value : values){
+      cout << value << " ";
+    }
+    cout << endl;
+  }
+
+  int main(){
+    vector<int> numbers = readNumbers();
+
+    cout << "You entered " << numbers.size() << " numbers: ";
+    printVector(numbers);
+    cout << "Sum: " << sumVector(numbers) << endl;
+
+    return 0;
+  }
+#+end_src
+
+This little program is worth studying because each function has one job.
+
+=readNumbers()= handles input and returns a finished vector.
+
+=sumVector()= takes a finished vector and computes something from it without changing it.
+
+=printVector()= worries only about display.
+
+Then =main()= becomes a clean outline of the whole program.
+
 **** Exercises
 1. *Basic*: Write a function that returns a vector of even numbers from 0 to n.
 2. *Intermediate*: Write a function that filters a vector, keeping only positive numbers.
@@ -4912,34 +5028,50 @@ vector<int> filterPositive(const vector<int>& nums){
 }
 #+end_src
 
+This "build a result vector and return it" pattern shows up constantly. Read some input. Keep the pieces you want. Return the new collection. Once students get comfortable with that rhythm, a lot of data-processing programs start to feel much less mysterious.
+
 **** Exercises
 1. *Basic*: Write a function that returns only the even numbers from a vector.
 2. *Intermediate*: Write a function that removes duplicates from a vector.
 3. *Challenge*: Write a function that merges two sorted vectors into one sorted vector.
 
 *** Two-Dimensional Vectors
-#+begin_src cpp
-// Vector of vectors (2D vector)
-vector<vector<int>> matrix;
+Once you accept the idea that a vector can hold /anything/ of a given type, the next step is natural: a vector can hold other vectors.
 
-// Initialize 3x4 matrix
-matrix = {
-  {1, 2, 3, 4},
-  {5, 6, 7, 8},
-  {9, 10, 11, 12}
-};
+#+begin_src cpp :tangle codesnips/matrixIntro.cpp
+  #include <iostream>
+  #include <vector>
+  using namespace std;
 
-// Access elements
-cout << matrix[0][0] << endl; // Prints 1
+  int main(){
+    vector<vector<int>> matrix = {
+      {1, 2, 3, 4},
+      {5, 6, 7, 8},
+      {9, 10, 11, 12}
+    };
 
-// Iterate
-for(int row = 0; row < matrix.size(); row++){
-  for(int col = 0; col < matrix[row].size(); col++){
-    cout << matrix[row][col] << " ";
+    cout << "Top-left entry: " << matrix[0][0] << endl;
+
+    for(const vector<int>& row : matrix){
+      for(int value : row){
+        cout << value << " ";
+      }
+      cout << endl;
+    }
+
+    return 0;
   }
-  cout << endl;
-}
 #+end_src
+
+The indexing works exactly the way you'd hope:
+
+#+begin_src cpp
+  matrix[row][col]
+#+end_src
+
+First choose a row, which gives you a vector. Then choose a column inside that row.
+
+This is also why 2D vectors can be /jagged/: different rows are allowed to have different lengths, because each row is really its own vector.
 
 **** Exercises
 1. *Intermediate*: Create a 2D vector to store a multiplication table.
@@ -4963,7 +5095,7 @@ Create a program with a menu that can:
 
 **** LAB: High Score Tracker
 Create a game score tracker that:
-- Stores player names and scores in separate vectors
+- Stores player names and scores together in a vector of structs
 - Adds new scores
 - Displays top 5 scores
 - Allows searching for a player's score
@@ -4983,6 +5115,49 @@ But now you have a nightmare: you have to keep all four vectors synchronized. If
 
 Structs solve this problem by letting you bundle related data together into a single custom type. Instead of four separate vectors, you can have one vector of "Student" objects, where each student carries all their own information. It's cleaner, safer, and much more intuitive.
 
+*** A first struct program
+Again, let's start with one complete example before we turn this into a catalog of patterns.
+
+#+begin_src cpp :tangle codesnips/structIntro.cpp
+  #include <iostream>
+  #include <string>
+  using namespace std;
+
+  struct Student {
+    string name;
+    int id;
+    double gpa;
+  };
+
+  int main(){
+    Student s;
+    s.name = "Alice";
+    s.id = 1001;
+    s.gpa = 3.8;
+
+    cout << s.name << " (ID " << s.id << ") has GPA " << s.gpa << endl;
+    return 0;
+  }
+#+end_src
+
+The new idea is the line
+
+#+begin_src cpp
+  struct Student {
+#+end_src
+
+which defines a /new type/. After that, =Student s;= works the same way other declarations work: make a variable named =s= whose type is =Student=.
+
+Then the dot operator lets us get at the pieces stored /inside/ that struct:
+
+#+begin_src cpp
+  s.name = "Alice";
+  s.id = 1001;
+  s.gpa = 3.8;
+#+end_src
+
+So if a vector gives us "a list of things," a struct gives us "one thing with several related fields." Later on, those combine beautifully into vectors /of/ structs.
+
 *** Introduction to Structs
 **** Why Group Related Data?
 
@@ -4990,6 +5165,9 @@ When you have related pieces of information (like a student's name, ID, and GPA)
 
 **** Declaring a Struct
 #+begin_src cpp
+#include <string>
+using namespace std;
+
 struct Student {
   string name;
   int id;
@@ -4999,6 +5177,10 @@ struct Student {
 
 *** Creating and Using Struct Variables
 #+begin_src cpp
+#include <iostream>
+#include <string>
+using namespace std;
+
 struct Book {
   string title;
   string author;
@@ -5025,6 +5207,14 @@ int main(){
 }
 #+end_src
 
+The line
+
+#+begin_src cpp
+  Book anotherBook = {"Dune", "Frank Herbert", 688, 18.99};
+#+end_src
+
+is a compact way to fill in all the fields at once. The values go in the same order the fields were declared in the struct. That's convenient, but it does mean the order matters.
+
 **** Exercises
 1. *Basic*: Create a struct for a Person with name, age, and height. Create a Person variable and display it.
 2. *Intermediate*: Create a struct for a Rectangle with width and height. Add variables to store the calculated area and perimeter.
@@ -5033,6 +5223,9 @@ int main(){
 Use the dot operator (=.=) to access struct members.
 
 #+begin_src cpp
+#include <iostream>
+using namespace std;
+
 struct Point {
   double x;
   double y;
@@ -5052,6 +5245,9 @@ int main(){
 *** Structs and Functions
 **** Passing Structs to Functions
 #+begin_src cpp
+#include <iostream>
+using namespace std;
+
 struct Rectangle {
   double width;
   double height;
@@ -5074,8 +5270,17 @@ int main(){
 }
 #+end_src
 
+This section is also a good place to notice when we /copy/ a struct and when we /borrow/ one.
+
+=calculateArea(Rectangle rect)= receives a copy. For a tiny struct like this, that's perfectly fine.
+
+=displayRectangle(const Rectangle& rect)= receives a const reference. That avoids making another copy and promises the function will not change the caller's rectangle.
+
 **** Returning Structs from Functions
 #+begin_src cpp
+#include <iostream>
+using namespace std;
+
 struct Point {
   double x;
   double y;
@@ -5095,6 +5300,8 @@ int main(){
 }
 #+end_src
 
+Returning a struct may feel fancy at first, but the idea is actually straightforward: build one value that contains several related fields, then hand that value back to the caller. This is one of the cleanest ways to return "more than one piece of information" without juggling lots of separate variables.
+
 **** Exercises
 1. *Basic*: Write a function that takes two Point structs and calculates the distance between them.
 2. *Intermediate*: Write a function that takes a Rectangle and returns true if it's a square.
@@ -5103,6 +5310,11 @@ int main(){
 This is where structs become really powerful - creating databases of records.
 
 #+begin_src cpp
+#include <iostream>
+#include <string>
+#include <vector>
+using namespace std;
+
 struct Student {
   string name;
   int id;
@@ -5131,8 +5343,17 @@ int main(){
 }
 #+end_src
 
+This is the combination that makes structs really earn their keep.
+
+Each element of the vector is one complete student record. The student's name, ID, and GPA travel together as a single unit, which means we no longer have to keep several parallel arrays synchronized by hand.
+
 **** Example: Student Records System
 #+begin_src cpp
+#include <iostream>
+#include <string>
+#include <vector>
+using namespace std;
+
 struct Student {
   string name;
   int id;
@@ -5172,6 +5393,14 @@ int main(){
 }
 #+end_src
 
+Read this example from top to bottom and notice how each helper function has a small, specific job.
+
+=displayStudent()= prints one record.
+
+=findTopStudent()= scans the vector and returns the best record it found.
+
+=main()= sets up the sample data, prints the whole list, then prints the top student. That's the same "small helper functions plus a readable =main()=" structure that made earlier chapters easier to follow.
+
 **** Exercises
 1. *Basic*: Create a vector of Book structs and display them all.
 2. *Intermediate*: Write a function to find the most expensive book in a vector of Books.
@@ -5181,6 +5410,10 @@ int main(){
 Structs can contain other structs as members.
 
 #+begin_src cpp
+#include <iostream>
+#include <string>
+using namespace std;
+
 struct Date {
   int month;
   int day;
@@ -5209,6 +5442,14 @@ int main(){
   return 0;
 }
 #+end_src
+
+The expression
+
+#+begin_src cpp
+  p.birthday.month
+#+end_src
+
+is just the dot operator twice in a row. First get the =birthday= field out of =p=. That gives you a =Date=. Then get the =month= field out of that =Date=.
 
 **** Exercises
 1. *Intermediate*: Create an Address struct and a Person struct that contains an Address.
@@ -5241,13 +5482,13 @@ Create a contact manager:
 
 ** File I/O: Reading and Writing Files
 
-So far, all of our programs have been ephemeral—when they end, any data they worked with disappears. If you run a program that asks for user input, processes it, and displays results, that's great... but as soon as the program ends, everything is gone. If you want to use that data again, you have to re-enter it all over again.
+So far, most of our programs have had the memory span of a goldfish. You run them, type some input, get an answer, and then the whole little universe disappears the moment the program ends.
 
-This is where files come in.
+Files are how programs stop being so forgetful.
 
-Files let your programs save data permanently to disk, read data that was saved earlier, and share information between different programs. Want to save high scores in a game? Files. Want to process a spreadsheet of student grades? Files. Want to create a log of what your program did? Files.
+They let your program save data to disk, read data back later, and pass information around between different runs or even different programs. High scores? Files. Grade reports? Files. Logs? Files. Anything where "I really do not want to type all of this again tomorrow"? Also files.
 
-File I/O (Input/Output) is one of the most practical programming skills you'll learn. Nearly every real-world program needs to read from or write to files at some point. The good news is that once you understand =cin= and =cout=, file I/O will feel very familiar—it uses almost the same syntax!
+The nice part is that file I/O is much less exotic than it sounds. If =cin= and =cout= already make sense to you, then the basic flow here will feel familiar too.
 
 *** Introduction to File Input/Output
 **** Why Use Files?
@@ -5260,6 +5501,51 @@ Files give your programs the ability to:
 
 **** Text Files vs Binary Files
 In this course, we focus on text files (human-readable). Binary files are more efficient but harder to work with.
+
+**** A first file-reading program
+Here's the first full example I want you to keep in your head:
+
+#+begin_src cpp :tangle codesnips/fileIntro.cpp
+  #include <iostream>
+  #include <fstream>
+  #include <string>
+  using namespace std;
+
+  int main(){
+    ifstream inFile("data.txt");
+
+    if(!inFile.is_open()){
+      cout << "Error opening file!" << endl;
+      return 1;
+    }
+
+    string line;
+    while(getline(inFile, line)){
+      cout << line << endl;
+    }
+
+    inFile.close();
+    return 0;
+  }
+#+end_src
+
+If that feels familiar, good. It should. The line
+
+#+begin_src cpp
+  ifstream inFile("data.txt");
+#+end_src
+
+creates a file stream and tries to connect it to a file on disk. Then
+
+#+begin_src cpp
+  while(getline(inFile, line)){
+#+end_src
+
+reads one line at a time from that file.
+
+The error check matters because files can fail to open for mundane reasons: wrong filename, wrong folder, missing permissions, and so on. For beginners, that explicit check is worth making a habit.
+
+From here on, some of the examples are still complete programs and some are shorter variations that only change one idea. When a snippet is short, mentally inherit the same pattern: open the file, check that it opened, process it, then close it.
 
 *** Reading from Files
 **** Opening Files with ifstream
@@ -5313,15 +5599,35 @@ int main(){
 
 **** Reading Word by Word
 #+begin_src cpp
-ifstream inFile("words.txt");
-string word;
+#include <iostream>
+#include <fstream>
+#include <string>
+using namespace std;
 
-while(inFile >> word){
-  cout << word << endl;
+int main(){
+  ifstream inFile("words.txt");
+  string word;
+
+  if(!inFile.is_open()){
+    cout << "Error opening file!" << endl;
+    return 1;
+  }
+
+  while(inFile >> word){
+    cout << word << endl;
+  }
+
+  inFile.close();
+  return 0;
 }
-
-inFile.close();
 #+end_src
+
+If the rhythm of file I/O is starting to feel repetitive, excellent. This is one of those places where boring habits are exactly what you want:
+
+1. connect a stream to a file
+2. check that the connection worked
+3. choose a reading pattern (=getline= for lines, =inFile >> word= for whitespace-separated chunks, and so on)
+4. process each piece of data
 
 **** Checking for File Open Errors
 #+begin_src cpp
@@ -5345,6 +5651,32 @@ if(!inFile.is_open()){
 3. *Challenge*: Write a program that counts the number of words in a file.
 
 *** Writing to Files
+**** A first file-writing program
+Reading files is half the story. The other half is producing them.
+
+#+begin_src cpp :tangle codesnips/fileWriteIntro.cpp
+  #include <iostream>
+  #include <fstream>
+  using namespace std;
+
+  int main(){
+    ofstream outFile("output.txt");
+
+    if(!outFile.is_open()){
+      cout << "Error creating file!" << endl;
+      return 1;
+    }
+
+    outFile << "Hello, file!" << endl;
+    outFile << "This is line 2" << endl;
+
+    outFile.close();
+    return 0;
+  }
+#+end_src
+
+This should look comfortingly similar to the input example. That is deliberate. =ofstream= sends output to a file the same way =cout= sends output to the terminal.
+
 **** Opening Files with ofstream
 #+begin_src cpp
 #include <iostream>
@@ -5369,14 +5701,26 @@ int main(){
 
 **** Writing Formatted Output
 #+begin_src cpp
-ofstream outFile("grades.txt");
+#include <iostream>
+#include <fstream>
+using namespace std;
 
-outFile << "Name\tGrade" << endl;
-outFile << "Alice\t95" << endl;
-outFile << "Bob\t87" << endl;
-outFile << "Charlie\t92" << endl;
+int main(){
+  ofstream outFile("grades.txt");
 
-outFile.close();
+  if(!outFile.is_open()){
+    cout << "Error creating file!" << endl;
+    return 1;
+  }
+
+  outFile << "Name\tGrade" << endl;
+  outFile << "Alice\t95" << endl;
+  outFile << "Bob\t87" << endl;
+  outFile << "Charlie\t92" << endl;
+
+  outFile.close();
+  return 0;
+}
 #+end_src
 
 **** Append Mode vs Overwrite Mode
@@ -5391,6 +5735,10 @@ ofstream outFile2("file.txt", ios::app);
 outFile2 << "This is added to the end" << endl;
 outFile2.close();
 #+end_src
+
+Plain =ofstream outFile("file.txt");= starts from scratch. If =file.txt= already exists, the new program run wipes it out and starts over.
+
+=ofstream outFile("file.txt", ios::app);= says "no, no, keep what's already there and add the new stuff to the end." That is exactly what you want for logs, journals, and other running histories.
 
 **** Exercises
 1. *Basic*: Write a program that asks for user's name and age, then saves it to a file.
@@ -5423,40 +5771,71 @@ int main(){
 }
 #+end_src
 
+This line
+
+#+begin_src cpp
+  while(inFile >> num){
+#+end_src
+
+is doing two jobs at once. It tries to read the next integer /and/ it asks whether that read succeeded.
+
+If the next value in the file really is an integer, the loop body runs. If the file is exhausted or the next chunk of text is not a valid integer, the stream goes into a failed state and the loop stops.
+
 **** Counting Lines, Words, Characters
 #+begin_src cpp
-ifstream inFile("document.txt");
-string line;
-int lineCount = 0;
-int wordCount = 0;
-int charCount = 0;
+#include <iostream>
+#include <fstream>
+#include <string>
+using namespace std;
 
-while(getline(inFile, line)){
-  lineCount++;
-  charCount += line.length();
+int main(){
+  ifstream inFile("document.txt");
+  string line;
+  int lineCount = 0;
+  int wordCount = 0;
+  int charCount = 0;
 
-  // Count words (simple approach)
-  string word;
-  for(char c : line){
-    if(c == ' '){
-      if(!word.empty()){
-        wordCount++;
-        word = "";
+  if(!inFile.is_open()){
+    cout << "Error opening file!" << endl;
+    return 1;
+  }
+
+  while(getline(inFile, line)){
+    lineCount++;
+    charCount += line.length();
+
+    // Count words (simple approach)
+    string word;
+    for(char c : line){
+      if(c == ' '){
+        if(!word.empty()){
+          wordCount++;
+          word = "";
+        }
+      }
+      else{
+        word += c;
       }
     }
-    else{
-      word += c;
-    }
+    if(!word.empty()) wordCount++;
   }
-  if(!word.empty()) wordCount++;
+
+  cout << "Lines: " << lineCount << endl;
+  cout << "Words: " << wordCount << endl;
+  cout << "Characters: " << charCount << endl;
+
+  inFile.close();
+  return 0;
 }
-
-cout << "Lines: " << lineCount << endl;
-cout << "Words: " << wordCount << endl;
-cout << "Characters: " << charCount << endl;
-
-inFile.close();
 #+end_src
+
+This program is worth staring at for a minute because it is a nice example of how bigger jobs get built out of smaller, boring ones.
+
+The outer loop is doing the file-level work: get one line, then the next line, then the next one until there are no more.
+
+Inside that, the =for(char c : line)= loop is doing string-level work: walk through the current line one character at a time and look for rough word boundaries.
+
+That layering shows up everywhere. First chop the input into manageable pieces. Then do local work on each piece.
 
 **** Processing CSV Files
 #+begin_src cpp
@@ -5504,6 +5883,15 @@ int main(){
 }
 #+end_src
 
+CSV sounds fancier than it is. The basic move is:
+
++ get one whole record as a line of text
++ make a =stringstream= from that line
++ pull out comma-separated fields one by one
++ convert the fields that represent numbers
+
+This is another clean split of responsibilities. The file stream worries about "which line are we on?" The stringstream worries about "which field are we on inside this line?"
+
 **** Exercises
 1. *Basic*: Read a file of numbers and find the maximum value.
 2. *Intermediate*: Read a CSV file of names and ages, then display those over 18.
@@ -5514,6 +5902,7 @@ int main(){
 #+begin_src cpp
 #include <iostream>
 #include <fstream>
+#include <string>
 using namespace std;
 
 bool fileExists(const string& filename){
@@ -5539,26 +5928,34 @@ int main(){
 
 **** Handling Read/Write Errors
 #+begin_src cpp
-ifstream inFile("data.txt");
+#include <iostream>
+#include <fstream>
+using namespace std;
 
-if(!inFile){
-  cerr << "ERROR: Cannot open file for reading" << endl;
-  return 1;
-}
+int main(){
+  ifstream inFile("data.txt");
+  int data;
 
-// Check for errors during reading
-while(inFile >> data){
-  // Process data
-}
+  if(!inFile){
+    cerr << "ERROR: Cannot open file for reading" << endl;
+    return 1;
+  }
 
-if(inFile.bad()){
-  cerr << "ERROR: Problem reading file" << endl;
-}
-else if(inFile.fail() && !inFile.eof()){
-  cerr << "ERROR: Data format error" << endl;
-}
+  // Check for errors during reading
+  while(inFile >> data){
+    // Process data
+  }
 
-inFile.close();
+  if(inFile.bad()){
+    cerr << "ERROR: Problem reading file" << endl;
+  }
+  else if(inFile.fail() && !inFile.eof()){
+    cerr << "ERROR: Data format error" << endl;
+  }
+
+  inFile.close();
+  return 0;
+}
 #+end_src
 
 *** Lab Projects
@@ -5589,17 +5986,17 @@ Create a contact management system that:
 
 ** Multi-File Programs
 
-Up until now, you've probably been writing all your code in a single file—maybe =main.cpp= or something similar. For small programs, that's perfectly fine. But as your programs grow larger and more complex, putting everything in one file becomes a problem.
+Up to this point we have been cheerfully stuffing almost everything into one file, and for beginner programs that is honestly fine. But eventually one giant =main.cpp= stops feeling simple and starts feeling like you keep your entire life in one junk drawer.
 
-Imagine trying to find one specific function among 2,000 lines of code in a single file. Or imagine wanting to reuse your grade-calculation functions in three different programs—are you going to copy-paste the same code into three different files? What happens when you find a bug in that code? Do you have to fix it in three places?
+Need one function from line 1700? Good luck. Want to reuse your grade-calculation code in another project? Hope you enjoy copy-pasting. Found a bug in the reused code after you pasted it into three places? Outstanding. Now you get to fix it three times and wonder whether you missed one.
 
-This is where multi-file programs come in. Breaking your code into multiple files makes it more organized, reusable, and maintainable. It's like organizing your closet: instead of throwing everything in one big pile, you sort things into drawers and sections so you can actually find what you need.
+Multi-file programs are how you stop doing that to yourself. Split the code up by responsibility. Put the public declarations in one place, the implementations in another, and let the files work together cleanly.
 
-In CS161B, you'll work on projects that are too large to fit comfortably in one file, so learning how to organize code across multiple files is essential. The key concepts are header files (=.h=) and implementation files (=.cpp=), and they work together to keep your code modular and clean.
+In CS161B, this stops being optional very quickly, so it is worth learning the mental model now: headers tell other files what exists, implementation files tell them how it works.
 
 *** Why Split Code into Multiple Files?
 
-Breaking code into multiple files provides several important benefits:
+Splitting code into multiple files buys you a few things immediately:
 - *Organization*: Group related functions together (all math functions in one file, all file I/O functions in another)
 - *Reusability*: Write a function once, use it in multiple programs without copy-pasting
 - *Maintainability*: Find and fix bugs more easily when code is organized logically
@@ -5608,7 +6005,7 @@ Breaking code into multiple files provides several important benefits:
 
 *** Header Files (.h)
 **** Creating Header Files
-Header files contain declarations (what exists) but not usually implementations (how it works).
+Header files usually contain declarations: what exists and how other files are allowed to use it.
 
 =math_utils.h=:
 #+begin_src cpp
@@ -5625,6 +6022,14 @@ int factorial(int n);
 
 **** Include Guards
 The =#ifndef=, =#define=, =#endif= pattern prevents the header from being included multiple times, which would cause errors.
+
+If you read that pattern literally, it makes decent sense:
+
++ if this header's guard name has not been defined yet, define it now
++ then include the declarations in the file
++ if the header gets included again later, skip the body because the guard name is already defined
+
+The syntax looks strange because it belongs to the preprocessor rather than ordinary C++. The idea is simple: include these declarations once.
 
 **** Function Declarations vs Definitions
 - **Declaration**: Tells the compiler a function exists (in .h file)
@@ -5667,16 +6072,23 @@ int main(){
 }
 #+end_src
 
+Here's the big picture. =main.cpp= includes =math_utils.h= so the compiler knows the /names and types/ of the functions it is allowed to call. The actual bodies of those functions live in =math_utils.cpp=. When the program is linked, the linker matches the calls in =main.cpp= to the definitions in =math_utils.cpp=.
+
+That split is the entire point of multi-file programs:
++ the header says what exists
++ the implementation file says how it works
++ =main.cpp= uses those pieces to build the program
+
 *** Compiling Multi-File Programs
 **** Command-Line Compilation
 #+begin_example
 # Compile all files together
-g++ main.cpp math_utils.cpp -o program
+g++ -std=c++17 -Wall -Wextra -pedantic main.cpp math_utils.cpp -o program
 
 # Or compile separately (faster for large projects)
-g++ -c math_utils.cpp   # Creates math_utils.o
-g++ -c main.cpp         # Creates main.o
-g++ math_utils.o main.o -o program  # Links them together
+g++ -std=c++17 -Wall -Wextra -pedantic -c math_utils.cpp   # Creates math_utils.o
+g++ -std=c++17 -Wall -Wextra -pedantic -c main.cpp         # Creates main.o
+g++ math_utils.o main.o -o program                         # Links them together
 #+end_example
 
 **** Makefiles (Basic Introduction)
@@ -5688,10 +6100,10 @@ program: main.o math_utils.o
 	g++ main.o math_utils.o -o program
 
 main.o: main.cpp math_utils.h
-	g++ -c main.cpp
+	g++ -std=c++17 -Wall -Wextra -pedantic -c main.cpp
 
 math_utils.o: math_utils.cpp math_utils.h
-	g++ -c math_utils.cpp
+	g++ -std=c++17 -Wall -Wextra -pedantic -c math_utils.cpp
 
 clean:
 	rm -f *.o program
@@ -5737,6 +6149,18 @@ project/
 
 - *Solution*: Make sure all .cpp files are compiled and linked
 
+Those two errors are common because they are almost opposites of each other.
+
+"Multiple definition" means the program saw the same implementation more than once.
+
+"Undefined reference" means the program saw a declaration or function call, but no compiled implementation ever showed up to satisfy it.
+
+If you remember the division of labor, these messages become much less mysterious:
+
++ header files advertise what exists
++ implementation files provide the actual code
++ the build command has to include every implementation file the program needs
+
 **** Exercises
 1. *Discussion*: What's the difference between =#include <iostream>= and =#include "myfile.h"=?
 2. *Basic*: Create a header file with function declarations and an implementation file with definitions.
@@ -5757,20 +6181,56 @@ Create a multi-file calculator:
 
 ** Common Algorithms & Problem Solving
 
-So you know how to write programs that do specific things: calculate grades, play guessing games, manage a list of names. But what about solving more general problems that come up over and over again in programming?
+Sooner or later every programmer gets tired of re-solving the same little problems from scratch.
 
-For example: "How do I find a specific item in a list?" or "How do I sort a list of items in order?" These are such common problems that computer scientists have developed standard solutions for them, called *algorithms*.
+How do I find something in a list?
 
-An algorithm is just a step-by-step procedure for solving a problem. The algorithms we'll look at here—searching and sorting—are fundamental to computer science. You'll use them constantly in real programs, and understanding how they work will help you become a better problem solver.
+How do I put a list in order?
 
-In CS161B, you'll study algorithms in much more depth, learning about their efficiency (how fast they run) and when to use one algorithm versus another. For now, we'll introduce a few classic algorithms to give you a taste of algorithmic thinking.
+How do I walk through some text looking for a pattern?
 
-Don't worry if these seem abstract at first—that's normal! The key is to understand the logic of each algorithm, trace through how it works step-by-step, and recognize when you might need to use one in your own programs.
+Those jobs come up so often that computer science has standard methods for them. Those standard methods are algorithms.
+
+There is nothing mystical hiding in that word. An algorithm is just a step-by-step recipe for solving a recurring problem. The reason we care about them is that once you know a few solid recipes, whole categories of programming problems stop feeling like improvisation.
+
+In CS161B you will study these ideas more formally, especially questions like "how fast is this?" and "when is this algorithm a bad choice?" For now I mostly want you to get comfortable tracing the logic and seeing the shape of the method.
 
 *** Searching Algorithms
 **** Linear Search
 
 This is the simplest search algorithm: just look through an array one element at a time until you find what you're looking for (or reach the end without finding it).
+
+Here's a complete version first:
+
+#+begin_src cpp :tangle codesnips/linearSearchDemo.cpp
+  #include <iostream>
+  using namespace std;
+
+  int linearSearch(int arr[], int size, int target){
+    for(int i = 0; i < size; i++){
+      if(arr[i] == target){
+        return i;
+      }
+    }
+    return -1;
+  }
+
+  int main(){
+    int values[6] = {4, 8, 15, 16, 23, 42};
+    int location = linearSearch(values, 6, 15);
+
+    if(location == -1){
+      cout << "Not found" << endl;
+    }
+    else{
+      cout << "Found at index " << location << endl;
+    }
+
+    return 0;
+  }
+#+end_src
+
+The logic is almost aggressively simple, and that is exactly why linear search is such a good first algorithm. Start at the beginning, compare each element to the target, and stop the moment you get a match. If you reach the end first, return =-1= to mean "not found."
 
 #+begin_src cpp
 int linearSearch(int arr[], int size, int target){
@@ -5787,6 +6247,48 @@ Time complexity: O(n) - might need to check every element
 
 **** Binary Search (On Sorted Data)
 Much faster than linear search, but only works on sorted arrays.
+
+Here's a complete version first:
+
+#+begin_src cpp :tangle codesnips/binarySearchDemo.cpp
+  #include <iostream>
+  using namespace std;
+
+  int binarySearch(int arr[], int size, int target){
+    int left = 0;
+    int right = size - 1;
+
+    while(left <= right){
+      int mid = left + (right - left) / 2;
+
+      if(arr[mid] == target){
+        return mid;
+      }
+      else if(arr[mid] < target){
+        left = mid + 1;
+      }
+      else{
+        right = mid - 1;
+      }
+    }
+
+    return -1;
+  }
+
+  int main(){
+    int values[8] = {3, 7, 12, 18, 25, 31, 44, 50};
+    int location = binarySearch(values, 8, 25);
+
+    if(location == -1){
+      cout << "Not found" << endl;
+    }
+    else{
+      cout << "Found at index " << location << endl;
+    }
+
+    return 0;
+  }
+#+end_src
 
 #+begin_src cpp
 int binarySearch(int arr[], int size, int target){
@@ -5811,6 +6313,18 @@ int binarySearch(int arr[], int size, int target){
 }
 #+end_src
 
+The variables =left= and =right= mark the current search window. At the beginning, that window is the whole array.
+
+Each trip through the loop:
+
+1. compute the middle index
+2. compare the middle value to the target
+3. keep only the half where the target could still possibly live
+
+That repeated halving is the whole reason binary search is so much faster than linear search on large sorted data.
+
+The whole trick of binary search is that it throws away /half/ the remaining search space each time. But it can only do that because the data is sorted. If the array is not sorted, then "go left" and "go right" stop meaning anything useful.
+
 Time complexity: O(log n) - much faster for large arrays
 
 **** Exercises
@@ -5821,6 +6335,44 @@ Time complexity: O(log n) - much faster for large arrays
 *** Sorting Algorithms
 **** Selection Sort
 Find the minimum element and move it to the front, repeat for the rest.
+
+Here's a complete demo:
+
+#+begin_src cpp :tangle codesnips/selectionSortDemo.cpp
+  #include <iostream>
+  using namespace std;
+
+  void selectionSort(int arr[], int size){
+    for(int i = 0; i < size - 1; i++){
+      int minIndex = i;
+
+      for(int j = i + 1; j < size; j++){
+        if(arr[j] < arr[minIndex]){
+          minIndex = j;
+        }
+      }
+
+      int temp = arr[i];
+      arr[i] = arr[minIndex];
+      arr[minIndex] = temp;
+    }
+  }
+
+  int main(){
+    int values[6] = {8, 3, 5, 1, 9, 2};
+
+    selectionSort(values, 6);
+
+    for(int i = 0; i < 6; i++){
+      cout << values[i] << " ";
+    }
+    cout << endl;
+
+    return 0;
+  }
+#+end_src
+
+Selection sort is a good first sorting algorithm because the idea is so direct: find the smallest remaining element and move it to where it belongs.
 
 #+begin_src cpp
 void selectionSort(int arr[], int size){
@@ -5842,6 +6394,14 @@ void selectionSort(int arr[], int size){
 }
 #+end_src
 
+Try tracing that on paper with a tiny list like =8 3 5 1=.
+
+On the first pass, the algorithm finds =1= and swaps it into the first slot.
+
+On the second pass, it ignores that first slot because it is already correct, then finds the smallest remaining value and puts /that/ into the second slot.
+
+So the sorted region grows from left to right one position at a time.
+
 **** Bubble Sort
 Repeatedly swap adjacent elements if they're in the wrong order.
 
@@ -5859,6 +6419,8 @@ void bubbleSort(int arr[], int size){
   }
 }
 #+end_src
+
+Bubble sort is mainly useful for training your algorithm muscles because the movement is so local and visible: compare neighbors, swap if needed, repeat until the mess gradually untangles itself.
 
 **** Using Built-in Sort (Preview)
 C++ provides a highly optimized sort function.
@@ -5878,18 +6440,97 @@ int main(){
 }
 #+end_src
 
+In ordinary C++ work, this library sort is usually what you should reach for. We still study the hand-written versions because they teach the habits underneath them: trace your loops carefully, know what part of the data is already in a "good" state, and be very clear about what changes on each pass.
+
 **** Exercises
 1. *Basic*: Implement selection sort for a vector.
 2. *Intermediate*: Modify bubble sort to stop early if the array becomes sorted.
 3. *Challenge*: Sort a vector of structs by a specific field (e.g., sort students by GPA).
 
 *** String Algorithms
+These little string utilities really do end up living inside larger programs. I still want to start with one complete example so the whole thing feels like a program with a clear shape and flow.
+
+**** A complete string-tools program
+#+begin_src cpp :tangle codesnips/stringToolDemo.cpp
+  #include <iostream>
+  #include <string>
+  using namespace std;
+
+  string reverseString(string s){
+    string result = "";
+    for(int i = s.length(); i > 0; i--){
+      result += s[i - 1];
+    }
+    return result;
+  }
+
+  bool isPalindrome(const string& s){
+    if(s.empty()){
+      return true;
+    }
+
+    int left = 0;
+    int right = s.length() - 1;
+
+    while(left < right){
+      if(s[left] != s[right]){
+        return false;
+      }
+      left++;
+      right--;
+    }
+
+    return true;
+  }
+
+  int countOccurrences(const string& text, const string& pattern){
+    if(pattern.empty()){
+      return 0;
+    }
+
+    int count = 0;
+    auto pos = text.find(pattern);
+
+    while(pos != string::npos){
+      count++;
+      pos = text.find(pattern, pos + pattern.length());
+    }
+
+    return count;
+  }
+
+  int main(){
+    string word;
+    string text;
+    string pattern;
+
+    cout << "Enter a word: ";
+    getline(cin, word);
+    cout << "Reversed: " << reverseString(word) << endl;
+    cout << "Palindrome? " << (isPalindrome(word) ? "yes" : "no") << endl;
+
+    cout << "Enter a line of text: ";
+    getline(cin, text);
+    cout << "Enter a pattern to search for: ";
+    getline(cin, pattern);
+
+    cout << "Occurrences: " << countOccurrences(text, pattern) << endl;
+    return 0;
+  }
+#+end_src
+
+This is the same move we have been making all book long:
+
++ write a few focused helper functions
++ let =main()= gather input and show results
++ keep each function responsible for one clear task
+
 **** Reversing Strings
 #+begin_src cpp
 string reverseString(string s){
   string result = "";
-  for(int i = s.length() - 1; i >= 0; i--){
-    result += s[i];
+  for(int i = s.length(); i > 0; i--){
+    result += s[i - 1];
   }
   return result;
 }
@@ -5912,6 +6553,10 @@ void reverseInPlace(string& s){
 **** Checking for Palindromes
 #+begin_src cpp
 bool isPalindrome(const string& s){
+  if(s.empty()){
+    return true;
+  }
+
   int left = 0;
   int right = s.length() - 1;
 
@@ -5930,17 +6575,30 @@ bool isPalindrome(const string& s){
 **** Finding Patterns in Text
 #+begin_src cpp
 int countOccurrences(const string& text, const string& pattern){
-  int count = 0;
-  size_t pos = 0;
+  if(pattern.empty()){
+    return 0;
+  }
 
-  while((pos = text.find(pattern, pos)) != string::npos){
+  int count = 0;
+  auto pos = text.find(pattern);
+
+  while(pos != string::npos){
     count++;
-    pos += pattern.length();
+    pos = text.find(pattern, pos + pattern.length());
   }
 
   return count;
 }
 #+end_src
+
+=find= gives back the index where the next match begins. If there is no next match, it gives back =string::npos=. So the program follows a simple rhythm: find one, count one, then start looking again just after that.
+
+So the structure of this loop is:
+
++ find a match
++ count it
++ resume the search after the end of that match
++ stop when no more matches exist
 
 **** Exercises
 1. *Basic*: Write a function that removes all spaces from a string.
@@ -5948,6 +6606,62 @@ int countOccurrences(const string& text, const string& pattern){
 3. *Challenge*: Implement a simple spell checker that finds the closest matching word.
 
 *** Numeric Algorithms
+Same deal here: first a runnable little program, then the smaller helper functions pulled back out where you can study them one at a time.
+
+**** A complete number-tools program
+#+begin_src cpp :tangle codesnips/numberToolDemo.cpp
+  #include <iostream>
+  using namespace std;
+
+  int gcd(int a, int b){
+    while(b != 0){
+      int temp = b;
+      b = a % b;
+      a = temp;
+    }
+    return a;
+  }
+
+  int lcm(int a, int b){
+    return (a / gcd(a, b)) * b;
+  }
+
+  int fibonacci(int n){
+    if(n <= 1){
+      return n;
+    }
+
+    int a = 0;
+    int b = 1;
+    for(int i = 2; i <= n; i++){
+      int temp = a + b;
+      a = b;
+      b = temp;
+    }
+
+    return b;
+  }
+
+  int main(){
+    int a;
+    int b;
+    int n;
+
+    cout << "Enter two integers: ";
+    cin >> a >> b;
+    cout << "GCD: " << gcd(a, b) << endl;
+    cout << "LCM: " << lcm(a, b) << endl;
+
+    cout << "Enter n for Fibonacci: ";
+    cin >> n;
+    cout << "Fibonacci(" << n << ") = " << fibonacci(n) << endl;
+
+    return 0;
+  }
+#+end_src
+
+Again, =main()= is mostly just the outline of the conversation with the user. The actual math lives in the helper functions, where it is easier to test and easier to reuse.
+
 **** Finding GCD (Greatest Common Divisor)
 #+begin_src cpp
 int gcd(int a, int b){
@@ -5960,10 +6674,18 @@ int gcd(int a, int b){
 }
 #+end_src
 
+This is the Euclidean algorithm. The line that looks like it ought to be some kind of wizard spell is
+
+#+begin_src cpp
+  b = a % b;
+#+end_src
+
+because it replaces the bigger problem with a smaller one that has the same answer. The greatest common divisor of =a= and =b= is the same as the greatest common divisor of =b= and the remainder when =a= is divided by =b=.
+
 **** Finding LCM (Least Common Multiple)
 #+begin_src cpp
 int lcm(int a, int b){
-  return (a * b) / gcd(a, b);
+  return (a / gcd(a, b)) * b;
 }
 #+end_src
 
@@ -6001,6 +6723,8 @@ int fibonacci(int n){
 }
 #+end_src
 
+The variables =a= and =b= are holding two consecutive Fibonacci values. Each loop iteration slides that two-number window forward by one step. This is a useful little pattern to notice: some algorithms only need the most recent two or three values.
+
 **** Exercises
 1. *Basic*: Write a function that generates the first n prime numbers.
 2. *Intermediate*: Write a function that finds the prime factorization of a number.
@@ -6014,11 +6738,23 @@ int fibonacci(int n){
 4. **Test**: Try different inputs, including edge cases
 5. **Refine**: Optimize, improve readability
 
+That list is pretty close to the actual shape of how most successful beginner programs get written.
+
+One of the fastest ways to get stuck is to leap from "I sort of understand the assignment" straight into coding. Naming the inputs, outputs, edge cases, and subproblems first usually makes the implementation much calmer.
+
 **** Test-Driven Development Basics
 Write tests before writing the actual function.
 
 #+begin_src cpp
-// Test function
+#include <cassert>
+#include <iostream>
+using namespace std;
+
+int factorial(int n){
+  if(n <= 1) return 1;
+  return n * factorial(n - 1);
+}
+
 void testFactorial(){
   assert(factorial(0) == 1);
   assert(factorial(1) == 1);
@@ -6026,10 +6762,9 @@ void testFactorial(){
   cout << "All tests passed!" << endl;
 }
 
-// Then implement factorial to pass the tests
-int factorial(int n){
-  if(n <= 1) return 1;
-  return n * factorial(n - 1);
+int main(){
+  testFactorial();
+  return 0;
 }
 #+end_src
 
@@ -6040,6 +6775,10 @@ int factorial(int n){
 4. **Check assumptions** (array sizes, input format, etc.)
 5. **Use a debugger** (gdb, IDE debugger)
 6. **Rubber duck debugging**: Explain the code out loud
+
+The real theme here is simple: debug on purpose.
+
+When something breaks, change one thing, gather one new fact, and let that fact guide the next step. Random thrashing feels busy, but it rarely teaches you what actually went wrong.
 
 *** Command-Line Arguments
 **** argc and argv
@@ -6068,11 +6807,14 @@ Argument 1: hello
 Argument 2: world
 #+end_example
 
+Notice that all of these arguments arrive as text. Even if the user typed numbers, the program first receives them as strings and then decides whether to convert them.
+
+=argv[0]= is usually the program name, so the user-supplied arguments begin at =argv[1]=.
+
 **** Processing Command-Line Parameters
 #+begin_src cpp
 #include <iostream>
-#include <cstdlib>
-#include <ctime>
+#include <string>
 using namespace std;
 
 int main(int argc, char* argv[]){
@@ -6081,14 +6823,18 @@ int main(int argc, char* argv[]){
     return 1;
   }
 
-  int num1 = atoi(argv[1]);
-  int num2 = atoi(argv[2]);
+  int num1 = stoi(argv[1]);
+  int num2 = stoi(argv[2]);
 
   cout << num1 << " + " << num2 << " = " << (num1 + num2) << endl;
 
   return 0;
 }
 #+end_src
+
+This version uses =stoi=. That's a better teaching default because it does not silently turn bad input into 0.
+
+That point matters because command-line arguments do not come with types attached. They are just strings. Your program is responsible for deciding what those strings are supposed to mean.
 
 **** Exercises
 1. *Basic*: Write a program that takes a name as a command-line argument and prints a greeting.
@@ -6995,7 +7741,7 @@ int main(){
   while(cin.fail() || !isValidDate(month, day, year)){
     if(cin.fail()){
       cin.clear();
-      cin.ignore(256, '\n');
+      cin.ignore(numeric_limits<streamsize>::max(), '\n');
       cout << "Invalid input! Please enter numbers only." << endl;
     }
     else{
@@ -7038,7 +7784,7 @@ Remember: The best solution is one that works correctly, is readable, and can be
 * Footnotes
 
 [fn:10] Computer scientists, when talking about the "meaning" of things in programming borrow a word from the linguistics community and we talk about the /semantics/ of a program. So the /semantics/ of "the number of wins" should be a whole number, an integer, because there's no such thing as "a partial win". So our point can be rephrased as saying that "the type of the data should fit the /semantics/ of the data". 
-[fn:9] This is only true for memory allocated, allocated being the technical term for setting up the dividers on the storage wall and putting the labels on the cubbyhole, /on the stack/. All the memory you're allocating in this class---every variable you create, every array you make---will be on the stack. There is /another/ way to allocate memory that is more flexible but also harder to manage, usually called "the heap", but it still only lasts as long as the program is running. If you forget to clean it up, that's called a "memory leak": the memory stays in use until the program ends, which is one reason programs like Chrome and Firefox can seem to swell up to absurd amounts of RAM if you leave them open long enough.
+[fn:9] This is only true for memory allocated, allocated being the technical term for setting up the dividers on the storage wall and putting the labels on the cubbyhole, /on the stack/. In these early chapters, the variables and basic arrays that /you declare directly/ will live on the stack. There is /another/ way to allocate memory that is more flexible but also harder to manage, usually called "the heap", but it still only lasts as long as the program is running. Also, some library types like =string= and =vector= may manage heap memory internally even when the variable itself is local. If you forget to clean up heap memory in manual-memory code, that's called a "memory leak": the memory stays in use until the program ends, which is one reason programs like Chrome and Firefox can seem to swell up to absurd amounts of RAM if you leave them open long enough.
 
 [fn:15] Okay type systems, in general, can actually do so much more than this but in C/C++ this is one of the primary reasons. If you take a systems programming class, you'll learn more about /why/ C/C++ work this way. 
 [fn:8] Okay, what on earth does "less precise" mean in this context? Okay, let's talk about sizes of infinity. No, really, I promise that this isn't a tangent. So the whole numbers, the integers, are infinite. You can start counting in either direction---positive or negative---and you'll never reach the end. This is the smallest infinity though. The numbers that have decimals, which are the "real numbers", are much bigger than the whole numbers. There are more real numbers between 0 and 1 than the entirety of the integers. The reason for this is, in a sense, is because a real number can have an infinite number of digits to the right of the decimal point. The problem for us, as computer scientists, is that there's no way to represent "an infinite number of digits" in a way that can fit in a finite amount of memory. So, instead, we have to compromise and instead of representing *all* possible real numbers we represent *some* of them. How well we can represent a number is the "precision". The higher the precision, the more fine-grained of distinctions we can make between representing two real numbers.
@@ -7059,6 +7805,6 @@ Remember: The best solution is one that works correctly, is readable, and can be
 
 [fn:1] bet you never saw that coming!
 
-[fn:npos] The type is actually =size_t=, which is an unsigned integer type that's used for sizes and indices. Being unsigned means it can't be negative, and =npos= is defined as the maximum value this type can hold. On most modern systems, that's =18446744073709551615=, which is 2^64 - 1. The important thing for you is just to know that if =find= doesn't find anything, it returns =string::npos=, and you can check for that.
+[fn:npos] The actual return type is an unsigned integer type used for sizes and indices. Being unsigned means it can't be negative, and =npos= is defined as the maximum value this type can hold. On most modern systems, that's =18446744073709551615=, which is 2^64 - 1. The important thing for you is just to know that if =find= doesn't find anything, it returns =string::npos=, and you can check for that.
 
 [fn:replaceall] If you want to tackle this as a challenge: you'll need a loop that keeps finding and replacing until there are no more occurrences. The tricky part is that after each replacement, the string changes length, so you need to be careful about where you start searching next. Also, be careful about infinite loops—if you replace "cat" with "caterpillar", you'll keep finding "cat" inside "caterpillar" forever! One solution is to start searching /after/ the replacement text. 
