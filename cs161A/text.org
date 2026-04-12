@@ -275,7 +275,7 @@ We'll reiterate that these lines let us
  #+end_src
 which, again, is a way of declaring a named chunk of code. A very specific named chunk of code: =main=, the function that is needed as the "entry point" of final program. We'll make our own functions soon enough, but for now know that this is a function and represents the pattern of how they're made.
 
-The next line =string stuff;= needs some explanation. In C++, like a lot of other programming languages, in order to store information you need to make a container and give it a name. In this case we're naming a container =stuff=. Now, what's up with the text =string= that comes before that?
+The next line =string stuff;= needs some explanation. In C++, like a lot of other programming languages, in order to store information you need to make a container and give it a name. In this case we're naming a container =stuff=. The mental picture I want you to have, for at least the next few chapters, is that a variable is a /labeled box/: the label is the name, the box has a size and a shape, and the contents of the box are whatever value you put in it. This is an "innocent lie" — it is not literally what is going on inside the machine — but it is true enough to reason about everything we do between here and the chapter on scope and lifetime, where we'll replace the box with a more honest picture. Now, what's up with the text =string= that comes before that?
 
 Well, much like the =int= we saw before =main= this is a *type*[fn:3], it's a signifier for the /form/ of data we're talking about. =int= is the type that corresponds to whole numbers. =string= is the type that corresponds to text-as-data, like what we saw in our /Hello, World/ program where the text "Hello, World" was inside the program in quotes like ="Hello, World"=.
 
@@ -490,6 +490,8 @@ Arithmetic in C++, like most programming languages, is meant to look a lot like 
 So this probably *mostly* went the way you expected but when you ran this code were you surprised by anything related to division? If you weren't, try entering 5 for =num1= and 3 for =num2=. You'll see that =5/3= is computed as 1.
 
 Why on earth is that true? Well, because =num1= and =num2= are *whole numbers* and 3 goes into 5 only once.
+
+(A small warning, which I will mostly just let you file away for now: for the rest of this section, please treat =int= as "the whole numbers you already know from math class." That isn't quite the truth. C++ =int= is a /finite/ version of the whole numbers, with a biggest value and a smallest value, and weird things happen if you step off either end. We are going to come back to this once we have seen how memory actually works — until then, just trust the arithmetic, and I promise we'll earn the trust back later.)
 
 Okay, but what if we want to deal with fractional numbers? That's when we introduce /floats/ and /doubles/. These are both kinds of "floating point numbers". The term floating point sounds weird but the point (haha) is that these are numbers that allow for decimal points in them and don't have a fixed number of digits to the left or right of the decimal.
 
@@ -1883,6 +1885,8 @@ We're covering arrays here because they are, in a sense, the reason for using =f
 
 What we haven't shown you yet is what "a finite collection of stuff" looks like!
 
+Before we start, another flag to plant: the kind of array we're about to introduce is going to feel a little annoying. You will have to tell it how big it is /up front/, you will have to remember that size /yourself/ every time you do anything with it, and if you step one index off the end, C++ is not going to save you. That is not you doing something wrong — that really is what these arrays are. A few chapters from now, once we've seen pointers, we will come back to arrays a second time and the reveal is that the box we're about to hand you is, structurally, barely a box at all. For now, just meet the thing on its own terms.
+
 Here's an example and we'll talk it through
 #+begin_src cpp :tangle codesnips/array1.cpp
   #include <iostream>
@@ -2766,28 +2770,15 @@ Now here's something interesting: you /might/ see older C++ code use =-1= as a s
 
 Wait, what? How can =-1= and =18446744073709551615= be the same thing?
 
-This is actually a really cool bit of computer science that's worth understanding! Here's what's happening:
+Here's a hint that'll have to do for now. Imagine you have a car odometer that only goes from 0 to 999. If you're sitting at 0 and you try to roll it /backwards/ by one, it wraps around to 999. So on that odometer, "one less than zero" and "the biggest number I can show" are the /same physical reading/. It turns out that the way C++ actually stores numbers is a lot like that odometer, and =find= uses a number type where zero and negative numbers behave this way: =-1= and "the biggest possible value" end up being the same bit pattern. That's why =-1= and =string::npos= can compare equal even though one looks tiny and negative and the other looks absurdly huge.
 
-The =find= function returns a value in an /unsigned/ index type (meaning it can only hold positive numbers, or zero). However, =-1= is obviously a negative number. So what happens when we write =-1= but C++ tries to interpret it as that unsigned position type?
-
-In C++, integers are stored in memory using something called /two's complement/ representation. Without getting too deep into the binary details, here's the key insight: the bit pattern that represents =-1= as a /signed/ number is /exactly the same/ bit pattern that represents the /largest possible value/ when interpreted as an /unsigned/ number!
-
-Think of it like this: imagine you have an odometer that only goes from 0 to 999. If you're at 0 and you try to go backwards by 1, you'd wrap around to 999. That's essentially what's happening here—=-1= in the unsigned world wraps around to the maximum value, which is exactly what =string::npos= is defined to be!
-
-So when you write:
-#+begin_src cpp
-  if(str.find("test") == -1)
-#+end_src
-
-The =-1= gets converted to that unsigned index type, which turns it into that giant number =18446744073709551615= (on most modern systems), which is the same value as =string::npos=!
-
-So this shorthand /works/, but it's still worse style than writing what you mean directly. In this text, prefer
+That is genuinely as much as I want to say right now. The /exact/ story — why that odometer is the size it is, why =-1= lives at the top of it, what =unsigned= means, and so on — belongs in a later chapter, after we have talked about how memory actually works. When we get there, the "remember that absurd =18446744073709551615= from =find=?" question will be the whole point. For now you can safely file this under "weird but consistent," and you should /still/ prefer
 
 #+begin_src cpp
   if(str.find("test") == string::npos)
 #+end_src
 
-because it is clearer and doesn't make the reader remember a signed/unsigned conversion trick.
+because it is clearer about what you actually mean and does not make a reader flinch.
 
 Here's a more practical example:
 
@@ -7790,7 +7781,7 @@ Remember: The best solution is one that works correctly, is readable, and can be
 [fn:8] Okay, what on earth does "less precise" mean in this context? Okay, let's talk about sizes of infinity. No, really, I promise that this isn't a tangent. So the whole numbers, the integers, are infinite. You can start counting in either direction---positive or negative---and you'll never reach the end. This is the smallest infinity though. The numbers that have decimals, which are the "real numbers", are much bigger than the whole numbers. There are more real numbers between 0 and 1 than the entirety of the integers. The reason for this is, in a sense, is because a real number can have an infinite number of digits to the right of the decimal point. The problem for us, as computer scientists, is that there's no way to represent "an infinite number of digits" in a way that can fit in a finite amount of memory. So, instead, we have to compromise and instead of representing *all* possible real numbers we represent *some* of them. How well we can represent a number is the "precision". The higher the precision, the more fine-grained of distinctions we can make between representing two real numbers.
 
 
-[fn:6] I literally forget constantly and have to go back and fix my examples. If you've had me for in-person lecture you have definitely seen this happen. 
+[fn:6] I literally forget constantly and have to go back and fix my examples. If you've had me for in-person lecture you have definitely seen this happen. Also: I am framing =return 0= here as basically a polite formality, and that framing is going to survive /exactly/ as long as it takes us to get to the chapter on command-line arguments, where the zero is suddenly something that other programs are actually watching for. File this joke away; we will earn it back later.
 
 [fn:7] A compiler is a thing that takes source code and turns it into a stand-alone program. The act of turning the code into the stand-alone program is called "compiling". If you dealt with Python or JavaScript or even something like Scratch before you were probably interacting with "interpreters", which are programs that take the code and run it. Now, some people talk about "compiled" or "interpreted" languages. This is wrong. A language per se isn't compiled or interpreted. A language is a language and can be run---albeit slowly---with a pencil and paper and no compiler or interpreter in sight.
 
