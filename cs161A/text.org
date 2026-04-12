@@ -3792,11 +3792,13 @@ Manhattan distance is always greater than or equal to Euclidean distance!
 
 ** Scope and Lifetime: Where Do Variables Live?
 
-Now that you're writing functions, you've probably noticed something: variables you declare inside a function don't seem to exist outside of it. And variables you declare in =main= aren't accessible inside your functions. What's going on?
+Remember the "a variable is a labeled box" picture I sold you back in the very first chapter? This is the part of the book where I told you we'd come back and admit it was a half-truth.
 
-This is all about *scope* and *lifetime*—two related but distinct concepts that control where variables can be used and how long they exist.
+Now that you're writing functions, you've probably noticed something the box picture doesn't explain. Variables you declare inside a function don't seem to exist outside of it. Variables you declare in =main= aren't accessible inside your functions. Even weirder, the little loop counter in a =for= loop seems to come and go every iteration. If variables were really just labeled boxes sitting on a shelf somewhere, why would they keep disappearing?
 
-Think of scope as "where can I see this variable?" and lifetime as "when does this variable exist?" Understanding these concepts will help you avoid confusing bugs and write cleaner, more organized code.
+The honest answer is that "the shelf" is actually several different shelves, each of which belongs to a specific chunk of code, and most of them only exist while that chunk of code is running. When =main= starts, C++ sets up a little region of memory to hold =main='s local variables, and when a function is called, C++ sets up /another/ little region for /its/ local variables. When a function returns, its region gets torn down and its boxes go with it. When a block inside an =if= ends, the variables declared in that block go with it too. That's not an inconvenience bolted on top of the box picture — that is the actual behavior, and "box" was a simplification that only worked as long as we were looking at a single function at a time.
+
+The two bits of vocabulary for this are *scope* ("where, in the text of the program, is this name visible?") and *lifetime* ("for how long, while the program is running, does this value actually exist in memory?"). They almost always line up for local variables — the name becomes visible when you declare it, and the underlying storage gets set up around the same moment — but it is worth noticing that they are two separate questions, because later on we will see ways to break the tie.
 
 *** Local Variables: The Building Blocks
 
@@ -4291,7 +4293,11 @@ You /can/ do this in C++, but we haven't yet covered the other common ways, like
 2. *Intermediate*: Create a function that returns both quotient and remainder of division (use reference parameters for one of them).
 3. *Challenge*: Build a function that finds minimum, maximum, and average of an array in a single pass. Use reference parameters for min and max.
 ** Arrays, again, and Pointers
-So we've covered the concept of arrays once already, to show you the basics of how they're used in C++. Now we're circling back around to cover the topic /again/. Remember how we could print all the items in an array? We did it like this:
+Remember, a few chapters ago, when I introduced arrays and warned you that the "fixed-size box you have to count yourself" framing was only half the story? This is where the other half shows up.
+
+The short version of the reveal: a C/C++ array is not really a "box with slots" at all. It is more like an /address/ in memory and a /promise/ — a promise you, the programmer, are making — that there are so many valid things stored right after that address. The compiler does not check the promise. Stepping off the end does not feel like a wall because there is no wall; there is just the next address, which happened to belong to something else.
+
+That is the half of the story we're about to unpack. To do it honestly, we first have to meet a new idea called a /pointer/, which is literally "a variable that stores an address." So we're going to circle back around to arrays /again/, but this time through the door labeled "how C++ actually thinks about memory." Remember how we could print all the items in an array? We did it like this:
 
 #+begin_src cpp :tangle codesnips/arrayPrintRedux.cpp
   #include <iostream>
@@ -4437,7 +4443,15 @@ Let's write a little program to test this out:
 
 If you run this you should see that both methods print identical items in the array!
 *** Pointer and a promise
-Let's take a step back now and talk about what the implications of all this actually is: arrays /often behave like/ pointers to their first element. Pointers have no sense of how many contiguous addresses after the pointer are valid as they're merely /addresses/ for memory locations. That's why you have so many of these awkward coding idioms where you have to separately keep track of, for example, how many items you read in rather than being able to access the length of an array. That's why we can have these strange error states where we can go /beyond/ the array and access random gibberish data.
+Okay, now the reveal I kept gesturing at. "The box with slots" was a useful fiction. What an array /actually is/, as a runtime thing, is an address — the place in memory where the first element lives — together with an unwritten promise from you that so many more elements of that type sit right after it. The name of the array, in most expressions, "decays" into exactly that address. The square brackets =arr[i]= are not asking a box for its i-th compartment; they are asking the compiler to start at the address, jump forward by =i= elements' worth of memory, and look at whatever is there.
+
+That is genuinely the whole story, and it explains all the annoyances we flagged when you first met arrays:
+
++ you have to remember the size yourself, because a bare address has no size attached to it
++ passing an array to a function really means passing the address, which is why functions like =dynLength= had to agree on some other convention (a sentinel, or an explicit length parameter) to know when to stop
++ out-of-bounds access does not fail loudly, because there is nothing on the address line marking where your memory ends and someone else's begins; you just keep reading
+
+So when I told you earlier that arrays were fixed-size boxes you had to count yourself, the fixed-size part was a kind-of lie and the "count yourself" part was the whole /job/, not an inconvenience. That's the reveal.
 
 In modern programming, you don't use basic C/C++ style arrays that often. Even in C++ most of the time you're going to use a data structure we call a /vector/. These vectors are what most programming languages call arrays, like Python, and they're capable of doing things like
 + changing in size
@@ -4448,6 +4462,26 @@ In modern programming, you don't use basic C/C++ style arrays that often. Even i
 Very convenient!
 
 We won't really use vectors in this class and that's because we're trying to install +fear of+ healthy respect for the problems that can happen if you aren't careful using arrays.
+
+*** How ints are actually stored, and why =string::npos= is =18446744073709551615=
+While we are being honest about what memory looks like, we can finally close another loop I left hanging. Way back when we first introduced =int=, I said "treat these as the whole numbers you already know, with a small warning that they aren't /quite/ that." And a while after that, when we met =find= and =string::npos=, we saw that searching for something not in a string gave back a ridiculous answer like =18446744073709551615= and I asked you to just file it under "weird but consistent." This is where those two loose ends get tied together.
+
+Here is the honest version. When C++ makes an =int=, it sets aside a /fixed/ amount of space — on almost every machine you're likely to use, that's 32 bits, though other sizes exist. That means an =int= can only represent a fixed, finite range of whole numbers. It is not the integers from your math class; it is a finite window onto them. If you try to add two =int= s and the true result doesn't fit in that window, the stored answer /wraps around/, the same way a car odometer rolls over from its biggest reading back to zero. That wrap-around behavior is called "overflow," and it is the real reason I was cagey about whether =int= was really the whole numbers.
+
+Now the second loose end. There is a second variety of integer type in C++ called /unsigned/. Unsigned types are the same fixed width, but they do not spend any bits on representing negative numbers — they use the full range for zero and positive numbers. The function =string::find= returns one of these unsigned types, because an /index into a string/ is never supposed to be negative.
+
+Here comes the punchline to the =-1= trick. Imagine a small odometer that can only show three digits, so the readings go 000 through 999. If you are sitting at 000 and you try to subtract one, the odometer wraps around and the next reading is 999, because there is literally nowhere else for the digits to go. A real unsigned integer in C++ works exactly the same way, just with a much bigger odometer. On a 64-bit machine the unsigned integer that =find= uses has its biggest reading at =18446744073709551615=, and "one less than zero" wraps around to /exactly/ that value. That is why =-1= and =string::npos= end up comparing equal even though they look like wildly different numbers: the bit pattern you get by writing =-1= and forcing it into an unsigned type is the same bit pattern as "the biggest unsigned value there is."
+
+And the specific constant =18446744073709551615= is =2^64 - 1=, which is just "the largest number you can spell with 64 binary digits when all of them are 1s." =string::npos= is defined to be that maximum value so that it will never collide with a legitimate index.
+
+So, to collect the promises I've been making:
+
++ =int= is a finite, fixed-width window onto the integers; that's why the "whole numbers you know" framing was only an innocent lie
++ overflow is what happens when a calculation tries to leave the window
++ =string::npos= is huge because it is deliberately chosen as the biggest possible unsigned value, so that it cannot be confused with any real position
++ =-1= and =string::npos= compare equal because pushing =-1= into the unsigned type wraps the odometer back to the top
+
+With that cleared up, we can go back to writing =if(str.find("test") == string::npos)= in good conscience and actually mean it when we say it.
 *** Sentinel-terminated arrays
 If we wanted to /approximate/ arrays that were a little more flexible, without using the =vector= type or real dynamic allocation, what might we do?
 
@@ -6772,6 +6806,12 @@ The real theme here is simple: debug on purpose.
 When something breaks, change one thing, gather one new fact, and let that fact guide the next step. Random thrashing feels busy, but it rarely teaches you what actually went wrong.
 
 *** Command-Line Arguments
+Remember, back in our very first program, when I joked that "we're very good programmers and *never* forget to put =return 0= in our files"? I promised back then that we'd earn that joke eventually. This is the chapter where the joke stops being a joke.
+
+Up to this point, =return 0= has been a line you wrote because I told you to, and nothing in your programs has ever really /cared/ what number you put there. When you run a program from the terminal, though, that number is not thrown away. The shell picks it up, and scripts and tools downstream watch for it to decide whether your program succeeded or failed. By convention, =0= means "I ran to completion and nothing went wrong" and any non-zero value means "something went wrong." That's why, in a few of the file I/O examples a while back, you saw =return 1= used as the unhappy path — the program was signalling that /this specific run/ did not succeed, even though the program itself compiled and launched just fine.
+
+So the small polite ritual of ending =main= with =return 0= was an innocent lie for the same reason the int-is-whole-numbers framing was: it was fine as long as your programs lived inside their own little sandbox, and it stops being fine the moment other programs start reading it. Command-line arguments are the first place it really matters, because programs that /take/ arguments are usually programs that also get used by /other/ programs, and those other programs absolutely check your exit code.
+
 **** argc and argv
 Programs can accept arguments from the command line.
 
