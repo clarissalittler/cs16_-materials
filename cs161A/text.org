@@ -163,58 +163,59 @@ So to understand the final line of the function, =return 0;=, remember how we sa
    * Hello *
    *********
    #+end_example
-3. *Advanced*
-   This is less of an exercise and more of a "follow the recipe" to give you a taste of something you'll need to do later.
 
-   First, start with this code either in-browser or locally on your computer!
-   #+begin_src cpp
-     #include <iostream>
-     using namespace std;
+*** Walkthrough: your first function
+Before we leave Hello World behind, I want to take you through one guided change to the program — not as a graded exercise, but as a "follow the recipe" so that the very first time you see a /function/ being made, it isn't scary. Don't worry about reading any of this and going "but /why/?" Just do the steps in order. We'll come back and explain what every piece means in much more detail later; right now this is the literary equivalent of letting you press the buttons before learning what they're called.
 
-     void sayHello(){
-     }
+First, start with this code either in-browser or locally on your computer:
+#+begin_src cpp
+  #include <iostream>
+  using namespace std;
 
-     int main(){
-       cout << "Hello, world!" << endl;
-       
-       return 0;
-     }
-   #+end_src
+  void sayHello(){
+  }
 
-   What we've done here is create a /new/ function. This new function doesn't return /anything/ so instead of =int= it has the word =void= in front. Now this function, this reusable bit of code, doesn't do anything yet.
+  int main(){
+    cout << "Hello, world!" << endl;
 
-   Your first step is to copy the line =cout << ...= from main into the =sayHello= function. It should look like this now:
-   #+begin_src cpp
-     #include <iostream>
-     using namespace std;
+    return 0;
+  }
+#+end_src
 
-     void sayHello(){
-       cout << "Hello, world!" << endl;
-     }
+What we've done here is create a /new/ function. This new function doesn't return /anything/ so instead of =int= it has the word =void= in front. Now this function, this reusable bit of code, doesn't do anything yet.
 
-     int main(){
-       cout << "Hello, world!" << endl;
+Your first step is to copy the line =cout << ...= from main into the =sayHello= function. It should look like this now:
+#+begin_src cpp
+  #include <iostream>
+  using namespace std;
 
-       return 0;
-     }
-   #+end_src
+  void sayHello(){
+    cout << "Hello, world!" << endl;
+  }
 
-   Now, go ahead and delete the line you copied from =main= and replace it with =sayHello();=, so it looks like this:
-   #+begin_src cpp :tangle codesnips/helloFuncSol.cpp
-     #include <iostream>
-     using namespace std;
+  int main(){
+    cout << "Hello, world!" << endl;
 
-     void sayHello(){
-       cout << "Hello, world!" << endl;
-     }
+    return 0;
+  }
+#+end_src
 
-     int main(){
-       sayHello();
-       
-       return 0;
-     }
+Now, go ahead and delete the line you copied from =main= and replace it with =sayHello();=, so it looks like this:
+#+begin_src cpp :tangle codesnips/helloFuncSol.cpp
+  #include <iostream>
+  using namespace std;
 
-   #+end_src
+  void sayHello(){
+    cout << "Hello, world!" << endl;
+  }
+
+  int main(){
+    sayHello();
+
+    return 0;
+  }
+
+#+end_src
 
 Congratulations, you've written a /function/ for the first time. This is one of the core concepts in programming: separating code into pieces that can be re-used and re-combined easily.
 
@@ -296,8 +297,8 @@ We also end with =return 0;= because we're very good programmers and *never* for
  So be kind to your future self and use variable names that make sense!
 ** Exercises
 1. *Basic*: Ask for first and last name separately, then print them together in the format "Last, First".
-2. *Intermediate*: Ask for three words and print them in reverse order (if user enters "cat dog bird", print "bird dog cat").
-3. *Challenge*: Create a Mad Libs program that asks for a noun, verb, adjective, and adverb, then inserts them into a story template like: "The [adjective] [noun] decided to [verb] [adverb]."
+2. *Basic*: Ask for three words and print them in reverse order (if user enters "cat dog bird", print "bird dog cat").
+3. *Intermediate*: Create a Mad Libs program that asks for a noun, verb, adjective, and adverb, then inserts them into a story template like: "The [adjective] [noun] decided to [verb] [adverb]."
 ** What's in an empty variable?
 Now, when we declare a variable we're making a container, but is there anything *in* the container at that point? Well let's see![fn:5]
 
@@ -591,7 +592,7 @@ Note that =cin= keeps working no matter what type of container we're trying to f
 *** Exercises
 1. *Basic*: Calculate the area and perimeter of a rectangle from user input (length and width).
 2. *Intermediate*: Create a tip calculator that asks for bill amount and tip percentage, then shows the tip amount and total.
-3. *Challenge*: Implement a compound interest calculator that asks for principal, annual rate, time in years, and number of times compounded per year. Use the formula: A = P(1 + r/n)^(nt)
+3. *Challenge*: Build a single-item sales receipt. Ask for the unit price, the quantity, and the sales-tax rate (as a percentage, e.g. =8.5= for 8.5%). Compute and print the subtotal (price × quantity), the tax (subtotal × rate ÷ 100), and the grand total — each on its own line. Use =fixed= and =setprecision(2)= so the dollar amounts line up properly.
 ** Booleans, logic, and quizzes
 *** The if-statement
 Okay, if all we could do with code was straight-line programs that just do a sequence of calculations then we'd basically just have the equivalent of a calculator but arguably more annoying.
@@ -972,7 +973,8 @@ Annoying? Yes. Important to know about? Also yes.
 *** Exercises
 1. *Basic*: Check if a number is positive, negative, or zero and print an appropriate message.
 2. *Intermediate*: Create a simple grade calculator that takes a numeric score and outputs a letter grade (90+=A, 80+=B, 70+=C, 60+=D, <60=F).
-3. *Challenge*: Build an eligibility checker that asks for age and tells the user what they can legally do (vote at 18, drink at 21, rent a car at 25, run for president at 35).
+3. *Intermediate*: Write a car-rental eligibility checker. Ask for the renter's age and then ask whether they have a valid driver's license (=Y= or =N=). Print =you can rent a car= only when the renter is at least 25 /and/ has a valid license; otherwise print a message that names the specific reason they were turned down. The point of this exercise is to use =&&= and =||= in the same condition.
+4. *Challenge*: Build an eligibility checker that asks for age and tells the user what they can legally do (vote at 18, drink at 21, rent a car at 25, run for president at 35).
 ** Letting the compiler figure out the type
  There's a fun trick you can do in C++: not even bother writing the type and, instead, just letting the compiler figure out---in the process of compiling---what the type is supposed to be for you! We can do that with the `auto` keyword.
 
@@ -1684,8 +1686,9 @@ Note that what we've done is create a new variable, =sum=, in order to hold the 
 Exercise: Change this so that it sums the /squares/ of 0 - 9.
 #+end_quote
 *** Exercises
-1. *Basic*: Print the first 20 Fibonacci numbers using a for-loop.
-2. *Challenge*: Print all prime numbers between 1 and 100. Hint: For each number, check if it's divisible by any number from 2 to its square root.
+1. *Basic*: Ask the user for an integer =N= and print the sum of the integers from 1 to =N= using a for-loop.
+2. *Intermediate*: Ask the user for an integer =N= and print =N!= (N factorial — the product of the integers from 1 to =N=). For example, =5!= is =120=.
+3. *Challenge*: Print the first 20 Fibonacci numbers using a for-loop. Hint: you'll need /two/ variables to remember the previous two numbers as you go, and a temporary to do the swap on each iteration.
 
 *** Nested Loops and Patterns
 One of the most common uses of for-loops is to create patterns, and for more complex patterns you often need loops /inside/ of loops. These are called /nested loops/.
@@ -2170,6 +2173,12 @@ The nice thing here is that we don't need some giant pile of =if= statements ask
 
 which is wonderfully direct.
 
+*** Exercises on Frequency Counting
+The point of the next two exercises is to practice the "use the value as the index" pattern on data that is /not/ dice rolls. The shape stays the same: pick the right size for the counting array, walk the input, increment a slot per data point, then do something with the array at the end.
+
+1. *Basic*: Ask the user how many test scores they have, then read in that many scores (each =0..100=). Use a frequency array of size 5 to count how many scores fall into each letter-grade band: =0..59= → F, =60..69= → D, =70..79= → C, =80..89= → B, =90..100= → A. Print out the count for each band at the end. Hint: =score / 10= gets you most of the way to the bin index.
+2. *Intermediate*: Simulate rolling /three/ six-sided dice 1000 times and count how often each possible sum occurs. The smallest possible sum is 3 and the biggest is 18, so your counts array will need 19 slots (you'll just leave indices 0–2 alone). After all the rolls, print the most-common sum and the percentage of rolls that produced it.
+
 *** Array Rotation Concept
 Array rotation means shifting all elements to the right (or left) by some number of positions, with elements that "fall off" the end wrapping around to the beginning.
 
@@ -2239,6 +2248,12 @@ So if =values[0]= is 1 and we rotate right by 3, then it should land in slot 3.
 If =values[6]= is 7, then it should land in slot =(6 + 3) % 8 = 1=.
 
 That's the wraparound. That's the whole game.
+
+*** Exercises on Array Rotation
+The worked example just above rotates an array /right/. Both of these exercises ask you to flip that around or simplify it.
+
+1. *Basic*: Write a program that fills an array of size 8 with eight numbers from the user, then rotates the array /left/ by =k= positions (you also ask the user for =k=). For rotating left, the new position for the element currently at index =i= is =(i - k + size) % size=. The =+ size= is there so the result stays non-negative even when =i - k= would otherwise have been negative. Print the array before and after.
+2. *Intermediate*: Rotate an array right by /one/ position without using a second array. The trick is to remember the last element in a single temporary variable, then shift every other element one slot to the right starting from the back, then drop the saved value into slot 0. Test it by calling your function repeatedly to confirm that doing it =size= times brings the array back to its original order.
 
 ** Menu-Driven Programs
 One of the most common patterns in interactive programs is the menu: you display a list of options, ask the user to choose one, and then perform the corresponding action. This is such a common pattern that you'll use it in almost every program you write.
@@ -2691,10 +2706,6 @@ Okay, also we should talk about how to turn data into strings because this is go
     return 0;
   }
 #+end_src
-*** Exercises
-1. *Basic*: Count the number of vowels (a, e, i, o, u) in a string entered by the user.
-2. *Intermediate*: Check if a string is a palindrome (reads the same forwards and backwards).
-3. *Challenge*: Create a word censoring program that replaces specified "bad words" with asterisks of the same length.
 *** =find= and =substr=
 Okay, so now let's talk about some convenience functions that help us take apart and manipulate strings. The first is the ability to /find/ an occurence of one string inside another:
 
@@ -3127,10 +3138,15 @@ A common task is to count vowels versus consonants in text. Here's how you can d
 
 Notice how we created our own helper function =isVowel()= that returns a =bool=. This makes the code in =main()= much cleaner and easier to read!
 
-*** Exercises on Character Classification
-1. *Basic*: Write a program that counts how many uppercase vs lowercase letters are in a string.
-2. *Intermediate*: Create a function that checks if a password is strong (at least 8 characters, contains both letters and digits).
-3. *Challenge*: Write a program that extracts all the numbers from a string and adds them up. For example, "I have 3 cats and 2 dogs" should output 5.
+*** Exercises on Strings and Character Classification
+By this point you have all the moving parts you need to write any of the following programs: =getline= for reading a whole sentence, the =s.length()= / =s[i]= idiom for walking through one character at a time, the =<cctype>= helpers for asking what kind of character you're looking at, and =find= / =substr= for locating and extracting pieces of a larger string. The exercises below mix and match those.
+
+1. *Basic*: Count how many vowels (=a=, =e=, =i=, =o=, =u=) are in a sentence read with =getline=. Don't forget to lowercase each character before checking it, so that uppercase vowels also count.
+2. *Basic*: Count how many uppercase vs lowercase letters are in a string.
+3. *Intermediate*: Check whether a string is a palindrome — reads the same forwards and backwards. Start with the simple version that requires an /exact/ match, then, if that goes well, ignore spaces and case so that =A man a plan a canal Panama= still counts.
+4. *Intermediate*: Write a function =bool isStrongPassword(string s)= that returns =true= when the string is at least 8 characters long and contains both at least one letter and at least one digit.
+5. *Challenge*: Write a "censor" program that asks for a sentence and a "bad word," then prints the sentence with every occurrence of the bad word replaced by asterisks of the same length. For example, censoring =rabbit= in =the rabbit hopped over the rabbit hole= becomes =the ****** hopped over the ****** hole=. Hint: =find= in a loop, plus =substr=, will get you most of the way there.
+6. *Challenge*: Walk through a string and extract every "number-looking" run of consecutive digits, then add them up. For example, =I have 3 cats and 12 dogs= should print =15=. Use =isdigit= to recognize where the runs start and stop.
 
 *** Example: Sarcasm Case
  Alright, here's a nice silly example for how we use for-loops with strings:
@@ -4291,7 +4307,9 @@ You /can/ do this in C++, but we haven't yet covered the other common ways, like
 *** Exercises
 1. *Basic*: Write a swap function that exchanges the values of two variables using pass by reference.
 2. *Intermediate*: Create a function that returns both quotient and remainder of division (use reference parameters for one of them).
-3. *Challenge*: Build a function that finds minimum, maximum, and average of an array in a single pass. Use reference parameters for min and max.
+3. *Intermediate*: Write a function =void minMax(int arr[], int size, int& lo, int& hi)= that walks an array and reports the smallest and largest values it found through the two reference parameters. The function itself returns =void= — the only outputs are the things written to =lo= and =hi=. Test it from =main= by filling a small array, calling =minMax=, and printing both results.
+4. *Challenge*: Build a function that finds minimum, maximum, and average of an array in a single pass. Use reference parameters for min and max, and return the average from the function.
+5. *Challenge*: Write =void splitDuration(int totalSeconds, int& hours, int& minutes, int& seconds)=. Given a total number of seconds, it should fill in =hours=, =minutes=, and =seconds= so that all three together describe the same duration. For example, =splitDuration(3725, h, m, s)= should leave =h = 1=, =m = 2=, =s = 5=. This is the same shape of "one input, multiple outputs through reference parameters" you'll see in real engineering code constantly.
 ** Arrays, again, and Pointers
 Remember, a few chapters ago, when I introduced arrays and warned you that the "fixed-size box you have to count yourself" framing was only half the story? This is where the other half shows up.
 

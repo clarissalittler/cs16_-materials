@@ -1,180 +1,158 @@
 * Text Coverage Gaps Analysis
 
-This document identifies topics required by graded_problems.org that are missing or inadequately covered in text.org.
+This document is a working note for whoever next reviews =text.org=
+against =graded_problems.org=. Most of the original "missing topic"
+gaps that this file used to track are now /covered/ in the main
+tutorial. What this file tracks instead, after the most recent pass,
+is the result of an audit of the *exercise blocks* themselves: are
+they sequenced properly, are their tier labels honest, and does each
+graded problem have practice that comes /before/ it in the text?
 
-** Executive Summary
+** What changed in the most recent pass
 
-The text.org covers foundational concepts well (basic I/O, loops, arrays, functions, pass-by-reference) but is missing crucial intermediate patterns and algorithms needed for the graded problems. Many required techniques appear only as challenge exercises without being taught first in the main tutorial sections.
+The big move was an audit of every =*** Exercises= block in
+=text.org=. The audit looked for three things:
 
-** Topics Well Covered in text.org
+1. /Forward references/ — exercises that ask for a technique the
+   chapter has not yet introduced. These are the most damaging
+   because students hit them with no tools and no signal that the
+   tools exist a few pages later.
+2. /Mis-tiered problems/ — items labeled "Basic" that are actually
+   harder than the section's "Intermediate," or "Challenge" items
+   that are mechanically the same as the Basic items.
+3. /Bare sections/ — tutorial subsections that introduce a new
+   pattern but don't include any practice for it.
 
-- Basic I/O and arithmetic
-- Decimal formatting (setprecision, fixed)
-- Random numbers (rand, srand, time)
-- While loops
-- For loops
-- Arrays basics
-- Input validation (cin.fail(), cin.clear(), cin.ignore())
-- Switch statements
-- String operations (find, substr, concatenation)
-- Functions basics
-- Pass-by-reference
-- tolower/toupper
-- sqrt function
+Findings and fixes:
 
-** Topics Missing or Insufficiently Covered
+*** Forward-reference fixes
 
-*** Menu-driven programs
-*Problems affected:* 1, 9
+- *Arithmetic Challenge (was: compound interest)*. The compound-
+  interest formula =A = P(1 + r/n)^(nt)= needs both =pow()= and a
+  loop, and at this point in the text the student has neither. Loops
+  arrive later (=** Your first while loop=) and =cmath= helpers
+  arrive much later still (=** Distance Formulas=). Replaced with a
+  single-item sales-receipt problem that uses only =cin=, basic
+  arithmetic, and =setprecision(2)=. Doubles as direct prep for
+  graded problem 13.
 
-Menu systems are only mentioned in exercises with no concrete tutorial example showing how to build a menu with numbered choices and handle user selection.
+- *For-loop exercises*. The block had only Basic and Challenge, no
+  Intermediate. The Basic was Fibonacci-20 (which needs three
+  rolling variables and is harder than most Intermediate items). The
+  Challenge was "all primes 1–100" with a sqrt hint, which both
+  forward-references =cmath= and silently duplicates the
+  =isPrime= worked example a few chapters later. Rewrote the block
+  to: Basic = sum 1..N, Intermediate = factorial of N, Challenge =
+  Fibonacci-20. All three use only the for-loop machinery just
+  introduced.
 
-*What's needed:* A tutorial section showing:
-- Displaying numbered menu options
-- Reading user choice
-- Using if/else or switch to dispatch to different operations
-- Input validation for menu choices
+- *Strings exercises (in "Simple operations on strings")*. Every
+  problem in this block (count vowels, check palindrome, word
+  censor) needed string iteration, character classification, or
+  =find=/=substr=, all of which appear /later/ in the same chapter.
+  Deleted the block from its old location and folded its three
+  problems into the existing "Exercises on Character Classification"
+  block, retitled to "Exercises on Strings and Character
+  Classification" since both sets exercise the same machinery.
 
-*** Nested loops for patterns
-*Problems affected:* 4
+*** Tier rebalancing
 
-Triangle pattern is only mentioned as an exercise (line 1348), but there is NO tutorial section explaining nested loop concepts or pyramid patterns with spaces.
+- *Hello World "Advanced"*. The third item was a guided walkthrough
+  ("copy this line, then this line, congratulations you wrote a
+  function") rather than an exercise. Promoted to its own
+  =*** Walkthrough: your first function= subsection. The Exercises
+  block now contains only Basic + Intermediate, which is honest.
 
-*What's needed:* A tutorial section covering:
-- Outer loop for rows
-- Inner loops for spaces and characters
-- How to calculate number of spaces and asterisks per row
-- Centered pyramid pattern logic
+- *Foundations Exercises (Echoing text)*. Mad Libs was labeled
+  Challenge but is structurally identical to the Basic item — just
+  more =cin >>= calls in a row. Re-tiered: the previous Intermediate
+  ("reverse three words") moves down to Basic, Mad Libs moves down
+  to Intermediate, no Challenge. At this point in the text the
+  student has zero conditional or looping tools, so a real Challenge
+  isn't honestly possible.
 
-*** getline() for reading full lines
-*Problems affected:* 7, 8
+- *Booleans Exercises*. Added an Intermediate that forces compound
+  conditions: a car-rental eligibility checker that requires =&&=
+  /and/ =||= in the same =if=. The previous block only had a
+  Challenge that touched on compounding; nothing drilled it.
 
-getline() only appears ONCE in a sample solution (line 2934) and is not explained in the main tutorial text.
+- *Pass-by-reference Exercises*. Expanded from three problems to
+  five, adding a second Intermediate (=minMax= with two reference
+  outputs) and a second Challenge (=splitDuration= with three
+  reference outputs). These are direct shape-prep for graded
+  problems 14 (search-and-replace with a count out-parameter) and
+  15 (time-converter with multiple out-parameters), which the old
+  three-problem block did not adequately set up.
 
-*What's needed:* A tutorial section on:
-- Difference between cin >> and getline()
-- When to use getline() (input with spaces)
-- Syntax: getline(cin, stringVariable)
-- Common pitfalls (leftover newlines after cin >>)
+*** Bare sections that got new exercise blocks
 
-*** Character classification functions
-*Problems affected:* 7
+- *Frequency Counting with Arrays / Counting the Sums of Two Dice*.
+  These two subsections introduced a load-bearing pattern (use the
+  data value as an array index) but had zero practice attached.
+  Added a two-item =*** Exercises on Frequency Counting= block at
+  the end of "Counting the Sums of Two Dice": Basic = bin test
+  scores into letter-grade counts, Intermediate = count three-dice
+  sum frequencies. These two together are the technique behind
+  graded problem 6 (dice statistics).
 
-Functions like isalpha() and isdigit() are NOT covered at all in the text.
+- *Array Rotation Concept*. Same problem: a worked example with no
+  practice. Added a two-item block that asks the student to do the
+  /opposite/ of the worked example: Basic = rotate left, Intermediate
+  = rotate right by one position in place (no temporary array). This
+  is the technique behind graded problem 10 (array rotation), and
+  asking for the inverse direction prevents the exercise from being
+  a copy-paste of the example.
 
-*What's needed:* Tutorial covering:
-- isalpha() - checking if character is a letter
-- isdigit() - checking if character is a digit
-- isspace() - checking for whitespace
-- How to include <cctype>
-- Using these in loops to analyze strings
+** Practice → graded-problem coverage
 
-*** Vowel/consonant detection
-*Problems affected:* 7
+After the pass, every graded problem has at least one practice
+exercise that appears /earlier/ in =text.org= and uses the same
+technique:
 
-Only appears as an exercise (line 1755) and one solution (lines 2923-2943), with no tutorial explanation.
+| # | Graded problem            | Practice in text.org                                                            |
+|---+---------------------------+---------------------------------------------------------------------------------|
+| 1 | Temperature converter      | Menu Exercises (Intermediate item is literally a temperature-converter menu)    |
+| 2 | Number guessing with hints | Randomized Exercises + the =abs()= proximity section in the worked text        |
+| 3 | Input validation loop      | Data Validation Exercises                                                       |
+| 4 | Centered pyramid           | Worked example "Building a Centered Pyramid" + Nested Loops Exercises          |
+| 5 | Grade book average         | Arrays Exercises (Basic) + Averaging-Numbers Exercises                          |
+| 6 | Dice roll statistics       | Frequency Counting Exercises (new — Intermediate is dice-sum frequencies)      |
+| 7 | Word statistics            | Strings & Character Classification Exercises (new merged block, Basics 1+2)    |
+| 8 | Caesar cipher              | "A Complete Caesar Cipher Program" worked example                              |
+| 9 | Day of week (switch)       | Switches Exercises (Basic is days-of-week)                                     |
+| 10 | Array rotation            | Array Rotation Exercises (new — both items are rotation in different forms)    |
+| 11 | Prime checker function    | "Example: Prime Number Checker" + Bool Functions Exercises                     |
+| 12 | Distance functions        | Mathematical Functions Exercises + worked Distance Formulas                    |
+| 13 | Sales receipt             | Arithmetic Exercises Challenge (new — single-item receipt)                     |
+| 14 | Search-and-replace (refs) | Pass-by-reference Exercises Intermediate =minMax= + Challenge =minMaxAvg=      |
+| 15 | Time converter (refs)     | Pass-by-reference Exercises Challenge =splitDuration=                           |
 
-*What's needed:* Example showing:
-- How to check if a character is a vowel
-- Handling both uppercase and lowercase
-- Pattern: if (ch == 'a' || ch == 'e' || ...) or using a string of vowels
+The two new entries at problems 13 and 15 are the most important
+additions, because before this pass those graded problems had no
+matching practice anywhere in the text.
 
-*** Caesar cipher with wraparound
-*Problems affected:* 8
+** Open items for the next reviewer
 
-Only mentioned as a challenge exercise (line 1862), with no tutorial or worked example.
+These aren't blocking, but they are worth thinking about:
 
-*What's needed:* Tutorial explaining:
-- How to shift letters in the alphabet
-- Wraparound logic (z+1 becomes a, a-1 becomes z)
-- Preserving case (uppercase stays uppercase)
-- Using modular arithmetic or conditional logic
-- Leaving non-letters unchanged
+- The =** Exercises= heading at the top level under Foundations
+  (around the "Echoing text and string types" section) and the
+  =** Exercises= heading after "Your first while loop" are both at
+  chapter level, when they should arguably be subsections of the
+  preceding =**= heading. This is a structural quibble, not a
+  content gap, and would change how the headings render in the
+  generated website. Left alone in this pass.
 
-*** Array rotation algorithms
-*Problems affected:* 10
+- The "Discussion" item in the Scope and Lifetime exercise block
+  (Item 6, "Why is it generally better to pass data to functions
+  via parameters rather than using global variables?") is a writing
+  prompt rather than a coding exercise. That's fine, but no other
+  exercise block in the text uses a "Discussion" tier, so it sits a
+  little oddly. Either commit to discussion items as a recurring
+  shape or convert this one to code.
 
-NOT covered at all in the text.
-
-*What's needed:* Tutorial on:
-- What rotation means (moving elements right/left with wraparound)
-- Using a temporary array
-- OR using clever indexing with modular arithmetic
-- Example implementation
-
-*** Frequency counting with arrays
-*Problems affected:* 6
-
-Basic random number generation is covered, but not the pattern of using arrays to count frequencies.
-
-*What's needed:* Tutorial showing:
-- Using array indices to represent categories (e.g., dice sums 2-12)
-- Incrementing counters in a loop
-- Finding max/min in a frequency array
-- Calculating percentages
-
-*** Proximity detection
-*Problems affected:* 2
-
-The "getting warm" feature (checking if guess is within X of target) is not covered.
-
-*What's needed:* Example showing:
-- Using abs() or conditional logic to check distance
-- Multiple proximity thresholds ("warm" vs "very close")
-
-*** Functions returning bool
-*Problems affected:* 11
-
-isPrime is shown in solutions but bool return type is not taught in the main text.
-
-*What's needed:* Tutorial covering:
-- Functions that return true/false
-- Using bool return values in conditionals
-- Common patterns (validation functions, checker functions)
-
-*** Distance formulas and mathematical applications
-*Problems affected:* 12
-
-NOT covered at all.
-
-*What's needed:* Tutorial on:
-- Euclidean distance formula in 2D and 3D
-- Manhattan distance
-- Using sqrt() and pow() from <cmath>
-- Implementing these as functions
-
-*** Multiple return values via pass-by-reference
-*Problems affected:* 15
-
-Pass-by-reference is covered conceptually, but there are no concrete examples showing how to use it for functions that need to return multiple values.
-
-*What's needed:* More examples showing:
-- Functions that compute multiple results
-- Using multiple reference parameters for outputs
-- Clear naming conventions (input vs output parameters)
-
-** Problem-Specific Gaps Summary
-
-| Problem | Topic Gap |
-|---------+-----------|
-| 1 | Menu pattern not taught |
-| 2 | Proximity detection not taught |
-| 4 | Nested loops for centered patterns not taught |
-| 6 | Frequency counting arrays not taught |
-| 7 | getline(), isalpha(), vowel detection minimally covered |
-| 8 | Character wraparound logic not taught |
-| 9 | Menu pattern not taught |
-| 10 | Array rotation not covered at all |
-| 11 | Functions returning bool not formally taught |
-| 12 | Distance formulas and sqrt() application not taught |
-| 14 | Need more concrete examples for array manipulation |
-| 15 | Need more examples of multiple return values |
-
-** Recommendations
-
-1. Add tutorial sections for all missing topics before they appear in exercises
-2. Include worked examples for intermediate algorithms (rotation, frequency counting, wraparound)
-3. Expand string handling section to include getline() and character classification
-4. Add a section on menu-driven program patterns early in the course
-5. Include more mathematical application examples
-6. Ensure every concept used in graded problems is taught in the main text first
+- Several lab projects in Extended Topics (Vectors, Structs, File
+  I/O) are essentially the graded problems re-skinned for CS161B.
+  They're fine, but if CS161B borrows them verbatim there will be
+  duplication; worth a coordination check next time the two course
+  outlines are reviewed together.
