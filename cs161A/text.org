@@ -4472,7 +4472,7 @@ Now the second loose end. There is a second variety of integer type in C++ calle
 
 Here comes the punchline to the =-1= trick. Imagine a small odometer that can only show three digits, so the readings go 000 through 999. If you are sitting at 000 and you try to subtract one, the odometer wraps around and the next reading is 999, because there is literally nowhere else for the digits to go. A real unsigned integer in C++ works exactly the same way, just with a much bigger odometer. On a 64-bit machine the unsigned integer that =find= uses has its biggest reading at =18446744073709551615=, and "one less than zero" wraps around to /exactly/ that value. That is why =-1= and =string::npos= end up comparing equal even though they look like wildly different numbers: the bit pattern you get by writing =-1= and forcing it into an unsigned type is the same bit pattern as "the biggest unsigned value there is."
 
-And the specific constant =18446744073709551615= is =2^64 - 1=, which is just "the largest number you can spell with 64 binary digits when all of them are 1s." =string::npos= is defined to be that maximum value so that it will never collide with a legitimate index.
+And the specific constant =18446744073709551615= is =2^64 - 1=, which is just "the largest number you can spell with 64 binary digits when all of them are 1s." =string::npos= is defined to be that maximum value so that it will never collide with a legitimate index.[fn:npospride]
 
 So, to collect the promises I've been making:
 
@@ -5157,7 +5157,7 @@ Create a game score tracker that:
 
 ** Structs: Organizing Related Data
 
-Imagine you're writing a program to manage student records. You need to store each student's name, ID number, GPA, and maybe their major. You could create separate arrays or vectors for each piece of information:
+Remember the little pet database from the arrays chapter, where we had two separate arrays — one for =petNames=, one for =petSpecies= — and a rule we had to enforce ourselves that =petNames[i]= and =petSpecies[i]= were always "the same pet"? That trick works for toy programs, but as soon as you need a /third/ or /fourth/ piece of information about each pet, it starts to feel rickety. Imagine doing the same thing for a student records program. You'd end up with something like:
 
 #+begin_src cpp
 vector<string> studentNames;
@@ -5166,7 +5166,7 @@ vector<double> studentGPAs;
 vector<string> studentMajors;
 #+end_src
 
-But now you have a nightmare: you have to keep all four vectors synchronized. If you want to add a new student, you need to remember to add to all four vectors. If you want to delete a student, you need to delete from all four at the same index. If you accidentally get the indices mixed up, you'll have students with the wrong GPAs or majors. This is fragile and error-prone.
+And now you have a nightmare. To add a new student, you have to remember to push onto all four vectors, in the right order, with no typos. To delete a student, you have to delete from all four at the same index. If you ever accidentally add to three of them and not the fourth, the next student's name lines up with the wrong ID, and /every/ student after that one quietly goes wrong. This is the same "keep it synchronized by hand, and hope" problem we had with the pet database, just scaled up to hurt more.
 
 Structs solve this problem by letting you bundle related data together into a single custom type. Instead of four separate vectors, you can have one vector of "Student" objects, where each student carries all their own information. It's cleaner, safer, and much more intuitive.
 
@@ -5511,7 +5511,7 @@ Files are how programs stop being so forgetful.
 
 They let your program save data to disk, read data back later, and pass information around between different runs or even different programs. High scores? Files. Grade reports? Files. Logs? Files. Anything where "I really do not want to type all of this again tomorrow"? Also files.
 
-The nice part is that file I/O is much less exotic than it sounds. If =cin= and =cout= already make sense to you, then the basic flow here will feel familiar too.
+The nice part is that file I/O is much less exotic than it sounds. If =cin= and =cout= already make sense to you, then the basic flow here will feel familiar too — in fact, the headline trick of this chapter is that /the exact same/ =>>= and =<<= operators you've been using to talk to the terminal also work on files, with almost no code change. The objects you connect them to are different, but the grammar of reading and writing is the same. That reuse is not an accident; it is one of the nicer things C++'s standard library does.
 
 *** A first file-reading program
 Here's the first full example I want you to keep in your head:
@@ -5895,7 +5895,7 @@ Create a contact management system that:
 
 ** Multi-File Programs
 
-Up to this point we have been cheerfully stuffing almost everything into one file, and for beginner programs that is honestly fine. But eventually one giant =main.cpp= stops feeling simple and starts feeling like you keep your entire life in one junk drawer.
+Up to this point we have been cheerfully stuffing almost everything into one file, and for beginner programs that is honestly fine. But eventually one giant =main.cpp= stops feeling simple and starts feeling like you keep your entire life in one junk drawer.[fn:junkdrawer]
 
 Need one function from line 1700? Good luck. Want to reuse your grade-calculation code in another project? Hope you enjoy copy-pasting. Found a bug in the reused code after you pasted it into three places? Outstanding. Now you get to fix it three times and wonder whether you missed one.
 
@@ -6031,6 +6031,8 @@ In CS161B you will study these ideas more formally, especially questions like "h
 **** Linear Search
 
 This is the simplest search algorithm: just look through an array one element at a time until you find what you're looking for (or reach the end without finding it).
+
+You have actually already seen linear search in disguise. Way back in the strings chapter, when we wrote =dynLength= for our sentinel-terminated arrays, that loop was "walk through the array until you hit the sentinel" — structurally the same motion as linear search, just with "the sentinel" instead of "the target" as the stopping condition. And the "if we didn't find it, return =-1=" trick below is /exactly/ the same convention =string::find= uses when it hands back =string::npos=: we need some distinguishable value that means "I walked the whole thing and nothing matched." Picking =-1= here is convenient because array indices are non-negative, so =-1= can never be a real answer.
 
 Here's a complete version first:
 
@@ -7640,4 +7642,8 @@ Remember: The best solution is one that works correctly, is readable, and can be
 
 [fn:npos] The actual return type is an unsigned integer type used for sizes and indices. Being unsigned means it can't be negative, and =npos= is defined as the maximum value this type can hold. On most modern systems, that's =18446744073709551615=, which is 2^64 - 1. The important thing for you is just to know that if =find= doesn't find anything, it returns =string::npos=, and you can check for that.
 
-[fn:replaceall] If you want to tackle this as a challenge: you'll need a loop that keeps finding and replacing until there are no more occurrences. The tricky part is that after each replacement, the string changes length, so you need to be careful about where you start searching next. Also, be careful about infinite loops—if you replace "cat" with "caterpillar", you'll keep finding "cat" inside "caterpillar" forever! One solution is to start searching /after/ the replacement text. 
+[fn:replaceall] If you want to tackle this as a challenge: you'll need a loop that keeps finding and replacing until there are no more occurrences. The tricky part is that after each replacement, the string changes length, so you need to be careful about where you start searching next. Also, be careful about infinite loops—if you replace "cat" with "caterpillar", you'll keep finding "cat" inside "caterpillar" forever! One solution is to start searching /after/ the replacement text.
+
+[fn:junkdrawer] I am speaking from experience here. I have absolutely been that person who knows the function they want exists /somewhere/ in a 3,000 line =main.cpp=, frantically scrolling, hoping to recognize it by shape. This is not a good mental mode to code in and I can confirm from first-hand knowledge that multi-file layout helps.
+
+[fn:npospride] It is extremely funny to me that the reason =npos= is that specific absurd-looking number is essentially "so that it can't accidentally be mistaken for a real answer." The C++ standard library is sometimes goofy but it tends to be goofy /on purpose/.
