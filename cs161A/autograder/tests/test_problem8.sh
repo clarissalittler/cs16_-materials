@@ -2,7 +2,7 @@
 # Test script for Problem 8: Simple Cipher
 
 PROGRAM="$1"
-TOTAL_TESTS=4
+TOTAL_TESTS=6
 PASSED=0
 
 run_test() {
@@ -34,6 +34,12 @@ run_test "D\n3\nKhoor" "Hello" "Decode 'Khoor' with shift 3"
 
 # Test 4: Encode with spaces and punctuation preserved
 run_test "E\n5\nHello World!" "Mjqqt Btwqi!" "Encode 'Hello World!' preserving spaces and punctuation"
+
+# Test 5: Wrap-around at the end of the alphabet (z -> a)
+run_test "E\n3\nxyz" "abc" "Encode 'xyz' with shift 3 wraps to 'abc'"
+
+# Test 6: Wrap-around in uppercase, decoding direction (A -> X)
+run_test "D\n3\nABC" "XYZ" "Decode 'ABC' with shift 3 wraps back to 'XYZ'"
 
 echo ""
 echo "Tests passed: $PASSED/$TOTAL_TESTS"

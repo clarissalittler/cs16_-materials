@@ -2,7 +2,7 @@
 # Test script for Problem 3: Input Validation Loop
 
 PROGRAM="$1"
-TOTAL_TESTS=4
+TOTAL_TESTS=6
 PASSED=0
 
 run_test() {
@@ -33,6 +33,12 @@ run_test "18\n13\n10\n5" "(error|invalid|must be|9.*10.*11.*12)" "Rejects invali
 
 # Test 4: Rejects invalid course count (9 is not 4-8)
 run_test "18\n10\n9\n5" "(error|invalid|must be|between|4.*8)" "Rejects course count out of range"
+
+# Tests 5-6: Non-numeric input (the headline requirement: cin.fail handling).
+# A program that doesn't clear the fail state will loop forever and be
+# killed by the timeout, failing both checks.
+run_test "abc\n18\n10\n5" "(error|invalid|number)" "Reports non-numeric input as invalid"
+run_test "abc\n18\n10\n5" "(valid|confirm|success|registration)" "Recovers and accepts valid input after non-numeric input"
 
 echo ""
 echo "Tests passed: $PASSED/$TOTAL_TESTS"

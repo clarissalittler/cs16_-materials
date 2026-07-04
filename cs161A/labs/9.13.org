@@ -1,33 +1,40 @@
-Finish this program by writing a function called trimWhitespace() 
-that removes any leading and trailing spaces from a string.
+Finish this program by writing a function called swapValues() 
+that swaps the values of two integers using pass by reference.
 
 Requirements:
-- The function should take one argument by reference: 
-  a string& representing the message to modify.
-- It should remove spaces at the beginning and end of the string.
-- The function should return nothing (void).
+- The function should take two int arguments by reference.
+- After calling the function, the original variables should have their values swapped.
 
-Sample run: (use your cursor to highlight the text to view whitespace)
-Enter a message:         Hello, world!           
-Trimmed message: Hello, world!
+Sample run:
+Enter the first number: 10
+Enter the second number: 25
+
+Before swap: a = 10, b = 25
+After swap: a = 25, b = 10
+
 
 ~~~
 #include <iostream>
-#include <string>
 using namespace std;
 
 // Todo: define your function here
 
-int main() {
-    string message;
+int main(){
 
-    cout << "Enter a message: ";
-    getline(cin, message);
+  int a;
+  int b;
 
-    trimWhitespace(message);
+  cout << "Enter the first number: ";
+  cin >> a;
 
-    cout << "Trimmed message: \"" << message << "\"" << endl;
+  cout << "Enter the second number: ";
+  cin >> b;
 
-    return 0;
+  cout << "Before swap: a = " << a << ", b = " << b << endl;
+  swapValues(a, b);
+  cout << "After swap: a = " << a << ", b = " << b << endl;
+
+  return 0;
 }
+~~~
 

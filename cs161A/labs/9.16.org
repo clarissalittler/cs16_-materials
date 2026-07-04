@@ -1,0 +1,42 @@
+Finish this program by writing a function called analyzeNumbers()
+that computes several facts about three numbers at once. A function
+can only return one value with return, so this function instead hands
+back all three results through reference parameters.
+
+Requirements:
+- The function should take three ints by value (the numbers to
+  analyze) and three reference parameters for the results:
+  int& smallest, int& largest, double& average.
+- It should set smallest to the smallest of the three numbers,
+  largest to the largest, and average to their average (watch out:
+  the average of ints is usually not a whole number!).
+- The function should return nothing (void).
+
+Sample run:
+Enter three numbers: 8 3 5
+Smallest: 3
+Largest: 8
+Average: 5.33333
+
+~~~
+#include <iostream>
+using namespace std;
+
+// Todo: define your function here
+
+int main() {
+    int a, b, c;
+    int smallest, largest;
+    double average;
+
+    cout << "Enter three numbers: ";
+    cin >> a >> b >> c;
+
+    analyzeNumbers(a, b, c, smallest, largest, average);
+
+    cout << "Smallest: " << smallest << endl;
+    cout << "Largest: " << largest << endl;
+    cout << "Average: " << average << endl;
+
+    return 0;
+}

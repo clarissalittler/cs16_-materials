@@ -1,27 +1,12 @@
-In this exercise, you will use loops to draw a simple ASCII-art tree. The tree should look like this:
+Write a C++ program that receives as input a string of text, and a
+character. The program counts the number of instances of the given 
+character within the text, and outputs that amount. Output a different
+message to indicate singular/plural if the count is exactly 1 or not.
 
-   *
-  ***
- *****
-*******
-   *
-   *
+Enter text: hello world
+Enter character: o
+There are 2 o's in hello world
 
-
-Requirements:
-- Ask the user for the height of the triangle (number of rows of leaves), and then draw the tree accordingly.
-- Use nested loops: one to control the rows, and one to print the correct number of spaces and stars on each row.
-- The top part of the tree (the leaves) should form a centered triangle of stars.
-- The trunk should be drawn always using two rows of a single star, also centered under the tree.
-
-Hint: use your cursor to highlight the example, and take note of the number of spaces and stars.
-
-For example:
-
-Enter tree height: 3
-Here is your ascii tree!
-  *
- ***
-*****
-  *
-  *
+Enter text: hello world
+Enter character: e
+There is 1 e in hello world

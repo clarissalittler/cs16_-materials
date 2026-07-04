@@ -1,0 +1,34 @@
+In this exercise you will write a small pattern generator: instead of
+one fixed drawing (like the tree from the previous lab), your program
+lets the user pick both the symbol and the size of the pattern.
+
+Write a program that asks the user for:
+1) a single character to draw with (like * or # or $)
+2) a size N (an integer, 2 or larger)
+
+and then draws a hollow square: N rows of N characters, where the
+border is drawn with the user's symbol and the inside is filled with
+spaces.
+
+Requirements:
+- Use nested loops: one for the rows, one for the columns.
+- Inside the inner loop, use an if-statement to decide whether the
+  current position is on the border (first or last row, first or last
+  column) or in the hollow middle.
+- Do not write separate loops for the top, middle, and bottom -- the
+  whole point is that one pair of nested loops plus a good condition
+  can draw the entire pattern.
+
+For example:
+
+Enter a symbol: #
+Enter a size: 5
+#####
+#   #
+#   #
+#   #
+#####
+
+Challenge (optional): after the square works, also print the square's
+two diagonals (so size 5 draws an X inside the box). You only need to
+extend your if-condition.

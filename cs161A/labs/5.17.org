@@ -1,0 +1,32 @@
+A tokenizer is a program that breaks a piece of text into its individual
+pieces (called tokens). You have already used find() and substr() in the
+find-and-replace lab; this lab uses the same two tools in a loop.
+
+Write a program that takes one full line of text as input (use getline)
+and prints each word of the sentence on its own numbered line, followed
+by a count of the words. Words are separated by single spaces.
+
+Requirements:
+- Use find() to locate each space, and substr() to pull out the word
+  before it.
+- Keep going until there are no spaces left (remember: find() returns
+  string::npos when it can't find anything). The remaining text is the
+  last word.
+- Do not use arrays or vectors; you only need a couple of string
+  variables and a loop.
+
+For example:
+
+Enter a sentence: the cat sat on the mat
+1: the
+2: cat
+3: sat
+4: on
+5: the
+6: mat
+6 words total
+
+Hint: after you pull a word out of the front of the sentence, you can
+replace the sentence with the part that comes after the space --
+sentence = sentence.substr(spot + 1); -- so the loop always works on
+what's left.

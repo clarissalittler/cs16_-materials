@@ -40,7 +40,9 @@ else
 fi
 
 # Test 4: Program handles winning condition
-run_test "25\n25\n25\n25\n25\n25\n25" "(correct|win|congratulat|success)" "Program recognizes correct guess"
+# (no bare "correct" here: it would false-match the losing message
+#  "The correct number was ...")
+run_test "25\n25\n25\n25\n25\n25\n25" "(win|congratulat|you got it|success)" "Program recognizes correct guess"
 
 # Test 5: Program handles running out of attempts (7 wrong guesses)
 run_test "1\n2\n3\n4\n5\n6\n7" "(out of|no more|reveal|answer|correct number)" "Program handles running out of attempts"

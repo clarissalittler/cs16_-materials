@@ -123,7 +123,7 @@
     </script>
 </div>
 <p>This is an example of something kinda neat in C++, called &quot;operator overloading&quot;. Basically, you can reuse things like <code>&lt;&lt;</code> and <code>+</code> in different contexts for different <strong>types</strong>. That&#x27;s the key part. <code>+</code> can mean integer addition for two ints, floating-point addition for two doubles, or concatenation for two strings. But that doesn&#x27;t mean C++ lets you mix arbitrary things together however you want: if you want to combine a string with a number, you usually need to convert the number first.</p>
-<p>Okay, also we should talk about how to turn data into strings because this is going to be useful! Basically, there&#x27;s just a function in the <code>&lt;string&gt;</code> library that you can use called <code>to_string</code> that will convert any other data to being a string. This works with basically everything, like in this program:</p>
+<p>Okay, also we should talk about how to turn data into strings because this is going to be useful! Basically, there&#x27;s just a function in the <code>&lt;string&gt;</code> library that you can use called <code>to_string</code> that will convert any other data to being a string. This works with basically every <em>numeric</em> type, like in this program. (One fun trap to know about: if you hand <code>to_string</code> a <code>char</code>, you get the string form of its numeric character code --- <code>to_string(&#x27;d&#x27;)</code> is <code>&quot;100&quot;</code>, not <code>&quot;d&quot;</code> --- because <code>char</code> is secretly a small number and <code>to_string</code> takes it at its word.)</p>
 <div class="code-block">
     <div class="code-toolbar">
         <button class="run-code-btn" data-editor-id="editor-page26-5">▶ Run Code</button>
@@ -398,7 +398,7 @@
 <li><strong>Challenge</strong>: Create a &quot;redaction&quot; program that finds a specified word in a sentence and replaces it with asterisks of the same length. For example, &quot;the secret code&quot; with &quot;secret&quot; redacted becomes &quot;the ****** code&quot;.</li>
 </ol>
 <h3>Iterating over strings with for-loops</h3>
-<p>Now remember how I showed you a bit about how arrays work and the fact that for-loops were made to work with them? Okay, so part of why I needed to show you that is while <strong>technically</strong> you&#x27;re not using arrays in this class it&#x27;s useful to understand the idea behind them because you can treat strings &quot;like&quot; arrays for operating on them.</p>
+<p>Now remember how I showed you a bit about how arrays work and the fact that for-loops were made to work with them? Okay, so part of why I needed to show you that is that even in the stretches of this class where we aren&#x27;t working with arrays directly, the <em>idea</em> behind them keeps paying rent: you can treat strings &quot;like&quot; arrays for operating on them.</p>
 <p>The general idiom is that you can get the length of the string like this <code>s.length()</code> for a string <code>s</code>, then you can put that as the bounds of the for-loop and you can use array syntax (e.g. the square brackets) in order access the characters inside the string one by one.</p>
 <p>Okay so here&#x27;s a wholeLower function that turns an entire string to lower case using the per-character function <code>tolower()</code>:</p>
 <div class="code-block">
@@ -418,6 +418,7 @@
         })();
     </script>
 </div>
+<p>A small heads-up before you compile this yourself: if you&#x27;re following the Preface&#x27;s advice and compiling with <code>-Wall</code>, loops like this will earn you a warning about &quot;comparison of integer expressions of different signedness.&quot; That&#x27;s the compiler pointing out that <code>i</code> is an <code>int</code> while <code>s.length()</code> gives back that unsigned string-position type we keep mentioning. For strings of any sane length the loop is perfectly fine and everybody writes it this way while learning; the warning is a nudge, not an error, and the honest explanation of signed versus unsigned is waiting in the memory chapter.</p>
 <h3>Character Classification Functions</h3>
 <p>When working with strings character by character, you often need to check what <em>kind</em> of character you&#x27;re dealing with. Is it a letter? A digit? Whitespace? C++ provides a set of handy functions in the <code>&lt;cctype&gt;</code> library for this.</p>
 <p>Here are the most useful ones:</p>

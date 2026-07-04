@@ -19,6 +19,10 @@ Create a program that converts temperatures between Fahrenheit, Celsius, and Kel
 - Perform the conversion and display the result with 2 decimal places
 - Handle invalid menu choices with an error message
 
+(Note: everything you need for the menu is the if/else-if chain from the
+textbook's Foundations chapter --- you do not need =switch=, which the labs
+cover later.)
+
 *Conversion formulas:*
 - C = (F - 32) * 5/9
 - F = C * 9/5 + 32
@@ -259,8 +263,12 @@ Write a program with functions that calculate distances in different scenarios.
   - =double distance2D(double x1, double y1, double x2, double y2)= - Euclidean distance between two 2D points
   - =double distance3D(double x1, double y1, double z1, double x2, double y2, double z2)= - Euclidean distance between two 3D points
   - =double manhattanDistance(double x1, double y1, double x2, double y2)= - Manhattan distance in 2D
-- In main, provide a menu to choose which distance to calculate
-- Prompt for the appropriate coordinates
+- In main, provide a menu to choose which distance to calculate, numbered exactly:
+  1. 2D Euclidean distance
+  2. 3D Euclidean distance
+  3. Manhattan distance
+  (the autograder selects options by these numbers)
+- Prompt for the appropriate coordinates, first point then second point (x before y before z)
 - Call the correct function and display the result with 2 decimal places
 
 *Distance formulas:*
@@ -323,9 +331,9 @@ Write a program that converts time between different units using functions.
 
 *Requirements:*
 - Implement the following functions:
-  - =void hoursToMinutesSeconds(int hours, int& minutes, int& seconds)= - converts hours to total minutes and seconds
-  - =void minutesToHoursSeconds(int minutes, int& hours, int& seconds)= - converts minutes to hours and remaining seconds
-  - =void secondsToHoursMinutes(int seconds, int& hours, int& minutes)= - converts seconds to hours and remaining minutes
+  - =void hoursToMinutesSeconds(int hours, int& minutes, int& seconds)= - converts hours to total minutes and total seconds (2 hours → 120 minutes, 7200 seconds)
+  - =void minutesToHoursSeconds(int minutes, int& hours, int& seconds)= - converts minutes to whole hours plus the left-over part expressed in seconds (90 minutes → 1 hour and 1800 seconds)
+  - =void secondsToHoursMinutes(int seconds, int& hours, int& minutes)= - converts seconds to whole hours plus whole left-over minutes, discarding leftover seconds (3700 seconds → 1 hour and 1 minute)
 - In main:
   - Display a menu asking what conversion the user wants
   - Get the input value

@@ -120,7 +120,7 @@ print(arr[10])</pre>
 </div>
 <p>Well when I ran this I got <code>1663205712</code> printed out to the console. If you remember from way at the beginning of this tutorial when we went over what happens when you use an uninitialized variable, you might see a similarity! Except that, in some ways, this is worse.</p>
 <p>It <em>feels</em> like I initialized everything correctly, I told C++ how big the array should be, and yet C++ didn&#x27;t stop me from going off the edge of the world!</p>
-<p>We&#x27;ll cover, in greater depth, <em>why</em> C++ doesn&#x27;t protect you from this error but for now the way you should think of it is that when you declare an array variable you&#x27;re actively setting aside a contiguous set of cubbyholes in the storage wall, but that <strong>you</strong> need to keep track of which ones belong to which array. This is part of the reason why, in our previous example, we had a separate constant called <code>numPets</code> that kept track of how many pets were supposed to be in the database. We reproduce the example below.</p>
+<p>We&#x27;ll cover, in greater depth, <em>why</em> C++ doesn&#x27;t protect you from this error but for now the way you should think of it is that when you declare an array variable you&#x27;re actively setting aside a contiguous set of cubbyholes in the storage wall, but that <strong>you</strong> need to keep track of which ones belong to which array. This is part of the reason why, in our previous example, we had a separate constant called <code>numPets</code> that kept track of how many pets were supposed to be in the database. Remember from a moment ago that a <em>constant</em> is just a variable with <code>const</code> in front of its declaration, meaning that once it has a value that value isn&#x27;t allowed to change. That&#x27;s exactly the property you want for a piece of bookkeeping the compiler can&#x27;t do for you: the size of the array can&#x27;t drift out of sync with the loops that use it if nothing is allowed to change it. Here&#x27;s the pet database again, tangled out so you can experiment with it:</p>
 <div class="code-block">
     <div class="code-toolbar">
         <button class="run-code-btn" data-editor-id="editor-page23-4">▶ Run Code</button>
@@ -129,27 +129,9 @@ print(arr[10])</pre>
     <div id="editor-page23-4" class="code-editor"></div>
     <script>
         (function() {
-            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n    const int numPets = 5;\n  \n    string petNames[numPets];\n    string petSpecies[numPets];\n\n    for(int i=0; i < numPets; i++){\n      cout << \"Enter the name of the pet: \";\n      cin >> petNames[i];\n      cout << \"Enter the pet species: \";\n      cin >> petSpecies[i];\n    }\n\n    for(int i=0; i < numPets; i++){\n      cout << petNames[i] << \" is a \" << petSpecies[i] << endl;\n    }\n  \n    return 0;\n  }";
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n    const int numPets = 5;\n\n    string petNames[numPets];\n    string petSpecies[numPets];\n\n    for(int i=0; i < numPets; i++){\n      cout << \"Enter the name of the pet: \";\n      cin >> petNames[i];\n      cout << \"Enter the pet species: \";\n      cin >> petSpecies[i];\n    }\n\n    for(int i=0; i < numPets; i++){\n      cout << petNames[i] << \" is a \" << petSpecies[i] << endl;\n    }\n\n    return 0;\n  }";
             if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
             codeBlocks['editor-page23-4'] = {
-                original: code,
-                current: code
-            };
-        })();
-    </script>
-</div>
-<p>This is why we like <em>constants</em> in C++, which are like variables but once they have a value that value isn&#x27;t allowed to change! It&#x27;s just like any other variable but you put <code>const</code> in front of the variable declaration:</p>
-<div class="code-block">
-    <div class="code-toolbar">
-        <button class="run-code-btn" data-editor-id="editor-page23-5">▶ Run Code</button>
-        <button class="reset-code-btn" data-editor-id="editor-page23-5">↻ Reset</button>
-    </div>
-    <div id="editor-page23-5" class="code-editor"></div>
-    <script>
-        (function() {
-            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n    const int numPets = 5;\n  \n    string petNames[numPets];\n    string petSpecies[numPets];\n\n    for(int i=0; i < numPets; i++){\n      cout << \"Enter the name of the pet: \";\n      cin >> petNames[i];\n      cout << \"Enter the pet species: \";\n      cin >> petSpecies[i];\n    }\n\n    for(int i=0; i < numPets; i++){\n      cout << petNames[i] << \" is a \" << petSpecies[i] << endl;\n    }\n  \n    return 0;\n  }";
-            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
-            codeBlocks['editor-page23-5'] = {
                 original: code,
                 current: code
             };
@@ -163,15 +145,15 @@ print(arr[10])</pre>
 <p>Here&#x27;s an example: counting single die roll results.</p>
 <div class="code-block">
     <div class="code-toolbar">
-        <button class="run-code-btn" data-editor-id="editor-page23-6">▶ Run Code</button>
-        <button class="reset-code-btn" data-editor-id="editor-page23-6">↻ Reset</button>
+        <button class="run-code-btn" data-editor-id="editor-page23-5">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page23-5">↻ Reset</button>
     </div>
-    <div id="editor-page23-6" class="code-editor"></div>
+    <div id="editor-page23-5" class="code-editor"></div>
     <script>
         (function() {
             const code = "  #include <iostream>\n  #include <cstdlib>\n  #include <ctime>\n  using namespace std;\n\n  int main(){\n    srand(time(0));\n\n    const int NUM_ROLLS = 100;\n    const int NUM_SIDES = 6;\n\n    // Array to count each outcome (1-6)\n    // We use index 0 for nothing, indices 1-6 for the die faces\n    int counts[NUM_SIDES + 1] = {0};  // Initialize all to 0\n\n    // Roll the die NUM_ROLLS times\n    for(int i = 0; i < NUM_ROLLS; i++){\n      int roll = rand() % NUM_SIDES + 1;  // Random 1-6\n      counts[roll]++;  // Increment the counter for this roll\n    }\n\n    // Display the results\n    cout << \"Results from \" << NUM_ROLLS << \" rolls:\" << endl;\n    for(int face = 1; face <= NUM_SIDES; face++){\n      cout << \"Rolled \" << face << \": \" << counts[face] << \" times\" << endl;\n    }\n\n    return 0;\n  }";
             if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
-            codeBlocks['editor-page23-6'] = {
+            codeBlocks['editor-page23-5'] = {
                 original: code,
                 current: code
             };
@@ -199,15 +181,15 @@ print(arr[10])</pre>
 <p>This is the kind of trick that feels a little weird the first time you see it and then afterwards becomes one of your favorite moves.</p>
 <div class="code-block">
     <div class="code-toolbar">
-        <button class="run-code-btn" data-editor-id="editor-page23-7">▶ Run Code</button>
-        <button class="reset-code-btn" data-editor-id="editor-page23-7">↻ Reset</button>
+        <button class="run-code-btn" data-editor-id="editor-page23-6">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page23-6">↻ Reset</button>
     </div>
-    <div id="editor-page23-7" class="code-editor"></div>
+    <div id="editor-page23-6" class="code-editor"></div>
     <script>
         (function() {
             const code = "  #include <iostream>\n  #include <iomanip>\n  #include <cstdlib>\n  #include <ctime>\n  using namespace std;\n\n  int main(){\n    srand(time(0));\n\n    const int NUM_ROLLS = 100;\n    int sumCounts[13] = {0};  // We'll use indices 2-12\n\n    for(int i = 0; i < NUM_ROLLS; i++){\n      int die1 = rand() % 6 + 1;\n      int die2 = rand() % 6 + 1;\n      int sum = die1 + die2;\n\n      sumCounts[sum]++;\n    }\n\n    int mostCommon = 2;\n    int leastCommon = 2;\n\n    for(int sum = 2; sum <= 12; sum++){\n      cout << \"Sum \" << sum << \": \" << sumCounts[sum] << endl;\n\n      if(sumCounts[sum] > sumCounts[mostCommon]){\n        mostCommon = sum;\n      }\n\n      if(sumCounts[sum] < sumCounts[leastCommon]){\n        leastCommon = sum;\n      }\n    }\n\n    cout << fixed << setprecision(2);\n    cout << \"Most common sum: \" << mostCommon << endl;\n    cout << \"Least common sum: \" << leastCommon << endl;\n    cout << \"Percentage of 7s: \" << (sumCounts[7] * 100.0 / NUM_ROLLS) << \"%\" << endl;\n\n    return 0;\n  }";
             if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
-            codeBlocks['editor-page23-7'] = {
+            codeBlocks['editor-page23-6'] = {
                 original: code,
                 current: code
             };
@@ -217,15 +199,15 @@ print(arr[10])</pre>
 <p>The nice thing here is that we don&#x27;t need some giant pile of <code>if</code> statements asking &quot;was it a 2? was it a 3? was it a 4?&quot; Instead, we just compute the sum and do</p>
 <div class="code-block">
     <div class="code-toolbar">
-        <button class="run-code-btn" data-editor-id="editor-page23-8">▶ Run Code</button>
-        <button class="reset-code-btn" data-editor-id="editor-page23-8">↻ Reset</button>
+        <button class="run-code-btn" data-editor-id="editor-page23-7">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page23-7">↻ Reset</button>
     </div>
-    <div id="editor-page23-8" class="code-editor"></div>
+    <div id="editor-page23-7" class="code-editor"></div>
     <script>
         (function() {
             const code = "  sumCounts[sum]++;";
             if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
-            codeBlocks['editor-page23-8'] = {
+            codeBlocks['editor-page23-7'] = {
                 original: code,
                 current: code
             };
@@ -266,15 +248,15 @@ print(arr[10])</pre>
 <p>Here&#x27;s a complete worked example using a temporary array:</p>
 <div class="code-block">
     <div class="code-toolbar">
-        <button class="run-code-btn" data-editor-id="editor-page23-9">▶ Run Code</button>
-        <button class="reset-code-btn" data-editor-id="editor-page23-9">↻ Reset</button>
+        <button class="run-code-btn" data-editor-id="editor-page23-8">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page23-8">↻ Reset</button>
     </div>
-    <div id="editor-page23-9" class="code-editor"></div>
+    <div id="editor-page23-8" class="code-editor"></div>
     <script>
         (function() {
             const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n    const int SIZE = 8;\n    int values[SIZE] = {1, 2, 3, 4, 5, 6, 7, 8};\n    int rotated[SIZE];\n    int shift = 3;\n\n    for(int i = 0; i < SIZE; i++){\n      int newPosition = (i + shift) % SIZE;\n      rotated[newPosition] = values[i];\n    }\n\n    for(int i = 0; i < SIZE; i++){\n      values[i] = rotated[i];\n    }\n\n    cout << \"Rotated array: \";\n    for(int i = 0; i < SIZE; i++){\n      cout << values[i] << \" \";\n    }\n    cout << endl;\n\n    return 0;\n  }";
             if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
-            codeBlocks['editor-page23-9'] = {
+            codeBlocks['editor-page23-8'] = {
                 original: code,
                 current: code
             };
@@ -284,15 +266,15 @@ print(arr[10])</pre>
 <p>The thing to really notice is this line:</p>
 <div class="code-block">
     <div class="code-toolbar">
-        <button class="run-code-btn" data-editor-id="editor-page23-10">▶ Run Code</button>
-        <button class="reset-code-btn" data-editor-id="editor-page23-10">↻ Reset</button>
+        <button class="run-code-btn" data-editor-id="editor-page23-9">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page23-9">↻ Reset</button>
     </div>
-    <div id="editor-page23-10" class="code-editor"></div>
+    <div id="editor-page23-9" class="code-editor"></div>
     <script>
         (function() {
             const code = "  rotated[newPosition] = values[i];";
             if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
-            codeBlocks['editor-page23-10'] = {
+            codeBlocks['editor-page23-9'] = {
                 original: code,
                 current: code
             };

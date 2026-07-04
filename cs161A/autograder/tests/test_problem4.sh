@@ -21,9 +21,24 @@ run_test() {
         local actual_asterisks=$(echo "$last_line" | grep -o '\*' | wc -l)
 
         if [ "$actual_asterisks" -eq "$expected_asterisks" ]; then
-            echo "  ✓ $description"
-            ((PASSED++))
-            return 0
+            # Check centering: row 2 must be indented (height - 2) spaces
+            # further than the bottom row, or it's a left-aligned triangle
+            # rather than a pyramid. (Row 2, not row 1: the input prompt
+            # has no trailing newline, so row 1 shares a line with it.)
+            local second_line=$(echo "$output" | grep '\*' | sed -n '2p')
+            local second_indent=$(echo "$second_line" | sed 's/\*.*//' | wc -c)
+            local last_indent=$(echo "$last_line" | sed 's/\*.*//' | wc -c)
+            local indent_diff=$((second_indent - last_indent))
+
+            if [ "$indent_diff" -eq "$((height - 2))" ]; then
+                echo "  ✓ $description"
+                ((PASSED++))
+                return 0
+            else
+                echo "  ✗ $description"
+                echo "    Pyramid is not centered: row 2 should be indented $((height - 2)) spaces more than the bottom row (got $indent_diff)"
+                return 1
+            fi
         fi
     fi
 
