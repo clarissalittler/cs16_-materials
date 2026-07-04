@@ -18,12 +18,14 @@ This script converts `text.org` into an interactive website with Monaco editor i
 **Important:** The website needs compiler assets to run C++ code in the browser. These are NOT included in git (they're ~60MB).
 
 ```bash
-# Copy compiler assets from test1/
+# Download the wasm-clang toolchain (one time)
 cd cs161A
-rsync -av --exclude='.git' ../test1/assets/ website/assets/
+git clone --depth=1 https://github.com/binji/wasm-clang website/assets
+rm -rf website/assets/.git
 ```
 
-This only needs to be done once after cloning the repository.
+This only needs to be done once after cloning the repository. See
+`DEPLOYMENT.md` for the full guide to putting the site on a web server.
 
 ### Generate the Website
 
@@ -38,7 +40,7 @@ This creates/updates `website/` directory with:
 - `style.css` - Stylesheet
 - `app.js` - JavaScript for Monaco and code execution
 
-**Note:** The generator removes stale generated files (`index.html`, `style.css`, `app.js`, `page_*.html`) before rebuilding, but it preserves `website/assets/`, `test.html`, and `TROUBLESHOOTING.md`.
+**Note:** The generator removes stale generated files (`index.html`, `style.css`, `app.js`, `page_*.html`) before rebuilding, but it preserves `website/assets/` and `TROUBLESHOOTING.md`.
 
 ### View the Website
 
@@ -82,13 +84,13 @@ Each code block gets:
 2. **Run button** - Compiles and executes code
 3. **Reset button** - Restores original code
 
-**Backend:** Uses wasm-clang from `../test1/assets/` to compile C++ in the browser.
+**Backend:** Uses the wasm-clang toolchain in `website/assets/` (downloaded during first-time setup) to compile C++ in the browser.
 
 ### Input Handling
 
 For programs that need input (cin, getline), there will be an input prompt that appears in the terminal overlay.
 
-**Note:** Currently uses the basic approach from test1/ where input doesn't truly block. For fully working blocking input, you'd need to implement the pre-buffer or SharedArrayBuffer approaches discussed in BLOCKING_STDIN_INVESTIGATION.md.
+**Note:** Input doesn't truly block: programs that read from `cin` run to completion with empty input. For fully working blocking input you'd need a SharedArrayBuffer/Asyncify approach, which is not implemented. Direct students to OnlineGDB or a local compiler for interactive programs.
 
 ## File Structure
 
@@ -165,21 +167,15 @@ Just upload the `website/` directory contents.
 
 ### 1. Input Doesn't Block
 
-Programs using `cin` or `getline()` show an input field but don't truly block like native C++.
+Programs using `cin` or `getline()` don't pause for input like native C++; they run to completion with empty input.
 
 **Workaround options:**
-- Pre-buffer input (add input fields before running)
-- Use Emscripten approach (see `../test1-emscripten/`)
-- Implement SharedArrayBuffer solution (see `../test1-asyncify/`)
+- Direct students to OnlineGDB or a local compiler for interactive programs
+- (Future work) implement an Emscripten/Asyncify or SharedArrayBuffer approach
 
 ### 2. Requires wasm-clang Assets
 
-For code execution to work, the website needs access to `../test1/assets/`.
-
-**Solutions:**
-- Copy `test1/assets/` into `website/assets/`
-- Update paths in `app.js`
-- Or document that students should clone the full repo
+For code execution to work, the website needs `website/assets/` (see First-Time Setup above and `DEPLOYMENT.md`). Without it, code can be edited but not run.
 
 ### 3. Large File Loads
 
@@ -208,11 +204,7 @@ This will overwrite the generated website files in `website/`. Any manual change
 
 **Error:** "Compiler not available"
 
-**Fix:** Ensure `../test1/assets/` exists or update path in `app.js`:
-```javascript
-script.src = '../test1/assets/shared.js';
-// Change to wherever assets are located
-```
+**Fix:** Ensure `website/assets/` exists (see First-Time Setup). `app.js` loads the compiler from `assets/shared.js` relative to the site root.
 
 ### Monaco won't load
 
@@ -353,6 +345,6 @@ Same as the rest of the cs16_-materials repository. See top-level LICENSE file.
 ---
 
 **Questions?** See:
-- `../BLOCKING_STDIN_INVESTIGATION.md` - For stdin handling details
-- `../COMPARISON.md` - For architecture comparison
-- `../test1/` - For wasm-clang setup
+- `DEPLOYMENT.md` - Full guide to hosting the site for students
+- `website/TROUBLESHOOTING.md` - Common issues
+- `../test1/` - Original wasm-clang experiment this is based on

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Data formatting - CS161A Interactive Text</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> /
+                <span class="chapter">Foundations</span>
+            </div>
+            <h1>Data formatting</h1>
+        </header>
+
+        <main class="content">
+            <p>Now we get to a useful, but perhaps slightly tedious, set of skills to learn: how to properly format your output.</p>
+<p>Note that all of the following examples mean you also need to include the library <code>&lt;iomanip&gt;</code> as well by adding the line <code>#include &lt;iomanip&gt;</code> into your code.</p>
+<h3>Making a table</h3>
+<p>So if we wanted to make a table in C++ we might want to do something like use some &#x27;|&#x27; as dividers like this. For this and the rest of the examples in this table I&#x27;m going to assume that we&#x27;re making a table that shows information about pets: their name, species, and how old they are. If we try this in the naive way we&#x27;ll try something like this:</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page19-0">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page19-0">↻ Reset</button>
+    </div>
+    <div id="editor-page19-0" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n    cout << \"|\" << \"Pet name\"\n         << \"|\" << \"Pet species\"\n         << \"|\" << \"Pet age\"\n         << \"|\" << endl;\n\n    cout << \"|\" << \"Liese\"\n         << \"|\" << \"Cat\"\n         << \"|\" << 24\n         << \"|\" << endl;\n\n    cout << \"|\" << \"Dora\"\n         << \"|\" << \"Dachshund\"\n         << \"|\" << 15\n         << \"|\" << endl;\n\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page19-0'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>Now if you try running this code you&#x27;ll discover that it looks, well, <strong>terrible</strong>. Everything is badly misaligned. Okay, so what we need is the ability to control the spacing: to set a <em>width</em> to the a field and let the text comfortably inside that space. Thankfully, C++ already has a function to do that: <code>setw</code>, which stands for &quot;set width&quot;. The <code>setw</code> function takes one argument, an <code>int</code>, and sets aside that much space for the next piece of text you pass to <code>cout</code>.</p>
+<p>We can test it out by modifying our program like this:</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page19-1">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page19-1">↻ Reset</button>
+    </div>
+    <div id="editor-page19-1" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include <iomanip>\n  using namespace std;\n\n  int main(){\n    cout << \"|\" << setw(15) << \"Pet name\"\n         << \"|\" << setw(15) << \"Pet species\"\n         << \"|\" << setw(15) << \"Pet age\"\n         << \"|\" << endl;\n\n    cout << \"|\" << setw(15) << \"Liese\"\n         << \"|\" << setw(15) << \"Cat\"\n         << \"|\" << setw(15) << 24\n         << \"|\" << endl;\n\n    cout << \"|\" << setw(15) << \"Dora\"\n         << \"|\" << setw(15) << \"Dachshund\"\n         << \"|\" << setw(15) << 15\n         << \"|\" << endl;\n\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page19-1'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>Exercise:</p>
+<blockquote>
+<p>So what we&#x27;ve left implicit so far is that a call to <code>setw</code> will modify the <em>next</em> thing. Try out, for yourself, what happens if you put it in front of the &quot;|&quot; instead.</p>
+</blockquote>
+<p>This is <em>alright</em> but personally I think the way the data and columns are aligned like this makes it feel hard to skim. I think it looks better to have the column names aligned the <em>opposite</em> way to the data. So C++ has an easy way of doing this: <code>cout &lt;&lt; left</code> will make data left-aligned and <code>cout &lt;&lt; right</code> will make the data right-aligned. Once you set an alignment it stays that way until you change it again. So we need to do something like this</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page19-2">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page19-2">↻ Reset</button>
+    </div>
+    <div id="editor-page19-2" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include <iomanip>\n  using namespace std;\n\n  int main(){\n    cout << left;\n    cout << \"|\" << setw(15) << \"Pet name\"\n         << \"|\" << setw(15) << \"Pet species\"\n         << \"|\" << setw(15) << \"Pet age\"\n         << \"|\" << endl;\n    cout << right;\n\n    cout << \"|\" << setw(15) << \"Liese\"\n         << \"|\" << setw(15) << \"Cat\"\n         << \"|\" << setw(15) << 24\n         << \"|\" << endl;\n\n    cout << \"|\" << setw(15) << \"Dora\"\n         << \"|\" << setw(15) << \"Dachshund\"\n         << \"|\" << setw(15) << 15\n         << \"|\" << endl;\n\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page19-2'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>That&#x27;s slightly easier to read, but we still have room to fuss around with this program. Rather than playing with the alignment of the column names let&#x27;s try adding a visible divider. To do that we can play with <code>setfill</code>, another function that lets us replace the spaces in the padding created by <code>setw</code> with any character we want.</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page19-3">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page19-3">↻ Reset</button>
+    </div>
+    <div id="editor-page19-3" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include <iomanip>\n  using namespace std;\n\n  int main(){\n\n    cout << \"|\" << setw(15) << \"Pet name\"\n         << \"|\" << setw(15) << \"Pet species\"\n         << \"|\" << setw(15) << \"Pet age\"\n         << \"|\" << endl;\n\n    cout << setfill('-');\n    cout << \"|\" << setw(15) << \"\"\n         << \"|\" << setw(15) << \"\"\n         << \"|\" << setw(15) << \"\"\n         << \"|\" << endl;\n    cout << setfill(' ');\n  \n  \n    cout << \"|\" << setw(15) << \"Liese\"\n         << \"|\" << setw(15) << \"Cat\"\n         << \"|\" << setw(15) << 24\n         << \"|\" << endl;\n\n    cout << \"|\" << setw(15) << \"Dora\"\n         << \"|\" << setw(15) << \"Dachshund\"\n         << \"|\" << setw(15) << 15\n         << \"|\" << endl;\n  \n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page19-3'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>Quick Check: What happens if the longest word is longer than the space you set aside for it? Does it truncate or does it through off the formatting? Try it and find out!</p>
+<h3>Abstracting formatting with functions</h3>
+<p>If you&#x27;ve been following along and doing all the exercises, you&#x27;ll have seen the concept of functions once already. Functions are ways to <em>encapsulate</em>, to package up, code for re-use later. This can let us simplify our programs by only having to implement a concept <em>once</em> and then using it again and again.</p>
+<p>For example, let&#x27;s simplify our pet tables a bit!</p>
+<p>Before I <em>show</em> you how to change the code, take a second to look it over and note what is repetitious about it. What jumps out to you?</p>
+<p>It&#x27;s the <code>cout ... setw(15) ... setw(15) ...</code> lines, right?</p>
+<p>So what do all these lines have in common? They all have the same pattern of <code>&quot;|&quot;</code> and <code>setw(15)</code>. What&#x27;s different between them? The actual values passed in: the pet&#x27;s name, species, and age.</p>
+<p>Let&#x27;s write a new function that takes those three items as arguments and builds up the <code>cout &lt;&lt; ...</code> line from that!</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page19-4">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page19-4">↻ Reset</button>
+    </div>
+    <div id="editor-page19-4" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include <iomanip>\n  using namespace std;\n\n  void petRow(string name, string species, int age){\n    cout << \"|\" << setw(15) << name\n         << \"|\" << setw(15) << species\n         << \"|\" << setw(15) << age\n         << \"|\" << endl;\n  }\n\n  int main(){\n\n    cout << \"|\" << setw(15) << \"Pet name\"\n         << \"|\" << setw(15) << \"Pet species\"\n         << \"|\" << setw(15) << \"Pet age\"\n         << \"|\" << endl;\n\n    cout << setfill('-');\n    cout << \"|\" << setw(15) << \"\"\n         << \"|\" << setw(15) << \"\"\n         << \"|\" << setw(15) << \"\"\n         << \"|\" << endl;\n    cout << setfill(' ');\n\n    petRow(\"Liese\", \"Cat\", 24);\n    petRow(\"Dora\", \"Dachshund\", 15);\n    \n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page19-4'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>Okay, so this is an improvement! Now if we want to add new rows it&#x27;s going to be nice and easy: a single call to <code>petRow</code> each.</p>
+<p>Now, there&#x27;s one annoying thing, right? We can&#x27;t actually use this <code>petRow</code> function in order to also print the header of the table, because &quot;Pet age&quot; is a string but the actual ages are numbers!</p>
+<p>C++ does, actually, give us a way to deal with this but it&#x27;s mildly annoying: we can write a second function that has the same name but different parameters, like so.</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page19-5">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page19-5">↻ Reset</button>
+    </div>
+    <div id="editor-page19-5" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include <iomanip>\n  using namespace std;\n\n  void petRow(string header1, string header2, string header3){\n    cout << \"|\" << setw(15) << header1\n         << \"|\" << setw(15) << header2\n         << \"|\" << setw(15) << header3\n         << \"|\" << endl;\n  }\n\n\n  void petRow(string name, string species, int age){\n    cout << \"|\" << setw(15) << name\n         << \"|\" << setw(15) << species\n         << \"|\" << setw(15) << age\n         << \"|\" << endl;\n  }\n\n  int main(){\n\n    petRow(\"Pet name\", \"Pet species\", \"Pet age\");\n    \n    cout << setfill('-');\n    petRow(\"\",\"\",\"\");\n    cout << setfill(' ');\n\n    petRow(\"Liese\", \"Cat\", 24);\n    petRow(\"Dora\", \"Dachshund\", 15);\n    \n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page19-5'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>This is called &quot;overloading&quot; and is a trick that C++ lets you use when you need to write conceptually related functions that have slightly different arguments. </p>
+<p>Is this a satisfying solution? That&#x27;s a personal question of style, but it <em>is</em> the method that C++ gives us for handling this problem.</p>
+<p>The <em>good</em> thing is that this lets us make row after row after row with just simple calls to functions, which will be helpful very soon.</p>
+<h3>Formatting decimal points</h3>
+<p>Okay the other formatting topic that we need to deal with is how to deal with decimal points. Let&#x27;s look at a simple program with doubles and you can immediately see the formatting problem:</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page19-6">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page19-6">↻ Reset</button>
+    </div>
+    <div id="editor-page19-6" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n\n    double cost = 100;\n\n    cout << \"Calculating tax (33%) on your bill: $\" << cost / 3 << endl;\n\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page19-6'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>it prints out that the tax is $33.3333. Well that&#x27;s not how we write cents! We actually only want to include two decimal points. We can do that with <code>cout &lt;&lt; setprecision(2)</code> so our code becomes</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page19-7">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page19-7">↻ Reset</button>
+    </div>
+    <div id="editor-page19-7" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include <iomanip>\n  using namespace std;\n\n  int main(){\n  \n    double cost = 100;\n\n    cout << setprecision(2);\n  \n    cout << \"Calculating tax (33%) on your bill: $\" << cost / 3 << endl;\n  \n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page19-7'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>Wait, shoot, no that&#x27;s still not right. Okay so the problem here is that <code>setprecision(2)</code> is going to keep &quot;two digits&quot; so if your number ends up being 0.3333 it will print as 0.33. If it&#x27;s 33.3333 it will print as 33. That&#x27;s not <em>really</em> what we want.</p>
+<p>So we need to <em>also</em> do <code>cout &lt;&lt; fixed;</code> in order to make sure it <em>always</em> prints exactly two things to the right of the decimal, all the time.</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page19-8">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page19-8">↻ Reset</button>
+    </div>
+    <div id="editor-page19-8" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include <iomanip>\n  using namespace std;\n\n  int main(){\n\n    double cost = 100;\n\n    cout << setprecision(2);\n    cout << fixed;\n\n    cout << \"Calculating tax (33%) on your bill: $\" << cost / 3 << endl;\n\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page19-8'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<h3>Exercises</h3>
+<ol>
+<li><strong>Basic</strong>: Create a receipt with 3 items showing item name, price, and quantity in aligned columns.</li>
+<li><strong>Intermediate</strong>: Display a multiplication table (1-10) with proper alignment and borders.</li>
+<li><strong>Challenge</strong>: Create a formatted invoice that includes items, quantities, unit prices, line totals, subtotal, tax (8.5%), and grand total - all properly aligned and formatted.</li>
+</ol>
+        </main>
+
+        <nav class="page-nav">
+            <a href="page_Foundations_10.html" class="nav-btn prev">← Letting the compiler figure out the type</a>
+            <a href="page_Foundations_12.html" class="nav-btn next">Your first while loop: a number guessing game →</a>
+        </nav>
+    </div>
+
+    <!-- Terminal for running code -->
+    <div id="terminal-overlay" class="hidden">
+        <div class="terminal-container">
+            <div class="terminal-header">
+                <span>Program Output</span>
+                <button id="close-terminal-btn">✕</button>
+            </div>
+            <div id="terminal-output"></div>
+            <div id="input-area" class="hidden">
+                <span class="prompt">→</span>
+                <input type="text" id="user-input" autocomplete="off" placeholder="Enter input...">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.48.0/min/vs/loader.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

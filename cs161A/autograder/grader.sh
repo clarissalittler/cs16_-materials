@@ -2,8 +2,9 @@
 
 # CS161A Autograder
 # Main grading script for all programming problems
-
-set -e
+#
+# Note: no `set -e` here on purpose — a failing submission must not
+# abort batch grading of the remaining submissions.
 
 # Colors for output
 RED='\033[0;31m'
@@ -12,9 +13,7 @@ YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
-# Configuration
-TIMEOUT=10  # Timeout for student programs in seconds
-COMPILE_TIMEOUT=30
+# (Per-test timeouts are set inside the individual tests/test_problem*.sh scripts.)
 
 # Directories
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -115,17 +114,25 @@ grade_problem() {
 
     local submission_pattern="$SUBMISSIONS_DIR/problem${problem_num}*.cpp"
     local found=0
+    local passed=0
+    local failed=0
 
     for submission in $submission_pattern; do
         if [ -f "$submission" ]; then
             found=1
-            grade_submission "$problem_num" "$submission"
+            if grade_submission "$problem_num" "$submission"; then
+                passed=$((passed + 1))
+            else
+                failed=$((failed + 1))
+            fi
             echo ""
         fi
     done
 
     if [ $found -eq 0 ]; then
         print_warning "No submissions found for problem $problem_num"
+    else
+        echo "Problem $problem_num summary: $passed passed, $failed failed"
     fi
 }
 

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>How to Run the Examples - CS161A Interactive Text</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> /
+                <span class="chapter">Preface</span>
+            </div>
+            <h1>How to Run the Examples</h1>
+        </header>
+
+        <main class="content">
+            <p>There are two straightforward ways to try the code in this text:</p>
+<ul>
+<li>use an online compiler in your browser</li>
+<li>compile the code locally with <code>g++</code></li>
+</ul>
+<h3>Using OnlineGDB</h3>
+<p>As of April 1, 2026, the basic workflow on <code>https://www.onlinegdb.com/</code> is:</p>
+<ol>
+<li>Open the site.</li>
+<li>Make sure the language is set to C++.</li>
+<li>Replace the default contents of <code>main.cpp</code> with the example from this text.</li>
+<li>Click <code>Run</code> (or press <code>F9</code>).</li>
+<li>Read the program output in the <code>stdout</code> pane.</li>
+</ol>
+<p>If your program uses <code>cin</code> to read input, put that input into the <code>Standard Input</code> area before you run the program. If you want to type input interactively while the program is running, use the interactive console option when it is available.</p>
+<p>If the program does not compile, check the <code>stderr</code> pane. That&#x27;s where OnlineGDB will show compiler errors.</p>
+<h3>Using <code>g++</code></h3>
+<p>If you have a terminal and the GNU C++ compiler installed, you can compile and run examples locally.</p>
+<p>Suppose you save a program in a file called <code>hello.cpp</code>. The basic pattern is</p>
+<pre class="example">g++ hello.cpp -o hello
+./hello</pre>
+<p>Here&#x27;s what those commands mean:</p>
+<ul>
+<li><code>g++ hello.cpp</code> tells the compiler to compile the source file</li>
+<li><code>-o hello</code> says that the finished program should be named <code>hello</code></li>
+<li><code>./hello</code> runs the compiled program on macOS or Linux</li>
+</ul>
+<p>If you are on Windows, the program will usually be named <code>hello.exe</code> instead.</p>
+<p>If the program uses <code>cin</code>, just run it and type your input when it prompts you.</p>
+<p>As you learn more C++, a very useful version of the compile command is</p>
+<pre class="example">g++ -std=c++17 -Wall -Wextra -pedantic hello.cpp -o hello</pre>
+<p>The <code>-std</code>c++17<code> part tells </code>g++<code> which version of C++ to use. The </code>-Wall<code> and </code>-Wextra<code> parts turn on many helpful warnings, and </code>-pedantic= is useful for catching code that your compiler accepts as an extension but that is not actually standard C++.</p>
+<p>If you later work with multiple source files, the same idea still applies:</p>
+<pre class="example">g++ main.cpp math_utils.cpp -o program
+./program</pre>
+        </main>
+
+        <nav class="page-nav">
+            
+            <a href="page_Introduction_0.html" class="nav-btn next">Why C++? →</a>
+        </nav>
+    </div>
+
+    <!-- Terminal for running code -->
+    <div id="terminal-overlay" class="hidden">
+        <div class="terminal-container">
+            <div class="terminal-header">
+                <span>Program Output</span>
+                <button id="close-terminal-btn">✕</button>
+            </div>
+            <div id="terminal-output"></div>
+            <div id="input-area" class="hidden">
+                <span class="prompt">→</span>
+                <input type="text" id="user-input" autocomplete="off" placeholder="Enter input...">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.48.0/min/vs/loader.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

@@ -8,7 +8,7 @@ int main(){
   srand(time(0));
 
   const int NUM_ROLLS = 100;
-  int sumCounts[13] = {0};
+  int sumCounts[13] = {0};  // We'll use indices 2-12
 
   for(int i = 0; i < NUM_ROLLS; i++){
     int die1 = rand() % 6 + 1;

@@ -12,24 +12,20 @@
 3. Check that Monaco CDN is accessible
 4. Wait a few seconds - Monaco takes time to load
 
-**Test:** Open `test.html` to see if Monaco loads at all
-
 ### Code Won't Run
 
 **Symptom:** "Compiler not available" error
 
-**This is expected!** The compiler needs the `test1/assets/` directory.
+The compiler needs the `website/assets/` directory (not included in git).
 
 **Fix:**
 ```bash
-# Option 1: Copy assets into website
-cp -r ../../test1/assets website/
-
-# Then edit app.js line ~69:
-script.src = 'assets/shared.js';  # Change from '../test1/assets/shared.js'
+cd cs161A
+git clone --depth=1 https://github.com/binji/wasm-clang website/assets
+rm -rf website/assets/.git
 ```
 
-**Or:** Just use the editors for editing, not running. Students can copy code to compile locally.
+See `DEPLOYMENT.md` for details. **Or:** just use the editors for editing, not running. Students can copy code to compile locally or on OnlineGDB.
 
 ### Buttons Do Nothing
 
@@ -106,7 +102,7 @@ ls -la
 # - page_*.html (many files)
 # - style.css
 # - app.js
-# - test.html (optional, for testing)
+# - assets/ (only if the compiler toolchain has been installed)
 ```
 
 ## Viewing the Website
@@ -126,27 +122,22 @@ open index.html  # file:// URLs don't work well with Monaco
 
 ## Testing Steps
 
-1. **Test Monaco loading:**
-   - Open `test.html`
-   - Should see a code editor with Hello World
-   - Console should show "Monaco loaded"
-
-2. **Test a content page:**
-   - Open `page_Your_First_Programs_1.html`
+1. **Test a content page:**
+   - Open `page_First_Programs_0.html`
    - Should see multiple code editors
    - Console should show multiple "Created editor" messages
 
-3. **Test navigation:**
+2. **Test navigation:**
    - Click "Next" button
    - Should go to next page
    - Check URL changed
 
-4. **Test editing:**
+3. **Test editing:**
    - Type in a Monaco editor
    - Code should update
    - Reset button should restore original
 
-5. **Test running (if compiler available):**
+4. **Test running (if compiler available):**
    - Click Run button
    - Terminal overlay should appear
    - Check console for compiler messages
@@ -155,12 +146,9 @@ open index.html  # file:// URLs don't work well with Monaco
 
 ### 1. Compiler requires assets
 
-The `test1/assets/` directory is **not** included in the generated website.
+The `website/assets/` toolchain is **not** included in git (~58 MB).
 
-**Options:**
-- Copy it: `cp -r ../../test1/assets website/`
-- Update path in `app.js`
-- Or just disable running (editing still works!)
+**Fix:** see "Code Won't Run" above, or `DEPLOYMENT.md`. Without it, editing still works; only running is disabled.
 
 ### 2. Monaco is large
 
@@ -170,7 +158,7 @@ Monaco CDN files are several MB. First load will be slow.
 
 ### 3. Code execution doesn't truly block on input
 
-This uses the basic test1/ approach. For true blocking, see `BLOCKING_STDIN_INVESTIGATION.md`.
+Programs that read from `cin` run to completion with empty input instead of pausing. Use OnlineGDB or a local compiler for interactive programs.
 
 ## Advanced Debugging
 
@@ -215,19 +203,20 @@ console.log(monaco.version);  // Should show version number
 If things are really broken, regenerate:
 
 ```bash
-cd /home/left_adjoint/test/cs16_-materials/cs161A
-rm -rf website/  # Delete old version
-python3 generate_website.py  # Generate fresh
+cd cs161A
+python3 generate_website.py   # removes and regenerates the generated files
 cd website
 python3 -m http.server 8000
 ```
 
+(Do NOT `rm -rf website/` — that would also delete the 58 MB `assets/`
+toolchain and this file. The generator already cleans up its own output.)
+
 ## Getting Help
 
 1. **Check console** - Most issues show errors there
-2. **Try test.html** - Isolates Monaco from content issues
-3. **Check file paths** - Make sure CSS/JS are loading
-4. **Regenerate** - When in doubt, regenerate from scratch
+2. **Check file paths** - Make sure CSS/JS are loading
+3. **Regenerate** - When in doubt, regenerate from scratch
 
 ## Success Checklist
 

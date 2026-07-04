@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Comments and documentation - CS161A Interactive Text</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> /
+                <span class="chapter">Foundations</span>
+            </div>
+            <h1>Comments and documentation</h1>
+        </header>
+
+        <main class="content">
+            <p>There&#x27;s a line from the (absolutely amazing) old computer science textbook &quot;Structure and Interpretation of Computer Programs&quot; that goes</p>
+<blockquote>
+<p>Programs must be written for people to read, and only incidentally for machines to execute.</p>
+</blockquote>
+<p>If that pithy line sounds weird think of it this way: when we write code we&#x27;re solving problems. When we solve problems, we want other people to be able to understand those solutions for two reasons.</p>
+<p>The first is that we want other people to be able to check our work and see if we did it correctly! If there&#x27;s a problem not with the <em>code</em> but with the <em>reasoning</em> then it needs to be clear the decisions that were made and <em>why</em> they were made.</p>
+<p>To make this really concrete, imagine that you&#x27;re coding a physics simulation for a game engine. It works great for one game, a retro-style 2.5D shoot-em&#x27;-up. Now, later people want to adapt this physics engine to a remake of gamer-rage classic Getting Over It, but now with a pogo-stick. Except it doesn&#x27;t work! The bouncing looks and moves completely wrong!</p>
+<p>Now, if your code is well-written, clear, and properly documented these game developers might discover the assumption that all collisions are perfectly elastic, so if something bounces once it will bounce <strong>exactly</strong> as high every single time. A cup of coffee&#x27;s worth of coding later, they have it fixed!</p>
+<p>If your code is obtuse, poorly refactored, and has no documentation then, well, they might have to just write something new from scratch or grab a new physics engine library.</p>
+<p>To recall a point made earlier, one of the most common ways this story plays out is for both developers to be <em>you</em>: because the past is a foreign country and time makes us strangers to ourselves.</p>
+<p>All of that being said, <em>what</em> does good documentation look like? This is a subjective thing but my take would be something like:</p>
+<ul>
+<li>functions have names that tell you something</li>
+<li>variables and function parameters are clear either by descriptive names or short names with useful conventions (i.e. generic arithmetic functions have parameters like <code>n1</code> and <code>n2</code> rather than <code>firstNumber</code>/<code>secondNumber</code></li>
+<li>the <em>ideas</em> behind the code and description of how it <em>should</em> work are explained well</li>
+</ul>
+<p>With that last bit, you might be wondering how we can add explanations into the code? Those are <em>comments</em>.</p>
+<p>Comments are <strong>completely</strong> ignored by the compiler and are text only people see in the source code, thrown away in the creation of the actual program.</p>
+<p>There are two ways to write comments: the first is to put <code>//</code> anywhere in a line of code, which means that everything to the right of the double-slash becomes a comment; the second is to have a pair <code>/*</code> and <code>*/</code> across multiple lines, which makes the entire region commented. Here&#x27;s an example:</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page15-0">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page15-0">↻ Reset</button>
+    </div>
+    <div id="editor-page15-0" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n    int num = 0; // this program doesn't do anything interesting\n\n    /* but it\n       has\n       plenty\n       of\n       comments\n       \n       explodeComputer();\n\n       oh look this function doesn't get called, I guess\n    ,*/\n    return num;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page15-0'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<h3>Exercise about documenting a program</h3>
+<p>Here&#x27;s a program that is uncommented and uses a number of constructs you haven&#x27;t seen before.</p>
+<p>See if you can take this code and add comments to it to clarify what it does and write notes about what you don&#x27;t understand. This is an exercise to practice <em>reading</em> code, which is about as important a skill as writing it in the first place!</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page15-1">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page15-1">↻ Reset</button>
+    </div>
+    <div id="editor-page15-1" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include <cmath>\n  using namespace std;\n\n  int main() {\n      int choice;\n      double radius, length, width, area;\n      \n      cout << \"Shape Area Calculator\" << endl;\n      cout << \"1. Circle\" << endl;\n      cout << \"2. Rectangle\" << endl;\n      cout << \"Enter your choice (1 or 2): \";\n      cin >> choice;\n      \n      if (choice == 1) {\n          cout << \"Enter radius: \";\n          cin >> radius;\n          area = 3.14159 * radius * radius;\n          cout << \"Area of circle: \" << area << endl;\n      }\n      else if (choice == 2) {\n          cout << \"Enter length: \";\n          cin >> length;\n          cout << \"Enter width: \";\n          cin >> width;\n          area = length * width;\n          cout << \"Area of rectangle: \" << area << endl;\n      }\n      else {\n          cout << \"Invalid choice!\" << endl;\n          return 1;\n      }\n      \n      return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page15-1'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+
+        </main>
+
+        <nav class="page-nav">
+            <a href="page_Foundations_6.html" class="nav-btn prev">← Memory and storage</a>
+            <a href="page_Foundations_8.html" class="nav-btn next">Arithmetic and such in C++ →</a>
+        </nav>
+    </div>
+
+    <!-- Terminal for running code -->
+    <div id="terminal-overlay" class="hidden">
+        <div class="terminal-container">
+            <div class="terminal-header">
+                <span>Program Output</span>
+                <button id="close-terminal-btn">✕</button>
+            </div>
+            <div id="terminal-output"></div>
+            <div id="input-area" class="hidden">
+                <span class="prompt">→</span>
+                <input type="text" id="user-input" autocomplete="off" placeholder="Enter input...">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.48.0/min/vs/loader.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

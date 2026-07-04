@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Your first while loop: a number guessing game - CS161A Interactive Text</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> /
+                <span class="chapter">Foundations</span>
+            </div>
+            <h1>Your first while loop: a number guessing game</h1>
+        </header>
+
+        <main class="content">
+            <p>In this section we&#x27;ll be covering how to do your first kind of loop in C++, the <code>while</code> loop. Conceptually, a <code>while</code> loop lets you do something over and over again until the question &quot;should I keep going&quot; returns false.</p>
+<p>So, let&#x27;s take the smallest silliest example we can to show the syntax: a program that keeps running and asking you to enter a number until you enter <code>0</code>.</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page20-0">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page20-0">↻ Reset</button>
+    </div>
+    <div id="editor-page20-0" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n    // so if we're going to read in a number it needs\n    // a place to be stored, which means that we need to create a variable.\n    // we want to be in control of what is stored in the variable before our first run of the\n    // loop, so we set it to -1 to start.\n    int guessed = -1; \n\n    // how do we ask the question \"keep going until the variable guessed is 0\"? Well, you need\n    // to mentally invert this and say \"while the variable is NOT 0, run the loop\"\n    while(guessed != 0){ // like every other part of c++ where you have a chunk of code that runs, you put it inside {}\n      // now we ask for our number\n      cout << \"What's the magic number?\" << endl;\n      cin >> guessed;\n    }\n\n    cout << \"You're right! It was 0!\" << endl;\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page20-0'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+
+        </main>
+
+        <nav class="page-nav">
+            <a href="page_Foundations_11.html" class="nav-btn prev">← Data formatting</a>
+            <a href="page_Foundations_13.html" class="nav-btn next">Exercises →</a>
+        </nav>
+    </div>
+
+    <!-- Terminal for running code -->
+    <div id="terminal-overlay" class="hidden">
+        <div class="terminal-container">
+            <div class="terminal-header">
+                <span>Program Output</span>
+                <button id="close-terminal-btn">✕</button>
+            </div>
+            <div id="terminal-output"></div>
+            <div id="input-area" class="hidden">
+                <span class="prompt">→</span>
+                <input type="text" id="user-input" autocomplete="off" placeholder="Enter input...">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.48.0/min/vs/loader.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

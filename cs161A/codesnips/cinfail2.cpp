@@ -1,4 +1,5 @@
 #include <iostream>
+#include <limits>
 using namespace std;
 
 int main(){
@@ -10,7 +11,7 @@ int main(){
   while(cin.fail()){
     cout << "No, buddy, enter a *number*: " << endl;
     cin.clear();
-    cin.ignore(256,'\n');
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
     cin >> num1;
   }
 

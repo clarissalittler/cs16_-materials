@@ -2,7 +2,7 @@
 using namespace std;
 
 int main(){
-  int numPets = 5;
+  const int numPets = 5;
 
   string petNames[numPets];
   string petSpecies[numPets];

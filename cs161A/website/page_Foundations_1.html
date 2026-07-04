@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Explore: What&#x27;s in a name? - CS161A Interactive Text</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> /
+                <span class="chapter">Foundations</span>
+            </div>
+            <h1>Explore: What&#x27;s in a name?</h1>
+        </header>
+
+        <main class="content">
+            <p> Try changing the name of &quot;stuff&quot; in the program above. Be careful that when you <em>rename</em> the variable that you rename it consistently and change every use of the name &quot;stuff&quot; in the program. Come back and read on after you&#x27;re done.</p>
+<p> Did anything change? The answer is almost certainly &quot;no!&quot;. C++ doesn&#x27;t <em>care</em> what containers are named as long as you label them correctly. You could have, confusingly, named your text-holding variable to <code>thisIsANumberNotAString</code> and the program would still work just fine. There&#x27;s nothing in the C++ compiler that actually &quot;knows&quot; what the name you gave a variable means.</p>
+<p> That doesn&#x27;t mean naming variables &quot;hinder&quot; or &quot;boopsboops&quot; is a good idea. There&#x27;s an old saying that you need to write your code so it&#x27;s understandable by a total stranger, because that stranger is likely to be <strong>you</strong> in a few months.</p>
+<p> So be kind to your future self and use variable names that make sense!</p>
+        </main>
+
+        <nav class="page-nav">
+            <a href="page_Foundations_0.html" class="nav-btn prev">← Echoing text and string types</a>
+            <a href="page_Foundations_2.html" class="nav-btn next">Exercises →</a>
+        </nav>
+    </div>
+
+    <!-- Terminal for running code -->
+    <div id="terminal-overlay" class="hidden">
+        <div class="terminal-container">
+            <div class="terminal-header">
+                <span>Program Output</span>
+                <button id="close-terminal-btn">✕</button>
+            </div>
+            <div id="terminal-output"></div>
+            <div id="input-area" class="hidden">
+                <span class="prompt">→</span>
+                <input type="text" id="user-input" autocomplete="off" placeholder="Enter input...">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.48.0/min/vs/loader.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

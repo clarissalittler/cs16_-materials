@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Booleans, logic, and quizzes - CS161A Interactive Text</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> /
+                <span class="chapter">Foundations</span>
+            </div>
+            <h1>Booleans, logic, and quizzes</h1>
+        </header>
+
+        <main class="content">
+            <h3>The if-statement</h3>
+<p>Okay, if all we could do with code was straight-line programs that just do a sequence of calculations then we&#x27;d basically just have the equivalent of a calculator but arguably more annoying.</p>
+<p>Our first real important ability is the ability to make <em>choices</em>. &quot;Do I do <em>this</em> or <em>that</em>?&quot; Let&#x27;s look at an example.</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page17-0">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page17-0">↻ Reset</button>
+    </div>
+    <div id="editor-page17-0" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n\n    double num1;\n    double num2;\n\n    cout << \"Enter a number: \";\n    cin >> num1;\n    cout << \"Enter another number: \";\n    cin >> num2;\n\n    cout << \"If the first number - the second number is greater than 10, it will print 'beep', otherwise 'boop'\" << endl;\n\n    if(num1 - num2 > 10){\n      cout << \"beep\" << endl;\n    }\n    else{\n      cout << \"boop\" << endl;\n    }\n\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page17-0'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>Let&#x27;s break down the new part here:</p>
+<p>  <code>if(num1 - num2 &gt; 10){</code> this lets us ask the question &quot;is num1 minus num2 greater than 10&quot;? <em>If</em> the answer to this question is &quot;yes&quot;, then all the code between this curly-brace and the next curly brace happens. If the answer is &quot;no&quot;, then the code between the curly-brace after <code>else</code> and the closing curly-brace after that is run.</p>
+<p> A way you could read this in English is provided in the text that prints out &quot;If the first number - the second number is greater than 10, it will print &#x27;beep&#x27;, otherwise &#x27;boop&#x27;&quot;.</p>
+<p> We refer to this as an &quot;if-statement&quot;.</p>
+<p> An if-statement doesn&#x27;t have to have the <code>else</code> part, though.</p>
+<p> Consider this program that makes sure an integer entered is positive</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page17-1">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page17-1">↻ Reset</button>
+    </div>
+    <div id="editor-page17-1" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "   #include <iostream>\n   using namespace std;\n\n   int main(){\n     int num;\n     cout << \"Enter a positive number (if it's not positive we'll *make* it positive): \";\n     cin >> num;\n\n     if(num < 0){\n       num = -num;\n     }\n\n     cout << \"Your number: \" << num << endl;\n     return 0;\n   }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page17-1'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p> Okay, so let&#x27;s talk a bit more about what kinds of &quot;questions&quot; you can ask. &quot;Question&quot; is also a kind of data and has a type. That type is called <code>bool</code>, sometimes called a &quot;boolean&quot;, named after the mathematician &quot;George Boole&quot; who was extremely influential in the development of formal logic.</p>
+<p> The type <code>bool</code> has two elements: <code>true</code> and <code>false</code>. You can use these inside your if-statements, like the following program:</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page17-2">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page17-2">↻ Reset</button>
+    </div>
+    <div id="editor-page17-2" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "   #include <iostream>\n   using namespace std;\n\n   int main(){\n     bool isItQuestionMark = true;\n\n     if(isItQuestionMark){\n       cout << \"It's true\" << endl;\n     }\n     else {\n       cout << \"It's not\" << endl;\n     }\n     return 0;\n   }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page17-2'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>There are all sorts of questions you can ask, such as</p>
+<ul>
+<li><code>a == b</code> are two things equal to each other</li>
+<li><code>a != b</code> are two things not equal</li>
+<li><code>a &gt; b</code> is a greater-than b</li>
+<li><code>a &lt; b</code> is a less-than b</li>
+</ul>
+<p>You can also take the inverse of a question but putting <code>!</code> in front of it. So we can have</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page17-3">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page17-3">↻ Reset</button>
+    </div>
+    <div id="editor-page17-3" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n\n    if(!true){\n      cout << \"This shouldn't get printed\" << endl;\n    }\n    else{\n      cout << \"But this should!\" << endl;\n    }\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page17-3'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>You also don&#x27;t have to ask just one question at a time. You can combine questions with <code>&amp;&amp;</code>, pronounced &quot;and&quot;, and <code>||</code>, pronounced &quot;or&quot;.</p>
+<p>If I have questions a and b then <code>a &amp;&amp; b</code> only returns <code>true</code> if <strong>both</strong> <code>a</code> and <code>b</code> are true. Similarly, <code>a || b</code> returns true if <code>a</code> is true, if <code>b</code> is true, or if both of them are true.</p>
+<p>This is really useful for when you need to check if, say, a number is <em>between</em> two values like so:</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page17-4">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page17-4">↻ Reset</button>
+    </div>
+    <div id="editor-page17-4" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n\n    int input;\n    cout << \"Enter a number between 1 and 10\" << endl;\n    cin >> input;\n    if(input > 0 && input < 10){\n      cout << \"Good work\" << endl;\n    }\n    else {\n      cout << \"Oh c'mon!\" << endl;\n    }\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page17-4'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>This is a silly example but being able to make these checks will be important as we make bigger programs.</p>
+<h3>if, else, else-if</h3>
+<p>If-statements can also be chained together for more complicated decision making, like in the following example:</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page17-5">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page17-5">↻ Reset</button>
+    </div>
+    <div id="editor-page17-5" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n\n    string input;\n    cout << \"Name an animal: \";\n    cin >> input;\n\n    if(input == \"dog\"){\n      cout << \"The dog goes woof\" << endl;\n    }\n    else if(input == \"cat\"){\n      cout << \"The cat seeks revenge\" << endl;\n    }\n    else if(input == \"possum\"){\n      cout << \"The possum faints dramatically\" << endl;\n    }\n    else {\n      cout << \"I...don't know what to say\" << endl;\n    }\n    \n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page17-5'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>Try the code out! If you enter &quot;dog&quot; you&#x27;ll see the text &quot;The dog goes woof&quot; printed out. If you enter something, like, &quot;Parrot&quot;, then you&#x27;ll get &quot;I...don&#x27;t know what to say&quot;.</p>
+<p>We can expand beyond a binary of choices this way, chaining as many &quot;else-if&quot;s before we finally get to an <code>else</code>.</p>
+<p>The <code>else</code> has to be the last thing. Try compiling the following code:</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page17-6">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page17-6">↻ Reset</button>
+    </div>
+    <div id="editor-page17-6" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n\n    string input;\n    cout << \"Name an animal: \";\n    cin >> input;\n\n    if(input == \"dog\"){\n      cout << \"The dog goes woof\" << endl;\n    }\n    else if(input == \"cat\"){\n      cout << \"The cat seeks revenge\" << endl;\n    }\n    else {\n      cout << \"I...don't know what to say\" << endl;\n    }\n    else if(input == \"possum\"){\n      cout << \"The possum faints dramatically\" << endl;\n    }\n    \n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page17-6'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>The C++ compiler just completely rejects this program as poorly defined!</p>
+<p>That is, in fact, a good thing!</p>
+<h3>An authentication quiz</h3>
+<p>Okay, let&#x27;s do something silly as an example of putting some of these concepts together. A little program that runs a very special security quiz that asks you a few questions, use some variables, and then print out the results. This will determine, in a foolproof way, if the person answering the questions is definitely me.</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page17-7">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page17-7">↻ Reset</button>
+    </div>
+    <div id="editor-page17-7" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n    string q1 = \"Have you ever touched a computer before? type 1 or 0\\n\";\n    bool a1;\n    string q2 = \"Do you prefer whiteboards to blackboards ? type 1 or 0\\n\";\n    bool a2;\n    string q3 = \"False? type 1 or 0\\n\";\n    bool a3;\n    string q4 = \"Is a proof a program? type 1 or 0\\n\";\n    bool a4;\n\n    cout << q1;\n    cin >> a1;\n    cout << q2;\n    cin >> a2;\n    cout << q3;\n    cin >> a3;\n    cout << q4;\n    cin >> a4;\n\n    if((a1 && !a2 && a3) || a4){\n      cout << \"Oh, hi me, it's definitely you I'm talking to because no one could crack that code\" << endl;\n    }\n    else{\n      cout << \"You're not left_adjoint!\" << endl;\n    }\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page17-7'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>Can you reverse engineer what to answer for each question to hack the system? Try to parse what the condition in the final if-statement is actually saying!</p>
+<h3>A quiz on languages</h3>
+<p>This is a slightly more complicated version of the above where you accumulate a running total of how many answers they&#x27;ve gotten correct in order to give an appropriate response at the end.</p>
+<p>We&#x27;re going to ask five questions about programming language history and if the user gets all of them right we&#x27;re going to respond with something like &quot;Hey, no CS grad students allowed here that&#x27;s cheating!&quot;. If they get two to four correct then we&#x27;ll say &quot;Hey, you know a fair bit!&quot;.  If they get one correct we&#x27;ll say &quot;Well you are the start of your journey&quot; and if they get none correct we&#x27;ll say &quot;Okay, admit it, you threw that one&quot;.</p>
+<p>Before you read ahead and see how I did it, see if you can do this yourself first with five questions you think of, then read my solution.</p>
+<p>Okay here&#x27;s my version:</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page17-8">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page17-8">↻ Reset</button>
+    </div>
+    <div id="editor-page17-8" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n\n    int numberCorrect = 0;\n\n    string input;\n\n    cout << \"Is C++ a programming language? y/n\" << endl;\n    cin >> input;\n\n    if(input == \"y\"){\n      cout << \"Darn right it is\" << endl;\n      numberCorrect = numberCorrect + 1;\n    }\n    else {\n      cout << \"You're messing with me, right?\" << endl;\n    }\n    \n    cout << \"Is the untyped lambda calculus a total language? y/n\" << endl;\n    cin >> input;\n    if(input == \"n\"){\n      cout << \"Wow, you know your stuff! A little suspiciously so, actually\" << endl;\n      numberCorrect = numberCorrect + 1;\n    }\n    else{\n      cout << \"I didn't expect you to get that one, honestly\" << endl;\n    }\n\n    cout << \"Are JavaScript and Java related languages? y/n\" << endl;\n    cin >> input;\n    if(input == \"n\"){\n      cout << \"You're right! It was entirely a marketing decision to give JavaScript a similar name!\" << endl;\n      numberCorrect = numberCorrect + 1;\n    }\n    else{\n      cout << \"That's a common misconception!\" << endl;\n    }\n\n    cout << \"Is there a fundamental difference between interpreted and compiled languages? y/n\" << endl;\n    cin >> input;\n    if(input == \"n\"){\n      cout << \"That's right. Those are ways that a language can be implemented which is a separate concern from the definition of a language itself!\" << endl;\n      numberCorrect = numberCorrect + 1;\n    }\n    else{\n      cout << \"That's also a common misconception!\" << endl;\n    }\n\n    cout << \"Is C still worth learning if you know C++? y/n\" << endl;\n    cin >> input;\n    if(input == \"y\"){\n      cout << \"Absolutely!\" << endl;\n      numberCorrect = numberCorrect + 1;\n    }\n    else{\n      cout << \"It still has its place!\" << endl;\n    }\n\n    if(numberCorrect == 5){\n      cout << \"Hey no CS grad students allowed here, that's cheating!\" << endl;\n    }\n    else if(numberCorrect >= 2){\n      cout << \"You really know your stuff!\" << endl;\n    }\n    else if(numberCorrect > 0){\n      cout << \"You're at the beginning of a long, fun, journey!\" << endl;\n    }\n    else {\n      cout << \"Oh, okay, you threw that one on purpose\" << endl;\n    }\n    \n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page17-8'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>Now if you&#x27;re looking at my solution, do you notice how I used a chain of <code>else-if</code> statements? What do you think would happen if, instead, I actually had them just as <code>if</code> statements with an <code>else</code> at the very end?</p>
+<p>It won&#x27;t <em>quite</em> work right, but can you see why? Hint: try getting 5 correct after turning the middle <code>else-if</code> statements into plain <code>if</code>.</p>
+<p>Now why did that happen? Well the difference between an <code>else-if</code> and a plain <code>if</code> is that the <code>else-if</code> only checks if nothing else in the chain has fired, but a plain <code>if</code> will check no matter what.</p>
+<p>You can change this <code>else-if</code> example to be based around <code>if</code> statements instead if you make the conditions more complicated, like the first one needs to become <code>numberCorrect &gt;</code>2 &amp;&amp; numberCorrect &lt; 5=.</p>
+<h3>The dirty truth about booleans in C++</h3>
+<p> Beware, a mildly cursed corner of C++ awaits you in this section. The key thing to understand is not that booleans are &quot;secretly ints&quot; in every possible sense, but that C++ allows a lot of implicit conversion between <code>bool</code> and integer types.</p>
+<p> So, you see dear reader, it turns out that </p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page17-9">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page17-9">↻ Reset</button>
+    </div>
+    <div id="editor-page17-9" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "   #include <iostream>\n   using namespace std;\n\n   int main(){\n     if(true == 1){\n       cout << \"true is the same as 1\" << endl;\n     }\n\n     if(false == 0){\n       cout << \"false is the same as 0\" << endl;\n     }\n\n     int num = 1;\n     if(true == num){\n       cout << \"true is 1 even if we insist that the 1 is an int\" << endl;\n     }\n   }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page17-9'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>Compile this code and run it and you&#x27;ll see the important fact: C++ will freely convert between <code>bool</code> and integers in many situations. In particular, <code>true</code> converts to <code>1</code> and <code>false</code> converts to <code>0</code> when an integer is needed, and integers convert back to <code>bool</code> when C++ needs a truth value.</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page17-10">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page17-10">↻ Reset</button>
+    </div>
+    <div id="editor-page17-10" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n    int num;\n    cout << \"Enter a number, promise I won't misuse it\" << endl;\n    cin >> num;\n    if(num){ // whoops I meant to compare this to something but I got distracted by a dog\n      cout << \"This means that num is greater than 3\" << endl;\n      cout << \"See? \" << num << endl;\n    }\n    else{\n      cout << \"num is too small\" << endl;\n    }\n    return false; // what is happening here\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page17-10'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>Look at this code carefully. <code>if(num)</code> does <em>not</em> mean &quot;if num is greater than 3&quot;. It means &quot;convert <code>num</code> to a boolean and test that&quot;. Zero becomes <code>false</code>. Any nonzero value becomes <code>true</code>.</p>
+<p>Similarly, <code>return false;</code> in <code>main</code> works because <code>main</code> returns an <code>int</code>, and <code>false</code> is converted to <code>0</code>. So the compiler isn&#x27;t ignoring the types here. It&#x27;s following a conversion rule.</p>
+<p>That flexibility is one reason experienced C++ programmers try to write conditions clearly and avoid leaning too hard on implicit conversions.</p>
+<p>Annoying? Yes. Important to know about? Also yes.</p>
+<h3>Exercises</h3>
+<ol>
+<li><strong>Basic</strong>: Check if a number is positive, negative, or zero and print an appropriate message.</li>
+<li><strong>Intermediate</strong>: Create a simple grade calculator that takes a numeric score and outputs a letter grade (90+<code>A, 80+</code>B, 70+<code>C, 60+</code>D, &lt;60=F).</li>
+<li><strong>Intermediate</strong>: Write a car-rental eligibility checker. Ask for the renter&#x27;s age and then ask whether they have a valid driver&#x27;s license (<code>Y</code> or <code>N</code>). Print <code>you can rent a car</code> only when the renter is at least 25 <em>and</em> has a valid license; otherwise print a message that names the specific reason they were turned down. The point of this exercise is to use <code>&amp;&amp;</code> and <code>||</code> in the same condition.</li>
+<li><strong>Challenge</strong>: Build an eligibility checker that asks for age and tells the user what they can legally do (vote at 18, drink at 21, rent a car at 25, run for president at 35).</li>
+</ol>
+        </main>
+
+        <nav class="page-nav">
+            <a href="page_Foundations_8.html" class="nav-btn prev">← Arithmetic and such in C++</a>
+            <a href="page_Foundations_10.html" class="nav-btn next">Letting the compiler figure out the type →</a>
+        </nav>
+    </div>
+
+    <!-- Terminal for running code -->
+    <div id="terminal-overlay" class="hidden">
+        <div class="terminal-container">
+            <div class="terminal-header">
+                <span>Program Output</span>
+                <button id="close-terminal-btn">✕</button>
+            </div>
+            <div id="terminal-output"></div>
+            <div id="input-area" class="hidden">
+                <span class="prompt">→</span>
+                <input type="text" id="user-input" autocomplete="off" placeholder="Enter input...">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.48.0/min/vs/loader.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

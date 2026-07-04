@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Structs: Organizing Related Data - CS161A Interactive Text</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> /
+                <span class="chapter">Extended Topics</span>
+            </div>
+            <h1>Structs: Organizing Related Data</h1>
+        </header>
+
+        <main class="content">
+            <p>Remember the little pet database from the arrays chapter, where we had two separate arrays — one for <code>petNames</code>, one for <code>petSpecies</code> — and a rule we had to enforce ourselves that <code>petNames[i]</code> and <code>petSpecies[i]</code> were always &quot;the same pet&quot;? That trick works for toy programs, but as soon as you need a <em>third</em> or <em>fourth</em> piece of information about each pet, it starts to feel rickety. Imagine doing the same thing for a student records program. You&#x27;d end up with something like:</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page34-0">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page34-0">↻ Reset</button>
+    </div>
+    <div id="editor-page34-0" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "vector<string> studentNames;\nvector<int> studentIDs;\nvector<double> studentGPAs;\nvector<string> studentMajors;";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page34-0'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>And now you have a nightmare. To add a new student, you have to remember to push onto all four vectors, in the right order, with no typos. To delete a student, you have to delete from all four at the same index. If you ever accidentally add to three of them and not the fourth, the next student&#x27;s name lines up with the wrong ID, and <em>every</em> student after that one quietly goes wrong. This is the same &quot;keep it synchronized by hand, and hope&quot; problem we had with the pet database, just scaled up to hurt more.</p>
+<p>Structs solve this problem by letting you bundle related data together into a single custom type. Instead of four separate vectors, you can have one vector of &quot;Student&quot; objects, where each student carries all their own information. It&#x27;s cleaner, safer, and much more intuitive.</p>
+<h3>A first struct program</h3>
+<p>Again, let&#x27;s start with one complete example before we turn this into a catalog of patterns.</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page34-1">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page34-1">↻ Reset</button>
+    </div>
+    <div id="editor-page34-1" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include <string>\n  using namespace std;\n\n  struct Student {\n    string name;\n    int id;\n    double gpa;\n  };\n\n  int main(){\n    Student s;\n    s.name = \"Alice\";\n    s.id = 1001;\n    s.gpa = 3.8;\n\n    cout << s.name << \" (ID \" << s.id << \") has GPA \" << s.gpa << endl;\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page34-1'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>The new idea is the line</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page34-2">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page34-2">↻ Reset</button>
+    </div>
+    <div id="editor-page34-2" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  struct Student {";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page34-2'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>which defines a <em>new type</em>. After that, <code>Student s;</code> works the same way other declarations work: make a variable named <code>s</code> whose type is <code>Student</code>.</p>
+<p>Oh, and one bookkeeping note: see the <code>};</code> at the end of the struct definition? Way back at the start of this book I told you that lines ending in <code>{</code> or <code>}</code> don&#x27;t need semicolons, &quot;with one annoying exception we&#x27;ll get to.&quot; This is it. A struct definition is secretly a <em>statement</em> (it declares a type), so its closing brace needs the semicolon that every statement gets. Forget it and the compiler will produce some truly baffling error messages pointing at whatever innocent line comes next.</p>
+<p>Then the dot operator lets us get at the pieces stored <em>inside</em> that struct:</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page34-3">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page34-3">↻ Reset</button>
+    </div>
+    <div id="editor-page34-3" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  s.name = \"Alice\";\n  s.id = 1001;\n  s.gpa = 3.8;";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page34-3'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>So if a vector gives us &quot;a list of things,&quot; a struct gives us &quot;one thing with several related fields.&quot; Later on, those combine beautifully into vectors <em>of</em> structs.</p>
+<h3>Another way to build a struct, and the &quot;fill in the fields in order&quot; shortcut</h3>
+<p>There are two styles for filling in a struct once you&#x27;ve declared one, and you will see both in real code, so it&#x27;s worth showing them side by side.</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page34-4">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page34-4">↻ Reset</button>
+    </div>
+    <div id="editor-page34-4" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include <string>\n  using namespace std;\n\n  struct Book {\n    string title;\n    string author;\n    int pages;\n    double price;\n  };\n\n  int main(){\n    // Style one: declare the variable, assign each field with the dot operator\n    Book myBook;\n    myBook.title = \"1984\";\n    myBook.author = \"George Orwell\";\n    myBook.pages = 328;\n    myBook.price = 12.99;\n\n    // Style two: declare and fill in all fields at once\n    Book anotherBook = {\"Dune\", \"Frank Herbert\", 688, 18.99};\n\n    cout << myBook.title     << \" by \" << myBook.author     << endl;\n    cout << anotherBook.title << \" by \" << anotherBook.author << endl;\n\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page34-4'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>The first style is the one we already met. Declare the variable, use the dot operator, assign one field at a time. It&#x27;s verbose but very clear, and it&#x27;s almost always the right choice when the field values aren&#x27;t all available in the same place at the same time.</p>
+<p>The second style,</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page34-5">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page34-5">↻ Reset</button>
+    </div>
+    <div id="editor-page34-5" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  Book anotherBook = {\"Dune\", \"Frank Herbert\", 688, 18.99};";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page34-5'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>is a compact way to fill in every field at once. The values show up in the <em>same order the fields were declared</em> in the struct, which is what makes this shortcut work at all. That&#x27;s convenient, but also a small footgun: if you ever rearrange the fields in the struct declaration, every place in your code that used this shortcut quietly starts putting the wrong value in the wrong field, and the compiler will only complain if the types don&#x27;t match up. For small programs it&#x27;s fine; for bigger ones I tend to trust the dot-by-dot version.</p>
+<p>You&#x27;ve already seen the dot operator a couple of times now, but just to say it once explicitly: <code>myBook.title</code> means &quot;go into <code>myBook</code>, find the field called <code>title</code>, and hand me that.&quot; It is the same dot you&#x27;d use for reading or writing, so <code>myBook.pages </code> 400;<code> changes the pages field and </code>cout &lt;&lt; myBook.pages;= prints it.</p>
+<h4>Exercises</h4>
+<ol>
+<li><strong>Basic</strong>: Create a struct for a Person with name, age, and height. Create a Person variable and display it.</li>
+<li><strong>Intermediate</strong>: Create a struct for a Rectangle with width and height. Add variables to store the calculated area and perimeter.</li>
+</ol>
+<h3>Structs flow through functions just like any other type</h3>
+<p>Once you&#x27;ve defined a struct, it is a real C++ type in every sense — which means it can be passed into functions, returned from functions, and stored in containers, the same way <code>int</code> or <code>string</code> can. That turns out to be one of the best reasons to use structs in the first place: they let you pass a <em>record</em> around your program as a single thing instead of juggling four or five separate variables.</p>
+<p>Here&#x27;s a small example that covers the two most common ways to pass a struct.</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page34-6">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page34-6">↻ Reset</button>
+    </div>
+    <div id="editor-page34-6" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  struct Rectangle {\n    double width;\n    double height;\n  };\n\n  // Takes a copy \u2014 fine for tiny structs\n  double calculateArea(Rectangle rect){\n    return rect.width * rect.height;\n  }\n\n  // Borrows the caller's struct, promises not to change it\n  void displayRectangle(const Rectangle& rect){\n    cout << \"Width: \"  << rect.width  << endl;\n    cout << \"Height: \" << rect.height << endl;\n    cout << \"Area: \"   << calculateArea(rect) << endl;\n  }\n\n  int main(){\n    Rectangle r = {5.0, 3.0};\n    displayRectangle(r);\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page34-6'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p><code>calculateArea(Rectangle rect)</code> takes its parameter <em>by value</em>, which means the function gets its own private copy of the struct. For a <code>Rectangle</code> with two doubles in it, that copy is cheap and perfectly fine. For a big struct — one that holds, say, a <code>string</code> and a <code>vector</code> — copying it every time you passed it to a function would start to add up.</p>
+<p><code>displayRectangle(const Rectangle&amp; rect)</code> uses the same &quot;const reference&quot; pattern we met with vectors: the <code>&amp;</code> means &quot;reach back into the caller&#x27;s struct rather than making a copy,&quot; and the <code>const</code> is a promise to the reader (and to the compiler) that the function won&#x27;t change it. This is a sensible default once structs start carrying enough data that copying is worth avoiding.</p>
+<h3>Returning structs: many answers from one function</h3>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page34-7">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page34-7">↻ Reset</button>
+    </div>
+    <div id="editor-page34-7" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "#include <iostream>\nusing namespace std;\n\nstruct Point {\n  double x;\n  double y;\n};\n\nPoint createPoint(double x, double y){\n  Point p;\n  p.x = x;\n  p.y = y;\n  return p;\n}\n\nint main(){\n  Point p1 = createPoint(3.5, 7.2);\n  cout << \"Point: (\" << p1.x << \", \" << p1.y << \")\" << endl;\n  return 0;\n}";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page34-7'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>Returning a struct may feel fancy at first, but the idea is actually straightforward: build one value that contains several related fields, then hand that value back to the caller. This is one of the cleanest ways to return &quot;more than one piece of information&quot; without juggling lots of separate variables.</p>
+<h4>Exercises</h4>
+<ol>
+<li><strong>Basic</strong>: Write a function that takes two Point structs and calculates the distance between them.</li>
+<li><strong>Intermediate</strong>: Write a function that takes a Rectangle and returns true if it&#x27;s a square.</li>
+</ol>
+<h3>Vectors of Structs</h3>
+<p>This is where structs become really powerful - creating databases of records.</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page34-8">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page34-8">↻ Reset</button>
+    </div>
+    <div id="editor-page34-8" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "#include <iostream>\n#include <string>\n#include <vector>\nusing namespace std;\n\nstruct Student {\n  string name;\n  int id;\n  double gpa;\n};\n\nint main(){\n  vector<Student> students;\n\n  // Add students\n  Student s1 = {\"Alice\", 1001, 3.8};\n  Student s2 = {\"Bob\", 1002, 3.5};\n  Student s3 = {\"Charlie\", 1003, 3.9};\n\n  students.push_back(s1);\n  students.push_back(s2);\n  students.push_back(s3);\n\n  // Display all students\n  for(const Student& s : students){\n    cout << s.name << \" (ID: \" << s.id << \"): \"\n         << s.gpa << endl;\n  }\n\n  return 0;\n}";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page34-8'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>This is the combination that makes structs really earn their keep.</p>
+<p>Each element of the vector is one complete student record. The student&#x27;s name, ID, and GPA travel together as a single unit, which means we no longer have to keep several parallel arrays synchronized by hand.</p>
+<h4>Example: Student Records System</h4>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page34-9">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page34-9">↻ Reset</button>
+    </div>
+    <div id="editor-page34-9" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "#include <iostream>\n#include <string>\n#include <vector>\nusing namespace std;\n\nstruct Student {\n  string name;\n  int id;\n  double gpa;\n};\n\nvoid displayStudent(const Student& s){\n  cout << s.name << \" (ID: \" << s.id << \"): GPA \" << s.gpa << endl;\n}\n\nStudent findTopStudent(const vector<Student>& students){\n  Student top = students[0];\n  for(const Student& s : students){\n    if(s.gpa > top.gpa){\n      top = s;\n    }\n  }\n  return top;\n}\n\nint main(){\n  vector<Student> students = {\n    {\"Alice\", 1001, 3.8},\n    {\"Bob\", 1002, 3.5},\n    {\"Charlie\", 1003, 3.9}\n  };\n\n  cout << \"All students:\" << endl;\n  for(const Student& s : students){\n    displayStudent(s);\n  }\n\n  cout << \"\\nTop student:\" << endl;\n  displayStudent(findTopStudent(students));\n\n  return 0;\n}";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page34-9'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>Read this example from top to bottom and notice how each helper function has a small, specific job.</p>
+<p><code>displayStudent()</code> prints one record.</p>
+<p><code>findTopStudent()</code> scans the vector and returns the best record it found.</p>
+<p><code>main()</code> sets up the sample data, prints the whole list, then prints the top student. That&#x27;s the same &quot;small helper functions plus a readable <code>main()</code>&quot; structure that made earlier chapters easier to follow.</p>
+<h4>Exercises</h4>
+<ol>
+<li><strong>Basic</strong>: Create a vector of Book structs and display them all.</li>
+<li><strong>Intermediate</strong>: Write a function to find the most expensive book in a vector of Books.</li>
+<li><strong>Challenge</strong>: Create a simple contact management system with add, search, and display functions.</li>
+</ol>
+<h3>Nested Structs</h3>
+<p>Structs can contain other structs as members.</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page34-10">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page34-10">↻ Reset</button>
+    </div>
+    <div id="editor-page34-10" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "#include <iostream>\n#include <string>\nusing namespace std;\n\nstruct Date {\n  int month;\n  int day;\n  int year;\n};\n\nstruct Person {\n  string name;\n  Date birthday;\n  string email;\n};\n\nint main(){\n  Person p;\n  p.name = \"Alice\";\n  p.birthday.month = 5;\n  p.birthday.day = 15;\n  p.birthday.year = 1995;\n  p.email = \"alice@example.com\";\n\n  cout << p.name << \" was born on \"\n       << p.birthday.month << \"/\"\n       << p.birthday.day << \"/\"\n       << p.birthday.year << endl;\n\n  return 0;\n}";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page34-10'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>The expression</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page34-11">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page34-11">↻ Reset</button>
+    </div>
+    <div id="editor-page34-11" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  p.birthday.month";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page34-11'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>is just the dot operator twice in a row. First get the <code>birthday</code> field out of <code>p</code>. That gives you a <code>Date</code>. Then get the <code>month</code> field out of that <code>Date</code>.</p>
+<h4>Exercises</h4>
+<ol>
+<li><strong>Intermediate</strong>: Create an Address struct and a Person struct that contains an Address.</li>
+<li><strong>Challenge</strong>: Create a School struct that contains a vector of Student structs.</li>
+</ol>
+<h3>Lab Projects</h3>
+<h4>LAB: Student Record System</h4>
+<p>Create a complete student management system:</p>
+<ul>
+<li>Add new students</li>
+<li>Display all students</li>
+<li>Find student by ID</li>
+<li>Calculate class average GPA</li>
+<li>Find honor roll students (GPA &gt;= 3.5)</li>
+</ul>
+<h4>LAB: Product Inventory</h4>
+<p>Create an inventory system with Product structs:</p>
+<ul>
+<li>Track name, SKU, quantity, price</li>
+<li>Add new products</li>
+<li>Update quantities</li>
+<li>Display all products</li>
+<li>Calculate total inventory value</li>
+</ul>
+<h4>LAB: Contact Management System</h4>
+<p>Create a contact manager:</p>
+<ul>
+<li>Store name, phone, email, birthday</li>
+<li>Add/remove contacts</li>
+<li>Search contacts by name</li>
+<li>Display all contacts sorted by name</li>
+<li>Show upcoming birthdays</li>
+</ul>
+        </main>
+
+        <nav class="page-nav">
+            <a href="page_Extended_Topics_1.html" class="nav-btn prev">← Vectors: Dynamic Arrays</a>
+            <a href="page_Extended_Topics_3.html" class="nav-btn next">File I/O: Reading and Writing Files →</a>
+        </nav>
+    </div>
+
+    <!-- Terminal for running code -->
+    <div id="terminal-overlay" class="hidden">
+        <div class="terminal-container">
+            <div class="terminal-header">
+                <span>Program Output</span>
+                <button id="close-terminal-btn">✕</button>
+            </div>
+            <div id="terminal-output"></div>
+            <div id="input-area" class="hidden">
+                <span class="prompt">→</span>
+                <input type="text" id="user-input" autocomplete="off" placeholder="Enter input...">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.48.0/min/vs/loader.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1429,7 +1429,7 @@ Now we're finally ready to write our number guessing game
   }
 #+end_src
 
-Try to read this code through and understand the logic of what it's doing! The only thing we haven't explained to this point is the =%= operator, which is the "modulus" operator. Basically, =a % b= returns the remainder---in the "you're learning division as a kid" sense of remainder---of dividing =a= by =b=. Now, in terms of why we *care* about this operator it gives us a quick way to take a big range of numbers and map it to something smaller. For example, if we do =a % 20= our outputs, no matter what =a= is, will be between 0 and 19. Similarly if we say =a % 100= this will give us an output that's between 0 and 99.
+Try to read this code through and understand the logic of what it's doing! The only thing we haven't explained to this point is the =%= operator, which is the "modulus" operator. Basically, =a % b= returns the remainder---in the "you're learning division as a kid" sense of remainder---of dividing =a= by =b=. Now, in terms of why we *care* about this operator it gives us a quick way to take a big range of numbers and map it to something smaller. For example, if we do =a % 20= our outputs, for any non-negative =a=, will be between 0 and 19. Similarly if we say =a % 100= this will give us an output that's between 0 and 99. (For /negative/ numbers, C++'s =%= gives back negative remainders---=-5 % 20= is =-5=, not =15=---but since =rand()= never hands us a negative number we don't have to worry about that here.)
 *** Using =abs()= for Distance Checking
 Sometimes you want to check if two numbers are "close" to each other. The /absolute value/ function =abs()= is perfect for this. It's available in C++ by including =<cmath>=.
 
@@ -2474,9 +2474,9 @@ Let's run the program above one more time but now with the following input
 #+begin_example
 1 dog[hit the enter key]
 #+end_example
-What you'll get printed out is "The sum of these numbers was: 1". Why? Because the attempt to read =dog= into =num2= fails, so =cin= goes into an error state and =num2= keeps the value it already had. In this version of the program, we initialized =num2= to 0, so the sum winds up being 1.
+What you'll get printed out is "The sum of these numbers was: 1". Why? Because the attempt to read =dog= into =num2= fails, so =cin= goes into an error state and writes a 0 into =num2=. The sum winds up being 1 + 0.
 
-That detail matters. =cin >>= does /not/ magically invent a safe fallback value for you. If =num2= had been left uninitialized, then we'd be using garbage data instead.
+That detail matters. When a read fails, =cin >>= zeroes out the variable and refuses to do anything further until you acknowledge the error --- it does /not/ quietly skip the bad input and move on. (If you're using a truly ancient compiler, from before the 2011 version of C++, the variable was instead left untouched --- one more reason we always initialize our variables.)
 
 We're going to introduce a new function called =cin.fail()= that lets us ask the question "did the last time we tried to read from =cin= go wrong?"
 
@@ -2872,7 +2872,7 @@ Let's say you're parsing email addresses and you want to extract the username (t
     cin >> email;
 
     // Find the @ symbol
-    int atPosition = email.find("@");
+    auto atPosition = email.find("@");
 
     if(atPosition == string::npos){
       cout << "That's not a valid email!" << endl;
@@ -2894,6 +2894,8 @@ Let's say you're parsing email addresses and you want to extract the username (t
 
 Notice how we used =atPosition + 1= for the domain? That's because we don't want to include the @ symbol itself—we want to start /after/ it.
 
+Also notice the =auto= for =atPosition=: remember that =find= hands back that special "type C++ uses for string positions" we talked about, and letting the compiler figure out the type is exactly the tool for "give me whatever type this function returns." Writing =int= there instead would only /appear/ to work, and your compiler would grumble at you about it with =-Wall= on.
+
 Here's another practical example—extracting a file extension:
 
 #+begin_src cpp :tangle codesnips/findsubstr2.cpp
@@ -2908,7 +2910,7 @@ Here's another practical example—extracting a file extension:
     cin >> filename;
 
     // Find the last period
-    int dotPosition = filename.find(".");
+    auto dotPosition = filename.find(".");
 
     if(dotPosition == string::npos){
       cout << "No file extension found!" << endl;
@@ -2943,7 +2945,7 @@ Here's how you'd find all occurrences of a substring:
     string text = "the cat in the hat sat on the mat";
     string searchFor = "at";
 
-    int position = text.find(searchFor);
+    auto position = text.find(searchFor);
 
     while(position != string::npos){
       cout << "Found 'at' at position " << position << endl;
@@ -2975,7 +2977,7 @@ Let's put it all together with a program that finds and replaces text in a strin
     cout << "Original: " << text << endl;
 
     // Find the first occurrence
-    int pos = text.find(findWord);
+    auto pos = text.find(findWord);
 
     if(pos != string::npos){
       // Build a new string: everything before + replacement + everything after
@@ -4466,7 +4468,7 @@ Okay, now the reveal I kept gesturing at. "The box with slots" was a useful fict
 That is genuinely the whole story, and it explains all the annoyances we flagged when you first met arrays:
 
 + you have to remember the size yourself, because a bare address has no size attached to it
-+ passing an array to a function really means passing the address, which is why functions like =dynLength= had to agree on some other convention (a sentinel, or an explicit length parameter) to know when to stop
++ passing an array to a function really means passing the address, which is why functions that take arrays have to agree on some other convention (a sentinel, or an explicit length parameter) to know when to stop --- we'll write a function called =dynLength= in the very next section that does exactly this
 + out-of-bounds access does not fail loudly, because there is nothing on the address line marking where your memory ends and someone else's begins; you just keep reading
 
 So when I told you earlier that arrays were fixed-size boxes you had to count yourself, the fixed-size part was a kind-of lie and the "count yourself" part was the whole /job/, not an inconvenience. That's the reveal.
@@ -4484,7 +4486,7 @@ We won't really use vectors in this class and that's because we're trying to ins
 *** How ints are actually stored, and why =string::npos= is =18446744073709551615=
 While we are being honest about what memory looks like, we can finally close another loop I left hanging. Way back when we first introduced =int=, I said "treat these as the whole numbers you already know, with a small warning that they aren't /quite/ that." And a while after that, when we met =find= and =string::npos=, we saw that searching for something not in a string gave back a ridiculous answer like =18446744073709551615= and I asked you to just file it under "weird but consistent." This is where those two loose ends get tied together.
 
-Here is the honest version. When C++ makes an =int=, it sets aside a /fixed/ amount of space — on almost every machine you're likely to use, that's 32 bits, though other sizes exist. That means an =int= can only represent a fixed, finite range of whole numbers. It is not the integers from your math class; it is a finite window onto them. If you try to add two =int= s and the true result doesn't fit in that window, the stored answer /wraps around/, the same way a car odometer rolls over from its biggest reading back to zero. That wrap-around behavior is called "overflow," and it is the real reason I was cagey about whether =int= was really the whole numbers.
+Here is the honest version. When C++ makes an =int=, it sets aside a /fixed/ amount of space — on almost every machine you're likely to use, that's 32 bits, though other sizes exist. That means an =int= can only represent a fixed, finite range of whole numbers. It is not the integers from your math class; it is a finite window onto them. If you try to add two =int= s and the true result doesn't fit in that window, you've caused what's called "overflow," and it is the real reason I was cagey about whether =int= was really the whole numbers. What you'll /usually observe/ when a plain =int= overflows is the stored answer wrapping around, the way a car odometer rolls over from its biggest reading back to zero --- but I have to be honest here too: for signed types like =int=, the C++ standard doesn't promise the wraparound. It calls overflowing an =int= /undefined behavior/, which means the compiler is allowed to assume it never happens. Only the /unsigned/ types we're about to meet get the odometer roll guaranteed in writing.
 
 Now the second loose end. There is a second variety of integer type in C++ called /unsigned/. Unsigned types are the same fixed width, but they do not spend any bits on representing negative numbers — they use the full range for zero and positive numbers. The function =string::find= returns one of these unsigned types, because an /index into a string/ is never supposed to be negative.
 
@@ -4702,18 +4704,20 @@ This is going to involve a bit of work but we'll go line-by-line
   }
 
   int main(){
-    char hello[] = "Hello";
+    char hello[20] = "Hello";
     char world[] = ", World!";
 
     concat(hello,world);
 
     cout << hello << endl;
-    
+
     return 0;
   }
 #+end_src
 
 If you run this we'll see that what gets printed out is "Hello, World!", which is exactly what we'd hoped.
+
+One detail that's easy to miss but /very/ important: look at the declaration =char hello[20]=. We had to make the destination array bigger than the text we initially put in it, because =concat= writes the second string into the same box the first string lives in. If we'd declared =char hello[] = "Hello"= the compiler would have made a box exactly six characters wide (five letters plus the ='\0'=), and copying ", World!" onto the end would have written right past the end of the array --- exactly the out-of-bounds sin we just spent a whole section warning you about. The destination needs spare capacity for everything you plan to append. C++ will not check this for you.
 
 Now, note that this means we /modified/ the first string to do this concatenation. That's very different than how the =+= operator worked on the =string= type, which didn't change the arguments passed into it.
 
@@ -5220,6 +5224,8 @@ The new idea is the line
 #+end_src
 
 which defines a /new type/. After that, =Student s;= works the same way other declarations work: make a variable named =s= whose type is =Student=.
+
+Oh, and one bookkeeping note: see the =};= at the end of the struct definition? Way back at the start of this book I told you that lines ending in ={= or =}= don't need semicolons, "with one annoying exception we'll get to." This is it. A struct definition is secretly a /statement/ (it declares a type), so its closing brace needs the semicolon that every statement gets. Forget it and the compiler will produce some truly baffling error messages pointing at whatever innocent line comes next.
 
 Then the dot operator lets us get at the pieces stored /inside/ that struct:
 
@@ -6050,7 +6056,7 @@ In CS161B you will study these ideas more formally, especially questions like "h
 
 This is the simplest search algorithm: just look through an array one element at a time until you find what you're looking for (or reach the end without finding it).
 
-You have actually already seen linear search in disguise. Way back in the strings chapter, when we wrote =dynLength= for our sentinel-terminated arrays, that loop was "walk through the array until you hit the sentinel" — structurally the same motion as linear search, just with "the sentinel" instead of "the target" as the stopping condition. And the "if we didn't find it, return =-1=" trick below is /exactly/ the same convention =string::find= uses when it hands back =string::npos=: we need some distinguishable value that means "I walked the whole thing and nothing matched." Picking =-1= here is convenient because array indices are non-negative, so =-1= can never be a real answer.
+You have actually already seen linear search in disguise. Back in the arrays-and-pointers chapter, when we wrote =dynLength= for our sentinel-terminated arrays, that loop was "walk through the array until you hit the sentinel" — structurally the same motion as linear search, just with "the sentinel" instead of "the target" as the stopping condition. And the "if we didn't find it, return =-1=" trick below is /exactly/ the same convention =string::find= uses when it hands back =string::npos=: we need some distinguishable value that means "I walked the whole thing and nothing matched." Picking =-1= here is convenient because array indices are non-negative, so =-1= can never be a real answer.
 
 Here's a complete version first:
 
@@ -6475,6 +6481,9 @@ Same deal here: first a runnable little program, then the smaller helper functio
   }
 
   int lcm(int a, int b){
+    if(a == 0 && b == 0){
+      return 0; // gcd(0,0) is 0, and dividing by it would crash
+    }
     return (a / gcd(a, b)) * b;
   }
 
@@ -6537,9 +6546,14 @@ because it replaces the bigger problem with a smaller one that has the same answ
 **** Finding LCM (Least Common Multiple)
 #+begin_src cpp
 int lcm(int a, int b){
+  if(a == 0 && b == 0){
+    return 0; // gcd(0,0) is 0, and dividing by it would crash
+  }
   return (a / gcd(a, b)) * b;
 }
 #+end_src
+
+Notice the guard at the top: if both inputs are zero, =gcd= hands back zero, and dividing by zero doesn't produce an error message you can read --- it kills the program outright. When a function divides by something another function computed, it's worth asking "can that ever be zero?" Here, it can, so we handle it.
 
 **** Prime Number Testing
 #+begin_src cpp
@@ -7053,6 +7067,7 @@ int main(){
 #+begin_src cpp
 #include <iostream>
 #include <cstdlib>
+#include <ctime>
 using namespace std;
 
 int main(){
@@ -7560,6 +7575,7 @@ int main(){
 *** Challenge: Date Validator
 #+begin_src cpp
 #include <iostream>
+#include <limits>
 using namespace std;
 
 bool isLeapYear(int year){

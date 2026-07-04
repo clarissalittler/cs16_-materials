@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Scope and Lifetime: Where Do Variables Live? - CS161A Interactive Text</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> /
+                <span class="chapter">Strings and Functions</span>
+            </div>
+            <h1>Scope and Lifetime: Where Do Variables Live?</h1>
+        </header>
+
+        <main class="content">
+            <p>Remember the &quot;a variable is a labeled box&quot; picture I sold you back in the very first chapter? This is the part of the book where I told you we&#x27;d come back and admit it was a half-truth.</p>
+<p>Now that you&#x27;re writing functions, you&#x27;ve probably noticed something the box picture doesn&#x27;t explain. Variables you declare inside a function don&#x27;t seem to exist outside of it. Variables you declare in <code>main</code> aren&#x27;t accessible inside your functions. Even weirder, the little loop counter in a <code>for</code> loop seems to come and go every iteration. If variables were really just labeled boxes sitting on a shelf somewhere, why would they keep disappearing?</p>
+<p>The honest answer is that &quot;the shelf&quot; is actually several different shelves, each of which belongs to a specific chunk of code, and most of them only exist while that chunk of code is running. When <code>main</code> starts, C++ sets up a little region of memory to hold <code>main</code>&#x27;s local variables, and when a function is called, C++ sets up <em>another</em> little region for <em>its</em> local variables. When a function returns, its region gets torn down and its boxes go with it. When a block inside an <code>if</code> ends, the variables declared in that block go with it too. That&#x27;s not an inconvenience bolted on top of the box picture — that is the actual behavior, and &quot;box&quot; was a simplification that only worked as long as we were looking at a single function at a time.</p>
+<p>The two bits of vocabulary for this are <strong>scope</strong> (&quot;where, in the text of the program, is this name visible?&quot;) and <strong>lifetime</strong> (&quot;for how long, while the program is running, does this value actually exist in memory?&quot;). They almost always line up for local variables — the name becomes visible when you declare it, and the underlying storage gets set up around the same moment — but it is worth noticing that they are two separate questions, because later on we will see ways to break the tie.</p>
+<h3>Local Variables: The Building Blocks</h3>
+<p>Whenever you declare a variable inside a block of code (anything between <code>{ }</code>), that variable is <strong>local</strong> to that block. It only exists within those curly braces, and it disappears when the block ends.</p>
+<p>Let&#x27;s start with a simple example:</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page29-0">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page29-0">↻ Reset</button>
+    </div>
+    <div id="editor-page29-0" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n    int x = 10;\n\n    if(x > 5){\n      int y = 20;\n      cout << \"Inside if: x = \" << x << \", y = \" << y << endl;\n    }\n\n    cout << \"Outside if: x = \" << x << endl;\n    // cout << y << endl;  // ERROR! y doesn't exist here\n\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page29-0'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>In this code, <code>x</code> is declared in <code>main</code>, so it&#x27;s accessible anywhere inside <code>main</code>. But <code>y</code> is declared inside the <code>if</code> block, so it only exists there. Once we exit the <code>if</code> block, <code>y</code> is gone—it&#x27;s been destroyed and its memory has been freed.</p>
+<p>If you tried to uncomment that last <code>cout</code> statement, you&#x27;d get a compiler error saying <code>y</code> was not declared in this scope.</p>
+<h4>Variables in Loops</h4>
+<p>This same principle applies to loops. Variables declared inside a loop only exist for that iteration of the loop:</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page29-1">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page29-1">↻ Reset</button>
+    </div>
+    <div id="editor-page29-1" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n    for(int i = 0; i < 3; i++){\n      int loopVar = i * 10;\n      cout << \"Iteration \" << i << \": loopVar = \" << loopVar << endl;\n    }\n\n    // cout << loopVar << endl;  // ERROR! loopVar doesn't exist here\n    // cout << i << endl;         // ERROR! i doesn't exist here either\n\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page29-1'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>Both <code>i</code> (the loop counter) and <code>loopVar</code> only exist inside the loop. Once the loop finishes, they&#x27;re gone.</p>
+<p>Actually, there&#x27;s something even more interesting happening here: <code>loopVar</code> is created and destroyed on <strong>every iteration</strong> of the loop. Each time through the loop, a fresh <code>loopVar</code> is created, used, and then destroyed. It&#x27;s not the same variable being reused—it&#x27;s a new one each time!</p>
+<h3>Variables in Functions</h3>
+<p>When you declare a variable inside a function, it&#x27;s local to that function. Other functions can&#x27;t see it, and it disappears when the function returns.</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page29-2">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page29-2">↻ Reset</button>
+    </div>
+    <div id="editor-page29-2" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  void calculateSomething(){\n    int result = 42;\n    cout << \"Inside function: result = \" << result << endl;\n  }\n\n  int main(){\n    calculateSomething();\n\n    // cout << result << endl;  // ERROR! result doesn't exist in main\n\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page29-2'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>The variable <code>result</code> only exists inside <code>calculateSomething</code>. It&#x27;s created when the function is called, and it&#x27;s destroyed when the function returns. <code>main</code> has no idea that <code>result</code> even exists.</p>
+<h4>Function Parameters Are Local Too</h4>
+<p>Here&#x27;s something that might surprise you: the parameters to a function are treated like local variables declared at the start of the function.</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page29-3">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page29-3">↻ Reset</button>
+    </div>
+    <div id="editor-page29-3" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  void greet(string name){\n    // 'name' is a local variable that was initialized with the argument\n    cout << \"Hello, \" << name << \"!\" << endl;\n    name = \"stranger\";  // We can modify it, but...\n    cout << \"Modified: \" << name << endl;\n  }\n\n  int main(){\n    string myName = \"Alice\";\n    greet(myName);\n\n    cout << \"Back in main: \" << myName << endl;  // Still \"Alice\"!\n\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page29-3'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>When we call <code>greet(myName)</code>, what happens is that a <strong>new</strong> local variable called <code>name</code> is created inside <code>greet</code>, and it&#x27;s initialized with a <strong>copy</strong> of the value from <code>myName</code>. So <code>name</code> and <code>myName</code> are completely separate variables! That&#x27;s why modifying <code>name</code> inside the function doesn&#x27;t affect <code>myName</code> in <code>main</code>.</p>
+<p>This is called <strong>pass by value</strong>—we&#x27;re passing the value, not the variable itself. We&#x27;ll see later how to change this behavior with pass-by-reference, but first you need to understand that by default, function parameters are just local variables with initial values.</p>
+<h3>Variable Shadowing: When Names Collide</h3>
+<p>What happens if you declare a variable with the same name in different scopes? This is called <strong>shadowing</strong>, and it can be confusing:</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page29-4">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page29-4">↻ Reset</button>
+    </div>
+    <div id="editor-page29-4" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n    int x = 10;\n    cout << \"Outer x: \" << x << endl;\n\n    {\n      int x = 20;  // This is a DIFFERENT variable named x\n      cout << \"Inner x: \" << x << endl;\n    }\n\n    cout << \"Outer x again: \" << x << endl;  // Back to 10\n\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page29-4'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>Output:</p>
+<pre class="example">Outer x: 10
+Inner x: 20
+Outer x again: 10</pre>
+<p>The inner <code>x</code> &quot;shadows&quot; (hides) the outer <code>x</code> while the inner block is executing. Once we exit that block, the inner <code>x</code> is destroyed, and the outer <code>x</code> is visible again.</p>
+<p>This works, but it&#x27;s generally considered bad practice because it&#x27;s confusing. Try to give your variables distinct names to avoid shadowing.</p>
+<h3>Global Variables: Use Sparingly!</h3>
+<p>So far we&#x27;ve only looked at local variables. But you can also declare variables <strong>outside</strong> of any function, at the top level of your program. These are called <strong>global variables</strong>:</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page29-5">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page29-5">↻ Reset</button>
+    </div>
+    <div id="editor-page29-5" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int globalCounter = 0;  // Global variable\n\n  void incrementCounter(){\n    globalCounter++;\n  }\n\n  void showCounter(){\n    cout << \"Counter: \" << globalCounter << endl;\n  }\n\n  int main(){\n    showCounter();        // Counter: 0\n    incrementCounter();\n    incrementCounter();\n    showCounter();        // Counter: 2\n\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page29-5'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>Global variables are accessible from anywhere in your program—any function can read and modify them. That might sound convenient, but it&#x27;s actually a problem!</p>
+<h4>Why Global Variables Are Dangerous</h4>
+<ol>
+<li><strong>Hard to track changes</strong>: When any function can modify a global variable, it&#x27;s hard to figure out where a bug is coming from. Which function changed the value? When?</li>
+</ol>
+<ol>
+<li><strong>Hidden dependencies</strong>: Functions that use global variables have hidden dependencies that aren&#x27;t visible in their parameter lists. This makes code harder to understand and reuse.</li>
+</ol>
+<ol>
+<li><strong>Naming conflicts</strong>: As your program grows, you might accidentally use the same name for different things.</li>
+</ol>
+<ol>
+<li><strong>Testing nightmare</strong>: Functions that depend on global variables are hard to test because you have to set up the global state correctly before each test.</li>
+</ol>
+<h4>When Global Variables Are Okay</h4>
+<p>That said, there are a few legitimate uses:</p>
+<ul>
+<li><strong>Global constants</strong>: If you use <code>const</code>, the variable can&#x27;t be modified, so it&#x27;s safe:</li>
+</ul>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page29-6">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page29-6">↻ Reset</button>
+    </div>
+    <div id="editor-page29-6" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "    const double PI = 3.14159265359;  // This is fine\n    const int MAX_STUDENTS = 100;     // This is fine too";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page29-6'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<ul>
+<li><strong>Configuration that truly needs to be global</strong>: Sometimes you have settings that really do need to be accessible everywhere (but even then, there are often better solutions you&#x27;ll learn later).</li>
+</ul>
+<p>As a general rule: <strong>prefer local variables and function parameters over global variables</strong>. If you need to share data between functions, pass it as parameters or return it as a result.</p>
+<h3>Lifetime vs. Scope: What&#x27;s the Difference?</h3>
+<p>We&#x27;ve been using these terms somewhat interchangeably, but they&#x27;re actually different:</p>
+<ul>
+<li><strong>Scope</strong>: Where in your code you can use a variable name to access the variable</li>
+<li><strong>Lifetime</strong>: When the variable actually exists in memory</li>
+</ul>
+<p>For local variables, scope and lifetime are usually the same: the variable is created when you enter the block, and it&#x27;s destroyed when you leave the block.</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page29-7">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page29-7">↻ Reset</button>
+    </div>
+    <div id="editor-page29-7" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  {\n    int x = 10;  // x is created here\n    // x's scope and lifetime both start here\n\n    // ... do stuff with x ...\n\n  }  // x is destroyed here (lifetime ends, scope ends)";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page29-7'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>But for global variables, they&#x27;re different:</p>
+<ul>
+<li><strong>Lifetime</strong>: The entire execution of the program (created at startup, destroyed at shutdown)</li>
+<li><strong>Scope</strong>: Anywhere in the file after the declaration (or in other files if you use certain keywords)</li>
+</ul>
+<h4>A Quick Note on Static Variables (Preview)</h4>
+<p>There&#x27;s also a keyword <code>static</code> that lets you create variables with special properties, but we won&#x27;t go into that in CS161A. Just know that it exists and lets you create variables with local scope but global lifetime. You&#x27;ll learn more about this in CS161B when you need it.</p>
+<h3>Practical Examples: Seeing Scope in Action</h3>
+<p>Let&#x27;s look at a more realistic example that combines everything we&#x27;ve learned:</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page29-8">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page29-8">↻ Reset</button>
+    </div>
+    <div id="editor-page29-8" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  // Global constant (good use of global)\n  const double TAX_RATE = 0.08;\n\n  double calculateTotal(double subtotal){\n    double tax = subtotal * TAX_RATE;  // local to this function\n    double total = subtotal + tax;     // local to this function\n    return total;\n  }\n\n  void printReceipt(double subtotal){\n    double total = calculateTotal(subtotal);  // different 'total' than above!\n\n    cout << \"Subtotal: $\" << subtotal << endl;\n    cout << \"Tax:      $\" << (total - subtotal) << endl;\n    cout << \"Total:    $\" << total << endl;\n  }\n\n  int main(){\n    double price = 19.99;  // local to main\n\n    printReceipt(price);\n\n    // tax, subtotal, and total from the functions don't exist here!\n\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page29-8'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>Notice how:</p>
+<ul>
+<li><code>TAX_RATE</code> is a global constant (accessible everywhere)</li>
+<li>Each function has its own local variables</li>
+<li><code>total</code> appears in both <code>calculateTotal</code> and <code>printReceipt</code>, but they&#x27;re different variables</li>
+<li>Variables from one function don&#x27;t leak into other functions</li>
+</ul>
+<h3>Common Mistakes and Debugging Tips</h3>
+<h4>Mistake 1: Assuming variables persist across function calls</h4>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page29-9">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page29-9">↻ Reset</button>
+    </div>
+    <div id="editor-page29-9" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  void badCounter(){\n    int count = 0;  // Created fresh each time!\n    count++;\n    cout << count << endl;  // Always prints 1\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page29-9'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>Each time you call <code>badCounter</code>, <code>count</code> is created fresh and initialized to 0. It doesn&#x27;t remember its value from previous calls.</p>
+<h4>Mistake 2: Trying to use a variable outside its scope</h4>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page29-10">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page29-10">↻ Reset</button>
+    </div>
+    <div id="editor-page29-10" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  if(temperature > 80){\n    string message = \"It's hot!\";\n  }\n\n  cout << message << endl;  // ERROR! message doesn't exist here";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page29-10'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>Solution: Declare <code>message</code> before the <code>if</code> statement:</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page29-11">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page29-11">↻ Reset</button>
+    </div>
+    <div id="editor-page29-11" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  string message;\n\n  if(temperature > 80){\n    message = \"It's hot!\";\n  }\n  else{\n    message = \"It's nice!\";\n  }\n\n  cout << message << endl;  // Now it works!";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page29-11'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<h4>Mistake 3: Accidental shadowing</h4>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page29-12">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page29-12">↻ Reset</button>
+    </div>
+    <div id="editor-page29-12" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  int score = 100;\n\n  for(int i = 0; i < 5; i++){\n    int score = i * 10;  // Oops! Shadows the outer score\n    cout << score << endl;  // Prints 0, 10, 20, 30, 40\n  }\n\n  cout << score << endl;  // Still 100 (never modified)";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page29-12'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>This compiles fine but probably isn&#x27;t what you meant! Use different variable names to avoid confusion.</p>
+<h3>Exercises</h3>
+<ol>
+<li><strong>Basic</strong>: What will this program print? Try to figure it out without running it, then check your answer:</li>
+</ol>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page29-13">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page29-13">↻ Reset</button>
+    </div>
+    <div id="editor-page29-13" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "     #include <iostream>\n     using namespace std;\n\n     int main(){\n       int a = 5;\n\n       {\n         int b = 10;\n         cout << a + b << endl;\n       }\n\n       {\n         int b = 20;\n         cout << a + b << endl;\n       }\n\n       return 0;\n     }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page29-13'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<ol>
+<li><strong>Basic</strong>: Fix this code so it compiles:</li>
+</ol>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page29-14">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page29-14">↻ Reset</button>
+    </div>
+    <div id="editor-page29-14" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "     #include <iostream>\n     using namespace std;\n\n     int main(){\n       for(int i = 0; i < 5; i++){\n         int sum = i + i;\n       }\n\n       cout << \"Sum: \" << sum << endl;\n\n       return 0;\n     }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page29-14'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<ol>
+<li><strong>Intermediate</strong>: Write a function <code>calculateAverage</code> that takes three test scores as parameters and returns the average. Make sure all variables are appropriately scoped and don&#x27;t use any global variables (except maybe a constant).</li>
+</ol>
+<ol>
+<li><strong>Intermediate</strong>: Explain in your own words: Why does this function always return the same value no matter how many times you call it?</li>
+</ol>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page29-15">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page29-15">↻ Reset</button>
+    </div>
+    <div id="editor-page29-15" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "     int getNumber(){\n       int num = 7;\n       num = num + 1;\n       return num;\n     }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page29-15'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<ol>
+<li><strong>Challenge</strong>: Write a program that demonstrates the difference between:</li>
+</ol>
+<ul>
+<li>A variable declared in <code>main</code> and passed to a function</li>
+<li>A variable declared inside a function</li>
+<li>A global variable accessed by multiple functions</li>
+</ul>
+<p>   Your program should clearly show which variables are accessible where, and what happens when functions try to modify them.</p>
+<ol>
+<li><strong>Discussion</strong>: Why is it generally better to pass data to functions via parameters rather than using global variables? Can you think of a situation where a global variable might be the right choice?</li>
+</ol>
+<h3>Summary: Key Takeaways</h3>
+<ul>
+<li><strong>Local variables</strong> exist only within the block <code>{ }</code> where they&#x27;re declared</li>
+<li><strong>Scope</strong> is where you can access a variable; <strong>lifetime</strong> is when it exists in memory</li>
+<li>Function parameters are local variables initialized with argument values</li>
+<li><strong>Shadowing</strong> happens when an inner scope declares a variable with the same name as an outer scope (avoid this!)</li>
+<li><strong>Global variables</strong> are accessible everywhere but should be used sparingly (constants are okay)</li>
+<li>Variables are destroyed when their scope ends, freeing up memory</li>
+</ul>
+<p>Understanding scope and lifetime will save you from many confusing bugs and help you write cleaner, more maintainable code. Next, we&#x27;ll see how to bend these rules slightly with pass-by-reference!</p>
+<h3>Passing by reference</h3>
+<p>Now here&#x27;s a weird little feature of C++. So let&#x27;s look at how arguments to functions differ from normal variables with a simple example:</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page29-16">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page29-16">↻ Reset</button>
+    </div>
+    <div id="editor-page29-16" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int sillyFun(int num){\n    num = 10;\n    return num;\n  }\n\n  int main(){\n\n    int ourNum = 30;\n\n    cout << \"Now we're going to call our function and it'll return \" << sillyFun(ourNum) << endl;\n    cout << \"But now what value does our variable have?: \" << ourNum << endl;\n  \n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page29-16'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>Now if you run this code you&#x27;ll see that the function returns <code>10</code> but that the value of <code>ourNum</code> at the end is <code>30</code>. How is this possible? Afterall, we set <code>num </code> 10<code> inside the function and return </code>num<code> and that&#x27;s 10! Why doesn&#x27;t the assignment stick? Well, because the variable </code>num<code> inside the function </code>sillyFun<code> is not /actually/ the same as </code>ourNum<code> it&#x27;s just a variable that lives inside a function and it is initialized with the same /value/ as </code>ourNum= when it&#x27;s passed in.</p>
+<p>Okay, why am I telling you this? Because there is a different way to write functions in C++ where you don&#x27;t take in the value of the argument, you are giving the function the variable itself!</p>
+<p>For example, consider this</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page29-17">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page29-17">↻ Reset</button>
+    </div>
+    <div id="editor-page29-17" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int sillyFun(int &num){\n    num = 10;\n    return num;\n  }\n\n  int main(){\n    int ourNum = 30;\n\n    cout << \"Now we're going to call our function and it'll return \" << sillyFun(ourNum) << endl;\n    cout << \"But now what value does our variable have?: \" << ourNum << endl;\n  \n    return 0;  \n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page29-17'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>The only difference between these programs is the little <code>&amp;</code> symbol in front of the name of the variable. This signifies that it&#x27;s an argument that is &quot;passed by reference&quot;, or in other words it&#x27;s literally passing in the variable as a thing that can be manipulated, assigned, &amp;c. instead of just handing the function the value inside the variable.</p>
+<p>Why use this? That&#x27;s probably the obvious question to ask. So there are a few reasons. One common beginner-level reason is that it gives us a simple way to get more than one piece of information back out of a function.</p>
+<p>What does that mean? So if you&#x27;ve ever used Python at all you might be familiar with the ability to do something like this</p>
+<pre class="example">def askAndSum():
+    num = int(input(&quot;Enter a number: &quot;))
+    total = 0
+    entries = 0
+    while num &gt;= 0:
+        entries = entries + 1
+        total = total + num
+        num = int(input(&quot;Enter a number: &quot;))
+    return (total, entries)
+
+print(askAndSum())</pre>
+<p>This program mimics things we&#x27;ve seen in this class: you run a loop that keeps asking for numbers until it gets a negative entry and then it returns the sum of all the numbers <strong>and</strong> how many numbers got added together!</p>
+<p>You <em>can</em> do this in C++, but we haven&#x27;t yet covered the other common ways, like returning a struct or a pair. At this stage in the class, pass-by-reference is the simplest tool we have for the job, so we&#x27;ll write the program like this:</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page29-18">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page29-18">↻ Reset</button>
+    </div>
+    <div id="editor-page29-18" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int askAndSum(int &entries){\n    int sum = 0;\n    int num = 0;\n  \n    cout << \"Enter a number: \";\n    cin >> num;\n\n    while(num >= 0){\n      entries = entries + 1;\n      sum = sum + num;\n    \n      cout << \"Enter a number: \";\n      cin >> num;\n    }\n  \n    return sum;\n  }\n\n  int main(){\n\n    int entries = 0;\n    int sum = askAndSum(entries);\n\n    cout << sum << \" \" << entries << endl;\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page29-18'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<h3>Exercises</h3>
+<ol>
+<li><strong>Basic</strong>: Write a swap function that exchanges the values of two variables using pass by reference.</li>
+<li><strong>Intermediate</strong>: Create a function that returns both quotient and remainder of division (use reference parameters for one of them).</li>
+<li><strong>Intermediate</strong>: Write a function <code>void minMax(int arr[], int size, int&amp; lo, int&amp; hi)</code> that walks an array and reports the smallest and largest values it found through the two reference parameters. The function itself returns <code>void</code> — the only outputs are the things written to <code>lo</code> and <code>hi</code>. Test it from <code>main</code> by filling a small array, calling <code>minMax</code>, and printing both results.</li>
+<li><strong>Challenge</strong>: Build a function that finds minimum, maximum, and average of an array in a single pass. Use reference parameters for min and max, and return the average from the function.</li>
+<li><strong>Challenge</strong>: Write <code>void splitDuration(int totalSeconds, int&amp; hours, int&amp; minutes, int&amp; seconds)</code>. Given a total number of seconds, it should fill in <code>hours</code>, <code>minutes</code>, and <code>seconds</code> so that all three together describe the same duration. For example, <code>splitDuration(3725, h, m, s)</code> should leave <code>h </code> 1<code>, </code>m <code> 2</code>, <code>s </code> 5=. This is the same shape of &quot;one input, multiple outputs through reference parameters&quot; you&#x27;ll see in real engineering code constantly.</li>
+</ol>
+        </main>
+
+        <nav class="page-nav">
+            <a href="page_Strings_and_Functions_2.html" class="nav-btn prev">← Writing your own functions</a>
+            <a href="page_Strings_and_Functions_4.html" class="nav-btn next">Arrays, again, and Pointers →</a>
+        </nav>
+    </div>
+
+    <!-- Terminal for running code -->
+    <div id="terminal-overlay" class="hidden">
+        <div class="terminal-container">
+            <div class="terminal-header">
+                <span>Program Output</span>
+                <button id="close-terminal-btn">✕</button>
+            </div>
+            <div id="terminal-output"></div>
+            <div id="input-area" class="hidden">
+                <span class="prompt">→</span>
+                <input type="text" id="user-input" autocomplete="off" placeholder="Enter input...">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.48.0/min/vs/loader.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

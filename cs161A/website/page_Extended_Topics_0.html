@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Why These Topics Are Here - CS161A Interactive Text</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> /
+                <span class="chapter">Extended Topics</span>
+            </div>
+            <h1>Why These Topics Are Here</h1>
+        </header>
+
+        <main class="content">
+            <p>The following topics are part of this extended CS161A pass and will also be covered in much greater depth during CS161B:</p>
+<ul>
+<li><strong>Vectors</strong>: Dynamic arrays that grow and shrink as needed</li>
+<li><strong>Structs</strong>: Organizing related data into custom types</li>
+<li><strong>File I/O</strong>: Reading from and writing to files</li>
+<li><strong>Multi-file Programs</strong>: Breaking your code into organized modules</li>
+<li><strong>Algorithms</strong>: Sorting and searching techniques</li>
+</ul>
+<p>Do not put pressure on yourself to become a wizard at all of this on the first pass. CS161B will come back to these ideas with more depth, more practice, and more demanding assignments.</p>
+<p>These are real, useful tools, and if you&#x27;re feeling steady with the earlier material, they are worth learning now.</p>
+<p>This section is a bridge. A little exposure now makes the second pass later feel familiar.</p>
+<p>And because the earlier chapters worked better when they started from complete programs, the next few sections will do the same thing: first a worked example, then the patterns and smaller snippets that fall out of it.</p>
+        </main>
+
+        <nav class="page-nav">
+            <a href="page_Strings_and_Functions_5.html" class="nav-btn prev">← Char Arrays</a>
+            <a href="page_Extended_Topics_1.html" class="nav-btn next">Vectors: Dynamic Arrays →</a>
+        </nav>
+    </div>
+
+    <!-- Terminal for running code -->
+    <div id="terminal-overlay" class="hidden">
+        <div class="terminal-container">
+            <div class="terminal-header">
+                <span>Program Output</span>
+                <button id="close-terminal-btn">✕</button>
+            </div>
+            <div id="terminal-output"></div>
+            <div id="input-area" class="hidden">
+                <span class="prompt">→</span>
+                <input type="text" id="user-input" autocomplete="off" placeholder="Enter input...">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.48.0/min/vs/loader.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

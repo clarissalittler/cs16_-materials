@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Vectors: Dynamic Arrays - CS161A Interactive Text</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> /
+                <span class="chapter">Extended Topics</span>
+            </div>
+            <h1>Vectors: Dynamic Arrays</h1>
+        </header>
+
+        <main class="content">
+            <p>Remember all the little annoyances of arrays? Fixed size. Separate size bookkeeping. Passing the array and the length around together every single time. Out-of-bounds mistakes turning into chaos with no useful signal.</p>
+<p>That whole list of annoyances is exactly why vectors exist. They handle most of the problems beginners keep slamming into with built-in arrays.</p>
+<p>You&#x27;ll use vectors constantly. They give you a container that tracks its own size, grows when you need more room, and works much more smoothly with functions. They are one of the first places where C++ starts feeling like it has decent tools built in.</p>
+<h3>A first vector program</h3>
+<p>Let&#x27;s start the slow way with a complete program, because that&#x27;s the style that tends to make new material stick.</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page33-0">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page33-0">↻ Reset</button>
+    </div>
+    <div id="editor-page33-0" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include <vector>\n  using namespace std;\n\n  int main(){\n    vector<int> numbers;\n    int input;\n\n    cout << \"Enter numbers, -1 to stop: \";\n    cin >> input;\n\n    while(input != -1){\n      numbers.push_back(input);\n      cout << \"Enter numbers, -1 to stop: \";\n      cin >> input;\n    }\n\n    cout << \"You entered \" << numbers.size() << \" numbers: \";\n    for(int num : numbers){\n      cout << num << \" \";\n    }\n    cout << endl;\n\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page33-0'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>There are only three genuinely new ideas here.</p>
+<p>First, <code>vector&lt;int&gt; numbers;</code> declares an <em>empty</em> vector of integers. We did not have to guess a size up front.</p>
+<p>Second, <code>numbers.push_back(input);</code> grows the vector by one element and stores <code>input</code> at the end. That&#x27;s the core move you use when you&#x27;re collecting an unknown amount of data.</p>
+<p>Third, <code>numbers.size()</code> asks the vector how many elements it currently has. With basic arrays, keeping track of that count was our job. With vectors, the container keeps track of its own size for us.</p>
+<p>The range-based loop at the end</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page33-1">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page33-1">↻ Reset</button>
+    </div>
+    <div id="editor-page33-1" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  for(int num : numbers){";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page33-1'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>means &quot;for each number currently stored in the vector, bind it to <code>num</code> and run the loop body.&quot; That&#x27;s a very natural fit for vectors because vectors are built to be traversed this way.</p>
+<h3>Making and filling vectors</h3>
+<p>The little program above already covered the &quot;make an empty one, stuff things into it with <code>push_back</code>, ask it how big it is&quot; motion, which is the whole core of how you use vectors day-to-day. But there&#x27;s a handful of variations on <em>making</em> a vector that are worth knowing so that you recognize them when you see them in other people&#x27;s code.</p>
+<p>Here&#x27;s one little program that shows four reasonable ways to conjure a vector into existence.</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page33-2">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page33-2">↻ Reset</button>
+    </div>
+    <div id="editor-page33-2" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include <string>\n  #include <vector>\n  using namespace std;\n\n  int main(){\n    vector<int> numbers;                                   // empty, zero elements\n    vector<int> grades(5);                                 // five elements, all 0\n    vector<int> temps = {65, 68, 72, 75, 73};              // five specific values\n    vector<string> names = {\"Alice\", \"Bob\", \"Charlie\"};\n\n    cout << \"numbers has \" << numbers.size() << \" element(s)\" << endl;\n    cout << \"grades has \"  << grades.size()  << \" element(s)\" << endl;\n    cout << \"temps has \"   << temps.size()   << \" element(s)\" << endl;\n    cout << \"names has \"   << names.size()   << \" element(s)\" << endl;\n\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page33-2'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>Nothing in this program is a new <em>idea</em>, but reading it lets you see all four styles side by side.</p>
+<p><code>vector&lt;int&gt; numbers;</code> is the &quot;I don&#x27;t know yet how many I need, I&#x27;ll <code>push_back</code> them as they come in&quot; style, which is what our first example used.</p>
+<p><code>vector&lt;int&gt; grades(5);</code> is &quot;I know I need five, and I&#x27;d like them all pre-filled with zeros.&quot; You reach for that when you&#x27;re about to use index-based access to <em>overwrite</em> those slots anyway, or when zero happens to be the right starting value (like a bunch of counters).</p>
+<p><code>vector&lt;int&gt; temps </code> {65, 68, 72, 75, 73};= is how you spell &quot;here are the exact values I want right now.&quot; This is how quick test data gets written in real code.</p>
+<p>And <code>vector&lt;string&gt; names</code> shows that this all works for any element type, not just <code>int</code>. The thing between the angle brackets is the type of one element; the vector is a container of those.</p>
+<p>One footnote before we move on: a vector collecting things from user input is <em>exactly</em> the shape of program I kept wanting to write back in the arrays chapter, where we had to pick a size up front and pray. The sentinel tricks we pulled with bare arrays — <code>-1</code> to mark the end, a separate <code>numPets</code> constant, <code>dynLength</code> walking the array until it hit a sentinel — are all things the vector just <em>handles</em> for you. That&#x27;s the specific pain vectors were invented to take away.</p>
+<h3>What a vector knows about itself</h3>
+<p>Once you have a vector, there are a small number of questions you can ask it and a small number of things you can ask it to do. These methods come up <em>constantly</em>, so it&#x27;s worth seeing them in one compact place.</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page33-3">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page33-3">↻ Reset</button>
+    </div>
+    <div id="editor-page33-3" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include <vector>\n  using namespace std;\n\n  int main(){\n    vector<int> nums;\n\n    nums.push_back(10);\n    nums.push_back(20);\n    nums.push_back(30);\n    cout << \"After three push_backs, size is \" << nums.size() << endl;\n\n    nums.pop_back();\n    cout << \"After pop_back, size is \" << nums.size() << endl;\n\n    cout << \"Is it empty? \" << (nums.empty() ? \"yes\" : \"no\") << endl;\n\n    nums.clear();\n    cout << \"After clear, size is \" << nums.size() << endl;\n\n    nums.resize(4);\n    cout << \"After resize(4), size is \" << nums.size() << endl;\n    cout << \"And the new elements are default-initialized: \" << nums[0] << endl;\n\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page33-3'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>Working through that program in order: <code>push_back</code> glues a value onto the end, <code>pop_back</code> removes the last one, <code>size()</code> reports how many are currently in there, <code>empty()</code> is a quick yes/no version of the same question, <code>clear()</code> throws everything away, and <code>resize()</code> forces the vector to have a specific number of elements (filling in default values if it has to grow, dropping elements off the end if it has to shrink).</p>
+<p>You do not need to memorize all of this at once. The two methods you will reach for most often by an embarrassing margin are <code>push_back</code> and <code>size()</code>, with <code>empty()</code> and <code>at()</code> (which we&#x27;re about to meet) as useful supporting actors. Everything else tends to show up when you need it, and you look it up.</p>
+<p>Quick Check: take the first program in this chapter — the one that read numbers until you entered <code>-1</code> — and add a line that prints out <code>numbers.empty()</code> right before the loop starts. What should it say the first time? What should it say after the loop?</p>
+<h4>Exercises</h4>
+<ol>
+<li><strong>Basic</strong>: Create a vector, add 5 numbers to it using push_back, then print all elements.</li>
+<li><strong>Intermediate</strong>: Create a program that reads numbers from the user until they enter -1, stores them in a vector, then displays them.</li>
+</ol>
+<h3>Two ways to ask for an element, and why one of them is safer</h3>
+<p>The two ways you can pull an element out of a vector look almost identical until something goes wrong, so let&#x27;s look at them together.</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page33-4">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page33-4">↻ Reset</button>
+    </div>
+    <div id="editor-page33-4" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include <vector>\n  using namespace std;\n\n  int main(){\n    vector<int> nums = {10, 20, 30, 40, 50};\n\n    cout << \"nums[0]    = \" << nums[0]    << endl;  // no bounds checking\n    cout << \"nums.at(0) = \" << nums.at(0) << endl;  // bounds-checked\n\n    // Try uncommenting one of these two lines:\n    // nums[10] = 99;     // undefined behavior, could do literally anything\n    // nums.at(10) = 99;  // throws an exception; program stops with a clear error\n\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page33-4'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>When the index really is in bounds, the two expressions give you the same thing. The difference only shows up when you ask for something that isn&#x27;t there.</p>
+<p><code>nums[0]</code> is the old-school array-style access we saw back in the pointers chapter: it trusts you completely. If you ask for <code>nums[10]</code> on a five-element vector, you get the exact same kind of &quot;off the edge of the world&quot; misbehavior as plain arrays — silent, unpredictable, and very good at hiding bugs until two weeks later.</p>
+<p><code>nums.at(0)</code> asks the vector to check the index first. If you&#x27;re in bounds, it hands you the element; if you&#x27;re out of bounds, the program stops with a clear complaint about which index you tried and how big the vector actually is. That is much kinder to future-you at 2am.</p>
+<p>This is exactly the kind of safety net the old arrays-and-sentinels chapter couldn&#x27;t give you, and it is worth leaning on <code>.at()</code> for anything where you aren&#x27;t absolutely certain the index is valid.</p>
+<h3>Walking through every element</h3>
+<p>The same &quot;print all five values&quot; task can be written two different ways, and both are common enough to recognize on sight.</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page33-5">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page33-5">↻ Reset</button>
+    </div>
+    <div id="editor-page33-5" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include <string>\n  #include <vector>\n  using namespace std;\n\n  int main(){\n    vector<int> numbers = {5, 10, 15, 20, 25};\n\n    // index-based: i is the /position/\n    for(int i = 0; i < numbers.size(); i++){\n      cout << \"Position \" << i << \" holds \" << numbers[i] << endl;\n    }\n\n    // range-based: val is a /copy of the value/\n    vector<string> names = {\"Alice\", \"Bob\", \"Charlie\"};\n    for(string name : names){\n      cout << name << \" \";\n    }\n    cout << endl;\n\n    // range-based with &: now val IS the element, so we can change it\n    vector<int> values = {1, 2, 3, 4, 5};\n    for(int& val : values){\n      val = val * 2;\n    }\n\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page33-5'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>The index-based loop is the right tool when the <em>position</em> is the thing you care about. If you want to print &quot;item 3 is 15,&quot; or compare <code>numbers[i]</code> to <code>numbers[i+1]</code>, or write to exactly one slot, you want <code>i</code> in your hands.</p>
+<p>The range-based loop <code>for(int num : numbers)</code> is the right tool when you just want to <em>visit</em> every element and the index is clutter. You will read and write code like this constantly once you trust it, because &quot;for each number in numbers&quot; is genuinely what you meant to say.</p>
+<p>The <code>int&amp; val</code> variation is a small but important twist. Without the <code>&amp;</code>, <code>val</code> is a copy of the stored value, and writing to <code>val</code> does nothing to the vector. With the <code>&amp;</code>, <code>val</code> <em>is</em> the element — same box, not a new one — so assignments go through to the original vector. If you remember passing variables by reference back in the functions chapter, this is the same idea at loop scope.</p>
+<h4>Exercises</h4>
+<ol>
+<li><strong>Basic</strong>: Write a program that safely accesses vector elements using <code>.at()</code> with error handling.</li>
+<li><strong>Discussion</strong>: When would you use <code>[]</code> vs <code>.at()</code>?</li>
+<li><strong>Basic</strong>: Use a range-based for loop to sum all elements in a vector.</li>
+<li><strong>Intermediate</strong>: Use a range-based for loop to convert all strings in a vector to uppercase.</li>
+</ol>
+<h3>Vectors passed into and returned from functions</h3>
+<p>Here is where vectors really start to pay rent, because they fix some of the most annoying things about passing arrays into functions. Remember, with bare arrays, every function that wanted to do something with the data also had to be told the length separately, because &quot;an array&quot; was really &quot;a pointer and a promise about how far you could walk.&quot; With vectors, the container already knows its own size, and you can hand the whole thing to a function or get it <em>back</em> from one without any of the bookkeeping.</p>
+<p>Let&#x27;s look at three small functions that show the three patterns you&#x27;ll reach for most often.</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page33-6">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page33-6">↻ Reset</button>
+    </div>
+    <div id="editor-page33-6" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include <vector>\n  using namespace std;\n\n  // \"Look but don't touch\" \u2014 const reference\n  void printVector(const vector<int>& v){\n    for(int num : v){\n      cout << num << \" \";\n    }\n    cout << endl;\n  }\n\n  // \"You can change my caller's vector\" \u2014 plain reference\n  void doubleValues(vector<int>& v){\n    for(int& val : v){\n      val *= 2;\n    }\n  }\n\n  // \"Here, have a fresh vector\" \u2014 return by value\n  vector<int> generateSequence(int n){\n    vector<int> result;\n    for(int i = 1; i <= n; i++){\n      result.push_back(i);\n    }\n    return result;\n  }\n\n  int main(){\n    vector<int> nums = generateSequence(5);\n    printVector(nums);\n    doubleValues(nums);\n    printVector(nums);\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page33-6'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>The three function signatures are doing three different jobs, and the difference between them is almost entirely in the type of the parameter.</p>
+<p><code>const vector&lt;int&gt;&amp; v</code> means &quot;give me the <em>actual</em> vector, not a copy, but I am promising not to change it.&quot; That is the sensible default for anything that only <em>reads</em> the data, because copying a huge vector just to peek at it is a waste. The <code>const</code> is what lets a future reader — and the compiler — know the function is a spectator.</p>
+<p><code>vector&lt;int&gt;&amp; v</code> drops the <code>const</code>, and now the function is invited to modify the caller&#x27;s vector in place. That&#x27;s the whole point of <code>doubleValues</code>: it reaches in, multiplies every element by two, and when the function returns the caller&#x27;s vector is <em>different</em>. Compare that to the bad old days of &quot;also please pass me the length&quot; and it should feel much cleaner.</p>
+<p><code>vector&lt;int&gt; generateSequence(int n)</code> returns a whole vector by value. For built-in arrays that would have been a nightmare — you can&#x27;t really hand back an array from a function, so you had to do strange pointer tricks or require the caller to pre-allocate one. For vectors, it Just Works: <code>generateSequence</code> builds a local vector, returns it, and the caller gets a real vector back, size and all. Modern C++ quietly makes this cheap, so you are not paying for a giant copy every time.</p>
+<h4>A complete example with vector functions</h4>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page33-7">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page33-7">↻ Reset</button>
+    </div>
+    <div id="editor-page33-7" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include <vector>\n  using namespace std;\n\n  vector<int> readNumbers(){\n    vector<int> values;\n    int input;\n\n    cout << \"Enter numbers (-1 to stop): \";\n    while(cin >> input && input != -1){\n      values.push_back(input);\n    }\n\n    return values;\n  }\n\n  int sumVector(const vector<int>& values){\n    int total = 0;\n    for(int value : values){\n      total += value;\n    }\n    return total;\n  }\n\n  void printVector(const vector<int>& values){\n    for(int value : values){\n      cout << value << \" \";\n    }\n    cout << endl;\n  }\n\n  int main(){\n    vector<int> numbers = readNumbers();\n\n    cout << \"You entered \" << numbers.size() << \" numbers: \";\n    printVector(numbers);\n    cout << \"Sum: \" << sumVector(numbers) << endl;\n\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page33-7'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>This little program is worth studying because each function has one job.</p>
+<p><code>readNumbers()</code> handles input and returns a finished vector.</p>
+<p><code>sumVector()</code> takes a finished vector and computes something from it without changing it.</p>
+<p><code>printVector()</code> worries only about display.</p>
+<p>Then <code>main()</code> becomes a clean outline of the whole program.</p>
+<h4>Exercises</h4>
+<ol>
+<li><strong>Basic</strong>: Write a function that returns a vector of even numbers from 0 to n.</li>
+<li><strong>Intermediate</strong>: Write a function that filters a vector, keeping only positive numbers.</li>
+</ol>
+<h3>A pattern you&#x27;ll use forever: build a new vector out of an old one</h3>
+<p>If I had to pick the single shape of program that vectors most <em>change your life</em> for, it is this: read one vector, look at each element, and build a second vector containing only the elements you care about. It sounds boring written out like that but it is a staggering amount of real-world code.</p>
+<p>Here is the canonical tiny version.</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page33-8">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page33-8">↻ Reset</button>
+    </div>
+    <div id="editor-page33-8" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include <vector>\n  using namespace std;\n\n  vector<int> filterPositive(const vector<int>& nums){\n    vector<int> result;\n    for(int num : nums){\n      if(num > 0){\n        result.push_back(num);\n      }\n    }\n    return result;\n  }\n\n  int main(){\n    vector<int> readings = {3, -1, 7, 0, -4, 12, -9};\n    vector<int> good = filterPositive(readings);\n    for(int n : good){\n      cout << n << \" \";\n    }\n    cout << endl;\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page33-8'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>The shape is always the same: start with an empty result vector, walk through the input with a range-based loop, decide per-element whether it belongs, <code>push_back</code> the ones that do, then return the result at the end.</p>
+<p>The reason this pattern comes up so much is that &quot;keep a rolling list of the ones I like&quot; is what basically every data-cleaning task is really doing. Filter the negative temperatures out. Keep the lines of the file that contain &quot;ERROR.&quot; Drop empty strings from a list of names. All the same loop, with a different check inside the <code>if</code>.</p>
+<p>Once that pattern is in your hands, a lot of programs that used to feel scary — parse a file, pick out the interesting records, do something with them — start to feel like variations on a single theme.</p>
+<h4>Exercises</h4>
+<ol>
+<li><strong>Basic</strong>: Write a function that returns only the even numbers from a vector.</li>
+<li><strong>Intermediate</strong>: Write a function that removes duplicates from a vector.</li>
+<li><strong>Challenge</strong>: Write a function that merges two sorted vectors into one sorted vector.</li>
+</ol>
+<h3>Two-Dimensional Vectors</h3>
+<p>Once you accept the idea that a vector can hold <em>anything</em> of a given type, the next step is natural: a vector can hold other vectors.</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page33-9">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page33-9">↻ Reset</button>
+    </div>
+    <div id="editor-page33-9" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include <vector>\n  using namespace std;\n\n  int main(){\n    vector<vector<int>> matrix = {\n      {1, 2, 3, 4},\n      {5, 6, 7, 8},\n      {9, 10, 11, 12}\n    };\n\n    cout << \"Top-left entry: \" << matrix[0][0] << endl;\n\n    for(const vector<int>& row : matrix){\n      for(int value : row){\n        cout << value << \" \";\n      }\n      cout << endl;\n    }\n\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page33-9'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>The indexing works exactly the way you&#x27;d hope:</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page33-10">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page33-10">↻ Reset</button>
+    </div>
+    <div id="editor-page33-10" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  matrix[row][col]";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page33-10'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>First choose a row, which gives you a vector. Then choose a column inside that row.</p>
+<p>This is also why 2D vectors can be <em>jagged</em>: different rows are allowed to have different lengths, because each row is really its own vector.</p>
+<h4>Exercises</h4>
+<ol>
+<li><strong>Intermediate</strong>: Create a 2D vector to store a multiplication table.</li>
+<li><strong>Challenge</strong>: Create a jagged 2D vector where each row has a different length.</li>
+</ol>
+<h3>Lab Projects</h3>
+<h4>LAB: Dynamic Grade Book</h4>
+<p>Create a program that:</p>
+<ul>
+<li>Allows adding student grades dynamically</li>
+<li>Calculates statistics (average, min, max)</li>
+<li>Can remove the lowest grade</li>
+<li>Displays all grades sorted</li>
+</ul>
+<h4>LAB: Shopping List Manager</h4>
+<p>Create a program with a menu that can:</p>
+<ul>
+<li>Add items to shopping list</li>
+<li>Remove items</li>
+<li>Display all items</li>
+<li>Clear the list</li>
+<li>Show number of items</li>
+</ul>
+<h4>LAB: High Score Tracker</h4>
+<p>Create a game score tracker that:</p>
+<ul>
+<li>Stores player names and scores together in a vector of structs</li>
+<li>Adds new scores</li>
+<li>Displays top 5 scores</li>
+<li>Allows searching for a player&#x27;s score</li>
+</ul>
+        </main>
+
+        <nav class="page-nav">
+            <a href="page_Extended_Topics_0.html" class="nav-btn prev">← Why These Topics Are Here</a>
+            <a href="page_Extended_Topics_2.html" class="nav-btn next">Structs: Organizing Related Data →</a>
+        </nav>
+    </div>
+
+    <!-- Terminal for running code -->
+    <div id="terminal-overlay" class="hidden">
+        <div class="terminal-container">
+            <div class="terminal-header">
+                <span>Program Output</span>
+                <button id="close-terminal-btn">✕</button>
+            </div>
+            <div id="terminal-output"></div>
+            <div id="input-area" class="hidden">
+                <span class="prompt">→</span>
+                <input type="text" id="user-input" autocomplete="off" placeholder="Enter input...">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.48.0/min/vs/loader.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

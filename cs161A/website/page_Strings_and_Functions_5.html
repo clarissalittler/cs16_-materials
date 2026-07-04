@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Char Arrays - CS161A Interactive Text</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> /
+                <span class="chapter">Strings and Functions</span>
+            </div>
+            <h1>Char Arrays</h1>
+        </header>
+
+        <main class="content">
+            <p>So far we&#x27;ve used strings this entire time but there&#x27;s another way that strings are used in older code, especially older <em>C</em> code, and you need to get some experience with how &quot;strings-as-character-arrays&quot; actually work.</p>
+<p>We haven&#x27;t really done a lot with the <code>char</code> type so far other than some menuing, but you might remember earlier where we were able to treat the <code>string</code> type almost like an array of characters. As a reminder, we were able to do things like this</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page31-0">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page31-0">↻ Reset</button>
+    </div>
+    <div id="editor-page31-0" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  void changeChar(string& s){\n    for(int i=0; i < s.length(); i++){\n      s[i] = s[i]+1;\n    }\n  }\n\n  int main(){\n\n    string text = \"hal\";\n    changeChar(text);\n    cout << text << endl;\n    \n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page31-0'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>Well at first all that&#x27;s going to change is that we&#x27;re going to make our code use an array of <code>char</code>, so we might expect that we need to pass the length in like so:</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page31-1">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page31-1">↻ Reset</button>
+    </div>
+    <div id="editor-page31-1" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  void changeChar(char c[], int length){\n    for(int i=0; i < length; i++){\n      c[i] = c[i] + 1;\n    }\n  }\n\n  int main(){\n\n    char text[] = \"hal\";\n    changeChar(text,3);\n    cout << text << endl;\n    \n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page31-1'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>But what if I told you, though, that character arrays in C were a kind of <em>dynamic array</em> like we made above? But instead of the number <code>-1</code> being the terminator it&#x27;s actually going to be a special character <code>&#x27;\0&#x27;</code>. This special character is the &quot;null&quot; character, that means literally don&#x27;t print anything. That makes it really useful for signifying the &quot;end&quot; of a string-as-character-array.</p>
+<p>Let&#x27;s go ahead and adapt some of our code from above to this new kind of dynamic array:</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page31-2">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page31-2">↻ Reset</button>
+    </div>
+    <div id="editor-page31-2" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int dynLength(char arr[]){\n    int i=0;\n    while(arr[i] != '\\0'){\n      i++;\n    }\n    return i;\n  }\n\n  void changeChar(char c[]){\n    for(int i=0; i < dynLength(c); i++){\n      c[i] = c[i]+1;\n    }\n  }\n\n  int main(){\n    \n    char text[] = \"hal\";\n    changeChar(text);\n    cout << text << endl;\n    \n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page31-2'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>Notice that we no longer need the length in the <code>changeChar</code> function, so it&#x27;s kind of like normal strings again!</p>
+<p>We&#x27;ll do one more function with character arrays before we leave the rest of the topic to CS161B: concatenating two strings.</p>
+<p>This is going to involve a bit of work but we&#x27;ll go line-by-line</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page31-3">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page31-3">↻ Reset</button>
+    </div>
+    <div id="editor-page31-3" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int dynLength(char arr[]){\n    int i=0;\n    while(arr[i] != '\\0'){\n      i++;\n    }\n    return i;\n  }\n\n  void concat(char c1[], char c2[]){\n    // this function is going to attach c2 to the end of c1\n    int i = 0;\n    // first we need to make our index point to the end of string one, which means we need to find\n    // the first \\0 in the string\n    while(c1[i] != '\\0'){\n      i++;\n    }\n    // now i is pointing to the end\n    // alternatively, we could have just used a call to dynLength\n    // can you see why that works??\n    // so the next thing we need is the length of the second string\n    int length2 = dynLength(c2);\n    // now we need to write a for loop that goes from 0 to length2 and copies characters over from c2 to c1\n    for(int j=0; j<length2; j++){\n      c1[j+i] = c2[j];\n    }\n    // now we're *not* done because we also need to make sure we put a \\0 at the new end of the string\n    c1[length2+i] = '\\0';\n  }\n\n  int main(){\n    char hello[20] = \"Hello\";\n    char world[] = \", World!\";\n\n    concat(hello,world);\n\n    cout << hello << endl;\n\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page31-3'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>If you run this we&#x27;ll see that what gets printed out is &quot;Hello, World!&quot;, which is exactly what we&#x27;d hoped.</p>
+<p>One detail that&#x27;s easy to miss but <em>very</em> important: look at the declaration <code>char hello[20]</code>. We had to make the destination array bigger than the text we initially put in it, because <code>concat</code> writes the second string into the same box the first string lives in. If we&#x27;d declared <code>char hello[] </code> &quot;Hello&quot;<code> the compiler would have made a box exactly six characters wide (five letters plus the </code>&#x27;\0&#x27;=), and copying &quot;, World!&quot; onto the end would have written right past the end of the array --- exactly the out-of-bounds sin we just spent a whole section warning you about. The destination needs spare capacity for everything you plan to append. C++ will not check this for you.</p>
+<p>Now, note that this means we <em>modified</em> the first string to do this concatenation. That&#x27;s very different than how the <code>+</code> operator worked on the <code>string</code> type, which didn&#x27;t change the arguments passed into it.</p>
+<p>This is an example of what&#x27;s called a &quot;destructive&quot; operation, because it doesn&#x27;t leave operands passed into it unscathed! This isn&#x27;t inherently bad, you just have to be careful with it!</p>
+<p>There are a lot more operations on C-style character array strings than we&#x27;ll cover here. We&#x27;ll revisit them in CS161B, but it&#x27;s still worth seeing how they work <em>at least</em> once in CS161A.</p>
+        </main>
+
+        <nav class="page-nav">
+            <a href="page_Strings_and_Functions_4.html" class="nav-btn prev">← Arrays, again, and Pointers</a>
+            <a href="page_Extended_Topics_0.html" class="nav-btn next">Why These Topics Are Here →</a>
+        </nav>
+    </div>
+
+    <!-- Terminal for running code -->
+    <div id="terminal-overlay" class="hidden">
+        <div class="terminal-container">
+            <div class="terminal-header">
+                <span>Program Output</span>
+                <button id="close-terminal-btn">✕</button>
+            </div>
+            <div id="terminal-output"></div>
+            <div id="input-area" class="hidden">
+                <span class="prompt">→</span>
+                <input type="text" id="user-input" autocomplete="off" placeholder="Enter input...">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.48.0/min/vs/loader.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

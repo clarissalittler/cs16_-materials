@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Echoing text and string types - CS161A Interactive Text</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> /
+                <span class="chapter">Foundations</span>
+            </div>
+            <h1>Echoing text and string types</h1>
+        </header>
+
+        <main class="content">
+            <p>So we&#x27;ve already done a non-trivial amount of work because we&#x27;ve learned to compile a file, run it, and have it print something out the screen.</p>
+<p>Now here&#x27;s our first program that we&#x27;re going to use to explain</p>
+<ul>
+<li>variables</li>
+<li>our first data type, string</li>
+<li>how to read data in from the command line</li>
+</ul>
+<p> Go ahead and first compile and run this code. You should get a command prompt that lets you type something, hit enter, and then get what you typed printed back onto the screen.</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page8-0">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page8-0">↻ Reset</button>
+    </div>
+    <div id="editor-page8-0" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "   #include <iostream>\n   using namespace std;\n\n   int main(){\n     string stuff;\n     cout << \"Enter a thing: \" << endl;\n     cin >> stuff;\n\n     cout << \"You said: \" << stuff << endl;\n\n     return 0;\n   }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page8-0'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>Now that you&#x27;ve tried it and seen that it works, let&#x27;s explain it!</p>
+<p> Okay, so these first lines are what we&#x27;ve already seen before:</p>
+<pre class="example">#include &lt;iostream&gt;
+using namespace std;</pre>
+<p>We&#x27;ll reiterate that these lines let us</p>
+<ul>
+<li>load in the code needed for us to do things like read and write information from the terminal</li>
+<li><strong>not</strong> have to preface all this code with <code>std::</code> because that gets really annoying to type!</li>
+</ul>
+<p> From there we have</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page8-1">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page8-1">↻ Reset</button>
+    </div>
+    <div id="editor-page8-1" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "   int main(){\n   ...\n   }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page8-1'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>which, again, is a way of declaring a named chunk of code. A very specific named chunk of code: <code>main</code>, the function that is needed as the &quot;entry point&quot; of final program. We&#x27;ll make our own functions soon enough, but for now know that this is a function and represents the pattern of how they&#x27;re made.</p>
+<p>The next line <code>string stuff;</code> needs some explanation. In C++, like a lot of other programming languages, in order to store information you need to make a container and give it a name. In this case we&#x27;re naming a container <code>stuff</code>. The mental picture I want you to have, for at least the next few chapters, is that a variable is a <em>labeled box</em>: the label is the name, the box has a size and a shape, and the contents of the box are whatever value you put in it. This is an &quot;innocent lie&quot; — it is not literally what is going on inside the machine — but it is true enough to reason about everything we do between here and the chapter on scope and lifetime, where we&#x27;ll replace the box with a more honest picture. Now, what&#x27;s up with the text <code>string</code> that comes before that?</p>
+<p>Well, much like the <code>int</code> we saw before <code>main</code> this is a <strong>type</strong><sup class="fn-ref" id="fnref-3"><a href="#fn-3">1</a></sup>, it&#x27;s a signifier for the <em>form</em> of data we&#x27;re talking about. <code>int</code> is the type that corresponds to whole numbers. <code>string</code> is the type that corresponds to text-as-data, like what we saw in our <em>Hello, World</em> program where the text &quot;Hello, World&quot; was inside the program in quotes like <code>&quot;Hello, World&quot;</code>.</p>
+<p>So our container <code>stuff</code> <em>can</em> contain strings but it&#x27;s currently empty. We&#x27;re going to put something in it, though, by using <code>cin</code>! <code>cin</code> is the opposite of <code>cout</code> and, rather than printing something out to the screen, lets you read text <strong>into</strong> the program by typing and hitting enter.</p>
+<p>After the <code>cin</code> has run,  we have something <em>in</em> our container and then we can grab the contents of the container using the container name which, in this case, is simply <code>stuff</code>.</p>
+<p>So when we want to print out the contents of <code>stuff</code> we say <code>cout &lt;&lt; &quot;You said: &quot; &lt;&lt; stuff &lt;&lt; endl;&quot;</code>.</p>
+<p>We also end with <code>return 0;</code> because we&#x27;re very good programmers and <strong>never</strong> forget to put this in our files.<sup class="fn-ref" id="fnref-6"><a href="#fn-6">2</a></sup></p>
+<section class="footnotes"><h2>Footnotes</h2><ol>
+<li id="fn-3">Oh boy, are types actually a huge topic. Way bigger than you&#x27;d think. Okay, so in C++ types are very weak. They prevent fairly limited kinds of errors. They won&#x27;t let you treat an int as a string or vice versa. But! As we&#x27;ll see in a bit they let you still do some pretty weird things like conflate 0, 1, <code>true</code>, and <code>false</code>. The types in C++ also don&#x27;t prevent errors like blasting past the end of a list of items and grabbing random chunks of the computer&#x27;s memory. You can break C++ code in so many ways it honestly makes you wonder what the point of types at all is, if this is what people tell you typed languages are like<sup class="fn-ref" id="fnref-4"><a href="#fn-4">3</a></sup>. A-ha! But, in reality, types in programming languages can be terrifyingly powerful. Rust uses types to guarantee memory safety. Haskell uses types to ensure that the compiler can do absolutely wild optimizations, including writing programs that involve generating &quot;infinite data&quot;. Languages like Agda and Coq use types to bridge the gap between how mathematicians work and how programmers work, making the act of writing theorems and proofs a kind of programming! It&#x27;s a great topic. Feel free to ask me about it. <a href="#fnref-3" class="fn-back">↩</a></li>
+<li id="fn-6">I literally forget constantly and have to go back and fix my examples. If you&#x27;ve had me for in-person lecture you have definitely seen this happen. Also: I am framing <code>return 0</code> here as basically a polite formality, and that framing is going to survive <em>exactly</em> as long as it takes us to get to the chapter on command-line arguments, where the zero is suddenly something that other programs are actually watching for. File this joke away; we will earn it back later. <a href="#fnref-6" class="fn-back">↩</a></li>
+<li id="fn-4">Oh look a footnote in a footnote: I say &quot;typed&quot; and &quot;untyped&quot; rather than &quot;static&quot; and &quot;dynamic&quot;. This is more technically correct and I will not be taking questions at this time. <a href="#fnref-4" class="fn-back">↩</a></li>
+</ol></section>
+        </main>
+
+        <nav class="page-nav">
+            <a href="page_First_Programs_1.html" class="nav-btn prev">← Why semicolons?</a>
+            <a href="page_Foundations_1.html" class="nav-btn next">Explore: What&#x27;s in a name? →</a>
+        </nav>
+    </div>
+
+    <!-- Terminal for running code -->
+    <div id="terminal-overlay" class="hidden">
+        <div class="terminal-container">
+            <div class="terminal-header">
+                <span>Program Output</span>
+                <button id="close-terminal-btn">✕</button>
+            </div>
+            <div id="terminal-output"></div>
+            <div id="input-area" class="hidden">
+                <span class="prompt">→</span>
+                <input type="text" id="user-input" autocomplete="off" placeholder="Enter input...">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.48.0/min/vs/loader.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

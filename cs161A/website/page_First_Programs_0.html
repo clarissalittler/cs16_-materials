@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Hello World - CS161A Interactive Text</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> /
+                <span class="chapter">First Programs</span>
+            </div>
+            <h1>Hello World</h1>
+        </header>
+
+        <main class="content">
+            <p>So the origins of making a program that says &quot;Hello, World&quot; as your first program started with Kernighan and Ritchie in their introduction to the C programming language. The basic idea was that if you can get a simple program to compile<sup class="fn-ref" id="fnref-7"><a href="#fn-7">1</a></sup> that prints something out to the screen then you&#x27;re already over the worst hurdles of learning a programming language.</p>
+<p>This might seem like an odd perspective, right, because you&#x27;ve just barely begun learning the language but it makes a lot of sense if you&#x27;re a pre-internet 1970s programmer who doesn&#x27;t have any obvious references for how to run this stupid compiler thing or even what a program is supposed to look like.</p>
+<p>So that being said, here&#x27;s &quot;Hello World&quot; in C++</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page6-0">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page6-0">↻ Reset</button>
+    </div>
+    <div id="editor-page6-0" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n    cout << \"Hello, World\" << endl;\n\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page6-0'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>Let&#x27;s break down the first few lines:</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page6-1">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page6-1">↻ Reset</button>
+    </div>
+    <div id="editor-page6-1" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page6-1'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>These first two lines, unfortunately, will seem like the worst kind of magic for a bit. But, basically, what&#x27;s happening is that the ability to even print things out in C++ is not a part of the &quot;core&quot; language but a library that comes with the C++ toolchain, a &quot;standard library&quot; if you will (a-ha! that must be what &quot;std&quot; is short for here). To understand why things that seem so critical are not &quot;in the language&quot; by default, it helps to know that C++ (like C before it) is a language that&#x27;s used for coding things like operating systems or programming little tiny computers called microcontrollers that have a millionth of the memory on your phone.</p>
+<p>When programming under these conditions you really need to be able to control what goes into the compiled code, because maybe you want to keep your final program as tiny as possible and you don&#x27;t want allll the code that goes into the seemingly unremarkable ability to print to a screen to get included. Because that&#x27;s part of what the compiler does: it takes all the supporting code that&#x27;s needed and includes it (oh, hey, that word again). It&#x27;s kind of like if you&#x27;re writing a paper and you want to make sure that someone can understand everything you&#x27;re saying and all the references you&#x27;re citing without access to a library or internet. Then instead of just having citations you also need to include all the other things you cite along with the paper as appendices so that someone can read it without having to track anything else down. That&#x27;s what the compiler is doing.</p>
+<p>So the first line here is <em>including</em> the code for printing and the second line is saying &quot;oh, hey, we&#x27;re going to be using the standard library a lot, so we want to just refer to things <strong>from</strong> the standard library as simply as possible&quot;. If you <em>don&#x27;t</em> have this line you have to take every standard library function and put <code>std::</code> in front of it. It&#x27;s annoying! We don&#x27;t like doing this!</p>
+<p>Okay, with that digression aside now we get into the heart of the program</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page6-2">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page6-2">↻ Reset</button>
+    </div>
+    <div id="editor-page6-2" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  int main(){\n    cout << \"Hello, World\" << endl;\n  \n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page6-2'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>The first line here is declaring a function, a chunk of code that has a name. In this case the name is &quot;main&quot;. Every C++ program <strong>must</strong> have a function called &quot;main&quot; so the compiler knows, when building the stand-alone program, where to even start executing the code. Now, in principle there are different ways this could be handled, but most programming languages follow this convention of having a function called &quot;main&quot;. When I call it a convention it&#x27;s a lot like how every <strong>human</strong> language has a convention about how it has to be read. For example, the language I&#x27;m writing these notes in, English, has the convention that you start at the top of the text and read from left to right.</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page6-3">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page6-3">↻ Reset</button>
+    </div>
+    <div id="editor-page6-3" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  int main() {";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page6-3'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>Let&#x27;s dig into this function declaration</p>
+<ul>
+<li><code>int</code> means that when the function <em>ends</em> it has to give back an integer, a whole number</li>
+<li><code>main</code> is the name of the function</li>
+<li><code>()</code> is where you would put the name of data you have to give the function for it to run, its <em>arguments</em>, but <code>main</code> doesn&#x27;t <strong>have any</strong> so instead you denote that <code>main</code> &quot;needs nothing&quot; by just putting <code>()</code>.</li>
+<li>Finally, we have an open curly-brace which is the way you tell the compiler &quot;okay I&#x27;ve finished declaring the function now here&#x27;s the code that runs inside the function&quot;. This is matched by a closed curly-brace at the end that denotes &quot;okay I&#x27;m done writing the function&quot;.</li>
+</ul>
+<p>Okay we&#x27;re almost done! There&#x27;s just two more lines. The first</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page6-4">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page6-4">↻ Reset</button>
+    </div>
+    <div id="editor-page6-4" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  cout << \"Hello, World\" << endl;";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page6-4'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>as you can probably guess is what actually prints the line &quot;Hello, World&quot;. Think of <code>cout</code> as the <em>target</em> you&#x27;re sending text to to be printed out. You send things to it with the <code>&lt;&lt;</code> symbol. The text you&#x27;re sending is in quotation marks. In C++, like most programming languages, you denote text-as-data with double-quotes.<sup class="fn-ref" id="fnref-2"><a href="#fn-2">2</a></sup> The other thing we need to explain here is the <code>endl</code>, which is just the way of saying &quot;end this line and start a new one&quot;.</p>
+<p>So to understand the final line of the function, <code>return 0;</code>, remember how we said that when the function ends it has to give back a whole number? Well this is the line that says that when the function ends that it&#x27;s going to hand back the number 0. This is an old convention that dates back to the days of <em>unix</em>, where if everything goes well a program should return 0.</p>
+<h3>Exercises</h3>
+<ol>
+<li><strong>Basic</strong>: Modify Hello World to print your name and favorite programming joke on separate lines.</li>
+<li><strong>Intermediate</strong>: Create a program that prints a simple ASCII art box with &quot;Hello&quot; inside it. For example:</li>
+</ol>
+<pre class="example">*********
+* Hello *
+*********</pre>
+<h3>Walkthrough: your first function</h3>
+<p>Before we leave Hello World behind, I want to take you through one guided change to the program — not as a graded exercise, but as a &quot;follow the recipe&quot; so that the very first time you see a <em>function</em> being made, it isn&#x27;t scary. Don&#x27;t worry about reading any of this and going &quot;but <em>why</em>?&quot; Just do the steps in order. We&#x27;ll come back and explain what every piece means in much more detail later; right now this is the literary equivalent of letting you press the buttons before learning what they&#x27;re called.</p>
+<p>First, start with this code either in-browser or locally on your computer:</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page6-5">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page6-5">↻ Reset</button>
+    </div>
+    <div id="editor-page6-5" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  void sayHello(){\n  }\n\n  int main(){\n    cout << \"Hello, world!\" << endl;\n\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page6-5'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>What we&#x27;ve done here is create a <em>new</em> function. This new function doesn&#x27;t return <em>anything</em> so instead of <code>int</code> it has the word <code>void</code> in front. Now this function, this reusable bit of code, doesn&#x27;t do anything yet.</p>
+<p>Your first step is to copy the line <code>cout &lt;&lt; ...</code> from main into the <code>sayHello</code> function. It should look like this now:</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page6-6">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page6-6">↻ Reset</button>
+    </div>
+    <div id="editor-page6-6" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  void sayHello(){\n    cout << \"Hello, world!\" << endl;\n  }\n\n  int main(){\n    cout << \"Hello, world!\" << endl;\n\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page6-6'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>Now, go ahead and delete the line you copied from <code>main</code> and replace it with <code>sayHello();</code>, so it looks like this:</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page6-7">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page6-7">↻ Reset</button>
+    </div>
+    <div id="editor-page6-7" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  void sayHello(){\n    cout << \"Hello, world!\" << endl;\n  }\n\n  int main(){\n    sayHello();\n\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page6-7'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>Congratulations, you&#x27;ve written a <em>function</em> for the first time. This is one of the core concepts in programming: separating code into pieces that can be re-used and re-combined easily.</p>
+<p>Question: From this alone, can you write a couple of sentences about how you <em>think</em> you&#x27;ll use functions in the future?</p>
+<section class="footnotes"><h2>Footnotes</h2><ol>
+<li id="fn-7">A compiler is a thing that takes source code and turns it into a stand-alone program. The act of turning the code into the stand-alone program is called &quot;compiling&quot;. If you dealt with Python or JavaScript or even something like Scratch before you were probably interacting with &quot;interpreters&quot;, which are programs that take the code and run it. Now, some people talk about &quot;compiled&quot; or &quot;interpreted&quot; languages. This is wrong. A language per se isn&#x27;t compiled or interpreted. A language is a language and can be run---albeit slowly---with a pencil and paper and no compiler or interpreter in sight. <a href="#fnref-7" class="fn-back">↩</a></li>
+<li id="fn-2">Is that too specific? Is the author of this portion telling on themselves? <a href="#fnref-2" class="fn-back">↩</a></li>
+</ol></section>
+        </main>
+
+        <nav class="page-nav">
+            <a href="page_Introduction_4.html" class="nav-btn prev">← Why learn programming in the age of LLMs</a>
+            <a href="page_First_Programs_1.html" class="nav-btn next">Why semicolons? →</a>
+        </nav>
+    </div>
+
+    <!-- Terminal for running code -->
+    <div id="terminal-overlay" class="hidden">
+        <div class="terminal-container">
+            <div class="terminal-header">
+                <span>Program Output</span>
+                <button id="close-terminal-btn">✕</button>
+            </div>
+            <div id="terminal-output"></div>
+            <div id="input-area" class="hidden">
+                <span class="prompt">→</span>
+                <input type="text" id="user-input" autocomplete="off" placeholder="Enter input...">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.48.0/min/vs/loader.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

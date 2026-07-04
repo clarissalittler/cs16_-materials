@@ -27,6 +27,10 @@ function initializeMonaco() {
             const element = document.getElementById(editorId);
             if (element) {
                 try {
+                    // Size the editor to its content (between 120px and 400px)
+                    const lineCount = codeBlocks[editorId].current.split('\n').length;
+                    element.style.height = Math.min(Math.max(lineCount * 19 + 30, 120), 400) + 'px';
+
                     const editor = monaco.editor.create(element, {
                         value: codeBlocks[editorId].current,
                         language: 'cpp',
@@ -123,6 +127,8 @@ const scriptPromise = new Promise((resolve) => {
 // Terminal functions
 function appendTerminal(text, className = 'output') {
     const terminal = document.getElementById('terminal-output');
+    // Strip ANSI color codes emitted by clang/lld
+    text = text.replace(/\x1b\[[0-9;]*m/g, '');
     const lines = text.split('\n');
     lines.forEach((line, i) => {
         if (i < lines.length - 1 || line.length > 0) {
@@ -225,9 +231,10 @@ async function runCode(editorId) {
 
         if (!api) {
             appendTerminal('Error: Compiler not available', 'error');
-            appendTerminal('Please make sure test1/assets/ is accessible', 'error');
+            appendTerminal('The in-browser compiler assets are not installed on this server.', 'error');
+            appendTerminal('(Site maintainers: see DEPLOYMENT.md for how to install website/assets/.)', 'info');
             appendTerminal('', 'info');
-            appendTerminal('You can still edit the code, but cannot run it.', 'info');
+            appendTerminal('You can still edit the code here and paste it into a local compiler or onlinegdb.com.', 'info');
             return;
         }
 

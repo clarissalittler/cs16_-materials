@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>(Advanced) Arrays: the reasons for for - CS161A Interactive Text</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> /
+                <span class="chapter">Foundations</span>
+            </div>
+            <h1>(Advanced) Arrays: the reasons for <code>for</code></h1>
+        </header>
+
+        <main class="content">
+            <p>Here&#x27;s a more advanced topic that you&#x27;ll be needing not just for this class but for the rest of your classes where you&#x27;re doing C++: arrays.</p>
+<p>We&#x27;re covering arrays here because they are, in a sense, the reason for using <code>for</code> loops. If, in the previous sections, you felt like &quot;okay so a <code>for</code> is like a while, but more restricted?&quot; that impression isn&#x27;t <em>wrong</em> per se. <code>while</code> is the more general concept that lets us do all sorts of things but <code>for</code> is best when you&#x27;re dealing with finite collections of <em>stuff</em>.</p>
+<p>What we haven&#x27;t shown you yet is what &quot;a finite collection of stuff&quot; looks like!</p>
+<p>Before we start, another flag to plant: the kind of array we&#x27;re about to introduce is going to feel a little annoying. You will have to tell it how big it is <em>up front</em>, you will have to remember that size <em>yourself</em> every time you do anything with it, and if you step one index off the end, C++ is not going to save you. That is not you doing something wrong — that really is what these arrays are. A few chapters from now, once we&#x27;ve seen pointers, we will come back to arrays a second time and the reveal is that the box we&#x27;re about to hand you is, structurally, barely a box at all. For now, just meet the thing on its own terms.</p>
+<p>Here&#x27;s an example and we&#x27;ll talk it through</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page23-0">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page23-0">↻ Reset</button>
+    </div>
+    <div id="editor-page23-0" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n\n  \n    int numberArray[10]; // this is how you declare an array\n    // this declares the array with ten \"boxes\" for ints in it\n    // the boxes are all labeled from 0 - 9\n\n    // now we're going to use a for-loop in order to try\n    // and put things in the boxes\n\n    for(int i=0; i<10; i++){\n      numberArray[i] = i*i;\n    }\n    // we're putting i^2 in the ith slot\n\n    // to use an array slot once it's filled it's, again, just\n    // like a variable with a special name\n    for(int i=0; i<10; i++){\n      cout << numberArray[i] << endl;\n    }\n  \n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page23-0'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>If you run this it will first fill the array with values, putting 0 in the <code>numberArray[0]</code> slot, 1 in the <code>numberArray[1]</code> slot, 4 in the <code>numberArray[2]</code> slot, &amp;c.</p>
+<p>This really is like having a really special variable that has a numerical index---a number in the name. When you declare an array of size <code>n</code> C++ sets aside the amount of memory to hold <code>n</code> things of that type. You can make arrays of any type (including other arrays, as we&#x27;ll see shortly).</p>
+<p>So arrays get really useful when trying to represent things like rows in a table. Each array is going to represent a different column and an index is going to represent a row.</p>
+<p>An example program would be something like this:</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page23-1">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page23-1">↻ Reset</button>
+    </div>
+    <div id="editor-page23-1" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n    const int numPets = 5;\n  \n    string petNames[numPets];\n    string petSpecies[numPets];\n\n    for(int i=0; i < numPets; i++){\n      cout << \"Enter the name of the pet: \";\n      cin >> petNames[i];\n      cout << \"Enter the pet species: \";\n      cin >> petSpecies[i];\n    }\n\n    for(int i=0; i < numPets; i++){\n      cout << petNames[i] << \" is a \" << petSpecies[i] << endl;\n    }\n  \n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page23-1'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>So line by line what this program does is:</p>
+<ol>
+<li>make a constant to hold the number of pets in the pet-information table, so that we can change it in just one place</li>
+<li>two arrays for the names of pets and the species of pet</li>
+<li>a for-loop that asks for the information for each row of the table and fills it in</li>
+<li>a for loop that prints out each row</li>
+</ol>
+<p>That <code>const</code> is important. In standard C++, the size of a built-in array like this should be known at compile time. Some compilers will let you get away with writing</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page23-2">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page23-2">↻ Reset</button>
+    </div>
+    <div id="editor-page23-2" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  int numPets = 5;\n  // Some compilers allow this, but it is not standard C++\n  string petNames[numPets];";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page23-2'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>but that&#x27;s a compiler extension, not standard C++. For this class, when we write fixed-size arrays, we&#x27;ll use constants for the sizes.</p>
+<blockquote>
+<p>Quick Check: Take this program and add another column for the age of the pet</p>
+<p>That means you&#x27;ll need to add a new array of ints to hold the age, ask for the age with cin, and also print that out appropriately.</p>
+</blockquote>
+<h3>Exercises</h3>
+<ol>
+<li><strong>Basic</strong>: Create an array of 7 daily temperatures and find the warmest and coldest days.</li>
+<li><strong>Intermediate</strong>: Reverse the contents of an array in-place (without creating a new array).</li>
+<li><strong>Challenge</strong>: Implement a simple grade book that stores 5 students with 3 test scores each. Calculate and display each student&#x27;s average.</li>
+</ol>
+<h4>What happens if you access outside the bounds of an array?</h4>
+<p>There&#x27;s one last topic we need to address: what happens if you access outside the bounds of the array? Now in many programming languages this will end in an <strong>error</strong>. For example, if you run the following Python program it will crash which is <strong>a good thing</strong>.</p>
+<pre class="example">arr = [1,2,3,4]
+
+print(arr[10])</pre>
+<p>Now let&#x27;s try a similar thing in C++:</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page23-3">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page23-3">↻ Reset</button>
+    </div>
+    <div id="editor-page23-3" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n    int arr[5] = {0,1,2,3,4}; // this is how we initialize an array, for the record, but it's only practical for really small arrays\n\n    cout << arr[10] << endl;\n\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page23-3'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>Well when I ran this I got <code>1663205712</code> printed out to the console. If you remember from way at the beginning of this tutorial when we went over what happens when you use an uninitialized variable, you might see a similarity! Except that, in some ways, this is worse.</p>
+<p>It <em>feels</em> like I initialized everything correctly, I told C++ how big the array should be, and yet C++ didn&#x27;t stop me from going off the edge of the world!</p>
+<p>We&#x27;ll cover, in greater depth, <em>why</em> C++ doesn&#x27;t protect you from this error but for now the way you should think of it is that when you declare an array variable you&#x27;re actively setting aside a contiguous set of cubbyholes in the storage wall, but that <strong>you</strong> need to keep track of which ones belong to which array. This is part of the reason why, in our previous example, we had a separate constant called <code>numPets</code> that kept track of how many pets were supposed to be in the database. We reproduce the example below.</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page23-4">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page23-4">↻ Reset</button>
+    </div>
+    <div id="editor-page23-4" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n    const int numPets = 5;\n  \n    string petNames[numPets];\n    string petSpecies[numPets];\n\n    for(int i=0; i < numPets; i++){\n      cout << \"Enter the name of the pet: \";\n      cin >> petNames[i];\n      cout << \"Enter the pet species: \";\n      cin >> petSpecies[i];\n    }\n\n    for(int i=0; i < numPets; i++){\n      cout << petNames[i] << \" is a \" << petSpecies[i] << endl;\n    }\n  \n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page23-4'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>This is why we like <em>constants</em> in C++, which are like variables but once they have a value that value isn&#x27;t allowed to change! It&#x27;s just like any other variable but you put <code>const</code> in front of the variable declaration:</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page23-5">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page23-5">↻ Reset</button>
+    </div>
+    <div id="editor-page23-5" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n    const int numPets = 5;\n  \n    string petNames[numPets];\n    string petSpecies[numPets];\n\n    for(int i=0; i < numPets; i++){\n      cout << \"Enter the name of the pet: \";\n      cin >> petNames[i];\n      cout << \"Enter the pet species: \";\n      cin >> petSpecies[i];\n    }\n\n    for(int i=0; i < numPets; i++){\n      cout << petNames[i] << \" is a \" << petSpecies[i] << endl;\n    }\n  \n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page23-5'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>Go ahead and try to mess it up by changing <code>numPets</code> later in the program and see what happens when you try to compile and run it?</p>
+<h3>Frequency Counting with Arrays</h3>
+<p>One powerful pattern with arrays is using the <em>array indices</em> to count things. This is especially useful for counting how many times each value appears in a dataset.</p>
+<p>The key insight: use the value you&#x27;re counting as the <em>index</em> into your counts array!</p>
+<p>Here&#x27;s an example: counting single die roll results.</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page23-6">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page23-6">↻ Reset</button>
+    </div>
+    <div id="editor-page23-6" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include <cstdlib>\n  #include <ctime>\n  using namespace std;\n\n  int main(){\n    srand(time(0));\n\n    const int NUM_ROLLS = 100;\n    const int NUM_SIDES = 6;\n\n    // Array to count each outcome (1-6)\n    // We use index 0 for nothing, indices 1-6 for the die faces\n    int counts[NUM_SIDES + 1] = {0};  // Initialize all to 0\n\n    // Roll the die NUM_ROLLS times\n    for(int i = 0; i < NUM_ROLLS; i++){\n      int roll = rand() % NUM_SIDES + 1;  // Random 1-6\n      counts[roll]++;  // Increment the counter for this roll\n    }\n\n    // Display the results\n    cout << \"Results from \" << NUM_ROLLS << \" rolls:\" << endl;\n    for(int face = 1; face <= NUM_SIDES; face++){\n      cout << \"Rolled \" << face << \": \" << counts[face] << \" times\" << endl;\n    }\n\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page23-6'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>This pattern extends to any situation where you need to count occurrences of discrete values!</p>
+<p>You could extend this to:</p>
+<ul>
+<li>Count letter frequencies in text (array of size 26)</li>
+<li>Track scores in a game</li>
+<li>Count how many students got each grade</li>
+<li>Any other counting/histogram problem</li>
+</ul>
+<p>The pattern is always the same:</p>
+<ol>
+<li>Create an array large enough to hold all possible values</li>
+<li>Initialize all counts to 0</li>
+<li>For each data point, increment the appropriate array element</li>
+<li>Loop through the array to display or analyze the results</li>
+</ol>
+<h3>Counting the Sums of Two Dice</h3>
+<p>Now let&#x27;s make this a little more like an actual assignment problem.</p>
+<p>If you roll <em>two</em> dice, the possible sums go from 2 to 12. That means the sum itself can be used as the index into the counts array.</p>
+<p>This is the kind of trick that feels a little weird the first time you see it and then afterwards becomes one of your favorite moves.</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page23-7">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page23-7">↻ Reset</button>
+    </div>
+    <div id="editor-page23-7" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include <iomanip>\n  #include <cstdlib>\n  #include <ctime>\n  using namespace std;\n\n  int main(){\n    srand(time(0));\n\n    const int NUM_ROLLS = 100;\n    int sumCounts[13] = {0};  // We'll use indices 2-12\n\n    for(int i = 0; i < NUM_ROLLS; i++){\n      int die1 = rand() % 6 + 1;\n      int die2 = rand() % 6 + 1;\n      int sum = die1 + die2;\n\n      sumCounts[sum]++;\n    }\n\n    int mostCommon = 2;\n    int leastCommon = 2;\n\n    for(int sum = 2; sum <= 12; sum++){\n      cout << \"Sum \" << sum << \": \" << sumCounts[sum] << endl;\n\n      if(sumCounts[sum] > sumCounts[mostCommon]){\n        mostCommon = sum;\n      }\n\n      if(sumCounts[sum] < sumCounts[leastCommon]){\n        leastCommon = sum;\n      }\n    }\n\n    cout << fixed << setprecision(2);\n    cout << \"Most common sum: \" << mostCommon << endl;\n    cout << \"Least common sum: \" << leastCommon << endl;\n    cout << \"Percentage of 7s: \" << (sumCounts[7] * 100.0 / NUM_ROLLS) << \"%\" << endl;\n\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page23-7'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>The nice thing here is that we don&#x27;t need some giant pile of <code>if</code> statements asking &quot;was it a 2? was it a 3? was it a 4?&quot; Instead, we just compute the sum and do</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page23-8">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page23-8">↻ Reset</button>
+    </div>
+    <div id="editor-page23-8" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  sumCounts[sum]++;";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page23-8'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>which is wonderfully direct.</p>
+<h3>Exercises on Frequency Counting</h3>
+<p>The point of the next two exercises is to practice the &quot;use the value as the index&quot; pattern on data that is <em>not</em> dice rolls. The shape stays the same: pick the right size for the counting array, walk the input, increment a slot per data point, then do something with the array at the end.</p>
+<ol>
+<li><strong>Basic</strong>: Ask the user how many test scores they have, then read in that many scores (each <code>0..100</code>). Use a frequency array of size 5 to count how many scores fall into each letter-grade band: <code>0..59</code> → F, <code>60..69</code> → D, <code>70..79</code> → C, <code>80..89</code> → B, <code>90..100</code> → A. Print out the count for each band at the end. Hint: <code>score / 10</code> gets you most of the way to the bin index.</li>
+<li><strong>Intermediate</strong>: Simulate rolling <em>three</em> six-sided dice 1000 times and count how often each possible sum occurs. The smallest possible sum is 3 and the biggest is 18, so your counts array will need 19 slots (you&#x27;ll just leave indices 0–2 alone). After all the rolls, print the most-common sum and the percentage of rolls that produced it.</li>
+</ol>
+<h3>Array Rotation Concept</h3>
+<p>Array rotation means shifting all elements to the right (or left) by some number of positions, with elements that &quot;fall off&quot; the end wrapping around to the beginning.</p>
+<p>For example:</p>
+<ul>
+<li>Original array: [1, 2, 3, 4, 5]</li>
+<li>Rotate right by 2: [4, 5, 1, 2, 3]</li>
+<li>Rotate left by 1: [2, 3, 4, 5, 1]</li>
+</ul>
+<p>There are different approaches to implementing rotation:</p>
+<p><strong>Using a temporary array:</strong></p>
+<ol>
+<li>Create a new array of the same size</li>
+<li>Calculate where each element should go in the rotated array</li>
+<li>Copy elements to their new positions</li>
+<li>Copy the temporary array back to the original</li>
+</ol>
+<p><strong>The modulo trick:</strong></p>
+<p>When rotating, you can use the modulo operator (<code>%</code> ) to handle wraparound:</p>
+<ul>
+<li>For rotating right: <code>newPosition </code> (currentPosition + shift) % size=</li>
+<li>For rotating left: <code>newPosition </code> (currentPosition - shift + size) % size=</li>
+</ul>
+<p>The <code>%size</code> part makes positions wrap around. If you&#x27;re at position 7 in an array of size 8, and you rotate right by 3, you end up at position <code>(7 + 3) % 8 </code> 2=.</p>
+<p>This is a classic array manipulation problem that combines loops, indexing, and modular arithmetic!</p>
+<p>Here&#x27;s a complete worked example using a temporary array:</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page23-9">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page23-9">↻ Reset</button>
+    </div>
+    <div id="editor-page23-9" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n    const int SIZE = 8;\n    int values[SIZE] = {1, 2, 3, 4, 5, 6, 7, 8};\n    int rotated[SIZE];\n    int shift = 3;\n\n    for(int i = 0; i < SIZE; i++){\n      int newPosition = (i + shift) % SIZE;\n      rotated[newPosition] = values[i];\n    }\n\n    for(int i = 0; i < SIZE; i++){\n      values[i] = rotated[i];\n    }\n\n    cout << \"Rotated array: \";\n    for(int i = 0; i < SIZE; i++){\n      cout << values[i] << \" \";\n    }\n    cout << endl;\n\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page23-9'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>The thing to really notice is this line:</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page23-10">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page23-10">↻ Reset</button>
+    </div>
+    <div id="editor-page23-10" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  rotated[newPosition] = values[i];";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page23-10'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>We&#x27;re not asking &quot;what should go <em>into</em> slot 0?&quot; first. We&#x27;re asking &quot;where should the thing currently in slot <code>i</code> end up?&quot; That change in perspective is the whole problem.</p>
+<p>So if <code>values[0]</code> is 1 and we rotate right by 3, then it should land in slot 3.</p>
+<p>If <code>values[6]</code> is 7, then it should land in slot <code>(6 + 3) % 8 </code> 1=.</p>
+<p>That&#x27;s the wraparound. That&#x27;s the whole game.</p>
+<h3>Exercises on Array Rotation</h3>
+<p>The worked example just above rotates an array <em>right</em>. Both of these exercises ask you to flip that around or simplify it.</p>
+<ol>
+<li><strong>Basic</strong>: Write a program that fills an array of size 8 with eight numbers from the user, then rotates the array <em>left</em> by <code>k</code> positions (you also ask the user for <code>k</code>). For rotating left, the new position for the element currently at index <code>i</code> is <code>(i - k + size) % size</code>. The <code>+ size</code> is there so the result stays non-negative even when <code>i - k</code> would otherwise have been negative. Print the array before and after.</li>
+<li><strong>Intermediate</strong>: Rotate an array right by <em>one</em> position without using a second array. The trick is to remember the last element in a single temporary variable, then shift every other element one slot to the right starting from the back, then drop the saved value into slot 0. Test it by calling your function repeatedly to confirm that doing it <code>size</code> times brings the array back to its original order.</li>
+</ol>
+        </main>
+
+        <nav class="page-nav">
+            <a href="page_Foundations_14.html" class="nav-btn prev">← For-loops (and the shape of loops to come)</a>
+            <a href="page_Foundations_16.html" class="nav-btn next">Menu-Driven Programs →</a>
+        </nav>
+    </div>
+
+    <!-- Terminal for running code -->
+    <div id="terminal-overlay" class="hidden">
+        <div class="terminal-container">
+            <div class="terminal-header">
+                <span>Program Output</span>
+                <button id="close-terminal-btn">✕</button>
+            </div>
+            <div id="terminal-output"></div>
+            <div id="input-area" class="hidden">
+                <span class="prompt">→</span>
+                <input type="text" id="user-input" autocomplete="off" placeholder="Enter input...">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.48.0/min/vs/loader.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

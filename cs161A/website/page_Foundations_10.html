@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Letting the compiler figure out the type - CS161A Interactive Text</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> /
+                <span class="chapter">Foundations</span>
+            </div>
+            <h1>Letting the compiler figure out the type</h1>
+        </header>
+
+        <main class="content">
+            <p> There&#x27;s a fun trick you can do in C++: not even bother writing the type and, instead, just letting the compiler figure out---in the process of compiling---what the type is supposed to be for you! We can do that with the `auto` keyword.</p>
+<p> So we can actually do things like:</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page18-0">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page18-0">↻ Reset</button>
+    </div>
+    <div id="editor-page18-0" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "   #include <iostream>\n   using namespace std;\n\n   int main(){\n     auto x = 5;\n     auto y = 10;\n\n     cout << \"we can add two numbers whose types we didn't name! So x + y is...\" << x+y << endl;\n     return 0;\n     \n   }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page18-0'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p> This is an example of something called <em>type inference</em>. There are entire programming languages built around the idea of type inference such as Haskell! This is very different than languages like Python that don&#x27;t really <em>have</em> types that are checked by the compiler/interpreter.</p>
+<p> I&#x27;d encourage you to use this sparingly when you&#x27;re first learning to code but the more experienced you become, feel free to use this trick.</p>
+        </main>
+
+        <nav class="page-nav">
+            <a href="page_Foundations_9.html" class="nav-btn prev">← Booleans, logic, and quizzes</a>
+            <a href="page_Foundations_11.html" class="nav-btn next">Data formatting →</a>
+        </nav>
+    </div>
+
+    <!-- Terminal for running code -->
+    <div id="terminal-overlay" class="hidden">
+        <div class="terminal-container">
+            <div class="terminal-header">
+                <span>Program Output</span>
+                <button id="close-terminal-btn">✕</button>
+            </div>
+            <div id="terminal-output"></div>
+            <div id="input-area" class="hidden">
+                <span class="prompt">→</span>
+                <input type="text" id="user-input" autocomplete="off" placeholder="Enter input...">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.48.0/min/vs/loader.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

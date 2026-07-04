@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Advanced: What is a container? - CS161A Interactive Text</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> /
+                <span class="chapter">Foundations</span>
+            </div>
+            <h1>Advanced: What <em>is</em> a container?</h1>
+        </header>
+
+        <main class="content">
+            <p>At this point you might be wondering &quot;what <em>are</em> these containers, these <em>variables</em>, anyway?&quot;. What does it really mean for the compiler to make space for data? To answer that we need to get into some more details about how data is stored in a computer.</p>
+        </main>
+
+        <nav class="page-nav">
+            <a href="page_Foundations_3.html" class="nav-btn prev">← What&#x27;s in an empty variable?</a>
+            <a href="page_Foundations_5.html" class="nav-btn next">All we ever were, just zeros and ones →</a>
+        </nav>
+    </div>
+
+    <!-- Terminal for running code -->
+    <div id="terminal-overlay" class="hidden">
+        <div class="terminal-container">
+            <div class="terminal-header">
+                <span>Program Output</span>
+                <button id="close-terminal-btn">✕</button>
+            </div>
+            <div id="terminal-output"></div>
+            <div id="input-area" class="hidden">
+                <span class="prompt">→</span>
+                <input type="text" id="user-input" autocomplete="off" placeholder="Enter input...">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.48.0/min/vs/loader.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

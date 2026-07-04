@@ -6,6 +6,7 @@ Each ** heading becomes a page, code blocks become editable in Monaco.
 
 import re
 import json
+import textwrap
 from pathlib import Path
 from html import escape
 
@@ -20,6 +21,18 @@ def parse_org_file(filepath):
     current_section = None
     current_content = []
 
+    def flush_content():
+        """Attach accumulated content to the current section, or to the
+        chapter intro if no section has started yet."""
+        if current_chapter is None:
+            return
+        text = '\n'.join(current_content)
+        if current_section is not None:
+            current_section['content'] = text
+            current_chapter['sections'].append(current_section)
+        elif text.strip():
+            current_chapter['intro'] = text
+
     lines = content.split('\n')
     i = 0
 
@@ -28,13 +41,7 @@ def parse_org_file(filepath):
 
         # Top-level chapter (* heading)
         if line.startswith('* ') and not line.startswith('** '):
-            # Save previous section
-            if current_section:
-                current_section['content'] = '\n'.join(current_content)
-                if current_chapter:
-                    current_chapter['sections'].append(current_section)
-
-            # Save previous chapter
+            flush_content()
             if current_chapter:
                 chapters.append(current_chapter)
 
@@ -42,6 +49,7 @@ def parse_org_file(filepath):
             title = line[2:].strip()
             current_chapter = {
                 'title': title,
+                'intro': '',
                 'sections': [],
                 'level': 1
             }
@@ -50,11 +58,7 @@ def parse_org_file(filepath):
 
         # Section (** heading)
         elif line.startswith('** '):
-            # Save previous section
-            if current_section:
-                current_section['content'] = '\n'.join(current_content)
-                if current_chapter:
-                    current_chapter['sections'].append(current_section)
+            flush_content()
 
             # Start new section
             title = line[3:].strip()
@@ -71,15 +75,45 @@ def parse_org_file(filepath):
 
         i += 1
 
-    # Save final section and chapter
-    if current_section:
-        current_section['content'] = '\n'.join(current_content)
-        if current_chapter:
-            current_chapter['sections'].append(current_section)
+    flush_content()
     if current_chapter:
         chapters.append(current_chapter)
 
     return chapters
+
+
+def parse_footnotes(chapters):
+    """Extract footnote definitions from the 'Footnotes' chapter.
+
+    Org footnote definitions look like '[fn:name] definition text',
+    with continuation lines until the next definition or a blank gap.
+    Returns {name: definition-text} and removes the Footnotes chapter
+    from the chapter list so it doesn't become an (empty) page.
+    """
+    footnotes = {}
+    remaining = []
+    for chapter in chapters:
+        if chapter['title'].strip().lower() != 'footnotes':
+            remaining.append(chapter)
+            continue
+        body = chapter.get('intro', '')
+        for sec in chapter['sections']:
+            body += '\n' + sec['content']
+        current_name = None
+        current_text = []
+        for line in body.split('\n'):
+            m = re.match(r'^\[fn:([^\]]+)\]\s*(.*)$', line)
+            if m:
+                if current_name:
+                    footnotes[current_name] = '\n'.join(current_text).strip()
+                current_name = m.group(1)
+                current_text = [m.group(2)]
+            elif current_name is not None:
+                current_text.append(line)
+        if current_name:
+            footnotes[current_name] = '\n'.join(current_text).strip()
+    chapters[:] = remaining
+    return footnotes
 
 
 def clean_generated_output(output_dir):
@@ -159,97 +193,187 @@ def org_to_html(content, section_id):
 
     return ''.join(html_parts)
 
+def org_inline_to_html(text):
+    """Convert one line of org inline markup to HTML, escaping everything.
+
+    Handles =code=, ~code~, *bold*, /italic/. All text (including the
+    inside of code spans) is HTML-escaped, so prose like <iostream> or
+    vector<int> survives into the browser instead of being parsed as tags.
+    """
+    code_placeholders = []
+
+    def save_code(match):
+        code_placeholders.append(f'<code>{escape(match.group(1))}</code>')
+        # \x00 sentinels can't collide with real text and pass through escape()
+        return f'\x00{len(code_placeholders) - 1}\x00'
+
+    text = re.sub(r'=([^=\n]+)=', save_code, text)
+    text = re.sub(r'~([^~\n]+)~', save_code, text)
+    text = escape(text)
+    text = re.sub(r'(?<![*\w])\*([^\s*][^*]*?[^\s*]|\S)\*(?![*\w])', r'<strong>\1</strong>', text)
+    text = re.sub(r'(?<![/\w])/([^\s/][^/]*?[^\s/]|\S)/(?![/\w])', r'<em>\1</em>', text)
+    text = re.sub(r'(?<![+\w])\+([^\s+][^+]*?[^\s+]|\S)\+(?![+\w])', r'<del>\1</del>', text)
+    for i, code in enumerate(code_placeholders):
+        text = text.replace(f'\x00{i}\x00', code)
+    return text
+
+
+def plain_title(title):
+    """Strip org inline markup from a title, for plain-text contexts."""
+    title = re.sub(r'[=~]([^=~\n]+)[=~]', r'\1', title)
+    title = re.sub(r'(?<![/\w])/([^\s/][^/]*?[^\s/]|\S)/(?![/\w])', r'\1', title)
+    title = re.sub(r'(?<![*\w])\*([^\s*][^*]*?[^\s*]|\S)\*(?![*\w])', r'\1', title)
+    return title
+
+
 def org_text_to_html(text):
     """Convert org-mode text markup to HTML."""
     if not text.strip():
         return ''
 
-    # Remove org directives
+    # Remove org directives (#+title: etc.); block markers have no colon
+    # and are handled by the state machine below.
     text = re.sub(r'#\+\w+:.*\n?', '', text)
 
-    # Convert org markup
     lines = text.split('\n')
     html_lines = []
-    in_list = False
+    in_list = None          # None, 'ul' or 'ol'
+    in_pre = False          # inside #+begin_example or non-cpp #+begin_src
+    in_quote = False
+    pre_lines = []
+
+    def close_list():
+        nonlocal in_list
+        if in_list:
+            html_lines.append(f'</{in_list}>')
+            in_list = None
 
     for line in lines:
-        # Check for headings FIRST before processing markup
-        heading_match = re.match(r'^(\*{3,})\s+(.+)$', line)
+        stripped = line.strip()
+        low = stripped.lower()
 
-        # Bullet points
-        if line.strip().startswith('+ ') or line.strip().startswith('- '):
-            if not in_list:
-                html_lines.append('<ul>')
-                in_list = True
-            # Process markup in list items - CODE FIRST
-            item_text = line.strip()[2:]
-            # Protect code markup by processing it first
-            code_placeholders = []
-            def save_code(match):
-                code_placeholders.append(f'<code>{match.group(1)}</code>')
-                return f'__CODE_{len(code_placeholders)-1}__'
-            # Match =text= or ~text~ but allow any content inside
-            item_text = re.sub(r'=([^=]+)=', save_code, item_text)
-            item_text = re.sub(r'~([^~]+)~', save_code, item_text)
-            # Now do bold/italic
-            item_text = re.sub(r'(?<![*\w])\*([^\s*][^*]*?[^\s*]|\S)\*(?![*\w])', r'<strong>\1</strong>', item_text)
-            item_text = re.sub(r'(?<![/\w])/([^\s/][^/]*?[^\s/]|\S)/(?![/\w])', r'<em>\1</em>', item_text)
-            # Restore code
-            for i, code in enumerate(code_placeholders):
-                item_text = item_text.replace(f'__CODE_{i}__', code)
-            html_lines.append(f'<li>{item_text}</li>')
-        else:
-            if in_list:
-                html_lines.append('</ul>')
-                in_list = False
-
-            if line.strip():
-                if heading_match:
-                    # Headings - don't process markup
-                    level = min(len(heading_match.group(1)), 6)
-                    html_lines.append(f'<h{level}>{heading_match.group(2)}</h{level}>')
-                else:
-                    # Regular text - process CODE markup first to protect it
-                    code_placeholders = []
-                    def save_code(match):
-                        code_placeholders.append(f'<code>{match.group(1)}</code>')
-                        return f'__CODE_{len(code_placeholders)-1}__'
-                    # Match =text= or ~text~ but allow any content inside
-                    line = re.sub(r'=([^=]+)=', save_code, line)
-                    line = re.sub(r'~([^~]+)~', save_code, line)
-                    # Now do bold/italic without interfering with code
-                    line = re.sub(r'(?<![*\w])\*([^\s*][^*]*?[^\s*]|\S)\*(?![*\w])', r'<strong>\1</strong>', line)
-                    line = re.sub(r'(?<![/\w])/([^\s/][^/]*?[^\s/]|\S)/(?![/\w])', r'<em>\1</em>', line)
-                    # Restore code
-                    for i, code in enumerate(code_placeholders):
-                        line = line.replace(f'__CODE_{i}__', code)
-                    html_lines.append(f'<p>{line}</p>')
+        # Literal blocks: #+begin_example, or any src block that wasn't
+        # already extracted as a Monaco editor (i.e. non-cpp languages).
+        if in_pre:
+            if low in ('#+end_example', '#+end_src'):
+                # Drop common leading indentation
+                block = textwrap.dedent('\n'.join(pre_lines))
+                html_lines.append(f'<pre class="example">{escape(block)}</pre>')
+                in_pre = False
+                pre_lines = []
             else:
-                html_lines.append('<br>')
+                pre_lines.append(line)
+            continue
 
-    if in_list:
-        html_lines.append('</ul>')
+        if low == '#+begin_example' or low.startswith('#+begin_src'):
+            close_list()
+            in_pre = True
+            pre_lines = []
+            continue
+
+        if low == '#+begin_quote':
+            close_list()
+            in_quote = True
+            html_lines.append('<blockquote>')
+            continue
+
+        if low == '#+end_quote':
+            close_list()
+            in_quote = False
+            html_lines.append('</blockquote>')
+            continue
+
+        heading_match = re.match(r'^(\*{3,})\s+(.+)$', line)
+        bullet_match = re.match(r'^\s*[+-]\s+(.*)$', line)
+        ordered_match = re.match(r'^\s*\d+[.)]\s+(.*)$', line)
+
+        if bullet_match:
+            if in_list != 'ul':
+                close_list()
+                html_lines.append('<ul>')
+                in_list = 'ul'
+            html_lines.append(f'<li>{org_inline_to_html(bullet_match.group(1))}</li>')
+        elif ordered_match:
+            if in_list != 'ol':
+                close_list()
+                html_lines.append('<ol>')
+                in_list = 'ol'
+            html_lines.append(f'<li>{org_inline_to_html(ordered_match.group(1))}</li>')
+        else:
+            close_list()
+
+            if stripped:
+                if heading_match:
+                    level = min(len(heading_match.group(1)), 6)
+                    html_lines.append(f'<h{level}>{org_inline_to_html(heading_match.group(2))}</h{level}>')
+                else:
+                    html_lines.append(f'<p>{org_inline_to_html(line)}</p>')
+
+    close_list()
+    if in_pre and pre_lines:
+        # Unterminated block: emit what we collected rather than losing it
+        html_lines.append(f'<pre class="example">{escape(chr(10).join(pre_lines))}</pre>')
+    if in_quote:
+        html_lines.append('</blockquote>')
 
     return '\n'.join(html_lines)
 
-def generate_page_html(section, section_id, chapter_title, nav_data):
+def render_footnotes(content_html, footnotes):
+    """Replace [fn:name] references with superscript links and append the
+    referenced footnote definitions to the bottom of the page."""
+    seen = []
+
+    def replace_ref(match):
+        name = match.group(1)
+        if name not in seen:
+            seen.append(name)
+        n = seen.index(name) + 1
+        return (f'<sup class="fn-ref" id="fnref-{escape(name)}">'
+                f'<a href="#fn-{escape(name)}">{n}</a></sup>')
+
+    content_html = re.sub(r'\[fn:([^\]\s]+)\]', replace_ref, content_html)
+
+    if not seen:
+        return content_html
+
+    # Definitions may themselves reference other footnotes (a footnote in a
+    # footnote); replace_ref appends those to `seen`, so iterate by index.
+    items = []
+    i = 0
+    while i < len(seen):
+        name = seen[i]
+        definition = footnotes.get(name, '')
+        def_html = org_inline_to_html(' '.join(definition.split('\n'))) if definition \
+            else '<em>(missing footnote definition)</em>'
+        def_html = re.sub(r'\[fn:([^\]\s]+)\]', replace_ref, def_html)
+        items.append(f'<li id="fn-{escape(name)}">{def_html} '
+                     f'<a href="#fnref-{escape(name)}" class="fn-back">↩</a></li>')
+        i += 1
+
+    return (content_html
+            + '\n<section class="footnotes"><h2>Footnotes</h2><ol>\n'
+            + '\n'.join(items) + '\n</ol></section>')
+
+
+def generate_page_html(section, section_id, chapter_title, nav_data, footnotes):
     """Generate HTML for a single page."""
     content_html = org_to_html(section['content'], section_id)
+    content_html = render_footnotes(content_html, footnotes)
 
     # Build navigation
     prev_link = ''
     next_link = ''
 
     if nav_data['prev']:
-        prev_link = f'<a href="{nav_data["prev"]["file"]}" class="nav-btn prev">← {nav_data["prev"]["title"]}</a>'
+        prev_link = f'<a href="{nav_data["prev"]["file"]}" class="nav-btn prev">← {org_inline_to_html(nav_data["prev"]["title"])}</a>'
     if nav_data['next']:
-        next_link = f'<a href="{nav_data["next"]["file"]}" class="nav-btn next">{nav_data["next"]["title"]} →</a>'
+        next_link = f'<a href="{nav_data["next"]["file"]}" class="nav-btn next">{org_inline_to_html(nav_data["next"]["title"])} →</a>'
 
     return f'''<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
-    <title>{section['title']} - CS161A Interactive Text</title>
+    <title>{escape(plain_title(section['title']))} - CS161A Interactive Text</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -257,9 +381,9 @@ def generate_page_html(section, section_id, chapter_title, nav_data):
         <header>
             <div class="breadcrumb">
                 <a href="index.html">Home</a> /
-                <span class="chapter">{escape(chapter_title)}</span>
+                <span class="chapter">{escape(plain_title(chapter_title))}</span>
             </div>
-            <h1>{escape(section['title'])}</h1>
+            <h1>{org_inline_to_html(section['title'])}</h1>
         </header>
 
         <main class="content">
@@ -303,13 +427,20 @@ def generate_index_html(chapters):
             continue
 
         toc_html.append(f'<div class="chapter-toc">')
-        toc_html.append(f'<h2>{escape(chapter["title"])}</h2>')
+        toc_html.append(f'<h2>{org_inline_to_html(chapter["title"])}</h2>')
+
+        # Chapter intro prose (e.g. the Preface's license statement).
+        # Footnote refs are dropped here; footnotes render on content pages.
+        if chapter.get('intro', '').strip():
+            intro_html = re.sub(r'\[fn:[^\]\s]+\]', '', org_text_to_html(chapter['intro']))
+            toc_html.append(f'<div class="chapter-intro">{intro_html}</div>')
+
         toc_html.append('<ul>')
 
         for i, section in enumerate(chapter['sections']):
             filename = f"page_{chapter['title'].replace(' ', '_')}_{i}.html"
             filename = re.sub(r'[^a-zA-Z0-9_.-]', '', filename)
-            toc_html.append(f'<li><a href="{filename}">{escape(section["title"])}</a></li>')
+            toc_html.append(f'<li><a href="{filename}">{org_inline_to_html(section["title"])}</a></li>')
 
         toc_html.append('</ul>')
         toc_html.append('</div>')
@@ -452,6 +583,56 @@ h1 {
 
 .content strong {
     color: #000;
+}
+
+.content pre.example {
+    background: #f4f4f4;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 12px 15px;
+    overflow-x: auto;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 0.9em;
+    line-height: 1.4;
+}
+
+.content blockquote {
+    margin: 15px 0;
+    padding: 5px 20px;
+    border-left: 4px solid #007acc;
+    background: #f8f9fa;
+    color: #444;
+}
+
+/* Footnotes */
+sup.fn-ref a {
+    text-decoration: none;
+    color: #007acc;
+    font-weight: bold;
+}
+
+.footnotes {
+    margin-top: 50px;
+    padding-top: 15px;
+    border-top: 1px solid #ddd;
+    font-size: 0.9em;
+    color: #555;
+}
+
+.footnotes h2 {
+    font-size: 1.1em;
+    border-bottom: none;
+}
+
+.footnotes .fn-back {
+    text-decoration: none;
+    color: #007acc;
+}
+
+/* Chapter intros on the table of contents */
+.chapter-intro {
+    color: #555;
+    margin: 10px 0 5px 0;
 }
 
 /* Code Blocks */
@@ -705,6 +886,10 @@ function initializeMonaco() {
             const element = document.getElementById(editorId);
             if (element) {
                 try {
+                    // Size the editor to its content (between 120px and 400px)
+                    const lineCount = codeBlocks[editorId].current.split('\\n').length;
+                    element.style.height = Math.min(Math.max(lineCount * 19 + 30, 120), 400) + 'px';
+
                     const editor = monaco.editor.create(element, {
                         value: codeBlocks[editorId].current,
                         language: 'cpp',
@@ -801,6 +986,8 @@ const scriptPromise = new Promise((resolve) => {
 // Terminal functions
 function appendTerminal(text, className = 'output') {
     const terminal = document.getElementById('terminal-output');
+    // Strip ANSI color codes emitted by clang/lld
+    text = text.replace(/\\x1b\\[[0-9;]*m/g, '');
     const lines = text.split('\\n');
     lines.forEach((line, i) => {
         if (i < lines.length - 1 || line.length > 0) {
@@ -903,9 +1090,10 @@ async function runCode(editorId) {
 
         if (!api) {
             appendTerminal('Error: Compiler not available', 'error');
-            appendTerminal('Please make sure test1/assets/ is accessible', 'error');
+            appendTerminal('The in-browser compiler assets are not installed on this server.', 'error');
+            appendTerminal('(Site maintainers: see DEPLOYMENT.md for how to install website/assets/.)', 'info');
             appendTerminal('', 'info');
-            appendTerminal('You can still edit the code, but cannot run it.', 'info');
+            appendTerminal('You can still edit the code here and paste it into a local compiler or onlinegdb.com.', 'info');
             return;
         }
 
@@ -942,8 +1130,9 @@ def main():
 
     print(f"Parsing {input_file}...")
     chapters = parse_org_file(input_file)
+    footnotes = parse_footnotes(chapters)
 
-    print(f"Found {len(chapters)} chapters")
+    print(f"Found {len(chapters)} chapters, {len(footnotes)} footnotes")
 
     # Create output directory
     output_dir.mkdir(exist_ok=True)
@@ -998,7 +1187,8 @@ def main():
             page_info['section'],
             f"page{idx}",
             page_info['chapter'],
-            nav_data
+            nav_data,
+            footnotes
         )
 
         with open(output_dir / page_info['file'], 'w') as f:
@@ -1006,9 +1196,9 @@ def main():
 
         print(f"  Generated {page_info['file']}")
 
-    print(f"\\nWebsite generated in {output_dir}/")
+    print(f"\nWebsite generated in {output_dir}/")
     print(f"Total pages: {len(all_pages)}")
-    print("\\nTo view:")
+    print("\nTo view:")
     print(f"  cd {output_dir}")
     print("  python3 -m http.server 8000")
     print("  Open http://localhost:8000/")

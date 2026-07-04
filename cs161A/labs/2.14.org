@@ -1,16 +1,21 @@
-Write a C++ program that receives two double-precision floating-point 
-values from the user. The program then should print the sum (addition), 
-difference (subtraction), product (multiplication), quotient (division), 
-and remainder after division (modulus). Your program must use only integers. 
-A sample program run would look like (the user enters the 10 and the 2 
+Write a C++ program that receives two double-precision floating-point
+values from the user. The program then should print the sum (addition),
+difference (subtraction), product (multiplication), and quotient
+(division). Your program must use variables of type double.
+
+Note that unlike the integer version of this lab, there is no remainder
+line: the =%= operator only works on integers, and division of doubles
+does not leave a remainder behind. Also notice that the quotient is now
+a true decimal answer rather than a rounded-down whole number.
+
+A sample program run would look like (the user enters the 7.5 and the 2
 after the colons, and the program prints the rest):
 
-Please enter the first number: 10
+Please enter the first number: 7.5
 Please enter the second number: 2
-10 + 2 = 12
-10 - 2 = 8
-10 * 2 = 20
-10 / 2 = 5
-10 % 2 = 0
+7.5 + 2 = 9.5
+7.5 - 2 = 5.5
+7.5 * 2 = 15
+7.5 / 2 = 3.75
 
-© Fundamentals of C++ Programming 2018 Richard L. Halterman
+Adapted from © Fundamentals of C++ Programming 2018 Richard L. Halterman

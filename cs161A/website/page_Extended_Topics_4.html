@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Multi-File Programs - CS161A Interactive Text</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> /
+                <span class="chapter">Extended Topics</span>
+            </div>
+            <h1>Multi-File Programs</h1>
+        </header>
+
+        <main class="content">
+            <p>Up to this point we have been cheerfully stuffing almost everything into one file, and for beginner programs that is honestly fine. But eventually one giant <code>main.cpp</code> stops feeling simple and starts feeling like you keep your entire life in one junk drawer.<sup class="fn-ref" id="fnref-junkdrawer"><a href="#fn-junkdrawer">1</a></sup></p>
+<p>Need one function from line 1700? Good luck. Want to reuse your grade-calculation code in another project? Hope you enjoy copy-pasting. Found a bug in the reused code after you pasted it into three places? Outstanding. Now you get to fix it three times and wonder whether you missed one.</p>
+<p>Also, while we&#x27;re here: way back at the very beginning of this book, we treated <code>#include &lt;iostream&gt;</code> as basically a magic spell that let us say <code>cout</code> and <code>cin</code>. This is the chapter where the curtain goes up on what <code>#include</code> actually <em>does</em>. The one-sentence version is that <code>#include</code> is the compiler copying another file&#x27;s contents into yours before compilation starts, and once you&#x27;ve seen that, the whole mental model of multi-file programs clicks into place.</p>
+<h3>A tiny multi-file program, all at once</h3>
+<p>Let me show you the whole thing first — three files, cooperating — and then we&#x27;ll talk about why it&#x27;s shaped this way.</p>
+<p>The header, <code>math_utils.h</code>:</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page36-0">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page36-0">↻ Reset</button>
+    </div>
+    <div id="editor-page36-0" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #ifndef MATH_UTILS_H\n  #define MATH_UTILS_H\n\n  double calculateArea(double width, double height);\n  double calculateCircleArea(double radius);\n  int    factorial(int n);\n\n  #endif";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page36-0'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>The implementation, <code>math_utils.cpp</code>:</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page36-1">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page36-1">↻ Reset</button>
+    </div>
+    <div id="editor-page36-1" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include \"math_utils.h\"\n\n  double calculateArea(double width, double height){\n    return width * height;\n  }\n\n  double calculateCircleArea(double radius){\n    return 3.14159 * radius * radius;\n  }\n\n  int factorial(int n){\n    if(n <= 1) return 1;\n    return n * factorial(n - 1);\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page36-1'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>And the program that uses them, <code>main.cpp</code>:</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page36-2">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page36-2">↻ Reset</button>
+    </div>
+    <div id="editor-page36-2" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include \"math_utils.h\"\n  using namespace std;\n\n  int main(){\n    cout << \"Area: \"        << calculateArea(5.0, 3.0) << endl;\n    cout << \"Circle area: \" << calculateCircleArea(2.5) << endl;\n    cout << \"5! = \"         << factorial(5)            << endl;\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page36-2'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>You build this by asking the compiler to work with <em>both</em> .cpp files:</p>
+<pre class="example">g++ -std=c++17 -Wall -Wextra main.cpp math_utils.cpp -o program</pre>
+<p>If that command works, you get a single executable <code>program</code> that behaves exactly like our one-file programs always have. The difference is that the source code is now split across three cooperating files.</p>
+<h3>Why three files, and why in this specific shape</h3>
+<p>Here is the idea the whole rest of this chapter depends on: the header file says <em>what exists</em>, and the implementation file says <em>how it works</em>.</p>
+<p>Look again at <code>math_utils.h</code>. It doesn&#x27;t contain any actual math. It just lists three function signatures — three names with their parameter and return types. It is a menu, not a kitchen. Any file that wants to <em>use</em> those functions gets handed the menu by saying <code>#include &quot;math_utils.h&quot;</code> and is now allowed to call them.</p>
+<p>Then look at <code>math_utils.cpp</code>. This is the kitchen. It contains the actual function bodies, which is where the computation lives. It also starts by including its own header, which might look redundant but isn&#x27;t — it lets the compiler double-check that the signatures in the kitchen match the signatures on the menu.</p>
+<p>Finally, <code>main.cpp</code> includes <code>&lt;iostream&gt;</code> (for <code>cout</code>) and <code>math_utils.h</code> (for the math functions). Note the two different styles of <code>#include</code>: the angle brackets around <code>&lt;iostream&gt;</code> mean &quot;look in the standard system locations,&quot; and the quotation marks around <code>&quot;math_utils.h&quot;</code> mean &quot;look in my project folder first.&quot; So when we ask <code>#include &lt;iostream&gt;</code>, the compiler is quite literally pasting the contents of the standard iostream header into <code>main.cpp</code> before compiling, and that&#x27;s how names like <code>cout</code> become visible. The &quot;magic&quot; we waved at in chapter one was this.</p>
+<p>The reason to split a program up this way is that each piece can now be understood, tested, and reused on its own. If you wanted to write a second program that also needed <code>factorial</code>, you wouldn&#x27;t copy the function&#x27;s body; you&#x27;d just include <code>math_utils.h</code> and compile <code>math_utils.cpp</code> alongside your new <code>main.cpp</code>. No copy-pasting. One source of truth per function.</p>
+<h3>The weird lines at the top of the header</h3>
+<p>A few of the lines in <code>math_utils.h</code> are going to look a little alien, and they deserve their own little explanation.</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page36-3">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page36-3">↻ Reset</button>
+    </div>
+    <div id="editor-page36-3" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #ifndef MATH_UTILS_H\n  #define MATH_UTILS_H\n  // ... declarations go here ...\n  #endif";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page36-3'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>That trio is called an <em>include guard</em>. It exists because, in a non-trivial program, it is very easy to end up with the same header being included more than once through different paths, and that causes the compiler to complain about seeing the same declarations twice. Read the guard literally and it almost explains itself: &quot;if the name <code>MATH_UTILS_H</code> hasn&#x27;t been defined yet, define it now, and then process everything up to <code>#endif</code>. If this header ever gets dragged in again later, the name is already defined, so the body gets skipped.&quot; It&#x27;s an ugly-looking idiom but the idea is one sentence: include these declarations <em>once</em>, no matter how many places ask for them.</p>
+<p>The reason the syntax looks strange is that these lines are not really C++ code; they are instructions to the <em>preprocessor</em>, which is a small tool that runs over your source before the actual C++ compiler sees it. The preprocessor is the thing doing the pasting when it sees <code>#include</code>, and it&#x27;s the thing toggling the guard when it sees <code>#ifndef</code>. Once you know it&#x27;s a separate, simpler tool with its own language, the funny hash marks stop feeling mysterious.</p>
+<h3>Two messages the linker loves to give you</h3>
+<p>Multi-file programs introduce a small family of error messages that beginners find disproportionately scary. They don&#x27;t need to be.</p>
+<p>The first is &quot;multiple definition of <code>foo</code>.&quot; It means the linker — the tool that stitches the compiled pieces together at the end — found more than one <em>implementation</em> of the same function, and it has no idea which one you meant. Almost always, this happens because a function body accidentally wound up in a header file, and the header got included in two different .cpp files, so each one built a copy. The fix is to move the function body into an implementation file and leave only the signature in the header. Header files advertise; implementation files provide.</p>
+<p>The second is &quot;undefined reference to <code>foo</code>.&quot; This is the mirror image: the compiler saw a <em>call</em> to <code>foo</code> and a header saying <code>foo</code> was supposed to exist, but by the time the linker goes looking for the actual body, nothing has turned up. Almost always, this means you compiled <code>main.cpp</code> on its own and forgot to list <code>math_utils.cpp</code> on the build command, so the kitchen was never built. The fix is to make sure every implementation file the program needs is actually being compiled and linked in.</p>
+<p>If you remember that headers <em>promise</em> functions exist and implementation files <em>deliver</em> on those promises, both errors start to read like the specific broken promises they are.</p>
+<h4>Exercises</h4>
+<ol>
+<li><strong>Discussion</strong>: What&#x27;s the difference between <code>#include &lt;iostream&gt;</code> and <code>#include &quot;myfile.h&quot;</code>?</li>
+<li><strong>Basic</strong>: Create a header file with function declarations and an implementation file with definitions.</li>
+</ol>
+<h3>Lab Projects</h3>
+<h4>LAB: Refactor Single-File Program</h4>
+<p>Take a previous lab (like the student record system) and split it into:</p>
+<ul>
+<li><code>student.h</code> / <code>student.cpp</code> (struct and related functions)</li>
+<li><code>io.h</code> / <code>io.cpp</code> (input/output functions)</li>
+<li><code>main.cpp</code> (menu and main program logic)</li>
+</ul>
+<h4>LAB: Build a Calculator Library</h4>
+<p>Create a multi-file calculator:</p>
+<ul>
+<li><code>basic_ops.h/.cpp</code> (add, subtract, multiply, divide)</li>
+<li><code>advanced_ops.h/.cpp</code> (power, factorial, square root)</li>
+<li><code>calculator.h/.cpp</code> (menu-driven calculator)</li>
+<li><code>main.cpp</code> (program entry point)</li>
+</ul>
+<section class="footnotes"><h2>Footnotes</h2><ol>
+<li id="fn-junkdrawer">I am speaking from experience here. I have absolutely been that person who knows the function they want exists <em>somewhere</em> in a 3,000 line <code>main.cpp</code>, frantically scrolling, hoping to recognize it by shape. This is not a good mental mode to code in and I can confirm from first-hand knowledge that multi-file layout helps. <a href="#fnref-junkdrawer" class="fn-back">↩</a></li>
+</ol></section>
+        </main>
+
+        <nav class="page-nav">
+            <a href="page_Extended_Topics_3.html" class="nav-btn prev">← File I/O: Reading and Writing Files</a>
+            <a href="page_Extended_Topics_5.html" class="nav-btn next">Common Algorithms &amp; Problem Solving →</a>
+        </nav>
+    </div>
+
+    <!-- Terminal for running code -->
+    <div id="terminal-overlay" class="hidden">
+        <div class="terminal-container">
+            <div class="terminal-header">
+                <span>Program Output</span>
+                <button id="close-terminal-btn">✕</button>
+            </div>
+            <div id="terminal-output"></div>
+            <div id="input-area" class="hidden">
+                <span class="prompt">→</span>
+                <input type="text" id="user-input" autocomplete="off" placeholder="Enter input...">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.48.0/min/vs/loader.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

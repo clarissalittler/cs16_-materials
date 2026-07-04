@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>File I/O: Reading and Writing Files - CS161A Interactive Text</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> /
+                <span class="chapter">Extended Topics</span>
+            </div>
+            <h1>File I/O: Reading and Writing Files</h1>
+        </header>
+
+        <main class="content">
+            <p>So far, most of our programs have had the memory span of a goldfish. You run them, type some input, get an answer, and then the whole little universe disappears the moment the program ends.</p>
+<p>Files are how programs stop being so forgetful.</p>
+<p>They let your program save data to disk, read data back later, and pass information around between different runs or even different programs. High scores? Files. Grade reports? Files. Logs? Files. Anything where &quot;I really do not want to type all of this again tomorrow&quot;? Also files.</p>
+<p>The nice part is that file I/O is much less exotic than it sounds. If <code>cin</code> and <code>cout</code> already make sense to you, then the basic flow here will feel familiar too — in fact, the headline trick of this chapter is that <em>the exact same</em> <code>&gt;&gt;</code> and <code>&lt;&lt;</code> operators you&#x27;ve been using to talk to the terminal also work on files, with almost no code change. The objects you connect them to are different, but the grammar of reading and writing is the same. That reuse is not an accident; it is one of the nicer things C++&#x27;s standard library does.</p>
+<h3>A first file-reading program</h3>
+<p>Here&#x27;s the first full example I want you to keep in your head:</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page35-0">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page35-0">↻ Reset</button>
+    </div>
+    <div id="editor-page35-0" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include <fstream>\n  #include <string>\n  using namespace std;\n\n  int main(){\n    ifstream inFile(\"data.txt\");\n\n    if(!inFile.is_open()){\n      cout << \"Error opening file!\" << endl;\n      return 1;\n    }\n\n    string line;\n    while(getline(inFile, line)){\n      cout << line << endl;\n    }\n\n    inFile.close();\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page35-0'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>If that feels familiar, good. It should. The line</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page35-1">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page35-1">↻ Reset</button>
+    </div>
+    <div id="editor-page35-1" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  ifstream inFile(\"data.txt\");";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page35-1'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>creates a file stream and tries to connect it to a file on disk. Then</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page35-2">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page35-2">↻ Reset</button>
+    </div>
+    <div id="editor-page35-2" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  while(getline(inFile, line)){";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page35-2'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>reads one line at a time from that file.</p>
+<p>The error check matters because files can fail to open for mundane reasons: wrong filename, wrong folder, missing permissions, and so on. For beginners, that explicit check is worth making a habit.</p>
+<p>From here on, some of the examples are still complete programs and some are shorter variations that only change one idea. When a snippet is short, mentally inherit the same pattern: open the file, check that it opened, process it, then close it.</p>
+<h3>Variations on the theme: word by word, and &quot;are we there yet?&quot;</h3>
+<p>The first-file example grabbed one line at a time with <code>getline</code>. That&#x27;s the right default when the file is naturally organized into lines — poems, configuration files, log files, grade reports, and so on. But sometimes a file is organized into <em>words</em> or <em>numbers</em> separated by whitespace, and you want a loop that hands you one token at a time without worrying about where the line breaks fall. For that, the <code>&gt;&gt;</code> operator, the same one <code>cin</code> uses, also works on file streams.</p>
+<p>Here is the same open-check-loop-close rhythm, with a different middle.</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page35-3">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page35-3">↻ Reset</button>
+    </div>
+    <div id="editor-page35-3" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include <fstream>\n  #include <string>\n  using namespace std;\n\n  int main(){\n    ifstream inFile(\"words.txt\");\n\n    if(!inFile.is_open()){\n      cout << \"Error opening file!\" << endl;\n      return 1;\n    }\n\n    string word;\n    while(inFile >> word){\n      cout << word << endl;\n    }\n\n    inFile.close();\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page35-3'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>Two things are worth pulling out.</p>
+<p>First, <code>inFile &gt;&gt; word</code> does double duty: it tries to read the next whitespace-separated chunk from the file <em>and</em> it tells the <code>while</code> loop whether that read succeeded. If the file is exhausted, or the next chunk of the file can&#x27;t be turned into a <code>string</code>, the read comes back as a failed state, the <code>while</code> sees &quot;false,&quot; and the loop ends cleanly. This is the same trick we used for file I/O back in <code>while(getline(inFile, line))</code>, and you will see it constantly.</p>
+<p>Second, look at how little of the program is actually <em>about</em> words. The includes, the open, the error check, and the close are all doing the same job as the <code>getline</code> version. The only line that really changed is the one choosing <em>how</em> to read. That&#x27;s the shape to expect: the surrounding bookkeeping is boring, and the interesting decision is &quot;what shape of chunk do I want to pull off each iteration.&quot;</p>
+<p>If that rhythm is starting to feel repetitive, excellent. File I/O is one of the places where boring habits are exactly what you want:</p>
+<ol>
+<li>connect a stream to a file</li>
+<li>check that the connection worked</li>
+<li>pick a reading pattern (<code>getline</code> for whole lines, <code>inFile &gt;&gt; word</code> for whitespace-separated chunks, <code>inFile &gt;&gt; num</code> for numbers)</li>
+<li>let the stream&#x27;s own failure state end the loop when the file runs out</li>
+<li>close the stream when you&#x27;re done</li>
+</ol>
+<p>One small style note about the error check. You&#x27;ll see both <code>inFile.is_open()</code> and <code>inFile.fail()</code> used for roughly the same purpose; the difference is mostly taste. <code>is_open()</code> is asking &quot;did the file actually get connected?&quot; while <code>fail()</code> is asking &quot;is this stream currently in a broken state?&quot; For the case where you just opened the file and want to know whether the open worked, they give you the same answer.</p>
+<h4>Exercises</h4>
+<ol>
+<li><strong>Basic</strong>: Write a program that reads and displays the contents of a text file.</li>
+<li><strong>Intermediate</strong>: Write a program that counts the number of lines in a file.</li>
+<li><strong>Challenge</strong>: Write a program that counts the number of words in a file.</li>
+</ol>
+<h3>Writing to files, and the one new wrinkle</h3>
+<p>Reading files is half the story. The other half is <em>producing</em> them, and once you&#x27;ve seen the input version, the output version should feel almost embarrassingly familiar.</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page35-4">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page35-4">↻ Reset</button>
+    </div>
+    <div id="editor-page35-4" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include <fstream>\n  using namespace std;\n\n  int main(){\n    ofstream outFile(\"output.txt\");\n\n    if(!outFile.is_open()){\n      cout << \"Error creating file!\" << endl;\n      return 1;\n    }\n\n    outFile << \"Hello, file!\" << endl;\n    outFile << \"This is line 2\" << endl;\n    outFile << \"Name\\tGrade\"    << endl;\n    outFile << \"Alice\\t95\"      << endl;\n    outFile << \"Bob\\t87\"        << endl;\n\n    outFile.close();\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page35-4'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>The shape is identical: make a stream, check that it opened, send stuff into it, close it. The only interesting swap is <code>ifstream</code> becoming <code>ofstream</code>, and <code>getline</code> becoming the familiar <code>&lt;&lt;</code> operator — the exact same operator <code>cout</code> uses. You already know how to use <code>&lt;&lt;</code>. The only thing that changes is where the output lands.</p>
+<p>A tab character <code>\t</code> shows up in the last three lines to line the columns up a little. You can write plain text, numbers, tabs, newlines — anything you&#x27;d be comfortable writing to <code>cout</code> works the same way here, and the result ends up inside <code>output.txt</code> on disk instead of on the screen.</p>
+<p>One subtlety is worth pausing on. <code>ofstream outFile(&quot;output.txt&quot;);</code> will happily create <code>output.txt</code> if it doesn&#x27;t exist, and — here is the part that sometimes bites people — it will also <em>obliterate</em> any existing <code>output.txt</code> and start over. In other words, the default is &quot;overwrite.&quot; That behavior is exactly what you want for something like a report that should be rewritten every run. It is very much not what you want for something like a running log, where every run should add to the end. For that, you need the next wrinkle.</p>
+<h4>Append Mode vs Overwrite Mode</h4>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page35-5">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page35-5">↻ Reset</button>
+    </div>
+    <div id="editor-page35-5" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "// Overwrite mode (default)\nofstream outFile1(\"file.txt\");\noutFile1 << \"This replaces file contents\" << endl;\noutFile1.close();\n\n// Append mode\nofstream outFile2(\"file.txt\", ios::app);\noutFile2 << \"This is added to the end\" << endl;\noutFile2.close();";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page35-5'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>Plain <code>ofstream outFile(&quot;file.txt&quot;);</code> starts from scratch. If <code>file.txt</code> already exists, the new program run wipes it out and starts over.</p>
+<p><code>ofstream outFile(&quot;file.txt&quot;, ios::app);</code> says &quot;no, no, keep what&#x27;s already there and add the new stuff to the end.&quot; That is exactly what you want for logs, journals, and other running histories.</p>
+<h4>Exercises</h4>
+<ol>
+<li><strong>Basic</strong>: Write a program that asks for user&#x27;s name and age, then saves it to a file.</li>
+<li><strong>Intermediate</strong>: Create a simple diary program that appends entries to a file with timestamps.</li>
+</ol>
+<h3>File Processing Patterns</h3>
+<h4>Processing Until End of File</h4>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page35-6">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page35-6">↻ Reset</button>
+    </div>
+    <div id="editor-page35-6" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "#include <iostream>\n#include <fstream>\nusing namespace std;\n\nint main(){\n  ifstream inFile(\"numbers.txt\");\n  int num;\n  int sum = 0;\n  int count = 0;\n\n  while(inFile >> num){\n    sum += num;\n    count++;\n  }\n\n  if(count > 0){\n    cout << \"Average: \" << (double)sum / count << endl;\n  }\n\n  inFile.close();\n  return 0;\n}";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page35-6'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>This line</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page35-7">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page35-7">↻ Reset</button>
+    </div>
+    <div id="editor-page35-7" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  while(inFile >> num){";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page35-7'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>is doing two jobs at once. It tries to read the next integer <em>and</em> it asks whether that read succeeded.</p>
+<p>If the next value in the file really is an integer, the loop body runs. If the file is exhausted or the next chunk of text is not a valid integer, the stream goes into a failed state and the loop stops.</p>
+<h4>Counting Lines, Words, Characters</h4>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page35-8">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page35-8">↻ Reset</button>
+    </div>
+    <div id="editor-page35-8" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "#include <iostream>\n#include <fstream>\n#include <string>\nusing namespace std;\n\nint main(){\n  ifstream inFile(\"document.txt\");\n  string line;\n  int lineCount = 0;\n  int wordCount = 0;\n  int charCount = 0;\n\n  if(!inFile.is_open()){\n    cout << \"Error opening file!\" << endl;\n    return 1;\n  }\n\n  while(getline(inFile, line)){\n    lineCount++;\n    charCount += line.length();\n\n    // Count words (simple approach)\n    string word;\n    for(char c : line){\n      if(c == ' '){\n        if(!word.empty()){\n          wordCount++;\n          word = \"\";\n        }\n      }\n      else{\n        word += c;\n      }\n    }\n    if(!word.empty()) wordCount++;\n  }\n\n  cout << \"Lines: \" << lineCount << endl;\n  cout << \"Words: \" << wordCount << endl;\n  cout << \"Characters: \" << charCount << endl;\n\n  inFile.close();\n  return 0;\n}";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page35-8'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>This program is worth staring at for a minute because it is a nice example of how bigger jobs get built out of smaller, boring ones.</p>
+<p>The outer loop is doing the file-level work: get one line, then the next line, then the next one until there are no more.</p>
+<p>Inside that, the <code>for(char c : line)</code> loop is doing string-level work: walk through the current line one character at a time and look for rough word boundaries.</p>
+<p>That layering shows up everywhere. First chop the input into manageable pieces. Then do local work on each piece.</p>
+<h4>Processing CSV Files</h4>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page35-9">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page35-9">↻ Reset</button>
+    </div>
+    <div id="editor-page35-9" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "#include <iostream>\n#include <fstream>\n#include <sstream>\n#include <vector>\nusing namespace std;\n\nstruct Student {\n  string name;\n  int id;\n  double gpa;\n};\n\nint main(){\n  ifstream inFile(\"students.csv\");\n  string line;\n  vector<Student> students;\n\n  // Skip header line\n  getline(inFile, line);\n\n  while(getline(inFile, line)){\n    Student s;\n    stringstream ss(line);\n    string token;\n\n    getline(ss, s.name, ',');\n    getline(ss, token, ',');\n    s.id = stoi(token);\n    getline(ss, token, ',');\n    s.gpa = stod(token);\n\n    students.push_back(s);\n  }\n\n  // Process students...\n  for(const Student& s : students){\n    cout << s.name << \": \" << s.gpa << endl;\n  }\n\n  inFile.close();\n  return 0;\n}";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page35-9'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>CSV sounds fancier than it is. The basic move is:</p>
+<ul>
+<li>get one whole record as a line of text</li>
+<li>make a <code>stringstream</code> from that line</li>
+<li>pull out comma-separated fields one by one</li>
+<li>convert the fields that represent numbers</li>
+</ul>
+<p>This is another clean split of responsibilities. The file stream worries about &quot;which line are we on?&quot; The stringstream worries about &quot;which field are we on inside this line?&quot;</p>
+<h4>Exercises</h4>
+<ol>
+<li><strong>Basic</strong>: Read a file of numbers and find the maximum value.</li>
+<li><strong>Intermediate</strong>: Read a CSV file of names and ages, then display those over 18.</li>
+<li><strong>Challenge</strong>: Create a program that reads student records from a file and generates a report file with statistics.</li>
+</ol>
+<h3>A few useful ways to fail</h3>
+<p>The happy path for file I/O is short: open, read or write, close. Most of the &quot;error handling&quot; code you will ever write for files boils down to noticing which unhappy path you&#x27;re on and saying something sensible about it.</p>
+<p>Here is a compact program that covers the main cases.</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page35-10">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page35-10">↻ Reset</button>
+    </div>
+    <div id="editor-page35-10" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  #include <fstream>\n  #include <string>\n  using namespace std;\n\n  int main(){\n    string filename;\n    cout << \"Enter filename: \";\n    cin >> filename;\n\n    ifstream inFile(filename);\n\n    if(!inFile.is_open()){\n      cerr << \"Could not open '\" << filename << \"' for reading.\" << endl;\n      return 1;\n    }\n\n    int value;\n    while(inFile >> value){\n      // pretend we're doing something with value here\n    }\n\n    if(inFile.bad()){\n      cerr << \"Something went physically wrong while reading the file.\" << endl;\n      return 1;\n    }\n    else if(inFile.fail() && !inFile.eof()){\n      cerr << \"The file had something in it that didn't look like a number.\" << endl;\n      return 1;\n    }\n\n    inFile.close();\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page35-10'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>There are three different &quot;something went wrong&quot; checks in that program and they are <em>not</em> the same check.</p>
+<p><code>!inFile.is_open()</code> catches the boring case: the file didn&#x27;t open at all. Typo in the filename, wrong folder, file doesn&#x27;t exist, you don&#x27;t have permission, the disk is mounted read-only. These are the failures you get <em>before</em> you&#x27;ve read a single byte, and they almost always deserve a clean early exit.</p>
+<p><code>inFile.bad()</code> catches the scarier case: the file was fine when you opened it, but something went wrong while you were reading it. Think &quot;disk got unplugged halfway through&quot; or &quot;the file was being deleted by another program while you were reading it.&quot; These are rare in student programs but worth checking in anything long-running.</p>
+<p><code>inFile.fail() &amp;&amp; !inFile.eof()</code> catches the <em>interesting</em> case: the file existed, you could read from it, but somewhere in the middle the stream tried to read an <code>int</code> and found &quot;banana&quot; instead. The <code>!inFile.eof()</code> part matters because hitting the end of the file <em>also</em> puts the stream into a fail state, and that isn&#x27;t actually an error — it&#x27;s how <code>while(inFile &gt;&gt; value)</code> knew to stop in the first place. You only want to complain if the read stopped for a reason <em>other than</em> running out of file.</p>
+<p>For most beginner programs, the <code>is_open()</code> check at the top is honestly all you need, and the other two checks are things you add if you&#x27;re writing code that has to survive weird inputs.</p>
+<h3>Lab Projects</h3>
+<h4>LAB: Grade File Processor</h4>
+<p>Create a program that:</p>
+<ul>
+<li>Reads student names and grades from a file</li>
+<li>Calculates class average</li>
+<li>Writes a report file with:</li>
+<li>All students and grades</li>
+<li>Class average</li>
+<li>Highest/lowest grades</li>
+<li>List of students who passed/failed</li>
+</ul>
+<h4>LAB: Log File Analyzer</h4>
+<p>Create a program that:</p>
+<ul>
+<li>Reads a log file with timestamps and messages</li>
+<li>Counts total entries</li>
+<li>Counts entries by type (ERROR, WARNING, INFO)</li>
+<li>Generates a summary report</li>
+</ul>
+<h4>LAB: Simple Database (Save/Load Data)</h4>
+<p>Create a contact management system that:</p>
+<ul>
+<li>Stores contacts in memory (vector of structs)</li>
+<li>Saves all contacts to a file</li>
+<li>Loads contacts from file on startup</li>
+<li>Allows add/edit/delete/search operations</li>
+<li>Preserves data between program runs</li>
+</ul>
+        </main>
+
+        <nav class="page-nav">
+            <a href="page_Extended_Topics_2.html" class="nav-btn prev">← Structs: Organizing Related Data</a>
+            <a href="page_Extended_Topics_4.html" class="nav-btn next">Multi-File Programs →</a>
+        </nav>
+    </div>
+
+    <!-- Terminal for running code -->
+    <div id="terminal-overlay" class="hidden">
+        <div class="terminal-container">
+            <div class="terminal-header">
+                <span>Program Output</span>
+                <button id="close-terminal-btn">✕</button>
+            </div>
+            <div id="terminal-output"></div>
+            <div id="input-area" class="hidden">
+                <span class="prompt">→</span>
+                <input type="text" id="user-input" autocomplete="off" placeholder="Enter input...">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.48.0/min/vs/loader.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

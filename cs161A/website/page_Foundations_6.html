@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Memory and storage - CS161A Interactive Text</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> /
+                <span class="chapter">Foundations</span>
+            </div>
+            <h1>Memory and storage</h1>
+        </header>
+
+        <main class="content">
+            <p>You might have heard people refer to &quot;memory&quot; when it comes to computers: but what is it? How does it differ from something like the storage space on your laptop or phone?</p>
+<p>When someone says &quot;memory&quot; generally what they actually mean is Random Access Memory (RAM, in the sequel), which maybe should be called &quot;Arbitrary Access Memory&quot; because it&#x27;s not <em>random</em> like a dice roll it&#x27;s that you can access any part of the memory at any time.</p>
+<p>Think of it like a giant wall of cubbyholes like at a gym, each square is labeled so it can be found quickly and when you need something from it you just walk to the right one and grab what you want. You don&#x27;t have to, say, walk down a hallway starting at the beginning every time you want to grab something.</p>
+<p>That image is a little misleading, though, because it&#x27;s less like a set of fixed cubbyholes and more like a huge wall with a bunch of movable dividers that can---on the fly---be reconfigured to fit different sizes of things. Tiny ones for a pair of running shoes. A huge one for a giant dufflebag.</p>
+<p>Continuing this metaphor we can explain what happens when you make a variable:</p>
+<ul>
+<li>the computer then finds space in the giant storage wall to put a divider,</li>
+<li>notes down the label on that storage space</li>
+<li>comes back and puts the value of that label into the variable name you declared</li>
+</ul>
+<p>We can help explain, too, what these type signifiers are like <code>int</code> and <code>string</code>: they&#x27;re there to make it easy for the computer to know what the size of the data is, &quot;where to put the divider&quot; if we keep going with the metaphor.<sup class="fn-ref" id="fnref-15"><a href="#fn-15">1</a></sup></p>
+<p>This memory<sup class="fn-ref" id="fnref-9"><a href="#fn-9">2</a></sup> gets reset every time you run the program. That&#x27;s because the memory of your computer isn&#x27;t for long-term storage, it&#x27;s the scratch paper that programs need to run and keep track of all of their calculations.</p>
+<p>The main takeaway to get out of this is that every program manages its own storage and, for all the programs you&#x27;ll write in this class, the compiler figures out at compile time what the storage you need is and how to label it.</p>
+<section class="footnotes"><h2>Footnotes</h2><ol>
+<li id="fn-15">Okay type systems, in general, can actually do so much more than this but in C/C++ this is one of the primary reasons. If you take a systems programming class, you&#x27;ll learn more about <em>why</em> C/C++ work this way. <a href="#fnref-15" class="fn-back">↩</a></li>
+<li id="fn-9">This is only true for memory allocated, allocated being the technical term for setting up the dividers on the storage wall and putting the labels on the cubbyhole, <em>on the stack</em>. In these early chapters, the variables and basic arrays that <em>you declare directly</em> will live on the stack. There is <em>another</em> way to allocate memory that is more flexible but also harder to manage, usually called &quot;the heap&quot;, but it still only lasts as long as the program is running. Also, some library types like <code>string</code> and <code>vector</code> may manage heap memory internally even when the variable itself is local. If you forget to clean up heap memory in manual-memory code, that&#x27;s called a &quot;memory leak&quot;: the memory stays in use until the program ends, which is one reason programs like Chrome and Firefox can seem to swell up to absurd amounts of RAM if you leave them open long enough. <a href="#fnref-9" class="fn-back">↩</a></li>
+</ol></section>
+        </main>
+
+        <nav class="page-nav">
+            <a href="page_Foundations_5.html" class="nav-btn prev">← All we ever were, just zeros and ones</a>
+            <a href="page_Foundations_7.html" class="nav-btn next">Comments and documentation →</a>
+        </nav>
+    </div>
+
+    <!-- Terminal for running code -->
+    <div id="terminal-overlay" class="hidden">
+        <div class="terminal-container">
+            <div class="terminal-header">
+                <span>Program Output</span>
+                <button id="close-terminal-btn">✕</button>
+            </div>
+            <div id="terminal-output"></div>
+            <div id="input-area" class="hidden">
+                <span class="prompt">→</span>
+                <input type="text" id="user-input" autocomplete="off" placeholder="Enter input...">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.48.0/min/vs/loader.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Arrays, again, and Pointers - CS161A Interactive Text</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> /
+                <span class="chapter">Strings and Functions</span>
+            </div>
+            <h1>Arrays, again, and Pointers</h1>
+        </header>
+
+        <main class="content">
+            <p>Remember, a few chapters ago, when I introduced arrays and warned you that the &quot;fixed-size box you have to count yourself&quot; framing was only half the story? This is where the other half shows up.</p>
+<p>The short version of the reveal: a C/C++ array is not really a &quot;box with slots&quot; at all. It is more like an <em>address</em> in memory and a <em>promise</em> — a promise you, the programmer, are making — that there are so many valid things stored right after that address. The compiler does not check the promise. Stepping off the end does not feel like a wall because there is no wall; there is just the next address, which happened to belong to something else.</p>
+<p>That is the half of the story we&#x27;re about to unpack. To do it honestly, we first have to meet a new idea called a <em>pointer</em>, which is literally &quot;a variable that stores an address.&quot; So we&#x27;re going to circle back around to arrays <em>again</em>, but this time through the door labeled &quot;how C++ actually thinks about memory.&quot; Remember how we could print all the items in an array? We did it like this:</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page30-0">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page30-0">↻ Reset</button>
+    </div>
+    <div id="editor-page30-0" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n    int arr[10] = {10,11,12,13,14,15,16,17,18,19};\n    for(int i =0; i<10;i++){\n      cout << \"The \" << i << \"th element is: \" << arr[i] << endl;\n    }\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page30-0'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>Now what will happen if we print just the array like this?</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page30-1">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page30-1">↻ Reset</button>
+    </div>
+    <div id="editor-page30-1" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n    int arr[10] = {10,11,12,13,14,15,16,17,18,19};\n    cout << \"The array is \" << arr << endl;\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page30-1'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>What do you think it will do? Will it print all the elements of the array? Will it print nothing? This is a slightly unfair question because unless you already <em>know</em> about pointers you would have no way of knowing that it will produce something that looks like this:</p>
+<pre class="example">The array is 0x7ffc2ee1fa50</pre>
+<p>What&#x27;s <em>that</em>, exactly? A number, and yes this is a number despite the letters mixed in there, that starts with <code>0x</code> is a hexadecimal number. Remember how we talked about binary being a sum of powers of two and our normal base ten is a sum of powers of ten? Hexadecimal is powers of <strong>16</strong>, where the &quot;digits&quot; used in a hex number range from 0-f rather than 0-9. Hex is a little weird to read but it&#x27;s really convenient for talking about computers because each hex digit is the same as 4 bits of information.</p>
+<p>Have you ever seen hex-codes for colors? They&#x27;re usually a series of 6-hex digits because an rgb color is 24 bits,  <em>or 3 bytes</em>, i.e. 6 groups of 4 bits each.</p>
+<p>However, when you see a big hex number in programming it&#x27;s usually a memory <em>address</em>. An address is what it sounds like, it tells you where the information is stored in the computer&#x27;s memory, completely analogous to a street address.</p>
+<p>Do you remember earlier in this text when we talked about the storage wall with the labeled dividers? Well these addresses are what those labels <strong>really</strong> are.</p>
+<p>And this means that when you use the name of the array by itself, without the <code>[]</code>, in a context like this, C++ <em>converts</em> it into the address of where the array starts. That&#x27;s an important subtlety: an array is not literally the same thing as a pointer, but in many expressions it &quot;decays&quot; into a pointer to its first element.</p>
+<p>Now you might wonder if there&#x27;s a way to get the label, the address, of any variable. There is! It&#x27;s the &quot;&amp;&quot; operator.</p>
+<p>So I can do a fun trick like the following</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page30-2">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page30-2">↻ Reset</button>
+    </div>
+    <div id="editor-page30-2" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main() {\n    int test = 0;\n\n    cout << &test << endl;\n    \n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page30-2'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>Which, if you run this code, you&#x27;ll see something along the lines of</p>
+<pre class="example">0x7ffec7bdf804</pre>
+<p>which, as we now know, is an <em>address</em>.</p>
+<p>But how do we know that this is the <em>right</em> address, and what do we do <em>with</em> an address once we have it? We can answer both of those questions by introducing the dual to the <code>&amp;</code> operator: the <code>*</code> operator. Yes, it&#x27;s the same <code>*</code> you also use for multiplication but generally that&#x27;s fine and doesn&#x27;t cause problems.</p>
+<p>Here we&#x27;re going to write a program that</p>
+<ol>
+<li>declares a variable and puts a number in it</li>
+<li>pulls the address out of the variable with <code>&amp;</code></li>
+<li>follows the address with <code>*</code> to get at the number stored in the variable</li>
+<li>prints it out</li>
+</ol>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page30-3">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page30-3">↻ Reset</button>
+    </div>
+    <div id="editor-page30-3" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n    int test = 1234; // since 0 can sometimes be a default let's put a specific number here\n\n    cout << *(&test) << endl; // the * operator will \"follow\" the address and grab what's stored there\n    // should print 1234 and then end\n    \n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page30-3'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>If we can pull an address out, can we also store the <em>address</em> as data? Yes! That involves introducing a new family of types called pointers! Generally, you take the type of the thing being <em>stored</em> and then add the <code>*</code> at the end to make it the pointer version of the type. Let&#x27;s get really concrete:</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page30-4">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page30-4">↻ Reset</button>
+    </div>
+    <div id="editor-page30-4" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n    int test = 1234;\n    int* pointy = &test;\n\n    double dubTest = 3.14;\n    double* dubPoint = &dubTest;\n\n    cout << \"The address of test is: \" << pointy << endl;\n    cout << \"Following the address gives us: \" << *pointy << endl;\n\n    cout << \"The address of dubTest is: \" << dubPoint << endl;\n    cout << \"Following the address gives us: \" << *dubPoint << endl;\n    \n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page30-4'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>Now we can get back to arrays! I often tell people that in C/C++ an array is &quot;a pointer and a promise&quot; as a <em>metaphor</em>. Strictly speaking, an array is its own kind of object, but it behaves pointer-like often enough that the metaphor is useful. First, we&#x27;re going to try to follow the address of an array.</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page30-5">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page30-5">↻ Reset</button>
+    </div>
+    <div id="editor-page30-5" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n    int test[5] = {10,11,12,13,14};\n\n    cout << \"And *test is...: \" << *test << endl; \n    \n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page30-5'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>Well look at that, it&#x27;s 10! Because the address stored in <code>test</code> is the address of the first &quot;cubby&quot;. How do we get to the rest of the storage in the array? This is where the fact that an array is <em>contiguous</em> will save us: we can just go to the next address by <em>adding</em> to it.</p>
+<p>This is called <em>pointer arithmetic</em> and is actually what the <code>[]</code> syntax for arrays really was all along!</p>
+<p>Let&#x27;s write a little program to test this out:</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page30-6">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page30-6">↻ Reset</button>
+    </div>
+    <div id="editor-page30-6" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int main(){\n\n    int test[] = {10,11,12,13,14};\n\n    //let's prove that the [] brackets were really just playing with pointers all along!\n    for(int i=0; i < 5; i++){\n      cout << \"Accessing elements with []: \"<< test[i] << endl;\n      cout << \"Accessing elements with pointer arithmetic: \"<< *(test+i) << endl;\n    }\n    \n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page30-6'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>If you run this you should see that both methods print identical items in the array!</p>
+<h3>Pointer and a promise</h3>
+<p>Okay, now the reveal I kept gesturing at. &quot;The box with slots&quot; was a useful fiction. What an array <em>actually is</em>, as a runtime thing, is an address — the place in memory where the first element lives — together with an unwritten promise from you that so many more elements of that type sit right after it. The name of the array, in most expressions, &quot;decays&quot; into exactly that address. The square brackets <code>arr[i]</code> are not asking a box for its i-th compartment; they are asking the compiler to start at the address, jump forward by <code>i</code> elements&#x27; worth of memory, and look at whatever is there.</p>
+<p>That is genuinely the whole story, and it explains all the annoyances we flagged when you first met arrays:</p>
+<ul>
+<li>you have to remember the size yourself, because a bare address has no size attached to it</li>
+<li>passing an array to a function really means passing the address, which is why functions that take arrays have to agree on some other convention (a sentinel, or an explicit length parameter) to know when to stop --- we&#x27;ll write a function called <code>dynLength</code> in the very next section that does exactly this</li>
+<li>out-of-bounds access does not fail loudly, because there is nothing on the address line marking where your memory ends and someone else&#x27;s begins; you just keep reading</li>
+</ul>
+<p>So when I told you earlier that arrays were fixed-size boxes you had to count yourself, the fixed-size part was a kind-of lie and the &quot;count yourself&quot; part was the whole <em>job</em>, not an inconvenience. That&#x27;s the reveal.</p>
+<p>In modern programming, you don&#x27;t use basic C/C++ style arrays that often. Even in C++ most of the time you&#x27;re going to use a data structure we call a <em>vector</em>. These vectors are what most programming languages call arrays, like Python, and they&#x27;re capable of doing things like</p>
+<ul>
+<li>changing in size</li>
+<li>adding and deleting elements</li>
+<li>telling you how many elements are currently in them</li>
+<li>let you ask for bounds-checked access with <code>.at()</code></li>
+</ul>
+<p>Very convenient!</p>
+<p>We won&#x27;t really use vectors in this class and that&#x27;s because we&#x27;re trying to install <del>fear of</del> healthy respect for the problems that can happen if you aren&#x27;t careful using arrays.</p>
+<h3>How ints are actually stored, and why <code>string::npos</code> is <code>18446744073709551615</code></h3>
+<p>While we are being honest about what memory looks like, we can finally close another loop I left hanging. Way back when we first introduced <code>int</code>, I said &quot;treat these as the whole numbers you already know, with a small warning that they aren&#x27;t <em>quite</em> that.&quot; And a while after that, when we met <code>find</code> and <code>string::npos</code>, we saw that searching for something not in a string gave back a ridiculous answer like <code>18446744073709551615</code> and I asked you to just file it under &quot;weird but consistent.&quot; This is where those two loose ends get tied together.</p>
+<p>Here is the honest version. When C++ makes an <code>int</code>, it sets aside a <em>fixed</em> amount of space — on almost every machine you&#x27;re likely to use, that&#x27;s 32 bits, though other sizes exist. That means an <code>int</code> can only represent a fixed, finite range of whole numbers. It is not the integers from your math class; it is a finite window onto them. If you try to add two <code>int</code> s and the true result doesn&#x27;t fit in that window, you&#x27;ve caused what&#x27;s called &quot;overflow,&quot; and it is the real reason I was cagey about whether <code>int</code> was really the whole numbers. What you&#x27;ll <em>usually observe</em> when a plain <code>int</code> overflows is the stored answer wrapping around, the way a car odometer rolls over from its biggest reading back to zero --- but I have to be honest here too: for signed types like <code>int</code>, the C++ standard doesn&#x27;t promise the wraparound. It calls overflowing an <code>int</code> <em>undefined behavior</em>, which means the compiler is allowed to assume it never happens. Only the <em>unsigned</em> types we&#x27;re about to meet get the odometer roll guaranteed in writing.</p>
+<p>Now the second loose end. There is a second variety of integer type in C++ called <em>unsigned</em>. Unsigned types are the same fixed width, but they do not spend any bits on representing negative numbers — they use the full range for zero and positive numbers. The function <code>string::find</code> returns one of these unsigned types, because an <em>index into a string</em> is never supposed to be negative.</p>
+<p>Here comes the punchline to the <code>-1</code> trick. Imagine a small odometer that can only show three digits, so the readings go 000 through 999. If you are sitting at 000 and you try to subtract one, the odometer wraps around and the next reading is 999, because there is literally nowhere else for the digits to go. A real unsigned integer in C++ works exactly the same way, just with a much bigger odometer. On a 64-bit machine the unsigned integer that <code>find</code> uses has its biggest reading at <code>18446744073709551615</code>, and &quot;one less than zero&quot; wraps around to <em>exactly</em> that value. That is why <code>-1</code> and <code>string::npos</code> end up comparing equal even though they look like wildly different numbers: the bit pattern you get by writing <code>-1</code> and forcing it into an unsigned type is the same bit pattern as &quot;the biggest unsigned value there is.&quot;</p>
+<p>And the specific constant <code>18446744073709551615</code> is <code>2^64 - 1</code>, which is just &quot;the largest number you can spell with 64 binary digits when all of them are 1s.&quot; <code>string::npos</code> is defined to be that maximum value so that it will never collide with a legitimate index.<sup class="fn-ref" id="fnref-npospride"><a href="#fn-npospride">1</a></sup></p>
+<p>So, to collect the promises I&#x27;ve been making:</p>
+<ul>
+<li><code>int</code> is a finite, fixed-width window onto the integers; that&#x27;s why the &quot;whole numbers you know&quot; framing was only an innocent lie</li>
+<li>overflow is what happens when a calculation tries to leave the window</li>
+<li><code>string::npos</code> is huge because it is deliberately chosen as the biggest possible unsigned value, so that it cannot be confused with any real position</li>
+<li><code>-1</code> and <code>string::npos</code> compare equal because pushing <code>-1</code> into the unsigned type wraps the odometer back to the top</li>
+</ul>
+<p>With that cleared up, we can go back to writing <code>if(str.find(&quot;test&quot;) </code><code> string::npos)</code> in good conscience and actually mean it when we say it.</p>
+<h3>Sentinel-terminated arrays</h3>
+<p>If we wanted to <em>approximate</em> arrays that were a little more flexible, without using the <code>vector</code> type or real dynamic allocation, what might we do?</p>
+<p>One idea is that we could make an array that&#x27;s a lot bigger than we really need and then only use <em>part</em> of it, marking the &quot;effective&quot; end with some kind of special piece of data.</p>
+<p>Let&#x27;s assume that the arrays we&#x27;re going to make are going to be arrays of natural numbers, so 0 and above. That means we could treat <code>-1</code> as the special &quot;this is the end of the used portion&quot; value. This <code>-1</code> is called a <em>sentinel</em>.</p>
+<p>This is <em>not</em> the same thing as a true dynamically sized array. The actual array size is still fixed. We&#x27;re just storing an extra convention inside it.</p>
+<p>Let&#x27;s try writing some functions that will let you actually use these arrays a little more conveniently. The basic trick we&#x27;re going to be using is the idea of a <code>while</code> loop that keeps going until you reach a <code>-1</code> value.</p>
+<p>So if we want to calculate the &quot;effective&quot; length of the array that&#x27;s being used we can just write a loop like the following <code>dynLength</code> function, complete with a small program to test it out.</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page30-7">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page30-7">↻ Reset</button>
+    </div>
+    <div id="editor-page30-7" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int dynLength(int arr[]){\n    int i=0;\n    while(arr[i] != -1){\n      i++;\n    }\n    return i;\n  }\n\n  int main(){\n\n    int arr[] = {1,2,3,4,-1};\n\n    cout << dynLength(arr) << endl;\n    \n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page30-7'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<p>If you run this code you should find that it prints <code>4</code>. Go ahead and test it out by adding elements <em>after</em> the <code>-1</code> and check that the answer doesn&#x27;t change! It should always stop when it hits the <em>first</em> <code>-1</code> in the array.</p>
+<p>So now we have a length function that means we can write functions that do things like &quot;multiply every element in the array by 2&quot; without actually needing to pass the length explicitly, like this:</p>
+<div class="code-block">
+    <div class="code-toolbar">
+        <button class="run-code-btn" data-editor-id="editor-page30-8">▶ Run Code</button>
+        <button class="reset-code-btn" data-editor-id="editor-page30-8">↻ Reset</button>
+    </div>
+    <div id="editor-page30-8" class="code-editor"></div>
+    <script>
+        (function() {
+            const code = "  #include <iostream>\n  using namespace std;\n\n  int dynLength(int arr[]){\n    int i=0;\n    while(arr[i] != -1){\n      i++;\n    }\n    return i;\n  }\n\n  void doubleArray(int arr[]){\n    for(int i=0;i<dynLength(arr);i++){\n      arr[i] = 2*arr[i];\n    }\n  }\n\n  void printArray(int arr[]){\n    cout << \"[\";\n    for(int i=0; i<dynLength(arr); i++){\n      if( i > 0){\n        cout << \", \";\n      }\n      cout << arr[i];\n    }\n    cout << \"]\";\n    cout << endl;\n  }\n\n  int main(){\n\n    int arr[] = {1,2,3,4,-1};\n    \n    doubleArray(arr);\n    printArray(arr);\n\n    return 0;\n  }";
+            if (typeof codeBlocks === 'undefined') window.codeBlocks = {};
+            codeBlocks['editor-page30-8'] = {
+                original: code,
+                current: code
+            };
+        })();
+    </script>
+</div>
+<blockquote>
+<p>Exercise: here&#x27;s a quick check for yourself. Why is the <code>printArray</code> function written like this? Can you puzzle it out?</p>
+</blockquote>
+<section class="footnotes"><h2>Footnotes</h2><ol>
+<li id="fn-npospride">It is extremely funny to me that the reason <code>npos</code> is that specific absurd-looking number is essentially &quot;so that it can&#x27;t accidentally be mistaken for a real answer.&quot; The C++ standard library is sometimes goofy but it tends to be goofy <em>on purpose</em>. <a href="#fnref-npospride" class="fn-back">↩</a></li>
+</ol></section>
+        </main>
+
+        <nav class="page-nav">
+            <a href="page_Strings_and_Functions_3.html" class="nav-btn prev">← Scope and Lifetime: Where Do Variables Live?</a>
+            <a href="page_Strings_and_Functions_5.html" class="nav-btn next">Char Arrays →</a>
+        </nav>
+    </div>
+
+    <!-- Terminal for running code -->
+    <div id="terminal-overlay" class="hidden">
+        <div class="terminal-container">
+            <div class="terminal-header">
+                <span>Program Output</span>
+                <button id="close-terminal-btn">✕</button>
+            </div>
+            <div id="terminal-output"></div>
+            <div id="input-area" class="hidden">
+                <span class="prompt">→</span>
+                <input type="text" id="user-input" autocomplete="off" placeholder="Enter input...">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.48.0/min/vs/loader.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
