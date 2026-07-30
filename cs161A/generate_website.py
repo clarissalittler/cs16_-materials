@@ -171,8 +171,28 @@ def org_text_to_html(text):
     lines = text.split('\n')
     html_lines = []
     in_list = False
+    in_quote = False
 
     for line in lines:
+        stripped = line.strip()
+        low = stripped.lower()
+
+        if low == '#+begin_quote':
+            if in_list:
+                html_lines.append('</ul>')
+                in_list = False
+            html_lines.append('<blockquote>')
+            in_quote = True
+            continue
+
+        if low == '#+end_quote':
+            if in_list:
+                html_lines.append('</ul>')
+                in_list = False
+            html_lines.append('</blockquote>')
+            in_quote = False
+            continue
+
         # Check for headings FIRST before processing markup
         heading_match = re.match(r'^(\*{3,})\s+(.+)$', line)
 
@@ -224,11 +244,10 @@ def org_text_to_html(text):
                     for i, code in enumerate(code_placeholders):
                         line = line.replace(f'__CODE_{i}__', code)
                     html_lines.append(f'<p>{line}</p>')
-            else:
-                html_lines.append('<br>')
-
     if in_list:
         html_lines.append('</ul>')
+    if in_quote:
+        html_lines.append('</blockquote>')
 
     return '\n'.join(html_lines)
 
@@ -452,6 +471,14 @@ h1 {
 
 .content strong {
     color: #000;
+}
+
+.content blockquote {
+    margin: 15px 0;
+    padding: 5px 20px;
+    border-left: 4px solid #007acc;
+    background: #f8f9fa;
+    color: #444;
 }
 
 /* Code Blocks */
