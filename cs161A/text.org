@@ -106,7 +106,7 @@ So the origins of making a program that says "Hello, World" as your first progra
 This might seem like an odd perspective, right, because you've just barely begun learning the language but it makes a lot of sense if you're a pre-internet 1970s programmer who doesn't have any obvious references for how to run this stupid compiler thing or even what a program is supposed to look like.
 
 So that being said, here's "Hello World" in C++
-#+begin_src cpp :tangle codesnips/hello.cpp
+#+begin_src cpp :tangle codesnips/hello.cpp :playground run
   #include <iostream>
   using namespace std;
 
@@ -118,7 +118,7 @@ So that being said, here's "Hello World" in C++
 #+end_src
 Let's break down the first few lines:
 
-#+begin_src cpp
+#+begin_src cpp :playground static
   #include <iostream>
   using namespace std;
 #+end_src
@@ -130,7 +130,7 @@ When programming under these conditions you really need to be able to control wh
 So the first line here is /including/ the code for printing and the second line is saying "oh, hey, we're going to be using the standard library a lot, so we want to just refer to things *from* the standard library as simply as possible". If you /don't/ have this line you have to take every standard library function and put =std::= in front of it. It's annoying! We don't like doing this!
 
 Okay, with that digression aside now we get into the heart of the program
-#+begin_src cpp
+#+begin_src cpp :playground run
   int main(){
     cout << "Hello, World" << endl;
   
@@ -139,7 +139,7 @@ Okay, with that digression aside now we get into the heart of the program
 #+end_src
 The first line here is declaring a function, a chunk of code that has a name. In this case the name is "main". Every C++ program *must* have a function called "main" so the compiler knows, when building the stand-alone program, where to even start executing the code. Now, in principle there are different ways this could be handled, but most programming languages follow this convention of having a function called "main". When I call it a convention it's a lot like how every *human* language has a convention about how it has to be read. For example, the language I'm writing these notes in, English, has the convention that you start at the top of the text and read from left to right.
 
-#+begin_src cpp
+#+begin_src cpp :playground run
   int main() {
 #+end_src
 Let's dig into this function declaration
@@ -149,7 +149,7 @@ Let's dig into this function declaration
  + Finally, we have an open curly-brace which is the way you tell the compiler "okay I've finished declaring the function now here's the code that runs inside the function". This is matched by a closed curly-brace at the end that denotes "okay I'm done writing the function".
 
 Okay we're almost done! There's just two more lines. The first
-#+begin_src cpp
+#+begin_src cpp :playground static
   cout << "Hello, World" << endl;
 #+end_src
 as you can probably guess is what actually prints the line "Hello, World". Think of =cout= as the /target/ you're sending text to to be printed out. You send things to it with the =<<= symbol. The text you're sending is in quotation marks. In C++, like most programming languages, you denote text-as-data with double-quotes.[fn:2] The other thing we need to explain here is the =endl=, which is just the way of saying "end this line and start a new one".
@@ -167,7 +167,7 @@ So to understand the final line of the function, =return 0;=, remember how we sa
    This is less of an exercise and more of a "follow the recipe" to give you a taste of something you'll need to do later.
 
    First, start with this code either in-browser or locally on your computer!
-   #+begin_src cpp
+   #+begin_src cpp :playground run
      #include <iostream>
      using namespace std;
 
@@ -184,7 +184,7 @@ So to understand the final line of the function, =return 0;=, remember how we sa
    What we've done here is create a /new/ function. This new function doesn't return /anything/ so instead of =int= it has the word =void= in front. Now this function, this reusable bit of code, doesn't do anything yet.
 
    Your first step is to copy the line =cout << ...= from main into the =sayHello= function. It should look like this now:
-   #+begin_src cpp
+   #+begin_src cpp :playground run
      #include <iostream>
      using namespace std;
 
@@ -200,7 +200,7 @@ So to understand the final line of the function, =return 0;=, remember how we sa
    #+end_src
 
    Now, go ahead and delete the line you copied from =main= and replace it with =sayHello();=, so it looks like this:
-   #+begin_src cpp :tangle codesnips/helloFuncSol.cpp
+   #+begin_src cpp :tangle codesnips/helloFuncSol.cpp :playground run
      #include <iostream>
      using namespace std;
 
@@ -241,7 +241,7 @@ Now here's our first program that we're going to use to explain
 
  Go ahead and first compile and run this code. You should get a command prompt that lets you type something, hit enter, and then get what you typed printed back onto the screen.
  
- #+begin_src cpp
+ #+begin_src cpp :playground run
    #include <iostream>
    using namespace std;
 
@@ -268,7 +268,7 @@ We'll reiterate that these lines let us
  + *not* have to preface all this code with =std::= because that gets really annoying to type!
 
  From there we have
- #+begin_src cpp
+ #+begin_src cpp :playground run
    int main(){
    ...
    }
@@ -301,7 +301,7 @@ We also end with =return 0;= because we're very good programmers and *never* for
 ** What's in an empty variable?
 Now, when we declare a variable we're making a container, but is there anything *in* the container at that point? Well let's see![fn:5]
 
-#+begin_src cpp :tangle codesnips/noStringInit.cpp
+#+begin_src cpp :tangle codesnips/noStringInit.cpp :playground run
   #include <iostream>
   using namespace std;
 
@@ -316,7 +316,7 @@ If I run this on my computer, I get an output of "And our string holds..." and n
 
 What about if we instead make an empty int?
 
-#+begin_src cpp :tangle codesnips/noIntInit.cpp
+#+begin_src cpp :tangle codesnips/noIntInit.cpp :playground run
   #include <iostream>
   using namespace std;
 
@@ -397,7 +397,7 @@ Comments are *completely* ignored by the compiler and are text only people see i
 
 There are two ways to write comments: the first is to put =//= anywhere in a line of code, which means that everything to the right of the double-slash becomes a comment; the second is to have a pair =/*= and =*/= across multiple lines, which makes the entire region commented. Here's an example:
 
-#+begin_src cpp
+#+begin_src cpp :playground run
   #include <iostream>
   using namespace std;
 
@@ -423,7 +423,7 @@ Here's a program that is uncommented and uses a number of constructs you haven't
 
 See if you can take this code and add comments to it to clarify what it does and write notes about what you don't understand. This is an exercise to practice /reading/ code, which is about as important a skill as writing it in the first place!
 
-#+begin_src cpp
+#+begin_src cpp :playground run
   #include <iostream>
   #include <cmath>
   using namespace std;
@@ -464,7 +464,7 @@ See if you can take this code and add comments to it to clarify what it does and
 ** Arithmetic and such in C++
 Arithmetic in C++, like most programming languages, is meant to look a lot like the arithmetic operations you're used to. You can test out some basic operations with the following code. Note that this example shows us that you can use =cin= with types other than =string=.
 
-#+begin_src cpp :tangle codesnips/arith1.cpp
+#+begin_src cpp :tangle codesnips/arith1.cpp :playground run
   #include <iostream>
   using namespace std;
 
@@ -498,7 +498,7 @@ Okay, but what if we want to deal with fractional numbers? That's when we introd
 Okay, so why are there two different types? Well, one is smaller than the other. No, this doesn't strictly mean it's for smaller numbers. It's also for "less precise" of numbers.[fn:8] If you need more accurate representations of non-whole numbers, you should use a =double=. Most of the time, folks recommend just defaulting to =double= instead of =float=. You might see me sometimes still use =float= for things where we know the numbers are small and precision doesn't matter.
 
 So let's try this program again with =double= s instead of =int=.
-#+begin_src cpp :tangle codesnips/arith2.cpp
+#+begin_src cpp :tangle codesnips/arith2.cpp :playground run
   #include <iostream>
   using namespace std;
 
@@ -532,7 +532,7 @@ Note that =cin= keeps working no matter what type of container we're trying to f
 
  With casting in hand, we can do something like this to divide two integers without losing information:
 
- #+begin_src cpp :tangle codesnips/cast1.cpp
+ #+begin_src cpp :tangle codesnips/cast1.cpp :playground run
    #include <iostream>
    using namespace std;
 
@@ -550,7 +550,7 @@ Note that =cin= keeps working no matter what type of container we're trying to f
  This is, at least in C++, the kind of cast you're going to want to do basically all the time. It's a casting method that is checked by the compiler, letting you know if you're doing something that doesn't make any sense.
 
  Like, for example, what if we wanted to treat a =string= as an =int=?
- #+begin_src cpp
+ #+begin_src cpp :playground run
    #include <iostream>
    using namespace std;
 
@@ -569,7 +569,7 @@ Note that =cin= keeps working no matter what type of container we're trying to f
  You *could* do it but you need to define what it means: do you want the length? Do you want to convert each letter into a number and add them all together? It's not clear and the compiler is doing the right thing by /not/ deciding for you and just rejecting the code as unclear.
 
  We can even assign the result of a cast to a new variable and it creates a /completely separate variable/! Like this:
- #+begin_src cpp :tangle codesnips/cast2.cpp
+ #+begin_src cpp :tangle codesnips/cast2.cpp :playground run
    #include <iostream>
    using namespace std;
 
@@ -598,7 +598,7 @@ Okay, if all we could do with code was straight-line programs that just do a seq
 
 Our first real important ability is the ability to make /choices/. "Do I do /this/ or /that/?" Let's look at an example.
 
-#+begin_src cpp :tangle codesnips/firstIf.cpp
+#+begin_src cpp :tangle codesnips/firstIf.cpp :playground run
   #include <iostream>
   using namespace std;
 
@@ -636,7 +636,7 @@ Let's break down the new part here:
  An if-statement doesn't have to have the =else= part, though.
 
  Consider this program that makes sure an integer entered is positive
- #+begin_src cpp :tangle codesnips/positeev.cpp
+ #+begin_src cpp :tangle codesnips/positeev.cpp :playground run
    #include <iostream>
    using namespace std;
 
@@ -658,7 +658,7 @@ Let's break down the new part here:
 
  The type =bool= has two elements: =true= and =false=. You can use these inside your if-statements, like the following program:
 
- #+begin_src cpp :tangle codesnips/truth1.cpp
+ #+begin_src cpp :tangle codesnips/truth1.cpp :playground run
    #include <iostream>
    using namespace std;
 
@@ -683,7 +683,7 @@ There are all sorts of questions you can ask, such as
 
 You can also take the inverse of a question but putting =!= in front of it. So we can have
 
-#+begin_src cpp :tangle codesnips/notTruth.cpp
+#+begin_src cpp :tangle codesnips/notTruth.cpp :playground run
   #include <iostream>
   using namespace std;
 
@@ -704,7 +704,7 @@ You also don't have to ask just one question at a time. You can combine question
 If I have questions a and b then =a && b= only returns =true= if *both* =a= and =b= are true. Similarly, =a || b= returns true if =a= is true, if =b= is true, or if both of them are true.
 
 This is really useful for when you need to check if, say, a number is /between/ two values like so:
-#+begin_src cpp :tangle codesnips/ifAnd.cpp
+#+begin_src cpp :tangle codesnips/ifAnd.cpp :playground run
   #include <iostream>
   using namespace std;
 
@@ -725,7 +725,7 @@ This is really useful for when you need to check if, say, a number is /between/ 
 This is a silly example but being able to make these checks will be important as we make bigger programs.
 *** if, else, else-if
 If-statements can also be chained together for more complicated decision making, like in the following example:
-#+begin_src cpp :tangle codesnips/elseif1.cpp
+#+begin_src cpp :tangle codesnips/elseif1.cpp :playground run
   #include <iostream>
   using namespace std;
 
@@ -756,7 +756,7 @@ Try the code out! If you enter "dog" you'll see the text "The dog goes woof" pri
 We can expand beyond a binary of choices this way, chaining as many "else-if"s before we finally get to an =else=.
 
 The =else= has to be the last thing. Try compiling the following code:
-#+begin_src cpp
+#+begin_src cpp :playground run
   #include <iostream>
   using namespace std;
 
@@ -788,7 +788,7 @@ That is, in fact, a good thing!
 *** An authentication quiz
 Okay, let's do something silly as an example of putting some of these concepts together. A little program that runs a very special security quiz that asks you a few questions, use some variables, and then print out the results. This will determine, in a foolproof way, if the person answering the questions is definitely me.
 
-#+begin_src cpp :tangle codesnips/securityQuiz.cpp
+#+begin_src cpp :tangle codesnips/securityQuiz.cpp :playground run
   #include <iostream>
   using namespace std;
 
@@ -830,7 +830,7 @@ Before you read ahead and see how I did it, see if you can do this yourself firs
 
 Okay here's my version:
 
-#+begin_src cpp :tangle codesnips/testYourKnowledge.cpp
+#+begin_src cpp :tangle codesnips/testYourKnowledge.cpp :playground run
   #include <iostream>
   using namespace std;
 
@@ -921,7 +921,7 @@ You can change this =else-if= example to be based around =if= statements instead
 
  So, you see dear reader, it turns out that 
  
- #+begin_src cpp :tangle codesnips/truth2.cpp
+ #+begin_src cpp :tangle codesnips/truth2.cpp :playground run
    #include <iostream>
    using namespace std;
 
@@ -943,7 +943,7 @@ You can change this =else-if= example to be based around =if= statements instead
 
 Compile this code and run it and you'll see the important fact: C++ will freely convert between =bool= and integers in many situations. In particular, =true= converts to =1= and =false= converts to =0= when an integer is needed, and integers convert back to =bool= when C++ needs a truth value.
 
-#+begin_src cpp :tangle codesnips/truth3.cpp
+#+begin_src cpp :tangle codesnips/truth3.cpp :playground run
   #include <iostream>
   using namespace std;
 
@@ -977,7 +977,7 @@ Annoying? Yes. Important to know about? Also yes.
  There's a fun trick you can do in C++: not even bother writing the type and, instead, just letting the compiler figure out---in the process of compiling---what the type is supposed to be for you! We can do that with the `auto` keyword.
 
  So we can actually do things like:
- #+begin_src cpp :tangle codesnips/auto1.cpp
+ #+begin_src cpp :tangle codesnips/auto1.cpp :playground run
    #include <iostream>
    using namespace std;
 
@@ -1001,7 +1001,7 @@ Note that all of the following examples mean you also need to include the librar
 
 *** Making a table
 So if we wanted to make a table in C++ we might want to do something like use some '|' as dividers like this. For this and the rest of the examples in this table I'm going to assume that we're making a table that shows information about pets: their name, species, and how old they are. If we try this in the naive way we'll try something like this:
-#+begin_src cpp :tangle codesnips/petTable1.cpp
+#+begin_src cpp :tangle codesnips/petTable1.cpp :playground run
   #include <iostream>
   using namespace std;
 
@@ -1028,7 +1028,7 @@ So if we wanted to make a table in C++ we might want to do something like use so
 Now if you try running this code you'll discover that it looks, well, *terrible*. Everything is badly misaligned. Okay, so what we need is the ability to control the spacing: to set a /width/ to the a field and let the text comfortably inside that space. Thankfully, C++ already has a function to do that: =setw=, which stands for "set width". The =setw= function takes one argument, an =int=, and sets aside that much space for the next piece of text you pass to =cout=.
 
 We can test it out by modifying our program like this:
-#+begin_src cpp :tangle codesnips/columns1.cpp
+#+begin_src cpp :tangle codesnips/columns1.cpp :playground run
   #include <iostream>
   #include <iomanip>
   using namespace std;
@@ -1059,7 +1059,7 @@ So what we've left implicit so far is that a call to =setw= will modify the /nex
 #+end_quote
 
 This is /alright/ but personally I think the way the data and columns are aligned like this makes it feel hard to skim. I think it looks better to have the column names aligned the /opposite/ way to the data. So C++ has an easy way of doing this: =cout << left= will make data left-aligned and =cout << right= will make the data right-aligned. Once you set an alignment it stays that way until you change it again. So we need to do something like this
-#+begin_src cpp :tangle codesnips/columns2.cpp
+#+begin_src cpp :tangle codesnips/columns2.cpp :playground run
   #include <iostream>
   #include <iomanip>
   using namespace std;
@@ -1087,7 +1087,7 @@ This is /alright/ but personally I think the way the data and columns are aligne
 #+end_src
 That's slightly easier to read, but we still have room to fuss around with this program. Rather than playing with the alignment of the column names let's try adding a visible divider. To do that we can play with =setfill=, another function that lets us replace the spaces in the padding created by =setw= with any character we want.
 
-#+begin_src cpp :tangle codesnips/columns3.cpp
+#+begin_src cpp :tangle codesnips/columns3.cpp :playground run
   #include <iostream>
   #include <iomanip>
   using namespace std;
@@ -1137,7 +1137,7 @@ So what do all these lines have in common? They all have the same pattern of ="|
 
 Let's write a new function that takes those three items as arguments and builds up the =cout << ...= line from that!
 
-#+begin_src cpp :tangle codesnips/colfunc1.cpp
+#+begin_src cpp :tangle codesnips/colfunc1.cpp :playground run
   #include <iostream>
   #include <iomanip>
   using namespace std;
@@ -1175,7 +1175,7 @@ Now, there's one annoying thing, right? We can't actually use this =petRow= func
 
 C++ does, actually, give us a way to deal with this but it's mildly annoying: we can write a second function that has the same name but different parameters, like so.
 
-#+begin_src cpp :tangle codesnips/colfunc2.cpp
+#+begin_src cpp :tangle codesnips/colfunc2.cpp :playground run
   #include <iostream>
   #include <iomanip>
   using namespace std;
@@ -1219,7 +1219,7 @@ The /good/ thing is that this lets us make row after row after row with just sim
 *** Formatting decimal points
 Okay the other formatting topic that we need to deal with is how to deal with decimal points. Let's look at a simple program with doubles and you can immediately see the formatting problem:
 
-#+begin_src cpp :tangle codesnips/badmoney.cpp
+#+begin_src cpp :tangle codesnips/badmoney.cpp :playground run
   #include <iostream>
   using namespace std;
 
@@ -1234,7 +1234,7 @@ Okay the other formatting topic that we need to deal with is how to deal with de
 #+end_src
 
 it prints out that the tax is $33.3333. Well that's not how we write cents! We actually only want to include two decimal points. We can do that with =cout << setprecision(2)= so our code becomes
-#+begin_src cpp :tangle codesnips/money1.cpp
+#+begin_src cpp :tangle codesnips/money1.cpp :playground run
   #include <iostream>
   #include <iomanip>
   using namespace std;
@@ -1255,7 +1255,7 @@ Wait, shoot, no that's still not right. Okay so the problem here is that =setpre
 
 So we need to /also/ do =cout << fixed;= in order to make sure it /always/ prints exactly two things to the right of the decimal, all the time.
 
-#+begin_src cpp :tangle codesnips/money2.cpp
+#+begin_src cpp :tangle codesnips/money2.cpp :playground run
   #include <iostream>
   #include <iomanip>
   using namespace std;
@@ -1282,7 +1282,7 @@ So we need to /also/ do =cout << fixed;= in order to make sure it /always/ print
 In this section we'll be covering how to do your first kind of loop in C++, the =while= loop. Conceptually, a =while= loop lets you do something over and over again until the question "should I keep going" returns false.
 
 So, let's take the smallest silliest example we can to show the syntax: a program that keeps running and asking you to enter a number until you enter =0=.
-#+begin_src cpp :tangle codesnips/firstWhile.cpp
+#+begin_src cpp :tangle codesnips/firstWhile.cpp :playground run
   #include <iostream>
   using namespace std;
 
@@ -1314,7 +1314,7 @@ So a guessing game where the number is the same every time isn't very interestin
 
 So first, here's a really simple example of how to generate random numbers in C++. Note that we also have to include a thing at the top of the file: =#include <cstdlib>=, because that's where the functions we need for random numbers live.
 
-#+begin_src cpp :tangle codesnips/badrand.cpp
+#+begin_src cpp :tangle codesnips/badrand.cpp :playground run
   #include <iostream>
   #include <cstdlib>
   using namespace std;
@@ -1342,7 +1342,7 @@ Our number is: 1804289383
 
 So what's going on here? Yes it's a "random" number but it's the same "random" number every time. It might be illuminating to try the following:
 
-#+begin_src cpp :tangle codesnips/badrand2.cpp
+#+begin_src cpp :tangle codesnips/badrand2.cpp :playground run
   #include <iostream>
   #include <cstdlib>
   using namespace std;
@@ -1374,7 +1374,7 @@ Seeds are what makes pseudo-random number generation so different than actual ra
 For a given seed, =rand= will always produce the same sequence of outputs. The trick, then, is that we need to choose a different seed every time we run the program. The traditional choice is to use another function called =time= from =<ctime>=. If you write =time(0)= what you'll get back is the number of seconds since midnight January 1st 1970. Since this is a number that will be different every time you run the program, it will be a good choice of different seeds for every time we run our code.
 
 Let's test this out quick
-#+begin_src cpp :tangle codesnips/betterrand.cpp
+#+begin_src cpp :tangle codesnips/betterrand.cpp :playground run
   #include <iostream>
   #include <cstdlib>
   #include <ctime>
@@ -1395,7 +1395,7 @@ Let's test this out quick
 #+end_src
 
 Now we're finally ready to write our number guessing game
-#+begin_src cpp :tangle codesnips/guessy.cpp
+#+begin_src cpp :tangle codesnips/guessy.cpp :playground run
   #include <iostream>
   #include <cstdlib>
   #include <ctime>
@@ -1438,7 +1438,7 @@ The absolute value gives you the distance between two numbers:
 
 Here's an example that checks if a guess is within a certain range of a target:
 
-#+begin_src cpp :tangle codesnips/closeCheck.cpp
+#+begin_src cpp :tangle codesnips/closeCheck.cpp :playground run
   #include <iostream>
   #include <cmath>
   using namespace std;
@@ -1476,7 +1476,7 @@ The last thing we need to do with our "number guessing game" is adding a limited
  Try doing this yourself before checking my solution below.
 
 **** My solution
-#+begin_src cpp :tangle codesnips/guessy2.cpp
+#+begin_src cpp :tangle codesnips/guessy2.cpp :playground run
   #include <iostream>
   #include <cstdlib>
   #include <ctime>
@@ -1532,7 +1532,7 @@ Our steps are
  3. When you get to the end of the program go ahead and divide the total by the number of things added together to get the average
 
 We're going to do the simplest version like this:
-#+begin_src cpp :tangle codesnips/whileAverage.cpp
+#+begin_src cpp :tangle codesnips/whileAverage.cpp :playground run
   #include <iostream>
   using namespace std;
 
@@ -1558,7 +1558,7 @@ Okay, so there's still a problem with our code: do you see it? If you don't I'll
 
 That's right! You're dividing by zero! So instead we want to, at the end, replace our final =cout= with an if-statement that checks to make sure you didn't enter anything at all:
 
-#+begin_src cpp :tangle codesnips/whileAverage2.cpp
+#+begin_src cpp :tangle codesnips/whileAverage2.cpp :playground run
   #include <iostream>
   using namespace std;
 
@@ -1598,7 +1598,7 @@ So far we've seen some examples of using =while= loops and now it's time to see 
 If =while= can be thought of as "keep going until something changes", then =for= should be thought of as "do this X times".
 
 The simplest possible for-statement we can write looks like
-#+begin_src cpp :tangle codesnips/for1.cpp
+#+begin_src cpp :tangle codesnips/for1.cpp :playground run
   #include <iostream>
   using namespace std;
 
@@ -1619,7 +1619,7 @@ Another thing you might have noticed is that we're starting to count /from/ 0 an
 
 Let's make another loop quick but this time I want you to write out, for yourself, what it should print out before you even compile and run it.
 
-#+begin_src cpp :tangle codesnips/for2.cpp
+#+begin_src cpp :tangle codesnips/for2.cpp :playground run
   #include <iostream>
   using namespace std;
 
@@ -1639,7 +1639,7 @@ Exercise: Change this loop so that it instead runs from 1 through 5 rather than 
 Now you don't /just/ have to count up by one, even though that's probably the most common use for reasons we'll see in a couple of sections from now.
 
 You can count down like this:
-#+begin_src cpp :tangle codesnips/for3.cpp
+#+begin_src cpp :tangle codesnips/for3.cpp :playground run
   #include <iostream>
   using namespace std;
 
@@ -1661,7 +1661,7 @@ Exercise: Try making a for-loop that prints out only even numbers. Again, you co
 Here's an example of another common idiom in programming: you use a for-loop to /accumulate/ results of a calculation.
 
 So here's how to add a bunch of numbers together:
-#+begin_src cpp :tangle codesnips/forSum.cpp
+#+begin_src cpp :tangle codesnips/forSum.cpp :playground run
   #include <iostream>
   using namespace std;
 
@@ -1692,7 +1692,7 @@ One of the most common uses of for-loops is to create patterns, and for more com
 
 The key insight with nested loops is that the inner loop runs /completely/ for each iteration of the outer loop. Let's start with a simple example:
 
-#+begin_src cpp :tangle codesnips/nested1.cpp
+#+begin_src cpp :tangle codesnips/nested1.cpp :playground run
   #include <iostream>
   using namespace std;
 
@@ -1720,7 +1720,7 @@ Notice how the inner loop (the =col= loop) runs 5 times for /each/ iteration of 
 *** Building a Right Triangle
 Now let's make something more interesting: a right triangle where each row has one more star than the previous row:
 
-#+begin_src cpp :tangle codesnips/triangle1.cpp
+#+begin_src cpp :tangle codesnips/triangle1.cpp :playground run
   #include <iostream>
   using namespace std;
 
@@ -1754,7 +1754,7 @@ You can also create patterns that use spaces. The key is to have multiple inner 
 
 Here's a simple example that right-aligns a triangle by printing spaces first:
 
-#+begin_src cpp :tangle codesnips/rightAlignedTriangle.cpp
+#+begin_src cpp :tangle codesnips/rightAlignedTriangle.cpp :playground run
   #include <iostream>
   using namespace std;
 
@@ -1812,7 +1812,7 @@ That means we can use these formulas:
  + spaces = =height - row=
  + stars = =2 * row - 1=
 
-#+begin_src cpp :tangle codesnips/centeredPyramid.cpp
+#+begin_src cpp :tangle codesnips/centeredPyramid.cpp :playground run
   #include <iostream>
   using namespace std;
 
@@ -1855,7 +1855,7 @@ That's the whole pyramid trick. It looks fancy, but it's really just two little 
 *** Multiplication Tables
 Another common use of nested loops is creating multiplication tables:
 
-#+begin_src cpp :tangle codesnips/multTable.cpp
+#+begin_src cpp :tangle codesnips/multTable.cpp :playground run
   #include <iostream>
   #include <iomanip>
   using namespace std;
@@ -1888,7 +1888,7 @@ What we haven't shown you yet is what "a finite collection of stuff" looks like!
 Before we start, another flag to plant: the kind of array we're about to introduce is going to feel a little annoying. You will have to tell it how big it is /up front/, you will have to remember that size /yourself/ every time you do anything with it, and if you step one index off the end, C++ is not going to save you. That is not you doing something wrong — that really is what these arrays are. A few chapters from now, once we've seen pointers, we will come back to arrays a second time and the reveal is that the box we're about to hand you is, structurally, barely a box at all. For now, just meet the thing on its own terms.
 
 Here's an example and we'll talk it through
-#+begin_src cpp :tangle codesnips/array1.cpp
+#+begin_src cpp :tangle codesnips/array1.cpp :playground run
   #include <iostream>
   using namespace std;
 
@@ -1924,7 +1924,7 @@ This really is like having a really special variable that has a numerical index-
 So arrays get really useful when trying to represent things like rows in a table. Each array is going to represent a different column and an index is going to represent a row.
 
 An example program would be something like this:
-#+begin_src cpp :tangle codesnips/arrayPets.cpp
+#+begin_src cpp :tangle codesnips/arrayPets.cpp :playground run
   #include <iostream>
   using namespace std;
 
@@ -1956,7 +1956,7 @@ So line by line what this program does is:
 
 That =const= is important. In standard C++, the size of a built-in array like this should be known at compile time. Some compilers will let you get away with writing
 
-#+begin_src cpp
+#+begin_src cpp :playground static
   int numPets = 5;
   // Some compilers allow this, but it is not standard C++
   string petNames[numPets];
@@ -1984,7 +1984,7 @@ There's one last topic we need to address: what happens if you access outside th
 #+end_src
 
 Now let's try a similar thing in C++:
-#+begin_src cpp :tangle codesnips/badArray.cpp
+#+begin_src cpp :tangle codesnips/badArray.cpp :playground run
   #include <iostream>
   using namespace std;
 
@@ -2003,7 +2003,7 @@ It /feels/ like I initialized everything correctly, I told C++ how big the array
 
 We'll cover, in greater depth, /why/ C++ doesn't protect you from this error but for now the way you should think of it is that when you declare an array variable you're actively setting aside a contiguous set of cubbyholes in the storage wall, but that *you* need to keep track of which ones belong to which array. This is part of the reason why, in our previous example, we had a separate constant called =numPets= that kept track of how many pets were supposed to be in the database. We reproduce the example below.
 
-#+begin_src cpp 
+#+begin_src cpp :playground run
   #include <iostream>
   using namespace std;
 
@@ -2030,7 +2030,7 @@ We'll cover, in greater depth, /why/ C++ doesn't protect you from this error but
 
 This is why we like /constants/ in C++, which are like variables but once they have a value that value isn't allowed to change! It's just like any other variable but you put =const= in front of the variable declaration:
 
-#+begin_src cpp  :tangle codesnips/petDBConst.cpp
+#+begin_src cpp  :tangle codesnips/petDBConst.cpp :playground run
   #include <iostream>
   using namespace std;
 
@@ -2064,7 +2064,7 @@ The key insight: use the value you're counting as the /index/ into your counts a
 
 Here's an example: counting single die roll results.
 
-#+begin_src cpp :tangle codesnips/diceFreq.cpp
+#+begin_src cpp :tangle codesnips/diceFreq.cpp :playground run
   #include <iostream>
   #include <cstdlib>
   #include <ctime>
@@ -2117,7 +2117,7 @@ If you roll /two/ dice, the possible sums go from 2 to 12. That means the sum it
 
 This is the kind of trick that feels a little weird the first time you see it and then afterwards becomes one of your favorite moves.
 
-#+begin_src cpp :tangle codesnips/diceSumFreq.cpp
+#+begin_src cpp :tangle codesnips/diceSumFreq.cpp :playground run
   #include <iostream>
   #include <iomanip>
   #include <cstdlib>
@@ -2164,7 +2164,7 @@ This is the kind of trick that feels a little weird the first time you see it an
 
 The nice thing here is that we don't need some giant pile of =if= statements asking "was it a 2? was it a 3? was it a 4?" Instead, we just compute the sum and do
 
-#+begin_src cpp
+#+begin_src cpp :playground static
   sumCounts[sum]++;
 #+end_src
 
@@ -2197,7 +2197,7 @@ This is a classic array manipulation problem that combines loops, indexing, and 
 
 Here's a complete worked example using a temporary array:
 
-#+begin_src cpp :tangle codesnips/arrayRotate.cpp
+#+begin_src cpp :tangle codesnips/arrayRotate.cpp :playground run
   #include <iostream>
   using namespace std;
 
@@ -2228,7 +2228,7 @@ Here's a complete worked example using a temporary array:
 
 The thing to really notice is this line:
 
-#+begin_src cpp
+#+begin_src cpp :playground static
   rotated[newPosition] = values[i];
 #+end_src
 
@@ -2252,7 +2252,7 @@ The basic principle is pretty simple:
 
 Here's a simple example:
 
-#+begin_src cpp :tangle codesnips/menu1.cpp
+#+begin_src cpp :tangle codesnips/menu1.cpp :playground run
   #include <iostream>
   using namespace std;
 
@@ -2290,7 +2290,7 @@ Here's a simple example:
 *** Menu with Switch Statements
 You can also use a =switch= statement for menus, which is often cleaner:
 
-#+begin_src cpp :tangle codesnips/menu2.cpp
+#+begin_src cpp :tangle codesnips/menu2.cpp :playground run
   #include <iostream>
   using namespace std;
 
@@ -2342,7 +2342,7 @@ You can also use a =switch= statement for menus, which is often cleaner:
 *** Looping Menus
 Often you want the menu to keep running until the user chooses to exit. You can do this with a while-loop:
 
-#+begin_src cpp :tangle codesnips/menu3.cpp
+#+begin_src cpp :tangle codesnips/menu3.cpp :playground run
   #include <iostream>
   using namespace std;
 
@@ -2396,7 +2396,7 @@ Here are two scenarios:
 *** Right kind of data, but wrong option
 So what we mean here is something like you asking for "yes" or "no" from the user and they, in their infinite snarkiness, enter "chicken". You will not let this chicken stand and, instead, will stop and make them answer again until they give a response that's useful. This is the easier scenario and we can solve the problem with a simple while-loop like this
 
-#+begin_src cpp :tangle codesnips/validation1.cpp
+#+begin_src cpp :tangle codesnips/validation1.cpp :playground run
   #include <iostream>
   using namespace std;
 
@@ -2421,7 +2421,7 @@ Okay so from here we have some interesting issues that come down to exactly *wha
 **** Whatever happened to baby cin?
 First off, consider the following program.
 
-#+begin_src cpp :tangle codesnips/badcin1.cpp
+#+begin_src cpp :tangle codesnips/badcin1.cpp :playground run
   #include <iostream>
   using namespace std;
 
@@ -2467,7 +2467,7 @@ We're going to introduce a new function called =cin.fail()= that lets us ask the
 
 So now in the following program we'll ask for two numbers and, then, if there's a failure we'll print out "hey, buddy, that's not cool" rather than print the sum of the numbers
 
-#+begin_src cpp :tangle codesnips/badcin2.cpp
+#+begin_src cpp :tangle codesnips/badcin2.cpp :playground run
   #include <iostream>
   using namespace std;
 
@@ -2499,7 +2499,7 @@ So this next part is another application of our old friend the /while/ loop.
 
 
 We'll start with the obvious thing to do from the pieces we've seen so far (and spoiler this code isn't going to work)
-#+begin_src cpp :tangle codesnips/cinfail1.cpp
+#+begin_src cpp :tangle codesnips/cinfail1.cpp :playground run
   #include <iostream>
   using namespace std;
 
@@ -2522,7 +2522,7 @@ So /why/ doesn't this work? You'll see that it leads to an infinite loop of prin
 
 The usual robust move is to ignore everything up to and including the next newline. So putting this all together we've got
 
-#+begin_src cpp :tangle codesnips/cinfail2.cpp
+#+begin_src cpp :tangle codesnips/cinfail2.cpp :playground run
   #include <iostream>
   #include <limits>
   using namespace std;
@@ -2557,7 +2557,7 @@ Before we dive into string functions, we need to talk about a common problem: ho
 So far we've been using =cin >>= to read user input, but there's a problem: =cin >>= stops reading at the first whitespace (space, tab, or newline). This means if you ask the user for their full name and they type "John Smith", you'll only get "John"!
 
 Try this program:
-#+begin_src cpp
+#+begin_src cpp :playground run
   #include <iostream>
   using namespace std;
 
@@ -2576,7 +2576,7 @@ If you type "John Smith", it will only print "Hello, John".
 
 To read an /entire line/ including spaces, we use =getline()=:
 
-#+begin_src cpp :tangle codesnips/getline1.cpp
+#+begin_src cpp :tangle codesnips/getline1.cpp :playground run
   #include <iostream>
   #include <string>
   using namespace std;
@@ -2597,7 +2597,7 @@ The syntax for =getline()= is a bit different: =getline(cin, variableName)=. It 
 *** Common Pitfall: Mixing =cin >>= and =getline()=
 If you use =cin >>= before =getline()=, you can run into a problem. Watch out for this:
 
-#+begin_src cpp
+#+begin_src cpp :playground run
   #include <iostream>
   #include <string>
   using namespace std;
@@ -2621,7 +2621,7 @@ This program has a bug! When you type your age and press Enter, =cin >>= reads t
 
 The fix is to add =cin.ignore()= after using =cin >>=:
 
-#+begin_src cpp :tangle codesnips/getline2.cpp
+#+begin_src cpp :tangle codesnips/getline2.cpp :playground run
   #include <iostream>
   #include <string>
   using namespace std;
@@ -2653,7 +2653,7 @@ Now it works correctly!
 So there's a few things you can do with strings. The first is the ability to glue strings together, also called "concatenation". So far we've been implicitly gluing strings together using the syntax of =cout= and =<<=, but you can *actually* stick two strings to each other with =+=, just like adding two numbers.
 
 Like this program:
-#+begin_src cpp :tangle codesnips/stringConcat.cpp
+#+begin_src cpp :tangle codesnips/stringConcat.cpp :playground run
   #include <iostream>
   using namespace std;
 
@@ -2676,7 +2676,7 @@ This is an example of something kinda neat in C++, called "operator overloading"
 
 Okay, also we should talk about how to turn data into strings because this is going to be useful! Basically, there's just a function in the =<string>= library that you can use called =to_string= that will convert any other data to being a string. This works with basically everything, like in this program:
 
-#+begin_src cpp :tangle codesnips/toString.cpp 
+#+begin_src cpp :tangle codesnips/toString.cpp :playground run
   #include <iostream>
   #include <string>
   using namespace std;
@@ -2698,7 +2698,7 @@ Okay, also we should talk about how to turn data into strings because this is go
 *** =find= and =substr=
 Okay, so now let's talk about some convenience functions that help us take apart and manipulate strings. The first is the ability to /find/ an occurence of one string inside another:
 
-#+begin_src cpp :tangle codesnips/find1.cpp
+#+begin_src cpp :tangle codesnips/find1.cpp :playground run
   #include <iostream>
   #include <string>
   using namespace std;
@@ -2722,7 +2722,7 @@ t h i s _ i s _ a _  r  o  c  k
 
 It's the position in the string where the /substring/ rock starts! Here, let's test this theory by also checking for ="is"= . What should =find= return when we run =str1.find("is")=?
 
-#+begin_src cpp :tangle codesnips/find2.cpp
+#+begin_src cpp :tangle codesnips/find2.cpp :playground run
   #include <iostream>
   #include <string>
   using namespace std;
@@ -2741,7 +2741,7 @@ So if you run this you should get =2=, because the first occurrence of "is" appe
 
 Okay, so here's the really important question: what happens if you search for something that /isn't/ in the string?
 
-#+begin_src cpp :tangle codesnips/find3.cpp
+#+begin_src cpp :tangle codesnips/find3.cpp :playground run
   #include <iostream>
   #include <string>
   using namespace std;
@@ -2762,7 +2762,7 @@ This is actually a special value called =string::npos= (which stands for "no pos
 
 Now here's something interesting: you /might/ see older C++ code use =-1= as a shorthand instead of writing =string::npos=. You might see code like this:
 
-#+begin_src cpp
+#+begin_src cpp :playground static
   if(str.find("something") == -1){
     cout << "Not found!" << endl;
   }
@@ -2774,7 +2774,7 @@ Here's a hint that'll have to do for now. Imagine you have a car odometer that o
 
 That is genuinely as much as I want to say right now. The /exact/ story — why that odometer is the size it is, why =-1= lives at the top of it, what =unsigned= means, and so on — belongs in a later chapter, after we have talked about how memory actually works. When we get there, the "remember that absurd =18446744073709551615= from =find=?" question will be the whole point. For now you can safely file this under "weird but consistent," and you should /still/ prefer
 
-#+begin_src cpp
+#+begin_src cpp :playground static
   if(str.find("test") == string::npos)
 #+end_src
 
@@ -2782,7 +2782,7 @@ because it is clearer about what you actually mean and does not make a reader fl
 
 Here's a more practical example:
 
-#+begin_src cpp :tangle codesnips/find4.cpp
+#+begin_src cpp :tangle codesnips/find4.cpp :playground run
   #include <iostream>
   #include <string>
   using namespace std;
@@ -2810,7 +2810,7 @@ The syntax is: =str.substr(start_position, length)=
 
 Here's a simple example:
 
-#+begin_src cpp :tangle codesnips/substr1.cpp
+#+begin_src cpp :tangle codesnips/substr1.cpp :playground run
   #include <iostream>
   #include <string>
   using namespace std;
@@ -2829,7 +2829,7 @@ If you run this, it prints =Hello= because we're starting at position 0 and grab
 
 Now here's where things get interesting: what if you /only/ give =substr= one argument? Like =str.substr(7)=? In that case, it grabs everything from that position to the end of the string!
 
-#+begin_src cpp :tangle codesnips/substr2.cpp
+#+begin_src cpp :tangle codesnips/substr2.cpp :playground run
   #include <iostream>
   #include <string>
   using namespace std;
@@ -2849,7 +2849,7 @@ Here's where things get really useful. You can use =find= to locate something in
 
 Let's say you're parsing email addresses and you want to extract the username (the part before the @) and the domain (the part after the @):
 
-#+begin_src cpp :tangle codesnips/findsubstr1.cpp
+#+begin_src cpp :tangle codesnips/findsubstr1.cpp :playground run
   #include <iostream>
   #include <string>
   using namespace std;
@@ -2885,7 +2885,7 @@ Notice how we used =atPosition + 1= for the domain? That's because we don't want
 
 Here's another practical example—extracting a file extension:
 
-#+begin_src cpp :tangle codesnips/findsubstr2.cpp
+#+begin_src cpp :tangle codesnips/findsubstr2.cpp :playground run
   #include <iostream>
   #include <string>
   using namespace std;
@@ -2923,7 +2923,7 @@ The syntax is: =str.find(searchString, startPosition)=
 
 Here's how you'd find all occurrences of a substring:
 
-#+begin_src cpp :tangle codesnips/findAll.cpp
+#+begin_src cpp :tangle codesnips/findAll.cpp :playground run
   #include <iostream>
   #include <string>
   using namespace std;
@@ -2951,7 +2951,7 @@ This will find all the "at" substrings: the one in "cat", the one in "hat", the 
 
 Let's put it all together with a program that finds and replaces text in a string:
 
-#+begin_src cpp :tangle codesnips/simpleReplace.cpp
+#+begin_src cpp :tangle codesnips/simpleReplace.cpp :playground run
   #include <iostream>
   #include <string>
   using namespace std;
@@ -3002,7 +3002,7 @@ The general idiom is that you can get the length of the string like this =s.leng
 
 Okay so here's a wholeLower function that turns an entire string to lower case using the per-character function =tolower()=:
 
-#+begin_src cpp :tangle codesnips/wholeLower.cpp
+#+begin_src cpp :tangle codesnips/wholeLower.cpp :playground run
   #include <iostream>
   #include <string>
   using namespace std;
@@ -3036,7 +3036,7 @@ Here are the most useful ones:
 
 Here's an example that counts different types of characters in a string:
 
-#+begin_src cpp :tangle codesnips/charTypes.cpp
+#+begin_src cpp :tangle codesnips/charTypes.cpp :playground run
   #include <iostream>
   #include <string>
   #include <cctype>
@@ -3087,7 +3087,7 @@ Other characters: 1
 *** Counting Vowels and Consonants
 A common task is to count vowels versus consonants in text. Here's how you can do it:
 
-#+begin_src cpp :tangle codesnips/vowelCount.cpp
+#+begin_src cpp :tangle codesnips/vowelCount.cpp :playground run
   #include <iostream>
   #include <string>
   #include <cctype>
@@ -3134,7 +3134,7 @@ Notice how we created our own helper function =isVowel()= that returns a =bool=.
 
 *** Example: Sarcasm Case
  Alright, here's a nice silly example for how we use for-loops with strings:
-#+begin_src cpp :tangle codesnips/sarcasm.cpp
+#+begin_src cpp :tangle codesnips/sarcasm.cpp :playground run
   #include <iostream>
   #include <string>
   #include <cstdlib>
@@ -3207,7 +3207,7 @@ There are really two sub-problems here:
 
 That suggests a helper function for a single character and another helper for the whole message:
 
-#+begin_src cpp :tangle codesnips/caesarCipher.cpp
+#+begin_src cpp :tangle codesnips/caesarCipher.cpp :playground run
   #include <iostream>
   #include <string>
   #include <cctype>
@@ -3272,7 +3272,7 @@ There are a few nice little moves hidden in here.
 
 First, this line:
 
-#+begin_src cpp
+#+begin_src cpp :playground static
   if(!isalpha(ch)){
     return ch;
   }
@@ -3284,7 +3284,7 @@ Second, we pick a different base letter depending on whether the character is up
 
 Third, yes, we really did need this:
 
-#+begin_src cpp
+#+begin_src cpp :playground static
   cin.ignore(10000, '\n');
 #+end_src
 
@@ -3296,7 +3296,7 @@ And finally, decoding is just encoding with a negative shift. That's the kind of
 Switch statements are actually pretty simple and can, essentially, be thought of as "compiling" down to a more verbose if-elseif-else statement, except that rather than being able to ask *any* question you're just asking the question is /this/ equal to /this/.
 
 Okay, concrete example time:
-#+begin_src cpp :tangle codesnips/switch1.cpp
+#+begin_src cpp :tangle codesnips/switch1.cpp :playground run
   #include <iostream>
   #include <string>
   using namespace std;
@@ -3338,7 +3338,7 @@ Okay, concrete example time:
 #+end_src
 
 So what this code is doing is equivalent to the following program
-#+begin_src cpp :tangle codesnips/switchIf.cpp
+#+begin_src cpp :tangle codesnips/switchIf.cpp :playground run
   #include <iostream>
   #include <string>
   using namespace std;
@@ -3381,7 +3381,7 @@ So you can see some of the differences between if and switch. First, note that y
 
 Now that just seems inconvenient here but there are times that it's actually a big deal! Let's consider this example with random numbers
 
-#+begin_src cpp :tangle codesnips/diceRoll.cpp
+#+begin_src cpp :tangle codesnips/diceRoll.cpp :playground run
   #include <iostream>
   #include <cstdlib>
   #include <ctime>
@@ -3415,7 +3415,7 @@ Now that just seems inconvenient here but there are times that it's actually a b
 #+end_src
 
 If you were to naively convert this to if-statements you might do something like this!
-#+begin_src cpp :tangle codesnips/diceRollIf.cpp
+#+begin_src cpp :tangle codesnips/diceRollIf.cpp :playground run
   #include <iostream>
   #include <cstdlib>
   #include <ctime>
@@ -3443,7 +3443,7 @@ Given what we've talked about, can you see the problem here? See the problem is 
 
 No, instead, you need to do something more like
 
-#+begin_src cpp 
+#+begin_src cpp :playground run
   #include <iostream>
   #include <cstdlib>
   #include <ctime>
@@ -3477,7 +3477,7 @@ So we've seen a couple of ways to define our own functions so far in this course
 
 Our very first function we've defined was in our "hello world" program! =main= is a function and we're defining it. It's kind of a weird function because it has to be the same every time:
 
-#+begin_src cpp
+#+begin_src cpp :playground run
   int main(){
     //...
   }
@@ -3488,14 +3488,14 @@ Again, this says our function is going to return a type =int=, so at some point 
 The =()= after main are because the =main= function doesn't actually take any arguments! Other functions can and will!
 
 Like, for example, consider our function for the sarcasm case up above. This function has the declaration
-#+begin_src cpp
+#+begin_src cpp :playground static
   string sarcasmCase(string s){
 #+end_src
 And this tells us that we're defining a function called =sarcasmCase=, it takes a =string= as an argument that we will bind to the variable =s= for the duration of the function body, and we can see that it returns a string. That means we need to make sure that we have a =return __= where the =__= needs to be something of type string.
 
 We haven't really seen examples of it so far but you can have a bunch of function arguments. Here's a variant of our functions for building tables. 
 
-#+begin_src cpp :tangle codesnips/rowmaker.cpp
+#+begin_src cpp :tangle codesnips/rowmaker.cpp :playground run
   #include <iostream>
   #include <iomanip>
   using namespace std;
@@ -3544,7 +3544,7 @@ A function that returns =bool= is often called a "predicate" or "checker" functi
 
 Here's a simple example:
 
-#+begin_src cpp :tangle codesnips/isEven.cpp
+#+begin_src cpp :tangle codesnips/isEven.cpp :playground run
   #include <iostream>
   using namespace std;
 
@@ -3576,7 +3576,7 @@ Here's a simple example:
 
 You can actually make this even more concise! Since =n % 2 == 0= already evaluates to a boolean, you can just return it directly:
 
-#+begin_src cpp
+#+begin_src cpp :playground static
   bool isEven(int n){
     return (n % 2 == 0);
   }
@@ -3587,7 +3587,7 @@ A classic use of bool functions is checking if a number is prime. A prime number
 
 Here's a basic approach:
 
-#+begin_src cpp :tangle codesnips/isPrimeBasic.cpp
+#+begin_src cpp :tangle codesnips/isPrimeBasic.cpp :playground run
   #include <iostream>
   using namespace std;
 
@@ -3633,7 +3633,7 @@ Notice how we can use =isPrime(num)= directly in an if-statement! This makes the
 *** Multiple Boolean Functions Together
 You can combine multiple bool functions to make complex decisions:
 
-#+begin_src cpp :tangle codesnips/passwordCheck.cpp
+#+begin_src cpp :tangle codesnips/passwordCheck.cpp :playground run
   #include <iostream>
   #include <string>
   #include <cctype>
@@ -3694,7 +3694,7 @@ A common programming task is calculating the distance between two points. There 
 **** Euclidean Distance (2D)
 This is the "straight-line" distance you learned in geometry class:
 
-#+begin_src cpp :tangle codesnips/distance2D.cpp
+#+begin_src cpp :tangle codesnips/distance2D.cpp :playground run
   #include <iostream>
   #include <cmath>
   using namespace std;
@@ -3724,7 +3724,7 @@ This is the "straight-line" distance you learned in geometry class:
 **** Euclidean Distance (3D)
 For 3D space, we just add the z-coordinate:
 
-#+begin_src cpp :tangle codesnips/distance3D.cpp
+#+begin_src cpp :tangle codesnips/distance3D.cpp :playground run
   #include <iostream>
   #include <cmath>
   using namespace std;
@@ -3755,7 +3755,7 @@ For 3D space, we just add the z-coordinate:
 **** Manhattan Distance
 Manhattan distance (also called "taxicab distance") is the distance you'd travel if you could only move horizontally or vertically, like navigating city blocks:
 
-#+begin_src cpp :tangle codesnips/manhattan.cpp
+#+begin_src cpp :tangle codesnips/manhattan.cpp :playground run
   #include <iostream>
   #include <cmath>
   using namespace std;
@@ -3806,7 +3806,7 @@ Whenever you declare a variable inside a block of code (anything between ={ }=),
 
 Let's start with a simple example:
 
-#+begin_src cpp
+#+begin_src cpp :playground run
   #include <iostream>
   using namespace std;
 
@@ -3833,7 +3833,7 @@ If you tried to uncomment that last =cout= statement, you'd get a compiler error
 
 This same principle applies to loops. Variables declared inside a loop only exist for that iteration of the loop:
 
-#+begin_src cpp
+#+begin_src cpp :playground run
   #include <iostream>
   using namespace std;
 
@@ -3858,7 +3858,7 @@ Actually, there's something even more interesting happening here: =loopVar= is c
 
 When you declare a variable inside a function, it's local to that function. Other functions can't see it, and it disappears when the function returns.
 
-#+begin_src cpp
+#+begin_src cpp :playground run
   #include <iostream>
   using namespace std;
 
@@ -3882,7 +3882,7 @@ The variable =result= only exists inside =calculateSomething=. It's created when
 
 Here's something that might surprise you: the parameters to a function are treated like local variables declared at the start of the function.
 
-#+begin_src cpp
+#+begin_src cpp :playground run
   #include <iostream>
   using namespace std;
 
@@ -3911,7 +3911,7 @@ This is called *pass by value*—we're passing the value, not the variable itsel
 
 What happens if you declare a variable with the same name in different scopes? This is called *shadowing*, and it can be confusing:
 
-#+begin_src cpp
+#+begin_src cpp :playground run
   #include <iostream>
   using namespace std;
 
@@ -3945,7 +3945,7 @@ This works, but it's generally considered bad practice because it's confusing. T
 
 So far we've only looked at local variables. But you can also declare variables *outside* of any function, at the top level of your program. These are called *global variables*:
 
-#+begin_src cpp
+#+begin_src cpp :playground run
   #include <iostream>
   using namespace std;
 
@@ -3985,7 +3985,7 @@ Global variables are accessible from anywhere in your program—any function can
 
 That said, there are a few legitimate uses:
 - *Global constants*: If you use =const=, the variable can't be modified, so it's safe:
-  #+begin_src cpp
+  #+begin_src cpp :playground static
     const double PI = 3.14159265359;  // This is fine
     const int MAX_STUDENTS = 100;     // This is fine too
   #+end_src
@@ -4003,7 +4003,7 @@ We've been using these terms somewhat interchangeably, but they're actually diff
 
 For local variables, scope and lifetime are usually the same: the variable is created when you enter the block, and it's destroyed when you leave the block.
 
-#+begin_src cpp
+#+begin_src cpp :playground static
   {
     int x = 10;  // x is created here
     // x's scope and lifetime both start here
@@ -4025,7 +4025,7 @@ There's also a keyword =static= that lets you create variables with special prop
 
 Let's look at a more realistic example that combines everything we've learned:
 
-#+begin_src cpp
+#+begin_src cpp :playground run
   #include <iostream>
   using namespace std;
 
@@ -4067,7 +4067,7 @@ Notice how:
 
 **** Mistake 1: Assuming variables persist across function calls
 
-#+begin_src cpp
+#+begin_src cpp :playground static
   void badCounter(){
     int count = 0;  // Created fresh each time!
     count++;
@@ -4079,7 +4079,7 @@ Each time you call =badCounter=, =count= is created fresh and initialized to 0. 
 
 **** Mistake 2: Trying to use a variable outside its scope
 
-#+begin_src cpp
+#+begin_src cpp :playground static
   if(temperature > 80){
     string message = "It's hot!";
   }
@@ -4089,7 +4089,7 @@ Each time you call =badCounter=, =count= is created fresh and initialized to 0. 
 
 Solution: Declare =message= before the =if= statement:
 
-#+begin_src cpp
+#+begin_src cpp :playground static
   string message;
 
   if(temperature > 80){
@@ -4104,7 +4104,7 @@ Solution: Declare =message= before the =if= statement:
 
 **** Mistake 3: Accidental shadowing
 
-#+begin_src cpp
+#+begin_src cpp :playground static
   int score = 100;
 
   for(int i = 0; i < 5; i++){
@@ -4120,7 +4120,7 @@ This compiles fine but probably isn't what you meant! Use different variable nam
 *** Exercises
 
 1. *Basic*: What will this program print? Try to figure it out without running it, then check your answer:
-   #+begin_src cpp
+   #+begin_src cpp :playground run
      #include <iostream>
      using namespace std;
 
@@ -4142,7 +4142,7 @@ This compiles fine but probably isn't what you meant! Use different variable nam
    #+end_src
 
 2. *Basic*: Fix this code so it compiles:
-   #+begin_src cpp
+   #+begin_src cpp :playground run
      #include <iostream>
      using namespace std;
 
@@ -4160,7 +4160,7 @@ This compiles fine but probably isn't what you meant! Use different variable nam
 3. *Intermediate*: Write a function =calculateAverage= that takes three test scores as parameters and returns the average. Make sure all variables are appropriately scoped and don't use any global variables (except maybe a constant).
 
 4. *Intermediate*: Explain in your own words: Why does this function always return the same value no matter how many times you call it?
-   #+begin_src cpp
+   #+begin_src cpp :playground static
      int getNumber(){
        int num = 7;
        num = num + 1;
@@ -4191,7 +4191,7 @@ Understanding scope and lifetime will save you from many confusing bugs and help
 *** Passing by reference
 Now here's a weird little feature of C++. So let's look at how arguments to functions differ from normal variables with a simple example:
 
-#+begin_src cpp :tangle codesnips/cantAssignArgs.cpp
+#+begin_src cpp :tangle codesnips/cantAssignArgs.cpp :playground run
   #include <iostream>
   using namespace std;
 
@@ -4216,7 +4216,7 @@ Now if you run this code you'll see that the function returns =10= but that the 
 Okay, why am I telling you this? Because there is a different way to write functions in C++ where you don't take in the value of the argument, you are giving the function the variable itself!
 
 For example, consider this
-#+begin_src cpp :tangle codesnips/byRef1.cpp
+#+begin_src cpp :tangle codesnips/byRef1.cpp :playground run
   #include <iostream>
   using namespace std;
 
@@ -4257,7 +4257,7 @@ What does that mean? So if you've ever used Python at all you might be familiar 
 This program mimics things we've seen in this class: you run a loop that keeps asking for numbers until it gets a negative entry and then it returns the sum of all the numbers *and* how many numbers got added together!
 
 You /can/ do this in C++, but we haven't yet covered the other common ways, like returning a struct or a pair. At this stage in the class, pass-by-reference is the simplest tool we have for the job, so we'll write the program like this:
-#+begin_src cpp :tangle codesnips/byRef2.cpp
+#+begin_src cpp :tangle codesnips/byRef2.cpp :playground run
   #include <iostream>
   using namespace std;
 
@@ -4299,7 +4299,7 @@ The short version of the reveal: a C/C++ array is not really a "box with slots" 
 
 That is the half of the story we're about to unpack. To do it honestly, we first have to meet a new idea called a /pointer/, which is literally "a variable that stores an address." So we're going to circle back around to arrays /again/, but this time through the door labeled "how C++ actually thinks about memory." Remember how we could print all the items in an array? We did it like this:
 
-#+begin_src cpp :tangle codesnips/arrayPrintRedux.cpp
+#+begin_src cpp :tangle codesnips/arrayPrintRedux.cpp :playground run
   #include <iostream>
   using namespace std;
 
@@ -4314,7 +4314,7 @@ That is the half of the story we're about to unpack. To do it honestly, we first
 
 Now what will happen if we print just the array like this?
 
-#+begin_src cpp :tangle codesnips/arrayPrintMyster.cpp
+#+begin_src cpp :tangle codesnips/arrayPrintMyster.cpp :playground run
   #include <iostream>
   using namespace std;
 
@@ -4343,7 +4343,7 @@ And this means that when you use the name of the array by itself, without the =[
 Now you might wonder if there's a way to get the label, the address, of any variable. There is! It's the "&" operator.
 
 So I can do a fun trick like the following
-#+begin_src cpp :tangle codesnips/firstPointer.cpp
+#+begin_src cpp :tangle codesnips/firstPointer.cpp :playground run
   #include <iostream>
   using namespace std;
 
@@ -4369,7 +4369,7 @@ Here we're going to write a program that
  2. pulls the address out of the variable with =&=
  3. follows the address with =*= to get at the number stored in the variable
  4. prints it out
-#+begin_src cpp :tangle codesnips/refAndDeref.cpp
+#+begin_src cpp :tangle codesnips/refAndDeref.cpp :playground run
   #include <iostream>
   using namespace std;
 
@@ -4384,7 +4384,7 @@ Here we're going to write a program that
 #+end_src
 
 If we can pull an address out, can we also store the /address/ as data? Yes! That involves introducing a new family of types called pointers! Generally, you take the type of the thing being /stored/ and then add the =*= at the end to make it the pointer version of the type. Let's get really concrete:
-#+begin_src cpp :tangle codesnips/pointerOne.cpp
+#+begin_src cpp :tangle codesnips/pointerOne.cpp :playground run
   #include <iostream>
   using namespace std;
 
@@ -4406,7 +4406,7 @@ If we can pull an address out, can we also store the /address/ as data? Yes! Tha
 #+end_src
 
 Now we can get back to arrays! I often tell people that in C/C++ an array is "a pointer and a promise" as a /metaphor/. Strictly speaking, an array is its own kind of object, but it behaves pointer-like often enough that the metaphor is useful. First, we're going to try to follow the address of an array.
-#+begin_src cpp :tangle codesnips/pointerArray.cpp
+#+begin_src cpp :tangle codesnips/pointerArray.cpp :playground run
   #include <iostream>
   using namespace std;
 
@@ -4423,7 +4423,7 @@ Well look at that, it's 10! Because the address stored in =test= is the address 
 This is called /pointer arithmetic/ and is actually what the =[]= syntax for arrays really was all along!
 
 Let's write a little program to test this out:
-#+begin_src cpp :tangle codesnips/pointerArray2.cpp
+#+begin_src cpp :tangle codesnips/pointerArray2.cpp :playground run
   #include <iostream>
   using namespace std;
 
@@ -4495,7 +4495,7 @@ Let's try writing some functions that will let you actually use these arrays a l
 
 So if we want to calculate the "effective" length of the array that's being used we can just write a loop like the following =dynLength= function, complete with a small program to test it out.
 
-#+begin_src cpp :tangle codesnips/dynamicArray1.cpp
+#+begin_src cpp :tangle codesnips/dynamicArray1.cpp :playground run
   #include <iostream>
   using namespace std;
 
@@ -4521,7 +4521,7 @@ If you run this code you should find that it prints =4=. Go ahead and test it ou
 
 So now we have a length function that means we can write functions that do things like "multiply every element in the array by 2" without actually needing to pass the length explicitly, like this:
 
-#+begin_src cpp :tangle codesnips/dynamicArray2.cpp
+#+begin_src cpp :tangle codesnips/dynamicArray2.cpp :playground run
   #include <iostream>
   using namespace std;
 
@@ -4571,7 +4571,7 @@ Exercise: here's a quick check for yourself. Why is the =printArray= function wr
 So far we've used strings this entire time but there's another way that strings are used in older code, especially older /C/ code, and you need to get some experience with how "strings-as-character-arrays" actually work.
 
 We haven't really done a lot with the =char= type so far other than some menuing, but you might remember earlier where we were able to treat the =string= type almost like an array of characters. As a reminder, we were able to do things like this
-#+begin_src cpp :tangle codesnips/strArrayReview1.cpp
+#+begin_src cpp :tangle codesnips/strArrayReview1.cpp :playground run
   #include <iostream>
   using namespace std;
 
@@ -4593,7 +4593,7 @@ We haven't really done a lot with the =char= type so far other than some menuing
 
 Well at first all that's going to change is that we're going to make our code use an array of =char=, so we might expect that we need to pass the length in like so:
 
-#+begin_src cpp :tangle codesnips/charArray1.cpp
+#+begin_src cpp :tangle codesnips/charArray1.cpp :playground run
   #include <iostream>
   using namespace std;
 
@@ -4616,7 +4616,7 @@ Well at first all that's going to change is that we're going to make our code us
 But what if I told you, though, that character arrays in C were a kind of /dynamic array/ like we made above? But instead of the number =-1= being the terminator it's actually going to be a special character ='\0'=. This special character is the "null" character, that means literally don't print anything. That makes it really useful for signifying the "end" of a string-as-character-array.
 
 Let's go ahead and adapt some of our code from above to this new kind of dynamic array:
-#+begin_src cpp :tangle codesnips/charArray2.cpp
+#+begin_src cpp :tangle codesnips/charArray2.cpp :playground run
   #include <iostream>
   using namespace std;
 
@@ -4650,7 +4650,7 @@ We'll do one more function with character arrays before we leave the rest of the
 
 This is going to involve a bit of work but we'll go line-by-line
 
-#+begin_src cpp :tangle codesnips/charArray3.cpp
+#+begin_src cpp :tangle codesnips/charArray3.cpp :playground run
   #include <iostream>
   using namespace std;
 
@@ -4739,7 +4739,7 @@ You'll use vectors constantly. They give you a container that tracks its own siz
 *** A first vector program
 Let's start the slow way with a complete program, because that's the style that tends to make new material stick.
 
-#+begin_src cpp :tangle codesnips/vectorIntro.cpp
+#+begin_src cpp :tangle codesnips/vectorIntro.cpp :playground run
   #include <iostream>
   #include <vector>
   using namespace std;
@@ -4777,7 +4777,7 @@ Third, =numbers.size()= asks the vector how many elements it currently has. With
 
 The range-based loop at the end
 
-#+begin_src cpp
+#+begin_src cpp :playground static
   for(int num : numbers){
 #+end_src
 
@@ -4788,7 +4788,7 @@ The little program above already covered the "make an empty one, stuff things in
 
 Here's one little program that shows four reasonable ways to conjure a vector into existence.
 
-#+begin_src cpp
+#+begin_src cpp :playground run
   #include <iostream>
   #include <string>
   #include <vector>
@@ -4824,7 +4824,7 @@ One footnote before we move on: a vector collecting things from user input is /e
 *** What a vector knows about itself
 Once you have a vector, there are a small number of questions you can ask it and a small number of things you can ask it to do. These methods come up /constantly/, so it's worth seeing them in one compact place.
 
-#+begin_src cpp
+#+begin_src cpp :playground run
   #include <iostream>
   #include <vector>
   using namespace std;
@@ -4866,7 +4866,7 @@ Quick Check: take the first program in this chapter — the one that read number
 *** Two ways to ask for an element, and why one of them is safer
 The two ways you can pull an element out of a vector look almost identical until something goes wrong, so let's look at them together.
 
-#+begin_src cpp
+#+begin_src cpp :playground run
   #include <iostream>
   #include <vector>
   using namespace std;
@@ -4896,7 +4896,7 @@ This is exactly the kind of safety net the old arrays-and-sentinels chapter coul
 *** Walking through every element
 The same "print all five values" task can be written two different ways, and both are common enough to recognize on sight.
 
-#+begin_src cpp
+#+begin_src cpp :playground run
   #include <iostream>
   #include <string>
   #include <vector>
@@ -4944,7 +4944,7 @@ Here is where vectors really start to pay rent, because they fix some of the mos
 
 Let's look at three small functions that show the three patterns you'll reach for most often.
 
-#+begin_src cpp
+#+begin_src cpp :playground run
   #include <iostream>
   #include <vector>
   using namespace std;
@@ -4991,7 +4991,7 @@ The three function signatures are doing three different jobs, and the difference
 =vector<int> generateSequence(int n)= returns a whole vector by value. For built-in arrays that would have been a nightmare — you can't really hand back an array from a function, so you had to do strange pointer tricks or require the caller to pre-allocate one. For vectors, it Just Works: =generateSequence= builds a local vector, returns it, and the caller gets a real vector back, size and all. Modern C++ quietly makes this cheap, so you are not paying for a giant copy every time.
 
 **** A complete example with vector functions
-#+begin_src cpp :tangle codesnips/vectorFunctionDemo.cpp
+#+begin_src cpp :tangle codesnips/vectorFunctionDemo.cpp :playground run
   #include <iostream>
   #include <vector>
   using namespace std;
@@ -5053,7 +5053,7 @@ If I had to pick the single shape of program that vectors most /change your life
 
 Here is the canonical tiny version.
 
-#+begin_src cpp
+#+begin_src cpp :playground run
   #include <iostream>
   #include <vector>
   using namespace std;
@@ -5093,7 +5093,7 @@ Once that pattern is in your hands, a lot of programs that used to feel scary �
 *** Two-Dimensional Vectors
 Once you accept the idea that a vector can hold /anything/ of a given type, the next step is natural: a vector can hold other vectors.
 
-#+begin_src cpp :tangle codesnips/matrixIntro.cpp
+#+begin_src cpp :tangle codesnips/matrixIntro.cpp :playground run
   #include <iostream>
   #include <vector>
   using namespace std;
@@ -5120,7 +5120,7 @@ Once you accept the idea that a vector can hold /anything/ of a given type, the 
 
 The indexing works exactly the way you'd hope:
 
-#+begin_src cpp
+#+begin_src cpp :playground static
   matrix[row][col]
 #+end_src
 
@@ -5159,7 +5159,7 @@ Create a game score tracker that:
 
 Remember the little pet database from the arrays chapter, where we had two separate arrays — one for =petNames=, one for =petSpecies= — and a rule we had to enforce ourselves that =petNames[i]= and =petSpecies[i]= were always "the same pet"? That trick works for toy programs, but as soon as you need a /third/ or /fourth/ piece of information about each pet, it starts to feel rickety. Imagine doing the same thing for a student records program. You'd end up with something like:
 
-#+begin_src cpp
+#+begin_src cpp :playground static
 vector<string> studentNames;
 vector<int> studentIDs;
 vector<double> studentGPAs;
@@ -5173,7 +5173,7 @@ Structs solve this problem by letting you bundle related data together into a si
 *** A first struct program
 Again, let's start with one complete example before we turn this into a catalog of patterns.
 
-#+begin_src cpp :tangle codesnips/structIntro.cpp
+#+begin_src cpp :tangle codesnips/structIntro.cpp :playground run
   #include <iostream>
   #include <string>
   using namespace std;
@@ -5197,7 +5197,7 @@ Again, let's start with one complete example before we turn this into a catalog 
 
 The new idea is the line
 
-#+begin_src cpp
+#+begin_src cpp :playground static
   struct Student {
 #+end_src
 
@@ -5205,7 +5205,7 @@ which defines a /new type/. After that, =Student s;= works the same way other de
 
 Then the dot operator lets us get at the pieces stored /inside/ that struct:
 
-#+begin_src cpp
+#+begin_src cpp :playground static
   s.name = "Alice";
   s.id = 1001;
   s.gpa = 3.8;
@@ -5216,7 +5216,7 @@ So if a vector gives us "a list of things," a struct gives us "one thing with se
 *** Another way to build a struct, and the "fill in the fields in order" shortcut
 There are two styles for filling in a struct once you've declared one, and you will see both in real code, so it's worth showing them side by side.
 
-#+begin_src cpp
+#+begin_src cpp :playground run
   #include <iostream>
   #include <string>
   using namespace std;
@@ -5250,7 +5250,7 @@ The first style is the one we already met. Declare the variable, use the dot ope
 
 The second style,
 
-#+begin_src cpp
+#+begin_src cpp :playground static
   Book anotherBook = {"Dune", "Frank Herbert", 688, 18.99};
 #+end_src
 
@@ -5267,7 +5267,7 @@ Once you've defined a struct, it is a real C++ type in every sense — which mea
 
 Here's a small example that covers the two most common ways to pass a struct.
 
-#+begin_src cpp
+#+begin_src cpp :playground run
   #include <iostream>
   using namespace std;
 
@@ -5300,7 +5300,7 @@ Here's a small example that covers the two most common ways to pass a struct.
 =displayRectangle(const Rectangle& rect)= uses the same "const reference" pattern we met with vectors: the =&= means "reach back into the caller's struct rather than making a copy," and the =const= is a promise to the reader (and to the compiler) that the function won't change it. This is a sensible default once structs start carrying enough data that copying is worth avoiding.
 
 *** Returning structs: many answers from one function
-#+begin_src cpp
+#+begin_src cpp :playground run
 #include <iostream>
 using namespace std;
 
@@ -5332,7 +5332,7 @@ Returning a struct may feel fancy at first, but the idea is actually straightfor
 *** Vectors of Structs
 This is where structs become really powerful - creating databases of records.
 
-#+begin_src cpp
+#+begin_src cpp :playground run
 #include <iostream>
 #include <string>
 #include <vector>
@@ -5371,7 +5371,7 @@ This is the combination that makes structs really earn their keep.
 Each element of the vector is one complete student record. The student's name, ID, and GPA travel together as a single unit, which means we no longer have to keep several parallel arrays synchronized by hand.
 
 **** Example: Student Records System
-#+begin_src cpp
+#+begin_src cpp :playground run
 #include <iostream>
 #include <string>
 #include <vector>
@@ -5432,7 +5432,7 @@ Read this example from top to bottom and notice how each helper function has a s
 *** Nested Structs
 Structs can contain other structs as members.
 
-#+begin_src cpp
+#+begin_src cpp :playground run
 #include <iostream>
 #include <string>
 using namespace std;
@@ -5468,7 +5468,7 @@ int main(){
 
 The expression
 
-#+begin_src cpp
+#+begin_src cpp :playground static
   p.birthday.month
 #+end_src
 
@@ -5516,7 +5516,7 @@ The nice part is that file I/O is much less exotic than it sounds. If =cin= and 
 *** A first file-reading program
 Here's the first full example I want you to keep in your head:
 
-#+begin_src cpp :tangle codesnips/fileIntro.cpp
+#+begin_src cpp :tangle codesnips/fileIntro.cpp :playground run
   #include <iostream>
   #include <fstream>
   #include <string>
@@ -5542,13 +5542,13 @@ Here's the first full example I want you to keep in your head:
 
 If that feels familiar, good. It should. The line
 
-#+begin_src cpp
+#+begin_src cpp :playground static
   ifstream inFile("data.txt");
 #+end_src
 
 creates a file stream and tries to connect it to a file on disk. Then
 
-#+begin_src cpp
+#+begin_src cpp :playground static
   while(getline(inFile, line)){
 #+end_src
 
@@ -5563,7 +5563,7 @@ The first-file example grabbed one line at a time with =getline=. That's the rig
 
 Here is the same open-check-loop-close rhythm, with a different middle.
 
-#+begin_src cpp
+#+begin_src cpp :playground run
   #include <iostream>
   #include <fstream>
   #include <string>
@@ -5611,7 +5611,7 @@ One small style note about the error check. You'll see both =inFile.is_open()= a
 *** Writing to files, and the one new wrinkle
 Reading files is half the story. The other half is /producing/ them, and once you've seen the input version, the output version should feel almost embarrassingly familiar.
 
-#+begin_src cpp :tangle codesnips/fileWriteIntro.cpp
+#+begin_src cpp :tangle codesnips/fileWriteIntro.cpp :playground run
   #include <iostream>
   #include <fstream>
   using namespace std;
@@ -5642,7 +5642,7 @@ A tab character =\t= shows up in the last three lines to line the columns up a l
 One subtlety is worth pausing on. =ofstream outFile("output.txt");= will happily create =output.txt= if it doesn't exist, and — here is the part that sometimes bites people — it will also /obliterate/ any existing =output.txt= and start over. In other words, the default is "overwrite." That behavior is exactly what you want for something like a report that should be rewritten every run. It is very much not what you want for something like a running log, where every run should add to the end. For that, you need the next wrinkle.
 
 **** Append Mode vs Overwrite Mode
-#+begin_src cpp
+#+begin_src cpp :playground static
 // Overwrite mode (default)
 ofstream outFile1("file.txt");
 outFile1 << "This replaces file contents" << endl;
@@ -5664,7 +5664,7 @@ Plain =ofstream outFile("file.txt");= starts from scratch. If =file.txt= already
 
 *** File Processing Patterns
 **** Processing Until End of File
-#+begin_src cpp
+#+begin_src cpp :playground run
 #include <iostream>
 #include <fstream>
 using namespace std;
@@ -5691,7 +5691,7 @@ int main(){
 
 This line
 
-#+begin_src cpp
+#+begin_src cpp :playground static
   while(inFile >> num){
 #+end_src
 
@@ -5700,7 +5700,7 @@ is doing two jobs at once. It tries to read the next integer /and/ it asks wheth
 If the next value in the file really is an integer, the loop body runs. If the file is exhausted or the next chunk of text is not a valid integer, the stream goes into a failed state and the loop stops.
 
 **** Counting Lines, Words, Characters
-#+begin_src cpp
+#+begin_src cpp :playground run
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -5756,7 +5756,7 @@ Inside that, the =for(char c : line)= loop is doing string-level work: walk thro
 That layering shows up everywhere. First chop the input into manageable pieces. Then do local work on each piece.
 
 **** Processing CSV Files
-#+begin_src cpp
+#+begin_src cpp :playground run
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -5820,7 +5820,7 @@ The happy path for file I/O is short: open, read or write, close. Most of the "e
 
 Here is a compact program that covers the main cases.
 
-#+begin_src cpp
+#+begin_src cpp :playground run
   #include <iostream>
   #include <fstream>
   #include <string>
@@ -5906,7 +5906,7 @@ Let me show you the whole thing first — three files, cooperating — and then 
 
 The header, =math_utils.h=:
 
-#+begin_src cpp
+#+begin_src cpp :playground static
   #ifndef MATH_UTILS_H
   #define MATH_UTILS_H
 
@@ -5919,7 +5919,7 @@ The header, =math_utils.h=:
 
 The implementation, =math_utils.cpp=:
 
-#+begin_src cpp
+#+begin_src cpp :playground static
   #include "math_utils.h"
 
   double calculateArea(double width, double height){
@@ -5938,7 +5938,7 @@ The implementation, =math_utils.cpp=:
 
 And the program that uses them, =main.cpp=:
 
-#+begin_src cpp
+#+begin_src cpp :playground run
   #include <iostream>
   #include "math_utils.h"
   using namespace std;
@@ -5973,7 +5973,7 @@ The reason to split a program up this way is that each piece can now be understo
 *** The weird lines at the top of the header
 A few of the lines in =math_utils.h= are going to look a little alien, and they deserve their own little explanation.
 
-#+begin_src cpp
+#+begin_src cpp :playground static
   #ifndef MATH_UTILS_H
   #define MATH_UTILS_H
   // ... declarations go here ...
@@ -6036,7 +6036,7 @@ You have actually already seen linear search in disguise. Way back in the string
 
 Here's a complete version first:
 
-#+begin_src cpp :tangle codesnips/linearSearchDemo.cpp
+#+begin_src cpp :tangle codesnips/linearSearchDemo.cpp :playground run
   #include <iostream>
   using namespace std;
 
@@ -6066,7 +6066,7 @@ Here's a complete version first:
 
 The logic is almost aggressively simple, and that is exactly why linear search is such a good first algorithm. Start at the beginning, compare each element to the target, and stop the moment you get a match. If you reach the end first, return =-1= to mean "not found."
 
-#+begin_src cpp
+#+begin_src cpp :playground static
 int linearSearch(int arr[], int size, int target){
   for(int i = 0; i < size; i++){
     if(arr[i] == target){
@@ -6084,7 +6084,7 @@ Much faster than linear search, but only works on sorted arrays.
 
 Here's a complete version first:
 
-#+begin_src cpp :tangle codesnips/binarySearchDemo.cpp
+#+begin_src cpp :tangle codesnips/binarySearchDemo.cpp :playground run
   #include <iostream>
   using namespace std;
 
@@ -6124,7 +6124,7 @@ Here's a complete version first:
   }
 #+end_src
 
-#+begin_src cpp
+#+begin_src cpp :playground static
 int binarySearch(int arr[], int size, int target){
   int left = 0;
   int right = size - 1;
@@ -6172,7 +6172,7 @@ Find the minimum element and move it to the front, repeat for the rest.
 
 Here's a complete demo:
 
-#+begin_src cpp :tangle codesnips/selectionSortDemo.cpp
+#+begin_src cpp :tangle codesnips/selectionSortDemo.cpp :playground run
   #include <iostream>
   using namespace std;
 
@@ -6208,7 +6208,7 @@ Here's a complete demo:
 
 Selection sort is a good first sorting algorithm because the idea is so direct: find the smallest remaining element and move it to where it belongs.
 
-#+begin_src cpp
+#+begin_src cpp :playground static
 void selectionSort(int arr[], int size){
   for(int i = 0; i < size - 1; i++){
     int minIndex = i;
@@ -6239,7 +6239,7 @@ So the sorted region grows from left to right one position at a time.
 **** Bubble Sort
 Repeatedly swap adjacent elements if they're in the wrong order.
 
-#+begin_src cpp
+#+begin_src cpp :playground static
 void bubbleSort(int arr[], int size){
   for(int i = 0; i < size - 1; i++){
     for(int j = 0; j < size - i - 1; j++){
@@ -6259,7 +6259,7 @@ Bubble sort is mainly useful for training your algorithm muscles because the mov
 **** Using Built-in Sort (Preview)
 C++ provides a highly optimized sort function.
 
-#+begin_src cpp
+#+begin_src cpp :playground run
 #include <algorithm>
 #include <vector>
 using namespace std;
@@ -6285,7 +6285,7 @@ In ordinary C++ work, this library sort is usually what you should reach for. We
 These little string utilities really do end up living inside larger programs. I still want to start with one complete example so the whole thing feels like a program with a clear shape and flow.
 
 **** A complete string-tools program
-#+begin_src cpp :tangle codesnips/stringToolDemo.cpp
+#+begin_src cpp :tangle codesnips/stringToolDemo.cpp :playground run
   #include <iostream>
   #include <string>
   using namespace std;
@@ -6360,7 +6360,7 @@ This is the same move we have been making all book long:
 + keep each function responsible for one clear task
 
 **** Reversing Strings
-#+begin_src cpp
+#+begin_src cpp :playground static
 string reverseString(string s){
   string result = "";
   for(int i = s.length(); i > 0; i--){
@@ -6385,7 +6385,7 @@ void reverseInPlace(string& s){
 #+end_src
 
 **** Checking for Palindromes
-#+begin_src cpp
+#+begin_src cpp :playground static
 bool isPalindrome(const string& s){
   if(s.empty()){
     return true;
@@ -6407,7 +6407,7 @@ bool isPalindrome(const string& s){
 #+end_src
 
 **** Finding Patterns in Text
-#+begin_src cpp
+#+begin_src cpp :playground static
 int countOccurrences(const string& text, const string& pattern){
   if(pattern.empty()){
     return 0;
@@ -6443,7 +6443,7 @@ So the structure of this loop is:
 Same deal here: first a runnable little program, then the smaller helper functions pulled back out where you can study them one at a time.
 
 **** A complete number-tools program
-#+begin_src cpp :tangle codesnips/numberToolDemo.cpp
+#+begin_src cpp :tangle codesnips/numberToolDemo.cpp :playground run
   #include <iostream>
   using namespace std;
 
@@ -6497,7 +6497,7 @@ Same deal here: first a runnable little program, then the smaller helper functio
 Again, =main()= is mostly just the outline of the conversation with the user. The actual math lives in the helper functions, where it is easier to test and easier to reuse.
 
 **** Finding GCD (Greatest Common Divisor)
-#+begin_src cpp
+#+begin_src cpp :playground static
 int gcd(int a, int b){
   while(b != 0){
     int temp = b;
@@ -6510,21 +6510,21 @@ int gcd(int a, int b){
 
 This is the Euclidean algorithm. The line that looks like it ought to be some kind of wizard spell is
 
-#+begin_src cpp
+#+begin_src cpp :playground static
   b = a % b;
 #+end_src
 
 because it replaces the bigger problem with a smaller one that has the same answer. The greatest common divisor of =a= and =b= is the same as the greatest common divisor of =b= and the remainder when =a= is divided by =b=.
 
 **** Finding LCM (Least Common Multiple)
-#+begin_src cpp
+#+begin_src cpp :playground static
 int lcm(int a, int b){
   return (a / gcd(a, b)) * b;
 }
 #+end_src
 
 **** Prime Number Testing
-#+begin_src cpp
+#+begin_src cpp :playground static
 bool isPrime(int n){
   if(n <= 1) return false;
   if(n <= 3) return true;
@@ -6541,7 +6541,7 @@ bool isPrime(int n){
 #+end_src
 
 **** Fibonacci Sequences
-#+begin_src cpp
+#+begin_src cpp :playground static
 // Iterative approach (efficient)
 int fibonacci(int n){
   if(n <= 1) return n;
@@ -6573,7 +6573,7 @@ The single fastest way to get stuck is to skip the sitting-and-thinking step and
 
 While we're talking about bigger programs, it is worth mentioning a habit that makes revising and refactoring much safer: write a few little test calls alongside the function, right from the start. The =<cassert>= header has a macro called =assert= that aborts the program with a clear message if a condition isn't true. So you can do something like this:
 
-#+begin_src cpp
+#+begin_src cpp :playground run
   #include <cassert>
   #include <iostream>
   using namespace std;
@@ -6619,7 +6619,7 @@ So the small polite ritual of ending =main= with =return 0= was an innocent lie 
 **** argc and argv
 Programs can accept arguments from the command line.
 
-#+begin_src cpp
+#+begin_src cpp :playground run
 #include <iostream>
 using namespace std;
 
@@ -6647,7 +6647,7 @@ Notice that all of these arguments arrive as text. Even if the user typed number
 =argv[0]= is usually the program name, so the user-supplied arguments begin at =argv[1]=.
 
 **** Processing Command-Line Parameters
-#+begin_src cpp
+#+begin_src cpp :playground run
 #include <iostream>
 #include <string>
 using namespace std;
@@ -6797,7 +6797,7 @@ This chapter provides sample solutions for selected exercises from each section.
 
 ** Hello World Solutions
 *** Basic: Name and Joke
-#+begin_src cpp
+#+begin_src cpp :playground run
 #include <iostream>
 using namespace std;
 
@@ -6810,7 +6810,7 @@ int main(){
 #+end_src
 
 *** Intermediate: ASCII Art Box
-#+begin_src cpp
+#+begin_src cpp :playground run
 #include <iostream>
 using namespace std;
 
@@ -6824,7 +6824,7 @@ int main(){
 
 ** String I/O Solutions
 *** Basic: Last, First Format
-#+begin_src cpp
+#+begin_src cpp :playground run
 #include <iostream>
 using namespace std;
 
@@ -6842,7 +6842,7 @@ int main(){
 #+end_src
 
 *** Challenge: Mad Libs
-#+begin_src cpp
+#+begin_src cpp :playground run
 #include <iostream>
 using namespace std;
 
@@ -6869,7 +6869,7 @@ int main(){
 
 ** Arithmetic Solutions
 *** Intermediate: Tip Calculator
-#+begin_src cpp
+#+begin_src cpp :playground run
 #include <iostream>
 #include <iomanip>
 using namespace std;
@@ -6895,7 +6895,7 @@ int main(){
 #+end_src
 
 *** Challenge: Compound Interest
-#+begin_src cpp
+#+begin_src cpp :playground run
 #include <iostream>
 #include <iomanip>
 #include <cmath>
@@ -6929,7 +6929,7 @@ int main(){
 
 ** Boolean/If-Statement Solutions
 *** Intermediate: Grade Calculator
-#+begin_src cpp
+#+begin_src cpp :playground run
 #include <iostream>
 using namespace std;
 
@@ -6960,7 +6960,7 @@ int main(){
 #+end_src
 
 *** Challenge: Eligibility Checker
-#+begin_src cpp
+#+begin_src cpp :playground run
 #include <iostream>
 using namespace std;
 
@@ -7000,7 +7000,7 @@ int main(){
 
 ** While Loop Solutions
 *** Intermediate: Password Checker
-#+begin_src cpp
+#+begin_src cpp :playground run
 #include <iostream>
 using namespace std;
 
@@ -7032,7 +7032,7 @@ int main(){
 
 ** Random Number Solutions
 *** Intermediate: Rock, Paper, Scissors
-#+begin_src cpp
+#+begin_src cpp :playground run
 #include <iostream>
 #include <cstdlib>
 using namespace std;
@@ -7069,7 +7069,7 @@ int main(){
 #+end_src
 
 *** Challenge: Coin Flip Statistics
-#+begin_src cpp
+#+begin_src cpp :playground run
 #include <iostream>
 #include <cstdlib>
 #include <iomanip>
@@ -7109,7 +7109,7 @@ int main(){
 
 ** For-Loop Solutions
 *** Basic: Fibonacci Numbers
-#+begin_src cpp
+#+begin_src cpp :playground run
 #include <iostream>
 using namespace std;
 
@@ -7132,7 +7132,7 @@ int main(){
 #+end_src
 
 *** Intermediate: Triangle Pattern
-#+begin_src cpp
+#+begin_src cpp :playground run
 #include <iostream>
 using namespace std;
 
@@ -7154,7 +7154,7 @@ int main(){
 #+end_src
 
 *** Challenge: Prime Numbers
-#+begin_src cpp
+#+begin_src cpp :playground run
 #include <iostream>
 #include <cmath>
 using namespace std;
@@ -7186,7 +7186,7 @@ int main(){
 
 ** Array Solutions
 *** Basic: Temperature Analysis
-#+begin_src cpp
+#+begin_src cpp :playground run
 #include <iostream>
 using namespace std;
 
@@ -7221,7 +7221,7 @@ int main(){
 #+end_src
 
 *** Intermediate: Array Reversal
-#+begin_src cpp
+#+begin_src cpp :playground run
 #include <iostream>
 using namespace std;
 
@@ -7253,7 +7253,7 @@ int main(){
 
 ** String Operation Solutions
 *** Basic: Vowel Counter
-#+begin_src cpp
+#+begin_src cpp :playground run
 #include <iostream>
 #include <string>
 using namespace std;
@@ -7279,7 +7279,7 @@ int main(){
 #+end_src
 
 *** Intermediate: Palindrome Checker
-#+begin_src cpp
+#+begin_src cpp :playground run
 #include <iostream>
 #include <string>
 using namespace std;
@@ -7312,7 +7312,7 @@ int main(){
 
 ** Switch Statement Solutions
 *** Intermediate: Calculator
-#+begin_src cpp
+#+begin_src cpp :playground run
 #include <iostream>
 using namespace std;
 
@@ -7355,7 +7355,7 @@ int main(){
 
 ** Function Solutions
 *** Basic: Larger of Two Numbers
-#+begin_src cpp
+#+begin_src cpp :playground run
 #include <iostream>
 using namespace std;
 
@@ -7382,7 +7382,7 @@ int main(){
 #+end_src
 
 *** Intermediate: Area Calculators
-#+begin_src cpp
+#+begin_src cpp :playground run
 #include <iostream>
 #include <cmath>
 using namespace std;
@@ -7445,7 +7445,7 @@ int main(){
 
 ** Pass by Reference Solutions
 *** Basic: Swap Function
-#+begin_src cpp
+#+begin_src cpp :playground run
 #include <iostream>
 using namespace std;
 
@@ -7467,7 +7467,7 @@ int main(){
 #+end_src
 
 *** Intermediate: Division with Quotient and Remainder
-#+begin_src cpp
+#+begin_src cpp :playground run
 #include <iostream>
 using namespace std;
 
@@ -7499,7 +7499,7 @@ int main(){
 #+end_src
 
 *** Challenge: Array Statistics
-#+begin_src cpp
+#+begin_src cpp :playground run
 #include <iostream>
 using namespace std;
 
@@ -7540,7 +7540,7 @@ int main(){
 
 ** Data Validation Solutions
 *** Challenge: Date Validator
-#+begin_src cpp
+#+begin_src cpp :playground run
 #include <iostream>
 using namespace std;
 

@@ -87,8 +87,8 @@ Covers advanced topics including:
 
 CS161A includes a browser-based interactive learning environment where students can:
 
-- Read course material with syntax-highlighted code examples
-- Edit and run C++ code directly in the browser
+- Read course material with compact, syntax-styled code fragments
+- Edit and run complete C++ examples directly in the browser
 - See compilation output and program results instantly
 
 **No compiler installation required** - the website uses WebAssembly to compile and run C++ code entirely in the browser.

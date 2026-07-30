@@ -99,15 +99,45 @@ def clean_generated_output(output_dir):
     return removed
 
 def extract_code_blocks(content):
-    """Extract C++ code blocks from org content."""
-    # Pattern: #+begin_src cpp ... #+end_src
-    pattern = r'#\+begin_src cpp[^\n]*\n(.*?)#\+end_src'
+    """Extract and validate tagged C++ code blocks from Org content."""
+    pattern = re.compile(
+        r'^[ \t]*#\+begin_src[ \t]+cpp\b(?P<headers>[^\n]*)\n'
+        r'(?P<code>.*?)'
+        r'^[ \t]*#\+end_src[ \t]*$',
+        re.IGNORECASE | re.MULTILINE | re.DOTALL,
+    )
     blocks = []
 
-    for match in re.finditer(pattern, content, re.DOTALL):
-        code = match.group(1).rstrip()
+    for match in pattern.finditer(content):
+        headers = match.group('headers')
+        playground_args = re.findall(
+            r'(?<!\S):playground(?:[ \t]+([^ \t\r\n]+))?',
+            headers,
+            re.IGNORECASE,
+        )
+        line_number = content.count('\n', 0, match.start()) + 1
+
+        if not playground_args:
+            raise ValueError(
+                f'C++ source block at line {line_number} is missing '
+                ':playground run or :playground static'
+            )
+        if len(playground_args) > 1:
+            raise ValueError(
+                f'C++ source block at line {line_number} has multiple '
+                ':playground arguments'
+            )
+
+        playground = playground_args[0].lower()
+        if playground not in ('run', 'static'):
+            raise ValueError(
+                f'C++ source block at line {line_number} has invalid '
+                f':playground value {playground_args[0]!r}; expected run or static'
+            )
+
         blocks.append({
-            'code': code,
+            'code': match.group('code').rstrip(),
+            'playground': playground,
             'start': match.start(),
             'end': match.end()
         })
@@ -115,7 +145,7 @@ def extract_code_blocks(content):
     return blocks
 
 def org_to_html(content, section_id):
-    """Convert org-mode content to HTML with code blocks as Monaco editors."""
+    """Convert Org content and report whether it has runnable playgrounds."""
     # Extract code blocks first
     code_blocks = extract_code_blocks(content)
 
@@ -129,9 +159,15 @@ def org_to_html(content, section_id):
         before = content[last_end:block['start']]
         html_parts.append(org_text_to_html(before))
 
-        # Add Monaco editor placeholder
         editor_id = f"editor-{section_id}-{code_id}"
-        html_parts.append(f'''
+        if block['playground'] == 'static':
+            html_parts.append(
+                '\n<pre class="code-static" aria-label="Static C++ example">'
+                f'<code>{escape(block["code"])}</code></pre>\n'
+            )
+        else:
+            # Add Monaco editor placeholder for runnable programs.
+            html_parts.append(f'''
 <div class="code-block">
     <div class="code-toolbar">
         <button class="run-code-btn" data-editor-id="{editor_id}">▶ Run Code</button>
@@ -157,7 +193,8 @@ def org_to_html(content, section_id):
     # Add remaining content
     html_parts.append(org_text_to_html(content[last_end:]))
 
-    return ''.join(html_parts)
+    has_playground = any(block['playground'] == 'run' for block in code_blocks)
+    return ''.join(html_parts), has_playground
 
 def org_text_to_html(text):
     """Convert org-mode text markup to HTML."""
@@ -253,7 +290,7 @@ def org_text_to_html(text):
 
 def generate_page_html(section, section_id, chapter_title, nav_data):
     """Generate HTML for a single page."""
-    content_html = org_to_html(section['content'], section_id)
+    content_html, has_playground = org_to_html(section['content'], section_id)
 
     # Build navigation
     prev_link = ''
@@ -263,6 +300,28 @@ def generate_page_html(section, section_id, chapter_title, nav_data):
         prev_link = f'<a href="{nav_data["prev"]["file"]}" class="nav-btn prev">← {nav_data["prev"]["title"]}</a>'
     if nav_data['next']:
         next_link = f'<a href="{nav_data["next"]["file"]}" class="nav-btn next">{nav_data["next"]["title"]} →</a>'
+
+    playground_runtime = ''
+    if has_playground:
+        playground_runtime = '''
+    <!-- Terminal and scripts for runnable C++ playgrounds -->
+    <div id="terminal-overlay" class="hidden">
+        <div class="terminal-container">
+            <div class="terminal-header">
+                <span>Program Output</span>
+                <button id="close-terminal-btn">✕</button>
+            </div>
+            <div id="terminal-output"></div>
+            <div id="input-area" class="hidden">
+                <span class="prompt">→</span>
+                <input type="text" id="user-input" autocomplete="off" placeholder="Enter input...">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.48.0/min/vs/loader.min.js"></script>
+    <script src="app.js"></script>
+'''
 
     return f'''<!DOCTYPE html>
 <html>
@@ -291,23 +350,7 @@ def generate_page_html(section, section_id, chapter_title, nav_data):
         </nav>
     </div>
 
-    <!-- Terminal for running code -->
-    <div id="terminal-overlay" class="hidden">
-        <div class="terminal-container">
-            <div class="terminal-header">
-                <span>Program Output</span>
-                <button id="close-terminal-btn">✕</button>
-            </div>
-            <div id="terminal-output"></div>
-            <div id="input-area" class="hidden">
-                <span class="prompt">→</span>
-                <input type="text" id="user-input" autocomplete="off" placeholder="Enter input...">
-            </div>
-        </div>
-    </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.48.0/min/vs/loader.min.js"></script>
-    <script src="app.js"></script>
+{playground_runtime}
 </body>
 </html>
 '''
@@ -482,6 +525,28 @@ h1 {
 }
 
 /* Code Blocks */
+.code-static {
+    margin: 20px 0;
+    padding: 16px 18px;
+    overflow-x: auto;
+    border: 1px solid #3e3e42;
+    border-radius: 6px;
+    background: #1e1e1e;
+    color: #d4d4d4;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 14px;
+    line-height: 1.45;
+    tab-size: 4;
+}
+
+.content .code-static code {
+    padding: 0;
+    background: none;
+    color: inherit;
+    font: inherit;
+}
+
 .code-block {
     margin: 25px 0;
     border: 1px solid #ddd;

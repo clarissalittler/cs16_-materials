@@ -1,11 +1,13 @@
 # CS161A Interactive Website Generator
 
-This script converts `text.org` into an interactive website with Monaco editor integration for all C++ code examples.
+This script converts `text.org` into an interactive website. Complete C++
+programs can use the Monaco editor and in-browser compiler, while incomplete
+fragments can be rendered as compact, read-only examples.
 
 ## Features
 
 ✅ **Multi-page website** - Each `** heading` becomes its own page
-✅ **Monaco editor** - All C++ code blocks are editable in browser
+✅ **Purposeful code regions** - Runnable programs are editable; fragments stay read-only
 ✅ **Run code** - Compile and execute C++ directly in browser (using wasm-clang from test1/)
 ✅ **Navigation** - Previous/Next buttons between pages
 ✅ **Table of Contents** - Clean index page
@@ -62,7 +64,7 @@ The script parses `text.org` and converts:
 ** Section Title
 Content here...
 
-#+begin_src cpp
+#+begin_src cpp :playground run
 #include <iostream>
 int main() {
     std::cout << "Hello!\\n";
@@ -72,12 +74,30 @@ int main() {
 
 **Into:**
 - One page per `** Section`
-- Monaco editor for each `#+begin_src cpp` block
+- A Monaco editor for each C++ block tagged `:playground run`
+- A compact read-only code region for each C++ block tagged `:playground static`
 - HTML content from org markup
+
+Every C++ source block must have exactly one playground header argument:
+
+```org
+#+begin_src cpp :playground run
+// A complete program students should edit and execute.
+#+end_src
+
+#+begin_src cpp :playground static
+// A fragment or illustrative snippet that should only be read.
+#+end_src
+```
+
+The generator rejects missing, duplicate, or unknown playground values so a
+new example cannot silently get the wrong interface. `:playground` is an Org
+Babel header argument, so it can coexist with arguments such as `:tangle` and
+does not change tangling behavior.
 
 ### Code Execution
 
-Each code block gets:
+Each `:playground run` block gets:
 1. **Monaco editor** - Syntax highlighting, editing
 2. **Run button** - Compiles and executes code
 3. **Reset button** - Restores original code
@@ -86,7 +106,9 @@ Each code block gets:
 
 ### Input Handling
 
-For programs that need input (cin, getline), there will be an input prompt that appears in the terminal overlay.
+For runnable programs that need input (`cin`, `getline`), there will be an input
+prompt that appears in the terminal overlay. Static blocks do not load the
+editor or expose run/reset controls.
 
 **Note:** Currently uses the basic approach from test1/ where input doesn't truly block. For fully working blocking input, you'd need to implement the pre-buffer or SharedArrayBuffer approaches discussed in BLOCKING_STDIN_INVESTIGATION.md.
 
@@ -131,7 +153,7 @@ Each page has:
 
 ### Optional (for code execution)
 - `../test1/assets/` - wasm-clang toolchain
-  - If not available, code can still be edited but not run
+  - If not available, runnable code can still be edited but not run; static examples are unaffected
 
 ## Deployment
 
