@@ -1,0 +1,56 @@
+name: Deploy CS161A interactive textbook
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/deploy-cs161a-pages.yml
+      - cs161A/generate_website.py
+      - cs161A/text.org
+      - cs161A/website/TROUBLESHOOTING.md
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the course materials
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Generate the textbook website
+        run: python3 generate_website.py
+        working-directory: cs161A
+
+      - name: Add the browser C++ compiler
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: binji/wasm-clang
+          ref: 648c4a89997a351eef75cdaec3ef5b89d4937dec
+          path: cs161A/website/assets
+          fetch-depth: 1
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
+
+      - name: Upload the generated site
+        uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        with:
+          path: cs161A/website
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@cd2ce8fcbc39b97be8ca5fce6e763baed58fa128 # v5.0.0
